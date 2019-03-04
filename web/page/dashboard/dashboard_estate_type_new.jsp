@@ -96,7 +96,7 @@
                                                         <div class="row">
                                                             <div class="form-group form-group--description ${hasError}">
                                                                 <label for="in-1" class="control-label">Estate Type Name</label>
-                                                                <input id="in-1" type="text" name="estateTypeName" data-placeholder="Input Type Name" value="" class="form-control">
+                                                                <input id="in-1" required type="text" name="estateTypeName" data-placeholder="Input Type Name" value="" class="form-control">
 
                                                                 <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
                                                                     <div class="parsley-required">${message}</div>
@@ -166,7 +166,6 @@
 
                                                                                         <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
                                                                                             <div class="parsley-required">${message}</div>
-
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>

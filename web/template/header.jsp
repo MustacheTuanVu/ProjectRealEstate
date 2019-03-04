@@ -5,7 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
+
 <div class="container">
     <div class="header__row"><a href="index.html" class="header__logo">
             <svg>
@@ -64,10 +66,13 @@
         <div class="auth auth--header">
             <ul class="auth__nav">
                 <li class="dropdown auth__nav-item">
-                    <button data-toggle="dropdown" type="button" class="dropdown-toggle js-auth-nav-btn auth__nav-btn"><img src="assets/media-demo/avatars/01.jpg" alt="" class="auth__avatar"><span class="auth__name"> Hi Jenifer</span></button>
+                    <button data-toggle="dropdown" type="button" class="dropdown-toggle js-auth-nav-btn auth__nav-btn">${user.username}<img src="assets/media-demo/avatars/01.jpg" alt="" class="auth__avatar"><span class="auth__name"> </span></button>
+                 
+
                     <div class="dropdown__menu auth__dropdown--logged-in js-user-logged-in">
                         <nav class="nav nav--auth">
                             <ul class="nav__list">
+                                <li class="nav__item"><a href="logout.jsp" class="nav__link">Log out</a></li>
                                 <li class="nav__item"><a href="dashboard.html" class="nav__link">Dashboard</a></li>
                                 <li class="nav__item"><a href="dashboard_property_new.html" class="nav__link active">Add Listing</a></li>
                                 <li class="nav__item"><a href="dashboard_news.html" class="nav__link">News Feed</a></li>
@@ -80,7 +85,7 @@
                                 <li class="nav__item"><a href="dashboard_statistics.html" class="nav__link">Statistics</a></li>
                                 <li class="nav__item"><a href="dashboard_property.html" class="nav__link">Property management</a></li>
                                 <li class="nav__item"><a href="dashboard_blog.html" class="nav__link">Blog Management</a></li>
-                                <li class="nav__item"><a href="#" class="nav__link">Log out</a></li>
+                                
                             </ul>
                         </nav>
                     </div>
@@ -99,3 +104,9 @@
         <!-- end of block .header__navbar-toggle-->
     </div>
 </div>
+
+<script type="text/javascript">
+    $(window).on('load', function () {
+        $('#myModal').modal('${modal}');
+    });
+</script>

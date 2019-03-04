@@ -7,7 +7,6 @@ package Servlet.Payment;
 
 import Controller.PaymentFrequencyJpaController;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

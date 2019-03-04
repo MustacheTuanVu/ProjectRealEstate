@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Controller.exceptions.IllegalOrphanException;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
@@ -18,6 +19,9 @@ import Entity.ContractType;
 import Entity.Customer;
 import Entity.Employee;
 import Entity.PaymentFrequency;
+import Entity.Transactions;
+import Entity.ContractDetails;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -43,8 +47,9 @@ public class ContractJpaController implements Serializable {
     public void create(Contract contract) throws PreexistingEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
+            //utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             ContractType contractTypeId = contract.getContractTypeId();
             if (contractTypeId != null) {
                 contractTypeId = em.getReference(contractTypeId.getClass(), contractTypeId.getId());
@@ -65,6 +70,16 @@ public class ContractJpaController implements Serializable {
                 paymentFrequency = em.getReference(paymentFrequency.getClass(), paymentFrequency.getId());
                 contract.setPaymentFrequency(paymentFrequency);
             }
+            Transactions transactions = contract.getTransactions();
+            if (transactions != null) {
+                transactions = em.getReference(transactions.getClass(), transactions.getId());
+                contract.setTransactions(transactions);
+            }
+            ContractDetails contractDetails1 = contract.getContractDetails1();
+            if (contractDetails1 != null) {
+                contractDetails1 = em.getReference(contractDetails1.getClass(), contractDetails1.getId());
+                contract.setContractDetails1(contractDetails1);
+            }
             em.persist(contract);
             if (contractTypeId != null) {
                 contractTypeId.getContractList().add(contract);
@@ -82,10 +97,29 @@ public class ContractJpaController implements Serializable {
                 paymentFrequency.getContractList().add(contract);
                 paymentFrequency = em.merge(paymentFrequency);
             }
-            utx.commit();
+            if (transactions != null) {
+                Contract oldContractIdOfTransactions = transactions.getContractId();
+                if (oldContractIdOfTransactions != null) {
+                    oldContractIdOfTransactions.setTransactions(null);
+                    oldContractIdOfTransactions = em.merge(oldContractIdOfTransactions);
+                }
+                transactions.setContractId(contract);
+                transactions = em.merge(transactions);
+            }
+            if (contractDetails1 != null) {
+                Contract oldContractIdOfContractDetails1 = contractDetails1.getContractId();
+                if (oldContractIdOfContractDetails1 != null) {
+                    oldContractIdOfContractDetails1.setContractDetails1(null);
+                    oldContractIdOfContractDetails1 = em.merge(oldContractIdOfContractDetails1);
+                }
+                contractDetails1.setContractId(contract);
+                contractDetails1 = em.merge(contractDetails1);
+            }
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                //utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -100,11 +134,12 @@ public class ContractJpaController implements Serializable {
         }
     }
 
-    public void edit(Contract contract) throws NonexistentEntityException, RollbackFailureException, Exception {
+    public void edit(Contract contract) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
+            //utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Contract persistentContract = em.find(Contract.class, contract.getId());
             ContractType contractTypeIdOld = persistentContract.getContractTypeId();
             ContractType contractTypeIdNew = contract.getContractTypeId();
@@ -114,6 +149,26 @@ public class ContractJpaController implements Serializable {
             Employee employeeIdNew = contract.getEmployeeId();
             PaymentFrequency paymentFrequencyOld = persistentContract.getPaymentFrequency();
             PaymentFrequency paymentFrequencyNew = contract.getPaymentFrequency();
+            Transactions transactionsOld = persistentContract.getTransactions();
+            Transactions transactionsNew = contract.getTransactions();
+            ContractDetails contractDetails1Old = persistentContract.getContractDetails1();
+            ContractDetails contractDetails1New = contract.getContractDetails1();
+            List<String> illegalOrphanMessages = null;
+            if (transactionsOld != null && !transactionsOld.equals(transactionsNew)) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("You must retain Transactions " + transactionsOld + " since its contractId field is not nullable.");
+            }
+            if (contractDetails1Old != null && !contractDetails1Old.equals(contractDetails1New)) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("You must retain ContractDetails " + contractDetails1Old + " since its contractId field is not nullable.");
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
+            }
             if (contractTypeIdNew != null) {
                 contractTypeIdNew = em.getReference(contractTypeIdNew.getClass(), contractTypeIdNew.getId());
                 contract.setContractTypeId(contractTypeIdNew);
@@ -129,6 +184,14 @@ public class ContractJpaController implements Serializable {
             if (paymentFrequencyNew != null) {
                 paymentFrequencyNew = em.getReference(paymentFrequencyNew.getClass(), paymentFrequencyNew.getId());
                 contract.setPaymentFrequency(paymentFrequencyNew);
+            }
+            if (transactionsNew != null) {
+                transactionsNew = em.getReference(transactionsNew.getClass(), transactionsNew.getId());
+                contract.setTransactions(transactionsNew);
+            }
+            if (contractDetails1New != null) {
+                contractDetails1New = em.getReference(contractDetails1New.getClass(), contractDetails1New.getId());
+                contract.setContractDetails1(contractDetails1New);
             }
             contract = em.merge(contract);
             if (contractTypeIdOld != null && !contractTypeIdOld.equals(contractTypeIdNew)) {
@@ -163,10 +226,30 @@ public class ContractJpaController implements Serializable {
                 paymentFrequencyNew.getContractList().add(contract);
                 paymentFrequencyNew = em.merge(paymentFrequencyNew);
             }
-            utx.commit();
+            if (transactionsNew != null && !transactionsNew.equals(transactionsOld)) {
+                Contract oldContractIdOfTransactions = transactionsNew.getContractId();
+                if (oldContractIdOfTransactions != null) {
+                    oldContractIdOfTransactions.setTransactions(null);
+                    oldContractIdOfTransactions = em.merge(oldContractIdOfTransactions);
+                }
+                transactionsNew.setContractId(contract);
+                transactionsNew = em.merge(transactionsNew);
+            }
+            if (contractDetails1New != null && !contractDetails1New.equals(contractDetails1Old)) {
+                Contract oldContractIdOfContractDetails1 = contractDetails1New.getContractId();
+                if (oldContractIdOfContractDetails1 != null) {
+                    oldContractIdOfContractDetails1.setContractDetails1(null);
+                    oldContractIdOfContractDetails1 = em.merge(oldContractIdOfContractDetails1);
+                }
+                contractDetails1New.setContractId(contract);
+                contractDetails1New = em.merge(contractDetails1New);
+            }
+            //utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                //utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -185,7 +268,7 @@ public class ContractJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
             utx.begin();
@@ -196,6 +279,24 @@ public class ContractJpaController implements Serializable {
                 contract.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The contract with id " + id + " no longer exists.", enfe);
+            }
+            List<String> illegalOrphanMessages = null;
+            Transactions transactionsOrphanCheck = contract.getTransactions();
+            if (transactionsOrphanCheck != null) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Contract (" + contract + ") cannot be destroyed since the Transactions " + transactionsOrphanCheck + " in its transactions field has a non-nullable contractId field.");
+            }
+            ContractDetails contractDetails1OrphanCheck = contract.getContractDetails1();
+            if (contractDetails1OrphanCheck != null) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Contract (" + contract + ") cannot be destroyed since the ContractDetails " + contractDetails1OrphanCheck + " in its contractDetails1 field has a non-nullable contractId field.");
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             ContractType contractTypeId = contract.getContractTypeId();
             if (contractTypeId != null) {

@@ -6,6 +6,7 @@
 package Controller;
 
 import Controller.exceptions.NonexistentEntityException;
+import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -37,14 +38,14 @@ public class PaymentFrequencyJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(PaymentFrequency paymentFrequency) throws RollbackFailureException, Exception {
+    public void create(PaymentFrequency paymentFrequency) throws PreexistingEntityException, RollbackFailureException, Exception {
         if (paymentFrequency.getContractList() == null) {
             paymentFrequency.setContractList(new ArrayList<Contract>());
         }
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             List<Contract> attachedContractList = new ArrayList<Contract>();
             for (Contract contractListContractToAttach : paymentFrequency.getContractList()) {
                 contractListContractToAttach = em.getReference(contractListContractToAttach.getClass(), contractListContractToAttach.getId());
@@ -61,12 +62,15 @@ public class PaymentFrequencyJpaController implements Serializable {
                     oldPaymentFrequencyOfContractListContract = em.merge(oldPaymentFrequencyOfContractListContract);
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
+            }
+            if (findPaymentFrequency(paymentFrequency.getId()) != null) {
+                throw new PreexistingEntityException("PaymentFrequency " + paymentFrequency + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -79,8 +83,8 @@ public class PaymentFrequencyJpaController implements Serializable {
     public void edit(PaymentFrequency paymentFrequency) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             PaymentFrequency persistentPaymentFrequency = em.find(PaymentFrequency.class, paymentFrequency.getId());
             List<Contract> contractListOld = persistentPaymentFrequency.getContractList();
             List<Contract> contractListNew = paymentFrequency.getContractList();
@@ -109,10 +113,10 @@ public class PaymentFrequencyJpaController implements Serializable {
                     }
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -134,8 +138,8 @@ public class PaymentFrequencyJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             PaymentFrequency paymentFrequency;
             try {
                 paymentFrequency = em.getReference(PaymentFrequency.class, id);
@@ -149,10 +153,10 @@ public class PaymentFrequencyJpaController implements Serializable {
                 contractListContract = em.merge(contractListContract);
             }
             em.remove(paymentFrequency);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }

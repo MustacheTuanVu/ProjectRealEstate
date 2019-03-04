@@ -24,14 +24,13 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author kiems
+ * @author Cuong
  */
 @Entity
 @Table(name = "transactions")
 @NamedQueries({
     @NamedQuery(name = "Transactions.findAll", query = "SELECT t FROM Transactions t")})
 public class Transactions implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -49,12 +48,12 @@ public class Transactions implements Serializable {
     @Size(max = 1073741823)
     @Column(name = "transactions_note")
     private String transactionsNote;
-    @JoinColumn(name = "contract_id", referencedColumnName = "id")
-    @OneToOne(optional = false)
-    private Contract contractId;
     @JoinColumn(name = "customer_offered", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Customer customerOffered;
+    @JoinColumn(name = "contract_id", referencedColumnName = "id")
+    @OneToOne(optional = false)
+    private Contract contractId;
 
     public Transactions() {
     }
@@ -100,20 +99,20 @@ public class Transactions implements Serializable {
         this.transactionsNote = transactionsNote;
     }
 
-    public Contract getContractId() {
-        return contractId;
-    }
-
-    public void setContractId(Contract contractId) {
-        this.contractId = contractId;
-    }
-
     public Customer getCustomerOffered() {
         return customerOffered;
     }
 
     public void setCustomerOffered(Customer customerOffered) {
         this.customerOffered = customerOffered;
+    }
+
+    public Contract getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(Contract contractId) {
+        this.contractId = contractId;
     }
 
     @Override

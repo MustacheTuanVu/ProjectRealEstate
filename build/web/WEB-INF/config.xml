@@ -17,7 +17,7 @@
 	Configure the location of uploaded files. See the following article for more details:
 	http://docs.cksource.com/CKFinder_2.x/Developers_Guide/Java/Configuration/baseURL_and_baseDir
 	-->
-	<baseDir>D:/abc/ProjectRealEstate/web/CKFinderJava/userfiles/</baseDir>
+	<baseDir>D:/Test GlassFish/ProjectRealEstate/web/CKFinderJava/userfiles/</baseDir>
         <baseURL>http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/</baseURL>
 	<licenseKey></licenseKey>
 	<licenseName></licenseName>

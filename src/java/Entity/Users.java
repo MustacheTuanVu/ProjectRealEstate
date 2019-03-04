@@ -19,14 +19,13 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author kiems
+ * @author Cuong
  */
 @Entity
 @Table(name = "users")
 @NamedQueries({
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")})
 public class Users implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -55,9 +54,9 @@ public class Users implements Serializable {
     @OneToOne(mappedBy = "userId")
     private Manager manager;
     @OneToOne(mappedBy = "userId")
-    private Employee employee;
-    @OneToOne(mappedBy = "userId")
     private Customer customer;
+    @OneToOne(mappedBy = "userId")
+    private Employee employee;
 
     public Users() {
     }
@@ -122,20 +121,20 @@ public class Users implements Serializable {
         this.manager = manager;
     }
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
     public Customer getCustomer() {
         return customer;
     }
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     @Override
