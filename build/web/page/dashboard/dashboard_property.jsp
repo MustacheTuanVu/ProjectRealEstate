@@ -29,98 +29,6 @@
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
         <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
         <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
-        <script type="text/javascript">
-            function BrowseServer() {
-                var finder = new CKFinder();
-                finder.basePath = '../';
-                finder.selectActionFunction = SetFileField;
-                finder.popup();
-            }
-            function SetFileField(fileUrl) {
-                var countimage = 0;
-                if (document.getElementById('imageup1st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
-                    document.getElementById('image1st').value = fileUrl;
-                    document.getElementById('imageup1st').src = fileUrl;
-                    document.getElementById('countimage').innerHTML = "Estate have 1/5 photo";
-                } else if (document.getElementById('imageup2st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
-                    document.getElementById('image2st').value = fileUrl;
-                    document.getElementById('imageup2st').src = fileUrl;
-                    document.getElementById('countimage').innerHTML = "Estate have 2/5 photo";
-                } else if (document.getElementById('imageup3st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
-                    document.getElementById('image3st').value = fileUrl;
-                    document.getElementById('imageup3st').src = fileUrl;
-                    document.getElementById('countimage').innerHTML = "Estate have 3/5 photo";
-                } else if (document.getElementById('imageup4st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
-                    document.getElementById('image4st').value = fileUrl;
-                    document.getElementById('imageup4st').src = fileUrl;
-                    document.getElementById('countimage').innerHTML = "Estate have 4/5 photo";
-                } else if (document.getElementById('imageup5st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
-                    document.getElementById('image5st').value = fileUrl;
-                    document.getElementById('imageup5st').src = fileUrl;
-                    document.getElementById('countimage').innerHTML = "Estate have 5/5 photo";
-                }
-            }
-        </script>
-        <script type="text/javascript">
-            function BrowseServer1() {
-                var finder = new CKFinder();
-                finder.basePath = '../';
-                finder.selectActionFunction = SetFileField1;
-                finder.popup();
-            }
-            function SetFileField1(fileUrl) {
-                document.getElementById('image1st').value = fileUrl;
-                document.getElementById('imageup1st').src = fileUrl;
-            }
-        </script>
-        <script type="text/javascript">
-            function BrowseServer2() {
-                var finder = new CKFinder();
-                finder.basePath = '../';
-                finder.selectActionFunction = SetFileField2;
-                finder.popup();
-            }
-            function SetFileField2(fileUrl) {
-                document.getElementById('image2st').value = fileUrl;
-                document.getElementById('imageup2st').src = fileUrl;
-            }
-        </script>
-        <script type="text/javascript">
-            function BrowseServer3() {
-                var finder = new CKFinder();
-                finder.basePath = '../';
-                finder.selectActionFunction = SetFileField3;
-                finder.popup();
-            }
-            function SetFileField3(fileUrl) {
-                document.getElementById('image3st').value = fileUrl;
-                document.getElementById('imageup3st').src = fileUrl;
-            }
-        </script>
-        <script type="text/javascript">
-            function BrowseServer4() {
-                var finder = new CKFinder();
-                finder.basePath = '../';
-                finder.selectActionFunction = SetFileField4;
-                finder.popup();
-            }
-            function SetFileField4(fileUrl) {
-                document.getElementById('image4st').value = fileUrl;
-                document.getElementById('imageup4st').src = fileUrl;
-            }
-        </script>
-        <script type="text/javascript">
-            function BrowseServer5() {
-                var finder = new CKFinder();
-                finder.basePath = '../';
-                finder.selectActionFunction = SetFileField5;
-                finder.popup();
-            }
-            function SetFileField5(fileUrl) {
-                document.getElementById('image5st').value = fileUrl;
-                document.getElementById('imageup5st').src = fileUrl;
-            }
-        </script>
     </head>
     <body class="dashboard_property_new menu-default hover-default sidebar-left">
         <!--
@@ -166,255 +74,82 @@
                         <header class="site__header">
                             <h1 class="site__title site__title--center">Dashboard</h1>
                         </header>
+
                         <!-- BEGIN LISTING-->
                         <div class="site site--dashboard">
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Add new property</h2>
+                                        <h2 class="widget__title">Property Management</h2><a href="<%=request.getContextPath()%>/EstateCreate" class="widget__btn js-widget-btn widget__btn--action">Add new property</a>
                                     </div>
                                     <div class="widget__content">
-                                        <!-- BEGIN Favorites-->
-                                        <section class="form-property form-property--dashboard">
-                                            <!-- Nav tabs-->
-                                            <ul role="tablist" class="nav form-property__tabs">
-                                                <li role="presentation" class="active"><a>Basic</a></li>
-                                                <li role="presentation"><a>Photo</a></li>
-                                                <!--
-                                                <li role="presentation"><a href="#Status" aria-controls="Status" role="tab" data-toggle="tab">Extra</a></li>
-                                                -->
-                                            </ul>
-                                            <!-- Tab panes-->
-                                            <form action="<%=request.getContextPath()%>/EstateCreate" class="form form--flex form--property form--basic js-form-property-1">
-                                                <div class="tab-content form-property__content">
-                                                    <div id="basic" role="tabpanel" class="tab-pane active">
-                                                        <div class="row">
-                                                            <div class="form-group form-group--description">
-                                                                <label for="in-1" class="control-label">Estate Name</label>
-                                                                <input id="in-1" required type="text" name="estateName" data-placeholder="---" value="Text" class="form-control">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="in-15" class="control-label">Estate Type</label>
-                                                                <select id="in-15" required name="estateTypeId" data-placeholder="---" class="form-control">
-                                                                    <option label=" "></option>
-                                                                    <c:forEach items="${estateTypeList}" var="estateTypeList">
-                                                                        <option value="${estateTypeList.id}">${estateTypeList.typeName}</option>
-                                                                    </c:forEach>
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="in-10" class="control-label">Bed room</label>
-                                                                <input id="in-10" type="number" name="bedRoom" placeholder="" required class="form-control">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="in-10" class="control-label">Bath room</label>
-                                                                <input id="in-10" type="number" name="bathRoom" placeholder="" required class="form-control">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="in-10" class="control-label">Garages</label>
-                                                                <input id="in-10" type="number" name="garages" placeholder="" required class="form-control">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="in-10" class="control-label">Price</label>
-                                                                <input id="in-10" type="number" name="price" placeholder="" required class="form-control">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="in-10" class="control-label">Areas</label>
-                                                                <input id="in-10" type="number" name="areas" placeholder="" required class="form-control">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="in-5" class="control-label">Direction</label>
-                                                                <select id="in-5" name="direction" data-placeholder="Choose a Direction..." required class="form-control js-in-select">
-                                                                    <option label=" "></option>
-                                                                    <option value="East">East</option>
-                                                                    <option value="West">West</option>
-                                                                    <option value="South">South</option>
-                                                                    <option value="North">North</option>
-                                                                    <option value="South">South-East</option>
-                                                                    <option value="South">South-West</option>
-                                                                    <option value="North-West">North-West</option>
-                                                                    <option value="North-West">North-East</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="in-2" class="control-label">Estate Status</label>
-                                                                <select id="in-2" required name="estateStatusId" data-placeholder="---" class="form-control">
-                                                                    <option label=" "></option>
-                                                                    <c:forEach items="${estateStatusList}" var="estateStatusList">
-                                                                        <option value="${estateStatusList.id}">${estateStatusList.estateStatusName}</option>
-                                                                    </c:forEach>
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="in-9" class="control-label">Built Up</label>
-                                                                <input name="yearBuild" type="text" id="in-datetime" value="01/01/2019" data-time-picker="false" data-single-picker="true" class="js-datetimerange form-control">
-                                                            </div>
-
-                                                            <div class="form-group">
-                                                                <label for="in-6" class="control-label">Address 1</label>
-                                                                <input id="in-6" type="text" name="address1" required class="form-control">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="in-6" class="control-label">Address 2</label>
-                                                                <input id="in-6" type="text" name="address2" required class="form-control">
-                                                            </div>
-                                                            <div class="form-group form-group--description">
-                                                                <label for="in-6" class="control-label">Content</label>
-                                                                <textarea id="in-6" name="estateDescription" rows="4" cols="50" class="form-control"></textarea>
+                                        <div class="listing listing--grid">
+                                            <c:forEach items="${estateList}" var="estate">
+                                                <div class="listing__item">
+                                                    <div class="properties properties--management">
+                                                        <div class="properties__item-header">
+                                                            <span class="properties__state properties__state--default">${estate.estateStatus}</span>
+                                                            <div class="properties__actions">
+                                                                <button type="button" class="properties__link">Edit</button>
+                                                                <div class="dropdown properties__actions-dropdown">
+                                                                    <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>
+                                                                    <div class="dropdown__menu properties__dropdown-menu">
+                                                                        <button type="button" class="properties__link">Delete</button>
+                                                                        <button type="button" class="properties__link">Change status</button>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="row">
-                                                            <a href="#Photo" aria-controls="Photo" class="form__submit" role="tab" data-toggle="tab">Next</a>
+                                                        <div class="properties__thumb">
+                                                            <a href="property_details.html" class="item-photo item-photo--static">
+                                                                <img src="${estate.image1st}" alt="">
+                                                                <figure class="item-photo__hover item-photo__hover--params">
+                                                                    <span class="properties__params">Bed Room - ${estate.bedRoom} room</span>
+                                                                    <span class="properties__params">Bath Room - ${estate.bathRoom} room</span>
+                                                                    <span class="properties__params">Garages - ${estate.garages}M<sup>2</sup></span>
+                                                                    <span class="properties__time">Areas - ${estate.areas}M<sup>2</sup></span>
+                                                                    <span class="properties__more">View details</span>
+                                                                </figure>
+                                                            </a>
+                                                            <span class="properties__ribon">For ${estate.estateStatusId.estateStatusName}</span>
+                                                            <span class="properties__ribon properties__ribon--status properties__ribon--done">${estate.estateTypeId.typeName}</span>
                                                         </div>
+                                                        <!-- end of block .properties__thumb-->
+                                                        <div class="properties__details">
+                                                            <div class="properties__info">
+                                                                <a href="http://localhost:8080/ProjectRealEstate/property_details.html" class="properties__address">
+                                                                    <span class="properties__address-street">${estate.estateName}</span>
+                                                                    <span class="properties__address-city">${estate.address2}</span>
+                                                                </a>
+                                                                <div class="properties__offer">
+                                                                    <div class="properties__offer-column">
+                                                                        <div class="properties__offer-label">Direction</div>
+                                                                        <div class="properties__offer-value">
+                                                                            <strong> ${estate.direction}</strong>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="properties__offer-column">
+                                                                        <div class="properties__offer-label">Price</div>
+                                                                        <div class="properties__offer-value"><strong>${estate.price}</strong>
+                                                                            <c:if test = "${estate.estateStatusId.estateStatusName == 'Rent'}">
+                                                                                <span class="properties__offer-period">/month</span>
+                                                                            </c:if>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="properties__params--mob"><a href="#" class="properties__more">View details</a><span class="properties__params">Built-Up - 165 Sq Ft</span><span class="properties__params">Land Size - 210 Sq Ft</span></div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- end of block .properties__info-->
                                                     </div>
-                                                    <div id="Photo" role="tabpanel" class="tab-pane">
-                                                        <div class="listing--items listing--grid listing--photos">
-                                                            <div class="listing__actions">
-                                                                <div class="listing__actions-border"></div>
-                                                                <h4 id="countimage" class="form__title js-form-title active">Estate have 0/5 photo</h4>
-                                                                <input type="button" class="btn--action js-listing-add-photo" value="Add Photo" onclick="BrowseServer();" />
-                                                            </div>
-                                                            <div class="listing__list js-photos-list">
-                                                                <div class="listing__item js-listing-item">
-                                                                    <div class="listing__item-header">
-                                                                        <div></div>
-                                                                        <div class="listing__tools">
-                                                                            <input onclick="BrowseServer1();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="listing__thumb">
-                                                                        <a class="item-photo item-photo--static js-gallery-item">
-                                                                            <input id="image1st" name="image1st" type="hidden"/>
-                                                                            <img width="240" height="160" id="imageup1st" name="imageup1st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- end of block .listing__item 11111-->
-                                                                <div class="listing__item js-listing-item">
-                                                                    <div class="listing__item-header">
-                                                                        <div></div>
-                                                                        <div class="listing__tools">
-                                                                            <input onclick="BrowseServer2();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="listing__thumb">
-                                                                        <a class="item-photo item-photo--static js-gallery-item">
-                                                                            <input id="image2st" name="image2st" type="hidden"/>
-                                                                            <img width="240" height="160" id="imageup2st" name="imageup2st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- end of block .listing__item 2222222-->
-                                                                <div class="listing__item js-listing-item">
-                                                                    <div class="listing__item-header">
-                                                                        <div></div>
-                                                                        <div class="listing__tools">
-                                                                            <input onclick="BrowseServer3();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="listing__thumb">
-                                                                        <a class="item-photo item-photo--static js-gallery-item">
-                                                                            <input id="image3st" name="image3st" type="hidden"/>
-                                                                            <img width="240" height="160" id="imageup3st" name="imageup3st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- end of block .listing__item 3333333-->
-                                                                <div class="listing__item js-listing-item">
-                                                                    <div class="listing__item-header">
-                                                                        <div></div>
-                                                                        <div class="listing__tools">
-                                                                            <input onclick="BrowseServer4();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="listing__thumb">
-                                                                        <a class="item-photo item-photo--static js-gallery-item">
-                                                                            <input id="image4st" name="image4st" type="hidden"/>
-                                                                            <img width="240" height="160" id="imageup4st" name="imageup4st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- end of block .listing__item 44444-->
-                                                                <div class="listing__item js-listing-item">
-                                                                    <div class="listing__item-header">
-                                                                        <div></div>
-                                                                        <div class="listing__tools">
-                                                                            <input onclick="BrowseServer5();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="listing__thumb">
-                                                                        <a class="item-photo item-photo--static js-gallery-item">
-                                                                            <input id="image5st" name="image5st" type="hidden"/>
-                                                                            <img width="240" height="160" id="imageup5st" name="imageup5st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- end of block .listing__item 55555-->
-                                                            </div>
-                                                        </div>
-                                                        <!-- END Photos-->
-                                                        <!--<form class="form form--flex form--property form--photo js-form-property">-->
-                                                        <div class="row">
-                                                            <input type="submit" name="submit" value="submit" class="form__submit"/>
-                                                        </div>
-                                                        <!--</form>-->
-                                                    </div>
-                                                    <div id="Status" role="tabpanel" class="tab-pane">
-                                                        <!--<form class="form form--flex form--property form--extra js-form-property">-->
-                                                        <div class="row">
-                                                            <div class="form-group form-group--col-12 form-group--inline">
-                                                                <label class="control-label">Market Status</label>
-                                                                <ul class="form__check">
-                                                                    <li>
-                                                                        <input type="radio" name="market_status" id="in-radio-market-status-0" class="in-radio">
-                                                                        <label for="in-radio-market-status-0" class="in-label">Draft</label>
-                                                                    </li>
-                                                                    <li>
-                                                                        <input type="radio" name="market_status" id="in-radio-market-status-1" class="in-radio">
-                                                                        <label for="in-radio-market-status-1" class="in-label">Published</label>
-                                                                    </li>
-                                                                    <li>
-                                                                        <input type="radio" name="market_status" id="in-radio-market-status-2" class="in-radio">
-                                                                        <label for="in-radio-market-status-2" class="in-label">Unpublished</label>
-                                                                    </li>
-                                                                    <li>
-                                                                        <input type="radio" name="market_status" id="in-radio-market-status-3" class="in-radio">
-                                                                        <label for="in-radio-market-status-3" class="in-label">Expired</label>
-                                                                    </li>
-                                                                    <li>
-                                                                        <input type="radio" name="market_status" id="in-radio-market-status-4" class="in-radio">
-                                                                        <label for="in-radio-market-status-4" class="in-label">Transacting</label>
-                                                                    </li>
-                                                                    <li>
-                                                                        <input type="radio" name="market_status" id="in-radio-market-status-5" class="in-radio">
-                                                                        <label for="in-radio-market-status-5" class="in-label">Transacted</label>
-                                                                    </li>
-                                                                    <li>
-                                                                        <input type="radio" name="market_status" id="in-radio-market-status-6" class="in-radio">
-                                                                        <label for="in-radio-market-status-6" class="in-label">Withdraw</label>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="form-group form-group--col-12 form-group--inline">
-                                                                <label class="control-label">Sale status</label>
-                                                                <ul class="form__check">
-                                                                    <li>
-                                                                        <input type="checkbox" name="sale_status" id="in-check-sale-status-0" class="in-checkbox">
-                                                                        <label for="in-check-sale-status-0" class="in-label">Urgent Sale</label>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <button class="form__submit">Next</button>
-                                                        </div>
-                                                        <!--</form>-->
-                                                    </div>
+                                                    <!-- end of block .properties__item-->
+                                                </div>    
+                                            </c:forEach>
 
-                                                </div>
-
-                                            </form>
-                                        </section>
+                                        </div>
+                                        <!--
+                                        <div class="widget__footer"><a class="widget__more">Show more properties</a></div>
+                                        -->
                                     </div>
                                 </div>
                             </div>
@@ -498,21 +233,6 @@
                     </div>
                 </div>
             </div>
-
-            <div id="myModal" tabindex="-1" role="dialog" class="modal fade">
-                <div role="document" class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h2 class="site__title">Add Success</h2>
-                        </div>
-                        <div class="modal-body">
-                            <h3>Are you want continue create estate ?</h3>
-                            <button type="button" data-dismiss="modal" aria-label="Close" class="form__submit">Yes</button>
-                            <a href="<%=request.getContextPath()%>/EstateList" class="form__submit">No</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <!-- END CENTER SECTION-->
             <!-- BEGIN AFTER CENTER SECTION-->
             <!-- END AFTER CENTER SECTION-->
@@ -559,13 +279,6 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demo.js"></script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
-
-    <script type="text/javascript">
-        $(window).on('load', function () {
-            $('#myModal').modal('${modal}');
-        });
-    </script>
-
     <!-- END SCRIPTS and INCLUDES-->
 </body>
 </html>

@@ -3,19 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet.EstateType;
+package Servlet.Estate;
 
-import Controller.EstateTypeJpaController;
-import Controller.exceptions.NonexistentEntityException;
-import Controller.exceptions.RollbackFailureException;
-import Entity.EstateType;
+import Controller.EstateJpaController;
+import Entity.Estate;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,8 +22,8 @@ import javax.transaction.UserTransaction;
  *
  * @author kiems
  */
-@WebServlet(name = "EstateTypeEdit", urlPatterns = {"/EstateTypeEdit"})
-public class EstateTypeEdit extends HttpServlet {
+@WebServlet(name = "EstateList", urlPatterns = {"/EstateList"})
+public class EstateList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,53 +35,16 @@ public class EstateTypeEdit extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
-
-        String id = request.getParameter("estateTypeID");
-        String estateTypeName = request.getParameter("estateTypeName");
-        System.out.println(id);
-        EstateType find = estateTypeControl.findEstateType(id);
-        find.setTypeName(estateTypeName);
-
-        String message = "";
-        String hasError = "";
-        String display = "none";
-        String modal = "hidden";
-        List<EstateType> estateTypeList = (List<EstateType>) estateTypeControl.getEstateTypeByName(estateTypeName);
-
-        if (estateTypeList.size() > 0) {
-            message = "Type exits !";
-            hasError = "has-error";
-            display = "block";
-            modal = "show";
-
-            request.setAttribute("id", id);
-            request.setAttribute("estateTypeName", estateTypeName);
-            request.setAttribute("messageEdit", message);
-            request.setAttribute("hasErrorEdit", hasError);
-            request.setAttribute("displayEdit", display);
-            request.setAttribute("modal", modal);
-
-            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/EstateTypeList");
-            dispatcher.forward(request, response);
-        } else {
-            try {
-                estateTypeControl.edit(find);
-            } catch (NonexistentEntityException ex) {
-                Logger.getLogger(EstateTypeEdit.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (RollbackFailureException ex) {
-                Logger.getLogger(EstateTypeEdit.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(EstateTypeEdit.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            response.sendRedirect(request.getContextPath() + "/EstateTypeList");
-        }
-
+        EstateJpaController estateControl = new EstateJpaController(utx, emf);
+        List<Estate> estateList = estateControl.findEstateEntities();
+        
+        request.setAttribute("estateList", estateList);
+        
+        request.getRequestDispatcher("/page/dashboard/dashboard_property.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

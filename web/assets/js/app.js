@@ -1028,7 +1028,7 @@ webpackJsonpapp([0],[
 	    },
 	    {
 	      locale: {
-	        format: 'MM/DD/YYYY  h:mm A'
+	        format: 'MM/DD/YYYY'
 	      },
 	      timePicker: false,
 	      timePickerIncrement: 5,

@@ -13,7 +13,6 @@ import Entity.Estate;
 import Entity.EstateStatus;
 import Entity.EstateType;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -76,8 +75,8 @@ public class EstateCreate extends HttpServlet {
             EstateJpaController estateControl = new EstateJpaController(utx, emf);
 
             String estateName = request.getParameter("estateName");
-
-            int estateTypeId = Integer.parseInt(request.getParameter("estateTypeId"));
+            System.out.println(estateName);
+            String estateTypeId = request.getParameter("estateTypeId");
             EstateType estateType = em.getReference(EstateType.class, estateTypeId);
 
             String estateDescription = request.getParameter("estateDescription"); //NOTE
@@ -102,7 +101,7 @@ public class EstateCreate extends HttpServlet {
 
             String yearBuild = request.getParameter("yearBuild"); //NOTE
 
-            int estateStatusId = Integer.parseInt(request.getParameter("estateStatusId")); //NOTE
+            int estateStatusId = Integer.valueOf(request.getParameter("estateStatusId")); //NOTE
             EstateStatus estateStatus = em.getReference(EstateStatus.class, estateStatusId);
 
             int indexID = 1;
@@ -129,43 +128,44 @@ public class EstateCreate extends HttpServlet {
                 request.setAttribute("hasError", hasError);
                 request.setAttribute("display", display);
 
-                RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/EstateList");
+                RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/EstateCreate");
                 dispatcher.forward(request, response);
             } else {
-                Estate estateTypes = new Estate();
-                estateTypes.setId(estateID);
-                estateTypes.setEstateName(estateName);
-                estateTypes.setEstateTypeId(estateType);
-                estateTypes.setBedRoom(bedRoom);
-                estateTypes.setBathRoom(bathRoom);
-                estateTypes.setGarages(garages);
-                estateTypes.setPrice(price);
-                estateTypes.setAreas(areas);
-                estateTypes.setEstateDescription(estateDescription);
-                estateTypes.setEstateContent(estateContent);
-                estateTypes.setImage1st(image1st);
-                estateTypes.setImage1st(image2st);
-                estateTypes.setImage1st(image3st);
-                estateTypes.setImage1st(image4st);
-                estateTypes.setImage1st(image5st);
-                estateTypes.setDirection(direction);
-                estateTypes.setBlock(block);
-                estateTypes.setAddress1(address1);
-                estateTypes.setAddress2(address2);
+                Estate estate = new Estate();
+                estate.setId(estateID);
+                estate.setEstateName(estateName);
+                estate.setEstateTypeId(estateType);
+                estate.setBedRoom(bedRoom);
+                estate.setBathRoom(bathRoom);
+                estate.setGarages(garages);
+                estate.setPrice(price);
+                estate.setAreas(areas);
+                estate.setEstateDescription(estateDescription);
+                estate.setEstateContent(estateContent);
+                estate.setImage1st(image1st);
+                estate.setImage2st(image2st);
+                estate.setImage3st(image3st);
+                estate.setImage4st(image4st);
+                estate.setImage5st(image5st);
+                estate.setDirection(direction);
+                estate.setBlock(block);
+                estate.setAddress1(address1);
+                estate.setAddress2(address2);
+                estate.setEstateStatus("Waitting for director");
 
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
                 Date day;
                 try {
                     day = sdf.parse(yearBuild);
-                    estateTypes.setYearBuild(day);
+                    estate.setYearBuild(day);
                 } catch (ParseException ex) {
                     Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                estateTypes.setEstateStatusId(estateStatus);
+                estate.setEstateStatusId(estateStatus);
                 try {
-                    estateControl.create(estateTypes);
-                    response.sendRedirect(request.getContextPath() + "/EstateList");
+                    estateControl.create(estate);
+                    response.sendRedirect(request.getContextPath() + "/EstateCreate?modal=show");
                 } catch (RollbackFailureException ex) {
                     Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception ex) {
@@ -180,10 +180,13 @@ public class EstateCreate extends HttpServlet {
             EstateStatusJpaController estateStatus = new EstateStatusJpaController(utx, emf);
             List<EstateStatus> estateStatusList = estateStatus.findEstateStatusEntities();
             request.setAttribute("estateStatusList", estateStatusList);
-
-            request.getRequestDispatcher(request.getContextPath()+"/dashboard_estate_create.jsp").forward(request, response);
+            
+            String modal = "hidden";
+            modal = request.getParameter("modal");
+            request.setAttribute("modal", modal);
+            
+            request.getRequestDispatcher("/page/dashboard/dashboard_estate_create.jsp").forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -35,6 +35,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Estate.findAll", query = "SELECT e FROM Estate e")})
 public class Estate implements Serializable {
 
+    @Size(max = 50)
+    @Column(name = "estate_status")
+    private String estateStatus;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -357,6 +361,14 @@ public class Estate implements Serializable {
     @Override
     public String toString() {
         return "Entity.Estate[ id=" + id + " ]";
+    }
+
+    public String getEstateStatus() {
+        return estateStatus;
+    }
+
+    public void setEstateStatus(String estateStatus) {
+        this.estateStatus = estateStatus;
     }
     
 }

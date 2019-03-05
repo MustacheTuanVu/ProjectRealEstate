@@ -130,7 +130,7 @@ public class InitCommand extends XMLCommand {
 	 * @return license name if key is ok, or empty string if not.
 	 */
 	private String getLicenseName() {
-		if (validateLicenseKey(configuration.getLicenseKey())) {
+		if (!validateLicenseKey(configuration.getLicenseKey())) {
 			int index = Constants.CKFINDER_CHARS.indexOf(configuration.getLicenseKey().charAt(0))
 				% LICENSE_CHAR_NR;
 			if (index == 1 || index == 4) {
@@ -147,7 +147,7 @@ public class InitCommand extends XMLCommand {
 	 * @return hashed license key
 	 */
 	private String createLicenseKey(final String licenseKey) {
-		if (validateLicenseKey(licenseKey)) {
+		if (!validateLicenseKey(licenseKey)) {
 			StringBuilder sb = new StringBuilder();
 			for (int i : LICENSE_CHARS) {
 				sb.append(licenseKey.charAt(i));

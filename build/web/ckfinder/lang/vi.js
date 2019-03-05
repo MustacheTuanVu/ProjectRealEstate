@@ -28,26 +28,26 @@ CKFinder.lang['vi'] =
 	common :
 	{
 		// Put the voice-only part of the label in the span.
-		unavailable		: '%1<span class="cke_accessibility">, không khả dụng</span>',
-		confirmCancel	: 'Vài tùy chọn đã thay đổi. Bạn có muốn đóng hộp thoại?',
+		unavailable		: '%1<span class="cke_accessibility">, unavailable</span>',
+		confirmCancel	: 'Some of the options were changed. Are you sure you want to close the dialog window?',
 		ok				: 'OK',
-		cancel			: 'Hủy',
-		confirmationTitle	: 'Xác nhận',
-		messageTitle	: 'Thông tin',
-		inputTitle		: 'Câu hỏi',
-		undo			: 'Hoàn tác',
-		redo			: 'Làm lại',
-		skip			: 'Bỏ qua',
-		skipAll			: 'Bỏ qua tất cả',
-		makeDecision	: 'Chọn hành động nào?',
-		rememberDecision: 'Ghi nhớ quyết định này'
+		cancel			: 'Cancel',
+		confirmationTitle	: 'Confirmation',
+		messageTitle	: 'Information',
+		inputTitle		: 'Question',
+		undo			: 'Undo',
+		redo			: 'Redo',
+		skip			: 'Skip',
+		skipAll			: 'Skip all',
+		makeDecision	: 'What action should be taken?',
+		rememberDecision: 'Remember my decision'
 	},
 
 
 	// Language direction, 'ltr' or 'rtl'.
 	dir : 'ltr',
 	HelpLang : 'en',
-	LangCode : 'vi',
+	LangCode : 'en',
 
 	// Date Format
 	//		d    : Day
@@ -64,135 +64,135 @@ CKFinder.lang['vi'] =
 	//		MM   : Minute (padding zero)
 	//		a    : Firt char of AM/PM
 	//		aa   : AM/PM
-	DateTime : 'd/m/yyyy h:MM aa',
-	DateAmPm : ['SA', 'CH'],
+	DateTime : 'm/d/yyyy h:MM aa',
+	DateAmPm : ['AM','PM'],
 
 	// Folders
-	FoldersTitle	: 'Thư mục',
-	FolderLoading	: 'Đang tải...',
-	FolderNew		: 'Xin chọn tên cho thư mục mới: ',
-	FolderRename	: 'Xin chọn tên mới cho thư mục: ',
-	FolderDelete	: 'Bạn có chắc muốn xóa thư mục "%1"?',
-	FolderRenaming	: ' (Đang đổi tên...)',
-	FolderDeleting	: ' (Đang xóa...)',
-	DestinationFolder	: 'Destination Folder', // MISSING
+	FoldersTitle	: 'Folders',
+	FolderLoading	: 'Loading...',
+	FolderNew		: 'Please type the new folder name: ',
+	FolderRename	: 'Please type the new folder name: ',
+	FolderDelete	: 'Are you sure you want to delete the "%1" folder?',
+	FolderRenaming	: ' (Renaming...)',
+	FolderDeleting	: ' (Deleting...)',
+	DestinationFolder	: 'Destination Folder',
 
 	// Files
-	FileRename		: 'Xin nhập tên tập tin mới: ',
-	FileRenameExt	: 'Bạn có chắc muốn đổi phần mở rộng? Tập tin có thể sẽ không dùng được.',
-	FileRenaming	: 'Đang đổi tên...',
-	FileDelete		: 'Bạn có chắc muốn xóa tập tin "%1"?',
-	FilesDelete	: 'Are you sure you want to delete %1 files?', // MISSING
-	FilesLoading	: 'Đang tải...',
-	FilesEmpty		: 'Thư mục trống.',
-	DestinationFile	: 'Destination File', // MISSING
-	SkippedFiles	: 'List of skipped files:', // MISSING
+	FileRename		: 'Please type the new file name: ',
+	FileRenameExt	: 'Are you sure you want to change the file extension? The file may become unusable.',
+	FileRenaming	: 'Renaming...',
+	FileDelete		: 'Are you sure you want to delete the file "%1"?',
+	FilesDelete	: 'Are you sure you want to delete %1 files?',
+	FilesLoading	: 'Loading...',
+	FilesEmpty		: 'The folder is empty.',
+	DestinationFile	: 'Destination File',
+	SkippedFiles	: 'List of skipped files:',
 
 	// Basket
-	BasketFolder		: 'Rổ',
-	BasketClear			: 'Dọn rổ',
-	BasketRemove		: 'Xóa khỏi rổ',
-	BasketOpenFolder	: 'Mở thư mục cha',
-	BasketTruncateConfirm : 'Bạn có chắc muốn bỏ tất cả tập tin trong rổ?',
-	BasketRemoveConfirm	: 'Bạn có chắc muốn bỏ tập tin "%1" khỏi rổ?',
-	BasketRemoveConfirmMultiple	: 'Do you really want to remove %1 files from the basket?', // MISSING
-	BasketEmpty			: 'Không có tập tin trong rổ, hãy kéo và thả tập tin vào rổ.',
-	BasketCopyFilesHere	: 'Chép tập tin từ rổ',
-	BasketMoveFilesHere	: 'Chuyển tập tin từ rổ',
+	BasketFolder		: 'Basket',
+	BasketClear			: 'Clear Basket',
+	BasketRemove		: 'Remove from Basket',
+	BasketOpenFolder	: 'Open Parent Folder',
+	BasketTruncateConfirm : 'Do you really want to remove all files from the basket?',
+	BasketRemoveConfirm	: 'Do you really want to remove the file "%1" from the basket?',
+	BasketRemoveConfirmMultiple	: 'Do you really want to remove %1 files from the basket?',
+	BasketEmpty			: 'No files in the basket, drag and drop some.',
+	BasketCopyFilesHere	: 'Copy Files from Basket',
+	BasketMoveFilesHere	: 'Move Files from Basket',
 
 	// Global messages
-	OperationCompletedSuccess	: 'Operation completed successfully.', // MISSING
-	OperationCompletedErrors		: 'Operation completed with errors.', // MISSING
-	FileError				: '%s: %e', // MISSING
+	OperationCompletedSuccess	: 'Operation completed successfully.',
+	OperationCompletedErrors		: 'Operation completed with errors.',
+	FileError				: '%s: %e',
 
 	// Move and Copy files
-	MovedFilesNumber		: 'Number of files moved: %s.', // MISSING
-	CopiedFilesNumber	: 'Number of files copied: %s.', // MISSING
-	MoveFailedList		: 'The following files could not be moved:<br />%s', // MISSING
-	CopyFailedList		: 'The following files could not be copied:<br />%s', // MISSING
+	MovedFilesNumber		: 'Number of files moved: %s.',
+	CopiedFilesNumber	: 'Number of files copied: %s.',
+	MoveFailedList		: 'The following files could not be moved:<br />%s',
+	CopyFailedList		: 'The following files could not be copied:<br />%s',
 
 	// Toolbar Buttons (some used elsewhere)
-	Upload		: 'Tải lên',
-	UploadTip	: 'Tải tập tin mới',
-	Refresh		: 'Làm tươi',
-	Settings	: 'Thiết lập',
-	Help		: 'Hướng dẫn',
-	HelpTip		: 'Hướng dẫn',
+	Upload		: 'Upload',
+	UploadTip	: 'Upload New File',
+	Refresh		: 'Refresh',
+	Settings	: 'Settings',
+	Help		: 'Help',
+	HelpTip		: 'Help',
 
 	// Context Menus
-	Select			: 'Chọn',
-	SelectThumbnail : 'Chọn ảnh mẫu',
-	View			: 'Xem',
-	Download		: 'Tải về',
+	Select			: 'Select',
+	SelectThumbnail : 'Select Thumbnail',
+	View			: 'View',
+	Download		: 'Download',
 
-	NewSubFolder	: 'Tạo thư mục con',
-	Rename			: 'Đổi tên',
-	Delete			: 'Xóa',
-	DeleteFiles		: 'Delete Files', // MISSING
+	NewSubFolder	: 'New Subfolder',
+	Rename			: 'Rename',
+	Delete			: 'Delete',
+	DeleteFiles		: 'Delete Files',
 
-	CopyDragDrop	: 'Sao chép ở đây',
-	MoveDragDrop	: 'Di chuyển ở đây',
+	CopyDragDrop	: 'Copy Here',
+	MoveDragDrop	: 'Move Here',
 
 	// Dialogs
-	RenameDlgTitle		: 'Đổi tên',
-	NewNameDlgTitle		: 'Tên mới',
-	FileExistsDlgTitle	: 'Tập tin đã tồn tại',
-	SysErrorDlgTitle : 'Lỗi hệ thống',
+	RenameDlgTitle		: 'Rename',
+	NewNameDlgTitle		: 'New Name',
+	FileExistsDlgTitle	: 'File Already Exists',
+	SysErrorDlgTitle : 'System Error',
 
-	FileOverwrite	: 'Ghi đè',
-	FileAutorename	: 'Tự đổi tên',
-	ManuallyRename	: 'Manually rename', // MISSING
+	FileOverwrite	: 'Overwrite',
+	FileAutorename	: 'Auto-rename',
+	ManuallyRename	: 'Manually rename',
 
 	// Generic
 	OkBtn		: 'OK',
-	CancelBtn	: 'Hủy bỏ',
-	CloseBtn	: 'Đóng',
+	CancelBtn	: 'Cancel',
+	CloseBtn	: 'Close',
 
 	// Upload Panel
-	UploadTitle			: 'Tải tập tin mới',
-	UploadSelectLbl		: 'Chọn tập tin tải lên',
-	UploadProgressLbl	: '(Đang tải lên, vui lòng chờ...)',
-	UploadBtn			: 'Tải tập tin đã chọn',
-	UploadBtnCancel		: 'Hủy bỏ',
+	UploadTitle			: 'Upload New File',
+	UploadSelectLbl		: 'Select a file to upload',
+	UploadProgressLbl	: '(Upload in progress, please wait...)',
+	UploadBtn			: 'Upload Selected File',
+	UploadBtnCancel		: 'Cancel',
 
-	UploadNoFileMsg		: 'Xin chọn một tập tin trong máy tính.',
-	UploadNoFolder		: 'Xin chọn thư mục trước khi tải lên.',
-	UploadNoPerms		: 'Không được phép tải lên.',
-	UploadUnknError		: 'Lỗi khi tải tập tin.',
-	UploadExtIncorrect	: 'Kiểu tập tin không được chấp nhận trong thư mục này.',
+	UploadNoFileMsg		: 'Please select a file from your computer.',
+	UploadNoFolder		: 'Please select a folder before uploading.',
+	UploadNoPerms		: 'File upload not allowed.',
+	UploadUnknError		: 'Error sending the file.',
+	UploadExtIncorrect	: 'File extension not allowed in this folder.',
 
 	// Flash Uploads
-	UploadLabel			: 'Tập tin sẽ tải:',
-	UploadTotalFiles	: 'Tổng số tập tin:',
-	UploadTotalSize		: 'Dung lượng tổng cộng:',
-	UploadSend			: 'Tải lên',
-	UploadAddFiles		: 'Thêm tập tin',
-	UploadClearFiles	: 'Xóa tập tin',
-	UploadCancel		: 'Hủy tải',
-	UploadRemove		: 'Xóa',
-	UploadRemoveTip		: 'Xóa !f',
-	UploadUploaded		: 'Đã tải !n%',
-	UploadProcessing	: 'Đang xử lí...',
+	UploadLabel			: 'Files to Upload',
+	UploadTotalFiles	: 'Total Files:',
+	UploadTotalSize		: 'Total Size:',
+	UploadSend			: 'Upload',
+	UploadAddFiles		: 'Add Files',
+	UploadClearFiles	: 'Clear Files',
+	UploadCancel		: 'Cancel Upload',
+	UploadRemove		: 'Remove',
+	UploadRemoveTip		: 'Remove !f',
+	UploadUploaded		: 'Uploaded !n%',
+	UploadProcessing	: 'Processing...',
 
 	// Settings Panel
-	SetTitle		: 'Thiết lập',
-	SetView			: 'Xem:',
-	SetViewThumb	: 'Ảnh mẫu',
-	SetViewList		: 'Danh sách',
-	SetDisplay		: 'Hiển thị:',
-	SetDisplayName	: 'Tên tập tin',
-	SetDisplayDate	: 'Ngày',
-	SetDisplaySize	: 'Dung lượng',
-	SetSort			: 'Sắp xếp:',
-	SetSortName		: 'theo tên',
-	SetSortDate		: 'theo ngày',
-	SetSortSize		: 'theo dung lượng',
-	SetSortExtension		: 'theo phần mở rộng',
+	SetTitle		: 'Settings',
+	SetView			: 'View:',
+	SetViewThumb	: 'Thumbnails',
+	SetViewList		: 'List',
+	SetDisplay		: 'Display:',
+	SetDisplayName	: 'File Name',
+	SetDisplayDate	: 'Date',
+	SetDisplaySize	: 'File Size',
+	SetSort			: 'Sorting:',
+	SetSortName		: 'by File Name',
+	SetSortDate		: 'by Date',
+	SetSortSize		: 'by Size',
+	SetSortExtension		: 'by Extension',
 
 	// Status Bar
-	FilesCountEmpty : '<Thư mục rỗng>',
-	FilesCountOne	: '1 tập tin',
-	FilesCountMany	: '%1 tập tin',
+	FilesCountEmpty : '<Empty Folder>',
+	FilesCountOne	: '1 file',
+	FilesCountMany	: '%1 files',
 
 	// Size and Speed
 	Kb				: '%1 KB',
@@ -201,112 +201,112 @@ CKFinder.lang['vi'] =
 	SizePerSecond	: '%1/s',
 
 	// Connector Error Messages.
-	ErrorUnknown	: 'Không thể hoàn tất yêu cầu. (Lỗi %1)',
+	ErrorUnknown	: 'It was not possible to complete the request. (Error %1)',
 	Errors :
 	{
-	 10 : 'Lệnh không hợp lệ.',
-	 11 : 'Kiểu tài nguyên không được chỉ định trong yêu cầu.',
-	 12 : 'Kiểu tài nguyên yêu cầu không hợp lệ.',
-	102 : 'Tên tập tin hay thư mục không hợp lệ.',
-	103 : 'Không thể hoàn tất yêu cầu vì giới hạn quyền.',
-	104 : 'Không thể hoàn tất yêu cầu vì giới hạn quyền của hệ thống tập tin.',
-	105 : 'Phần mở rộng tập tin không hợp lệ.',
-	109 : 'Yêu cầu không hợp lệ.',
-	110 : 'Lỗi không xác định.',
-	111 : 'It was not possible to complete the request due to resulting file size.', // MISSING
-	115 : 'Tập tin hoặc thư mục cùng tên đã tồn tại.',
-	116 : 'Không thấy thư mục. Hãy làm tươi và thử lại.',
-	117 : 'Không thấy tập tin. Hãy làm tươi và thử lại.',
-	118 : 'Đường dẫn nguồn và đích giống nhau.',
-	201 : 'Tập tin cùng tên đã tồn tại. Tập tin vừa tải lên được đổi tên thành "%1".',
-	202 : 'Tập tin không hợp lệ.',
-	203 : 'Tập tin không hợp lệ. Dung lượng quá lớn.',
-	204 : 'Tập tin tải lên bị hỏng.',
-	205 : 'Không có thư mục tạm để tải tập tin.',
-	206 : 'Huỷ tải lên vì lí do bảo mật. Tập tin chứa dữ liệu giống HTML.',
-	207 : 'Tập tin được đổi tên thành "%1".',
-	300 : 'Di chuyển tập tin thất bại.',
-	301 : 'Chép tập tin thất bại.',
-	500 : 'Trình duyệt tập tin bị vô hiệu vì lí do bảo mật. Xin liên hệ quản trị hệ thống và kiểm tra tập tin cấu hình CKFinder.',
-	501 : 'Chức năng hỗ trợ ảnh mẫu bị vô hiệu.'
+	 10 : 'Invalid command.',
+	 11 : 'The resource type was not specified in the request.',
+	 12 : 'The requested resource type is not valid.',
+	102 : 'Invalid file or folder name.',
+	103 : 'It was not possible to complete the request due to authorization restrictions.',
+	104 : 'It was not possible to complete the request due to file system permission restrictions.',
+	105 : 'Invalid file extension.',
+	109 : 'Invalid request.',
+	110 : 'Unknown error.',
+	111 : 'It was not possible to complete the request due to resulting file size.',
+	115 : 'A file or folder with the same name already exists.',
+	116 : 'Folder not found. Please refresh and try again.',
+	117 : 'File not found. Please refresh the files list and try again.',
+	118 : 'Source and target paths are equal.',
+	201 : 'A file with the same name is already available. The uploaded file was renamed to "%1".',
+	202 : 'Invalid file.',
+	203 : 'Invalid file. The file size is too big.',
+	204 : 'The uploaded file is corrupt.',
+	205 : 'No temporary folder is available for upload in the server.',
+	206 : 'Upload cancelled due to security reasons. The file contains HTML-like data.',
+	207 : 'The uploaded file was renamed to "%1".',
+	300 : 'Moving file(s) failed.',
+	301 : 'Copying file(s) failed.',
+	500 : 'The file browser is disabled for security reasons. Please contact your system administrator and check the CKFinder configuration file.',
+	501 : 'The thumbnails support is disabled.'
 	},
 
 	// Other Error Messages.
 	ErrorMsg :
 	{
-		FileEmpty		: 'Không thể để trống tên tập tin.',
-		FileExists		: 'Tập tin %s đã tồn tại.',
-		FolderEmpty		: 'Không thể để trống tên thư mục.',
-		FolderExists	: 'Folder %s already exists.', // MISSING
-		FolderNameExists	: 'Folder already exists.', // MISSING
+		FileEmpty		: 'The file name cannot be empty.',
+		FileExists		: 'File %s already exists.',
+		FolderEmpty		: 'The folder name cannot be empty.',
+		FolderExists	: 'Folder %s already exists.',
+		FolderNameExists	: 'Folder already exists.',
 
-		FileInvChar		: 'Tên tập tin không thể chưa các kí tự: \n\\ / : * ? " < > |',
-		FolderInvChar	: 'Tên thư mục không thể chứa các kí tự: \n\\ / : * ? " < > |',
+		FileInvChar		: 'The file name cannot contain any of the following characters: \n\\ / : * ? " < > |',
+		FolderInvChar	: 'The folder name cannot contain any of the following characters: \n\\ / : * ? " < > |',
 
-		PopupBlockView	: 'Không thể mở tập tin trong cửa sổ mới. Hãy kiểm tra trình duyệt và tắt chức năng chặn popup trên trang web này.',
-		XmlError		: 'Không thể nạp hồi đáp XML từ máy chủ web.',
-		XmlEmpty		: 'Không thể nạp hồi đáp XML từ máy chủ web. Dữ liệu rỗng.',
-		XmlRawResponse	: 'Hồi đáp thô từ máy chủ: %s'
+		PopupBlockView	: 'It was not possible to open the file in a new window. Please configure your browser and disable all popup blockers for this site.',
+		XmlError		: 'It was not possible to properly load the XML response from the web server.',
+		XmlEmpty		: 'It was not possible to load the XML response from the web server. The server returned an empty response.',
+		XmlRawResponse	: 'Raw response from the server: %s'
 	},
 
 	// Imageresize plugin
 	Imageresize :
 	{
-		dialogTitle		: 'Đổi kích thước %s',
-		sizeTooBig		: 'Không thể đặt chiều cao hoặc rộng to hơn kích thước gốc (%size).',
-		resizeSuccess	: 'Đổi kích thước ảnh thành công.',
-		thumbnailNew	: 'Tạo ảnh mẫu mới',
-		thumbnailSmall	: 'Nhỏ (%s)',
-		thumbnailMedium	: 'Vừa (%s)',
-		thumbnailLarge	: 'Lớn (%s)',
-		newSize			: 'Chọn kích thước mới',
-		width			: 'Rộng',
-		height			: 'Cao',
-		invalidHeight	: 'Chiều cao không hợp lệ.',
-		invalidWidth	: 'Chiều rộng không hợp lệ.',
-		invalidName		: 'Tên tập tin không hợp lệ.',
-		newImage		: 'Tạo ảnh mới',
-		noExtensionChange : 'Không thể thay đổi phần mở rộng.',
-		imageSmall		: 'Ảnh nguồn quá nhỏ.',
-		contextMenuName	: 'Đổi kích thước',
-		lockRatio		: 'Khoá tỉ lệ',
-		resetSize		: 'Đặt lại kích thước'
+		dialogTitle		: 'Resize %s',
+		sizeTooBig		: 'Cannot set image height or width to a value bigger than the original size (%size).',
+		resizeSuccess	: 'Image resized successfully.',
+		thumbnailNew	: 'Create a new thumbnail',
+		thumbnailSmall	: 'Small (%s)',
+		thumbnailMedium	: 'Medium (%s)',
+		thumbnailLarge	: 'Large (%s)',
+		newSize			: 'Set a new size',
+		width			: 'Width',
+		height			: 'Height',
+		invalidHeight	: 'Invalid height.',
+		invalidWidth	: 'Invalid width.',
+		invalidName		: 'Invalid file name.',
+		newImage		: 'Create a new image',
+		noExtensionChange : 'File extension cannot be changed.',
+		imageSmall		: 'Source image is too small.',
+		contextMenuName	: 'Resize',
+		lockRatio		: 'Lock ratio',
+		resetSize		: 'Reset size'
 	},
 
 	// Fileeditor plugin
 	Fileeditor :
 	{
-		save			: 'Lưu',
-		fileOpenError	: 'Không thể mở tập tin.',
-		fileSaveSuccess	: 'Lưu tập tin thành công.',
-		contextMenuName	: 'Sửa',
-		loadingFile		: 'Đang tải tập tin, xin chờ...'
+		save			: 'Save',
+		fileOpenError	: 'Unable to open file.',
+		fileSaveSuccess	: 'File saved successfully.',
+		contextMenuName	: 'Edit',
+		loadingFile		: 'Loading file, please wait...'
 	},
 
 	Maximize :
 	{
-		maximize : 'Cực đại hóa',
-		minimize : 'Cực tiểu hóa'
+		maximize : 'Maximize',
+		minimize : 'Minimize'
 	},
 
 	Gallery :
 	{
-		current : 'Hình thứ {current} trên {total}'
+		current : 'Image {current} of {total}'
 	},
 
 	Zip :
 	{
-		extractHereLabel	: 'Extract here', // MISSING
-		extractToLabel		: 'Extract to...', // MISSING
-		downloadZipLabel	: 'Download as zip', // MISSING
-		compressZipLabel	: 'Compress to zip', // MISSING
-		removeAndExtract	: 'Remove existing and extract', // MISSING
-		extractAndOverwrite	: 'Extract overwriting existing files', // MISSING
-		extractSuccess		: 'File extracted successfully.' // MISSING
+		extractHereLabel	: 'Extract here',
+		extractToLabel		: 'Extract to...',
+		downloadZipLabel	: 'Download as zip',
+		compressZipLabel	: 'Compress to zip',
+		removeAndExtract	: 'Remove existing and extract',
+		extractAndOverwrite	: 'Extract overwriting existing files',
+		extractSuccess		: 'File extracted successfully.'
 	},
 
 	Search :
 	{
-		searchPlaceholder : 'Tìm kiếm'
+		searchPlaceholder : 'Search'
 	}
 };
