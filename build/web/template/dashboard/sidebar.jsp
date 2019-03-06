@@ -12,7 +12,7 @@
     <div class="widget__content">
         <nav class="nav nav--sidebar">
             <ul class="nav__list">
-                
+
                 <li class="nav__item">
                     <a class="nav__link text-center" style="color: red !important;">----- VŨ -----</a>
                 </li>
@@ -40,6 +40,42 @@
                 </li>
                 <li class="nav__item">
                     <a class="nav__link text-center" style="color: red !important;">----- CƯỜNG -----</a>
+                </li>
+
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/TransactionList" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-user-admin"></use>
+                        </svg>Transaction
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/TransactionCreate" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-user-admin"></use>
+                        </svg>Create Transaction
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/ContractList" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-user-admin"></use>
+                        </svg>Contract
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/ContractCreate" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-user-admin"></use>
+                        </svg>Create Contract
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/UserList" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-user-admin"></use>
+                        </svg>Customer
+                    </a>
                 </li>
                 <li class="nav__item">
                     <a href="<%=request.getContextPath()%>/ContractTypeList" class="nav__link">

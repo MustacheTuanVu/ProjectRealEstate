@@ -23,18 +23,19 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author kiems
+ * @author Cuong
  */
 @Entity
 @Table(name = "contract_type")
 @NamedQueries({
     @NamedQuery(name = "ContractType.findAll", query = "SELECT c FROM ContractType c")})
 public class ContractType implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "id", nullable = false)
+//    @Basic(optional = false)
+//    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull

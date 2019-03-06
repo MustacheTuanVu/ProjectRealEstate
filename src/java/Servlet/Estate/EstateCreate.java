@@ -5,29 +5,35 @@
  */
 package Servlet.Estate;
 
+import Controller.ContractDetailsJpaController;
+import Controller.ContractJpaController;
+import Controller.ContractTypeJpaController;
+import Controller.CustomerJpaController;
 import Controller.EstateJpaController;
 import Controller.EstateStatusJpaController;
 import Controller.EstateTypeJpaController;
 import Controller.exceptions.RollbackFailureException;
+import Entity.Contract;
+import Entity.ContractDetails;
+import Entity.ContractType;
+import Entity.Customer;
 import Entity.Estate;
 import Entity.EstateStatus;
 import Entity.EstateType;
+import Entity.Users;
+import Servlet.Contract_Details.Create_Contract_Details_Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
 /**
@@ -46,144 +52,35 @@ public class EstateCreate extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    // estate_type_id
-    // estate_description
-    // bed_room
-    // bath_room
-    // garages
-    // price
-    // areas
-    // image_1st
-    // image_2st
-    // image_3st
-    // image_4st
-    // image_5st
-    // direction
-    // block
-    // address1
-    // address2
-    // year_build
-    // estate_status_id
     UserTransaction utx;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        EntityManager em = emf.createEntityManager();
+        HttpSession session = request.getSession();
+        Entity.Users users = (Entity.Users) session.getAttribute("user");
+        EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.CustomerJpaController cus = new CustomerJpaController(utx, em);
+        if (cus.findByIdUser(users) != null) {
+            if (users != null) {
+                if (users.getRole().equals("Customer")) {
 
-        if (request.getParameter("submit") != null) {
-            EstateJpaController estateControl = new EstateJpaController(utx, emf);
+                    Controller.EstateStatusJpaController estCon = new EstateStatusJpaController(utx, em);
+                    Controller.EstateTypeJpaController typeCon = new EstateTypeJpaController(utx, em);
+                    Controller.ContractTypeJpaController conType = new ContractTypeJpaController(utx, em);
 
-            String estateName = request.getParameter("estateName");
-
-            int estateTypeId = Integer.parseInt(request.getParameter("estateTypeId"));
-            EstateType estateType = em.getReference(EstateType.class, estateTypeId);
-
-            String estateDescription = request.getParameter("estateDescription"); //NOTE
-            String estateContent = estateDescription;
-
-            int bedRoom = Integer.parseInt(request.getParameter("bedRoom"));
-            int bathRoom = Integer.parseInt(request.getParameter("bathRoom"));
-            Double garages = Double.parseDouble(request.getParameter("garages"));
-            Double price = Double.parseDouble(request.getParameter("price"));
-            Double areas = Double.parseDouble(request.getParameter("areas"));
-
-            String image1st = request.getParameter("image1st"); //NOTE
-            String image2st = request.getParameter("image2st"); //NOTE
-            String image3st = request.getParameter("image3st"); //NOTE
-            String image4st = request.getParameter("image4st"); //NOTE
-            String image5st = request.getParameter("image5st"); //NOTE
-
-            String direction = request.getParameter("direction");
-            String block = "none";
-            String address1 = request.getParameter("address1");
-            String address2 = request.getParameter("address2");
-
-            String yearBuild = request.getParameter("yearBuild"); //NOTE
-
-            int estateStatusId = Integer.parseInt(request.getParameter("estateStatusId")); //NOTE
-            EstateStatus estateStatus = em.getReference(EstateStatus.class, estateStatusId);
-
-            int indexID = 1;
-            String estateID = "1";
-
-            while (true) {
-                if (estateControl.findEstate(estateID) != null) {
-                    indexID = indexID + 1;
-                    estateID = String.valueOf(indexID);
+                    request.setAttribute("listType", conType.findContractTypeEntities());
+                    request.setAttribute("typeCon", typeCon.findEstateTypeEntities());
+                    request.setAttribute("estCon", estCon.findEstateStatusEntities());
+                    request.getRequestDispatcher("/page/dashboard/dashboard_estate_create.jsp").forward(request, response);
                 } else {
-                    break;
+                    response.sendRedirect(request.getContextPath() + "/LoginUser");
                 }
-            }
-
-            String message = "";
-            String hasError = "";
-            String display = "none";
-            List<Estate> estateList = (List<Estate>) estateControl.getEstateByName(estateName);
-            if (estateList.size() > 0) {
-                message = "Estate exits !";
-                hasError = "has-error";
-                display = "block";
-                request.setAttribute("message", message);
-                request.setAttribute("hasError", hasError);
-                request.setAttribute("display", display);
-
-                RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/EstateList");
-                dispatcher.forward(request, response);
             } else {
-                Estate estateTypes = new Estate();
-                estateTypes.setId(estateID);
-                estateTypes.setEstateName(estateName);
-                estateTypes.setEstateTypeId(estateType);
-                estateTypes.setBedRoom(bedRoom);
-                estateTypes.setBathRoom(bathRoom);
-                estateTypes.setGarages(garages);
-                estateTypes.setPrice(price);
-                estateTypes.setAreas(areas);
-                estateTypes.setEstateDescription(estateDescription);
-                estateTypes.setEstateContent(estateContent);
-                estateTypes.setImage1st(image1st);
-                estateTypes.setImage1st(image2st);
-                estateTypes.setImage1st(image3st);
-                estateTypes.setImage1st(image4st);
-                estateTypes.setImage1st(image5st);
-                estateTypes.setDirection(direction);
-                estateTypes.setBlock(block);
-                estateTypes.setAddress1(address1);
-                estateTypes.setAddress2(address2);
-
-                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-                Date day;
-                try {
-                    day = sdf.parse(yearBuild);
-                    estateTypes.setYearBuild(day);
-                } catch (ParseException ex) {
-                    Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                estateTypes.setEstateStatusId(estateStatus);
-                try {
-                    estateControl.create(estateTypes);
-                    response.sendRedirect(request.getContextPath() + "/EstateList");
-                } catch (RollbackFailureException ex) {
-                    Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                response.sendRedirect(request.getContextPath() + "/LoginUser");
             }
-        } else {
-            EstateTypeJpaController estateType = new EstateTypeJpaController(utx, emf);
-            List<EstateType> estateTypeList = estateType.findEstateTypeEntities();
-            request.setAttribute("estateTypeList", estateTypeList);
-            
-            EstateStatusJpaController estateStatus = new EstateStatusJpaController(utx, emf);
-            List<EstateStatus> estateStatusList = estateStatus.findEstateStatusEntities();
-            request.setAttribute("estateStatusList", estateStatusList);
-
-            request.getRequestDispatcher(request.getContextPath()+"/dashboard_estate_create.jsp").forward(request, response);
         }
-
+        else response.sendRedirect(request.getContextPath() + "/CustomerDetails");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -212,7 +109,86 @@ public class EstateCreate extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        HttpSession session = request.getSession();
+        Entity.Users users = (Entity.Users) session.getAttribute("user");
+        System.out.println("User " + users);
+
+        if (users != null) {
+            if (users.getRole().equals("Customer")) {
+                EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
+                Controller.ContractJpaController conCon = new ContractJpaController(utx, em);
+
+                try {
+                    //processRequest(request, response); 
+                    Controller.EstateJpaController estCon = new EstateJpaController(utx, em);
+                    Entity.EstateStatus estSta = new EstateStatus(1);
+                    Entity.EstateType type = new EstateType((request.getParameter("estateTypeId")));
+
+                    Entity.Estate est = new Estate();
+                    String tam = String.valueOf(estCon.getEstateCount() + 1);
+                    est.setId("est" + tam);
+                    est.setEstateName(request.getParameter("estateName"));
+                    est.setAddress1(request.getParameter("address1"));
+                    est.setEstateTypeId(type);
+                    est.setEstateDescription("123");
+                    est.setEstateStatusId(estSta);
+
+                    estCon.create(est);
+                    System.out.println("Create Completed...");
+
+                    createContract(users, em, Integer.valueOf(request.getParameter("typeContract")), tam);
+                } catch (RollbackFailureException ex) {
+                    Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                response.sendRedirect(request.getContextPath() + "/LoginUser");
+            }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/LoginUser");
+        }
+    }
+
+    // ham tao contract tam
+    private boolean createContract(Users idCus, EntityManagerFactory em, int ContractType, String idEstate) {
+        Controller.ContractJpaController conCon = new ContractJpaController(utx, em);
+        Controller.CustomerJpaController customerCon = new CustomerJpaController(utx, em); // +++
+        Controller.ContractDetailsJpaController delCon = new ContractDetailsJpaController(utx, em);
+
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+            Entity.Contract con = new Contract();
+            Entity.Customer cus = customerCon.findByIdUser(idCus); // +++
+            Entity.ContractDetails del = new ContractDetails();
+            cus.setUserId(idCus);
+
+            con.setCustomerId(cus);
+            con.setContractTypeId(new ContractType(ContractType));
+            con.setContractDetails("waiting");
+            con.setDateSigned(format.parse("2019-03-05"));
+            con.setDocumentUrl("waiting");
+            con.setStatus("Waiting");
+            conCon.create(con);
+            System.out.println("create contract Completed...");
+
+            System.out.println("estate " + idEstate);
+
+            del.setEstateId(new Estate("est" + idEstate));
+            del.setContractId(con);
+            delCon.create(del);
+            System.out.println("Estate " + idEstate);
+            System.out.println("create estate Completed...");
+            return true;
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
     }
 
     /**

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -70,31 +71,54 @@ public class ContractTypeEdit extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EntityManagerFactory em=(EntityManagerFactory) getServletContext().getAttribute("emf");
-            Controller.ContractTypeJpaController test= new ContractTypeJpaController(utx, em);
-            List<Entity.ContractType> listCon=test.findContractTypeEntities();
-            
-            String id = request.getParameter("txtID");
-            
-            ContractType con= test.findContractType(Integer.parseInt(id));
-            
-            con.setContractTypeName((request.getParameter("txtType")));
-        try {
-//            processRequest(request, response);
-            
-            
-            
+        
+    
+         EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.ContractTypeJpaController conType = new ContractTypeJpaController(utx, em);
 
-            test.edit(con);
+        
+        String a = request.getParameter("txtType");
+        String id=request.getParameter("txtID");
+        String message = "";
+        String hasError = "";
+        String display = "none";
+        String modal="";
+        List<ContractType> listType = conType.findContractTypeName(a);
+
+        if (listType.size() > 0) {
+            message = "Type exits !";
+            hasError = "has-error";
+            display = "block";
+            modal = "show";
+
+            request.setAttribute("id", id);
+            request.setAttribute("estateTypeName", a);
+            request.setAttribute("messageEdit", message);
+            request.setAttribute("hasErrorEdit", hasError);
+            request.setAttribute("displayEdit", display);
+            request.setAttribute("modal", modal);
+
+            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/ContractTypeList");
+            dispatcher.forward(request, response);
+        } else {
             
-            response.sendRedirect(request.getContextPath()+"/ContractTypeList");
+             try {
+                 id = request.getParameter("txtID");
+                 ContractType con= conType.findContractType(Integer.parseInt(id));
+                 con.setContractTypeName((request.getParameter("txtType")));
+                 conType.edit(con);
+                 //response.sendRedirect(request.getContextPath()+"/ContractTypeList");
+                 request.setAttribute("message","Edit Completed !!!");
+                 request.getRequestDispatcher("/ContractTypeList").forward(request, response);
+             } catch (NonexistentEntityException ex) {
+                 Logger.getLogger(ContractTypeEdit.class.getName()).log(Level.SEVERE, null, ex);
+             } catch (RollbackFailureException ex) {
+                 Logger.getLogger(ContractTypeEdit.class.getName()).log(Level.SEVERE, null, ex);
+             } catch (Exception ex) {
+                 Logger.getLogger(ContractTypeEdit.class.getName()).log(Level.SEVERE, null, ex);
+             }
             
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(ContractTypeEdit.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RollbackFailureException ex) {
-            Logger.getLogger(ContractTypeEdit.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(ContractTypeEdit.class.getName()).log(Level.SEVERE, null, ex);
+        
         }
     }
 

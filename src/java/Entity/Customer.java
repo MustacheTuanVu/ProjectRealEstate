@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
@@ -23,18 +25,18 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author kiems
+ * @author Cuong
  */
 @Entity
 @Table(name = "customer")
 @NamedQueries({
     @NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c")})
 public class Customer implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
+//    @Basic(optional = false)
+//    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -61,15 +63,15 @@ public class Customer implements Serializable {
     @Size(max = 1073741823)
     @Column(name = "customer_content")
     private String customerContent;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
-    private List<Contract> contractList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerOffered")
     private List<Transactions> transactionsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
-    private List<Schedule> scheduleList;
+    private List<Contract> contractList;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @OneToOne
     private Users userId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
+    private List<Schedule> scheduleList;
 
     public Customer() {
     }
@@ -147,14 +149,6 @@ public class Customer implements Serializable {
         this.customerContent = customerContent;
     }
 
-    public List<Contract> getContractList() {
-        return contractList;
-    }
-
-    public void setContractList(List<Contract> contractList) {
-        this.contractList = contractList;
-    }
-
     public List<Transactions> getTransactionsList() {
         return transactionsList;
     }
@@ -163,12 +157,12 @@ public class Customer implements Serializable {
         this.transactionsList = transactionsList;
     }
 
-    public List<Schedule> getScheduleList() {
-        return scheduleList;
+    public List<Contract> getContractList() {
+        return contractList;
     }
 
-    public void setScheduleList(List<Schedule> scheduleList) {
-        this.scheduleList = scheduleList;
+    public void setContractList(List<Contract> contractList) {
+        this.contractList = contractList;
     }
 
     public Users getUserId() {
@@ -177,6 +171,14 @@ public class Customer implements Serializable {
 
     public void setUserId(Users userId) {
         this.userId = userId;
+    }
+
+    public List<Schedule> getScheduleList() {
+        return scheduleList;
+    }
+
+    public void setScheduleList(List<Schedule> scheduleList) {
+        this.scheduleList = scheduleList;
     }
 
     @Override

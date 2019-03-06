@@ -23,14 +23,13 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author kiems
+ * @author Cuong
  */
 @Entity
 @Table(name = "schedule")
 @NamedQueries({
     @NamedQuery(name = "Schedule.findAll", query = "SELECT s FROM Schedule s")})
 public class Schedule implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -45,15 +44,15 @@ public class Schedule implements Serializable {
     @Size(max = 1073741823)
     @Column(name = "contact_context")
     private String contactContext;
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Customer customerId;
-    @JoinColumn(name = "employee_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Employee employeeId;
     @JoinColumn(name = "estate_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Estate estateId;
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Employee employeeId;
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Customer customerId;
 
     public Schedule() {
     }
@@ -91,12 +90,12 @@ public class Schedule implements Serializable {
         this.contactContext = contactContext;
     }
 
-    public Customer getCustomerId() {
-        return customerId;
+    public Estate getEstateId() {
+        return estateId;
     }
 
-    public void setCustomerId(Customer customerId) {
-        this.customerId = customerId;
+    public void setEstateId(Estate estateId) {
+        this.estateId = estateId;
     }
 
     public Employee getEmployeeId() {
@@ -107,12 +106,12 @@ public class Schedule implements Serializable {
         this.employeeId = employeeId;
     }
 
-    public Estate getEstateId() {
-        return estateId;
+    public Customer getCustomerId() {
+        return customerId;
     }
 
-    public void setEstateId(Estate estateId) {
-        this.estateId = estateId;
+    public void setCustomerId(Customer customerId) {
+        this.customerId = customerId;
     }
 
     @Override
