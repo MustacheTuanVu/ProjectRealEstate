@@ -54,8 +54,6 @@ public class Create_Contract_Servlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         Entity.Users user = (Entity.Users) session.getAttribute("user");
-        System.out.println("Role " + user.getRole());
-
         if (user != null) {
             if (user.getRole().equals("Admin")) {
 

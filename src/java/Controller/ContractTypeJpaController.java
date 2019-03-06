@@ -226,5 +226,13 @@ public class ContractTypeJpaController implements Serializable {
             em.close();
         }
     }
+
+    public List<ContractType> findContractTypeName(String a) {
+        
+        EntityManager em= getEntityManager();
+        Query q=em.createQuery("SELECT t FROM ContractType t WHERE t.contractTypeName like :typeName");
+        q.setParameter("typeName", a);
+        return q.getResultList();
+    }
     
 }

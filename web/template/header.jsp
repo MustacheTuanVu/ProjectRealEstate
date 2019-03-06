@@ -66,7 +66,7 @@
         <div class="auth auth--header">
             <ul class="auth__nav">
                 <li class="dropdown auth__nav-item">
-                    <button data-toggle="dropdown" type="button" class="dropdown-toggle js-auth-nav-btn auth__nav-btn">${user.username}<img src="assets/media-demo/avatars/01.jpg" alt="" class="auth__avatar"><span class="auth__name"> </span></button>
+                    <button data-toggle="dropdown" type="button" class="dropdown-toggle js-auth-nav-btn auth__nav-btn">${user.username} &nbsp&nbsp<img src="${user.customer.customerImg}" alt="" class="auth__avatar"><span class="auth__name"> </span></button>
                  
 
                     <div class="dropdown__menu auth__dropdown--logged-in js-user-logged-in">

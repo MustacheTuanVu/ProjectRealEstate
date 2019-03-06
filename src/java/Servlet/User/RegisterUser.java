@@ -46,7 +46,6 @@ public class RegisterUser extends HttpServlet {
 
         HttpSession session= request.getSession();
         session.invalidate();
-        System.out.println("123");
         request.getRequestDispatcher("/page/dashboard/dashboard_register.jsp").forward(request, response);
     }
 

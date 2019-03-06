@@ -148,7 +148,7 @@
                                                                 <input id="in-1" required type="number" name="txtPer"  class="form-control" >
 
                                                                 <label for="in-5" class="control-label">Fee Precentage</label>
-                                                                <input id="in-5" required type="number" name="txtFee" readonly="true"  class="form-control" >
+                                                                <input id="in-5" required type="number" name="txtFee"   class="form-control" >
                                                                 <label for="in-6" class="control-label">Date Sign</label>
                                                                 <input id="in-6" required type="date" name="txtdate"  class="form-control" />
                                                                 <label for="in-7" class="control-label">Document URL</label>

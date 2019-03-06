@@ -168,6 +168,8 @@
                                 <li class="navbar__subitem"><a href="my_listings.html" class="navbar__sublink js-navbar-sublink">My listings</a></li>
                                 <li class="navbar__subitem"><a href="my_listings_add_edit.html" class="navbar__sublink js-navbar-sublink">Property submit</a></li>
                                 <li class="navbar__subitem"><a href="<%=request.getContextPath()%>/CustomerDetails" class="navbar__sublink js-navbar-sublink">My Profile</a></li>
+                                <li class="navbar__subitem"><a href="<%=request.getContextPath()%>/EstateCreate" class="navbar__sublink js-navbar-sublink">Estate List Waiting Update</a></li>
+                                <li class="navbar__subitem"><a href="<%=request.getContextPath()%>/CustomerDetails" class="navbar__sublink js-navbar-sublink">My Profile</a></li>
                             </ul>
                         </div>
                         <div class="navbar__submenu">

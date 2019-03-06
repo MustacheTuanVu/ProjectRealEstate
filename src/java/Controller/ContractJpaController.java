@@ -21,6 +21,7 @@ import Entity.Employee;
 import Entity.PaymentFrequency;
 import Entity.Transactions;
 import Entity.ContractDetails;
+import Entity.Estate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -43,6 +44,25 @@ public class ContractJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
+    
+    // get id contract by id cus and status 
+    // add contract details
+    public Contract findIDContract_ByStatus(Customer cus){
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT c FROM Contract c WHERE c.customerId = :idUser AND c.status LIKE 'Waiting'");
+        q.setParameter("idUser", cus);
+        
+        return (Contract) q.getSingleResult();
+    }
+    // count number contract waiting
+    public List<Contract> countContractWaiting(Customer cus){
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT c FROM Contract c WHERE c.customerId = :idUser AND c.status LIKE 'Waiting'");
+        q.setParameter("idUser", cus);
+        
+        return  q.getResultList();
+    }
+
 
     public void create(Contract contract) throws PreexistingEntityException, RollbackFailureException, Exception {
         EntityManager em = null;

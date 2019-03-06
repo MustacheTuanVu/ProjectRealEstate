@@ -14,6 +14,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Entity.Contract;
+import Entity.ContractType;
 import Entity.PaymentFrequency;
 import java.util.ArrayList;
 import java.util.List;
@@ -212,6 +213,13 @@ public class PaymentFrequencyJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    public List<ContractType> findPaymentName(String a) {
+        EntityManager em= getEntityManager();
+        Query q=em.createQuery("SELECT t FROM PaymentFrequency t WHERE t.paymentFrequencyName like :typeName");
+        q.setParameter("typeName", a);
+        return q.getResultList();
     }
     
 }

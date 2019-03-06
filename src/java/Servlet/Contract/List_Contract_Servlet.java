@@ -10,6 +10,7 @@ import Controller.ContractTypeJpaController;
 import Controller.CustomerJpaController;
 import Controller.EmployeeJpaController;
 import Controller.PaymentFrequencyJpaController;
+import Entity.Users;
 import java.io.IOException;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
 /**
@@ -36,27 +38,37 @@ public class List_Contract_Servlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        EntityManagerFactory em= (EntityManagerFactory) getServletContext().getAttribute("emf");
-        Controller.ContractJpaController con= new ContractJpaController(utx, em);
-        
-        Controller.ContractTypeJpaController conType= new ContractTypeJpaController(utx, em);
-        Controller.CustomerJpaController cusCon= new CustomerJpaController(utx, em);
-        Controller.EmployeeJpaController empCon= new EmployeeJpaController(utx, em);
-        Controller.PaymentFrequencyJpaController payCon= new PaymentFrequencyJpaController(utx, em);
-        //Controller.ContractJpaController conCon= new ContractJpaController(utx, em);
-        
-        request.setAttribute("listType", conType.findContractTypeEntities());
-        request.setAttribute("listCus", cusCon.findCustomerEntities());
-        request.setAttribute("listEmp", empCon.findEmployeeEntities());
-        request.setAttribute("listPay", payCon.findPaymentFrequencyEntities());
-        
-        request.setAttribute("list", con.findContractEntities());
-        request.getRequestDispatcher("/page/dashboard/dashboard_contract.jsp").forward(request, response);
-        
+
+        HttpSession session = request.getSession();
+        Entity.Users user = (Entity.Users) session.getAttribute("user");
+
+        if (user != null) {
+            if (user.getRole().equals("Admin")) {
+                EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
+                Controller.ContractJpaController con = new ContractJpaController(utx, em);
+
+                Controller.ContractTypeJpaController conType = new ContractTypeJpaController(utx, em);
+                Controller.CustomerJpaController cusCon = new CustomerJpaController(utx, em);
+                Controller.EmployeeJpaController empCon = new EmployeeJpaController(utx, em);
+                Controller.PaymentFrequencyJpaController payCon = new PaymentFrequencyJpaController(utx, em);
+
+                request.setAttribute("listType", conType.findContractTypeEntities());
+                request.setAttribute("listCus", cusCon.findCustomerEntities());
+                request.setAttribute("listEmp", empCon.findEmployeeEntities());
+                request.setAttribute("listPay", payCon.findPaymentFrequencyEntities());
+                request.setAttribute("list", con.findContractEntities());
+                request.getRequestDispatcher("/page/dashboard/dashboard_contract.jsp").forward(request, response);
+            } else {
+                response.sendRedirect(request.getContextPath() + "/LoginUser");
+            }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/LoginUser");
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

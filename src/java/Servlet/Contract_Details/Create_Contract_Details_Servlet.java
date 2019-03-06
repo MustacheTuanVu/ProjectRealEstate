@@ -8,11 +8,15 @@ package Servlet.Contract_Details;
 import Controller.ContractDetailsJpaController;
 import Controller.ContractJpaController;
 import Controller.EstateJpaController;
+import Controller.EstateStatusJpaController;
+import Controller.EstateTypeJpaController;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
 import Entity.Contract;
 import Entity.ContractDetails;
 import Entity.Estate;
+import Entity.EstateStatus;
+import Entity.EstateType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -83,30 +87,35 @@ public class Create_Contract_Details_Servlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
         try {
+            //processRequest(request, response);
+            
             
             
             EntityManagerFactory em=(EntityManagerFactory) getServletContext().getAttribute("emf");
-            Controller.ContractDetailsJpaController conDel= new ContractDetailsJpaController(utx, em);
+            Controller.EstateJpaController estCon= new EstateJpaController(utx, em);
             
-            Entity.Estate est= new Estate((request.getParameter("est")));
-            Entity.Contract con= new Contract(Integer.valueOf(request.getParameter("con")));
             
-            Entity.ContractDetails del=new ContractDetails();
-            del.setContractId(con);
-            del.setEstateId(est);
+            Entity.EstateStatus estSta= new EstateStatus(1);
+            Entity.EstateType type= new EstateType((request.getParameter("estateTypeId")));
             
-            conDel.create(del);
+            Entity.Estate est=new Estate();
+            String tam=String.valueOf(estCon.getEstateCount());
+            est.setId("est"+tam);
+            est.setEstateName(request.getParameter("estateName"));
+            est.setEstateTypeId(type);
+            est.setEstateDescription(null);
+            est.setEstateStatusId(estSta);
+            
+            estCon.create(est);
             System.out.println("Create Completed...");
-            
-        } catch (PreexistingEntityException ex) {
-            Logger.getLogger(Create_Contract_Details_Servlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RollbackFailureException ex) {
             Logger.getLogger(Create_Contract_Details_Servlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(Create_Contract_Details_Servlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+            
+        
     }
 
     /**

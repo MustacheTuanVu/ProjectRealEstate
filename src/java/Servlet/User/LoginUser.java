@@ -86,8 +86,6 @@ public class LoginUser extends HttpServlet {
             switch (idUser.getRole()) {
                 case "Admin":
                     System.out.println("Login Admin");
-                    
-                   
                     session.setAttribute("user", idUser);
                     response.sendRedirect(request.getContextPath() + "/TransactionList");
                     break;

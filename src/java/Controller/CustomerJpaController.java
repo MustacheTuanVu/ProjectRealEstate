@@ -41,12 +41,21 @@ public class CustomerJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
+    
+    
+    // find id customer from id user
     public Customer findByIdUser(Users idUser){
+        try{
+
         EntityManager em=getEntityManager();
         Query q=em.createQuery("SELECT c FROM Customer c WHERE c.userId = :idUser");
         q.setParameter("idUser", idUser);
         
         return (Customer) q.getSingleResult();
+        }
+        catch(Exception e){
+            return null;
+        }
     }
 
     public void create(Customer customer) throws PreexistingEntityException, RollbackFailureException, Exception {

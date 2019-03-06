@@ -36,13 +36,15 @@ public class CustomerDetails extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        System.out.println("12312312");
         HttpSession session = request.getSession();
         Entity.Users user = (Entity.Users) session.getAttribute("user");
+        EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
+                Controller.CustomerJpaController cusCon = new CustomerJpaController(null, em);
+        
+       // if (cusCon.findByIdUser(user)!=null) {
         if (user != null) {
             if (user.getRole().equals("Customer")) {
-                EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
-                Controller.CustomerJpaController cusCon = new CustomerJpaController(null, em);
+                
                 request.setAttribute("list", cusCon.findByIdUser(user));
                 request.getRequestDispatcher("/page/dashboard/dashboard_profile.jsp").forward(request, response);
             } else {
@@ -51,6 +53,8 @@ public class CustomerDetails extends HttpServlet {
         } else {
             request.getRequestDispatcher("/page/dashboard/dashboard_login.jsp").include(request, response);
         }
+//        }
+//        else response.sendRedirect(request.getContextPath()+"/CustomerDetails");
 
     }
 

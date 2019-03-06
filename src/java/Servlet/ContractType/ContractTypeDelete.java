@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -50,8 +51,10 @@ public class ContractTypeDelete extends HttpServlet {
         try {
 
             type.destroy(id);
-
-            response.sendRedirect(request.getContextPath() + "/ContractTypeList");
+            request.setAttribute("message", "Delete Completed !!!");
+            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/ContractTypeList");
+            dispatcher.forward(request, response);
+            //response.sendRedirect(request.getContextPath() + "/ContractTypeList");
 
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(ContractTypeDelete.class.getName()).log(Level.SEVERE, null, ex);

@@ -8,12 +8,15 @@ package Servlet.Payment;
 import Controller.PaymentFrequencyJpaController;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.RollbackFailureException;
+import Entity.ContractType;
 import Entity.PaymentFrequency;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -72,13 +75,40 @@ public class PaymentEdit extends HttpServlet {
             throws ServletException, IOException {
         EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
         Controller.PaymentFrequencyJpaController type = new PaymentFrequencyJpaController(utx, em);
-        String id = request.getParameter("txtID");
+        
+         String a = request.getParameter("txtPay");
+        String id=request.getParameter("txtID");
+        String message = "";
+        String hasError = "";
+        String display = "none";
+        String modal="";
+        List<ContractType> listType = type.findPaymentName(a);
+
+        if (listType.size() > 0) {
+            message = "Payment Name exits !";
+            hasError = "has-error";
+            display = "block";
+            modal = "show";
+
+            request.setAttribute("id", id);
+            request.setAttribute("estateTypeName", a);
+            request.setAttribute("messageEdit", message);
+            request.setAttribute("hasErrorEdit", hasError);
+            request.setAttribute("displayEdit", display);
+            request.setAttribute("modal", modal);
+
+            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/PaymentList");
+            dispatcher.forward(request, response);
+        } else {
         PaymentFrequency con = type.findPaymentFrequency(Integer.parseInt(id));
         
         con.setPaymentFrequencyName((request.getParameter("txtPay")));
         try {
             type.edit(con);
-            response.sendRedirect(request.getContextPath() + "/PaymentList");
+            request.setAttribute("message", "Edit Completed !!!");
+            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/PaymentList");
+            dispatcher.forward(request, response);
+            //response.sendRedirect(request.getContextPath() + "/PaymentList");
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(PaymentEdit.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RollbackFailureException ex) {
@@ -86,6 +116,8 @@ public class PaymentEdit extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(PaymentEdit.class.getName()).log(Level.SEVERE, null, ex);
         }
+        }
+        
     }
 
     /**
