@@ -167,16 +167,14 @@
                             <ul class="navbar__subnav">
                                 <li class="navbar__subitem"><a href="my_listings.html" class="navbar__sublink js-navbar-sublink">My listings</a></li>
                                 <li class="navbar__subitem"><a href="my_listings_add_edit.html" class="navbar__sublink js-navbar-sublink">Property submit</a></li>
-                                <li class="navbar__subitem"><a href="<%=request.getContextPath()%>/CustomerDetails" class="navbar__sublink js-navbar-sublink">My Profile</a></li>
-                                <li class="navbar__subitem"><a href="<%=request.getContextPath()%>/EstateCreate" class="navbar__sublink js-navbar-sublink">Estate List Waiting Update</a></li>
-                                <li class="navbar__subitem"><a href="<%=request.getContextPath()%>/CustomerDetails" class="navbar__sublink js-navbar-sublink">My Profile</a></li>
+                                <li class="navbar__subitem"><a href="my_profile.html" class="navbar__sublink js-navbar-sublink">Profile</a></li>
                             </ul>
                         </div>
                         <div class="navbar__submenu">
                             <h5 class="navbar__subtitle">Auth</h5>
                             <ul class="navbar__subnav">
-                                <li class="navbar__subitem"><a href="<%= request.getContextPath()%>/LoginUser" class="navbar__sublink js-navbar-sublink">Login</a></li>
-                                <li class="navbar__subitem"><a href="<%= request.getContextPath()%>/RegisterUser" class="navbar__sublink js-navbar-sublink">Register</a></li>
+                                <li class="navbar__subitem"><a href="user_login.html" class="navbar__sublink js-navbar-sublink">Login</a></li>
+                                <li class="navbar__subitem"><a href="user_register.html" class="navbar__sublink js-navbar-sublink">Register</a></li>
                                 <li class="navbar__subitem"><a href="user_restore_pass.html" class="navbar__sublink js-navbar-sublink">Restore</a></li>
                             </ul>
                         </div>

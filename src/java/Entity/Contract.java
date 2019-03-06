@@ -8,17 +8,13 @@ package Entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,7 +23,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 @Entity
 @Table(name = "contract")
@@ -37,9 +33,8 @@ public class Contract implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    //    @Basic(optional = false)
-//    @NotNull
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -62,25 +57,23 @@ public class Contract implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "document_url")
     private String documentUrl;
-    @Size(max = 50)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "status")
     private String status;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "contractId")
-    private Transactions transactions;
-    @JoinColumn(name = "payment_frequency", referencedColumnName = "id")
-    @ManyToOne
-    private PaymentFrequency paymentFrequency;
-    @JoinColumn(name = "employee_id", referencedColumnName = "id")
-    @ManyToOne
-    private Employee employeeId;
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Customer customerId;
     @JoinColumn(name = "contract_type_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ContractType contractTypeId;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "contractId")
-    private ContractDetails contractDetails1;
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Customer customerId;
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    @ManyToOne
+    private Employee employeeId;
+    @JoinColumn(name = "payment_frequency", referencedColumnName = "id")
+    @ManyToOne
+    private PaymentFrequency paymentFrequency;
 
     public Contract() {
     }
@@ -89,11 +82,12 @@ public class Contract implements Serializable {
         this.id = id;
     }
 
-    public Contract(Integer id, String contractDetails, Date dateSigned, String documentUrl) {
+    public Contract(Integer id, String contractDetails, Date dateSigned, String documentUrl, String status) {
         this.id = id;
         this.contractDetails = contractDetails;
         this.dateSigned = dateSigned;
         this.documentUrl = documentUrl;
+        this.status = status;
     }
 
     public Integer getId() {
@@ -152,28 +146,12 @@ public class Contract implements Serializable {
         this.status = status;
     }
 
-    public Transactions getTransactions() {
-        return transactions;
+    public ContractType getContractTypeId() {
+        return contractTypeId;
     }
 
-    public void setTransactions(Transactions transactions) {
-        this.transactions = transactions;
-    }
-
-    public PaymentFrequency getPaymentFrequency() {
-        return paymentFrequency;
-    }
-
-    public void setPaymentFrequency(PaymentFrequency paymentFrequency) {
-        this.paymentFrequency = paymentFrequency;
-    }
-
-    public Employee getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(Employee employeeId) {
-        this.employeeId = employeeId;
+    public void setContractTypeId(ContractType contractTypeId) {
+        this.contractTypeId = contractTypeId;
     }
 
     public Customer getCustomerId() {
@@ -184,20 +162,20 @@ public class Contract implements Serializable {
         this.customerId = customerId;
     }
 
-    public ContractType getContractTypeId() {
-        return contractTypeId;
+    public Employee getEmployeeId() {
+        return employeeId;
     }
 
-    public void setContractTypeId(ContractType contractTypeId) {
-        this.contractTypeId = contractTypeId;
+    public void setEmployeeId(Employee employeeId) {
+        this.employeeId = employeeId;
     }
 
-    public ContractDetails getContractDetails1() {
-        return contractDetails1;
+    public PaymentFrequency getPaymentFrequency() {
+        return paymentFrequency;
     }
 
-    public void setContractDetails1(ContractDetails contractDetails1) {
-        this.contractDetails1 = contractDetails1;
+    public void setPaymentFrequency(PaymentFrequency paymentFrequency) {
+        this.paymentFrequency = paymentFrequency;
     }
 
     @Override
@@ -224,5 +202,5 @@ public class Contract implements Serializable {
     public String toString() {
         return "Entity.Contract[ id=" + id + " ]";
     }
-
+    
 }

@@ -19,13 +19,14 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 @Entity
 @Table(name = "sysdiagrams")
 @NamedQueries({
     @NamedQuery(name = "Sysdiagrams.findAll", query = "SELECT s FROM Sysdiagrams s")})
 public class Sysdiagrams implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @NotNull

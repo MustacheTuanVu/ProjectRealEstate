@@ -45,8 +45,8 @@ public class EstateTypeJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
+            utx.begin();
             em = getEntityManager();
-            em.getTransaction().begin();
             List<Estate> attachedEstateList = new ArrayList<Estate>();
             for (Estate estateListEstateToAttach : estateType.getEstateList()) {
                 estateListEstateToAttach = em.getReference(estateListEstateToAttach.getClass(), estateListEstateToAttach.getId());
@@ -63,10 +63,10 @@ public class EstateTypeJpaController implements Serializable {
                     oldEstateTypeIdOfEstateListEstate = em.merge(oldEstateTypeIdOfEstateListEstate);
                 }
             }
-            em.getTransaction().commit();
+            utx.commit();
         } catch (Exception ex) {
             try {
-                em.getTransaction().rollback();
+                utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -84,8 +84,8 @@ public class EstateTypeJpaController implements Serializable {
     public void edit(EstateType estateType) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
+            utx.begin();
             em = getEntityManager();
-            em.getTransaction().begin();
             EstateType persistentEstateType = em.find(EstateType.class, estateType.getId());
             List<Estate> estateListOld = persistentEstateType.getEstateList();
             List<Estate> estateListNew = estateType.getEstateList();
@@ -120,10 +120,10 @@ public class EstateTypeJpaController implements Serializable {
                     }
                 }
             }
-            em.getTransaction().commit();
+            utx.commit();
         } catch (Exception ex) {
             try {
-                em.getTransaction().rollback();
+                utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -145,8 +145,8 @@ public class EstateTypeJpaController implements Serializable {
     public void destroy(String id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
+            utx.begin();
             em = getEntityManager();
-            em.getTransaction().begin();
             EstateType estateType;
             try {
                 estateType = em.getReference(EstateType.class, id);
@@ -166,10 +166,10 @@ public class EstateTypeJpaController implements Serializable {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(estateType);
-            em.getTransaction().commit();
+            utx.commit();
         } catch (Exception ex) {
             try {
-                em.getTransaction().rollback();
+                utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -237,5 +237,4 @@ public class EstateTypeJpaController implements Serializable {
             em.close();
         }
     }
-    
 }

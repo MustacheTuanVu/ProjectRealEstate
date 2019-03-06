@@ -6,9 +6,7 @@
 package Entity;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,20 +14,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 @Entity
 @Table(name = "project")
 @NamedQueries({
     @NamedQuery(name = "Project.findAll", query = "SELECT p FROM Project p")})
 public class Project implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -75,16 +73,12 @@ public class Project implements Serializable {
     @Size(max = 255)
     @Column(name = "image_5st")
     private String image5st;
+    @Size(max = 50)
+    @Column(name = "status")
+    private String status;
     @Size(max = 255)
     @Column(name = "document_url")
     private String documentUrl;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "status")
-    private String status;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "prjectId")
-    private List<ProjectDetails> projectDetailsList;
     @JoinColumn(name = "manager_id", referencedColumnName = "manager_id")
     @ManyToOne(optional = false)
     private Manager managerId;
@@ -96,14 +90,13 @@ public class Project implements Serializable {
         this.projectId = projectId;
     }
 
-    public Project(String projectId, String projectName, String projectAddress, String projectStatus, int blockNumber, double projectArea, String status) {
+    public Project(String projectId, String projectName, String projectAddress, String projectStatus, int blockNumber, double projectArea) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.projectAddress = projectAddress;
         this.projectStatus = projectStatus;
         this.blockNumber = blockNumber;
         this.projectArea = projectArea;
-        this.status = status;
     }
 
     public String getProjectId() {
@@ -194,14 +187,6 @@ public class Project implements Serializable {
         this.image5st = image5st;
     }
 
-    public String getDocumentUrl() {
-        return documentUrl;
-    }
-
-    public void setDocumentUrl(String documentUrl) {
-        this.documentUrl = documentUrl;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -210,12 +195,12 @@ public class Project implements Serializable {
         this.status = status;
     }
 
-    public List<ProjectDetails> getProjectDetailsList() {
-        return projectDetailsList;
+    public String getDocumentUrl() {
+        return documentUrl;
     }
 
-    public void setProjectDetailsList(List<ProjectDetails> projectDetailsList) {
-        this.projectDetailsList = projectDetailsList;
+    public void setDocumentUrl(String documentUrl) {
+        this.documentUrl = documentUrl;
     }
 
     public Manager getManagerId() {

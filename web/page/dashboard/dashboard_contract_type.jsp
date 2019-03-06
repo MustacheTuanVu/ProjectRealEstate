@@ -58,7 +58,7 @@
             <%@ include file="/template/header.jsp" %>
         </header>
         <!-- END HEADER-->
-
+        
         <!-- BEGIN NAVBAR-->
         <div id="header-nav-offset"></div>
         <nav id="header-nav" class="navbar navbar--header">
@@ -92,7 +92,7 @@
                                             <!-- Tab panes-->
                                             <div class="tab-content form-property__content">
                                                 <div id="basic" role="tabpanel" class="tab-pane active">
-                                                    <form onsubmit="return validation()" action="<%=request.getContextPath()%>/ContractTypeCreate" method="get" class="form form--flex form--property form--basic js-form-property-1">
+                                                    <form action="<%=request.getContextPath()%>/ContractTypeCreate" method="get" class="form form--flex form--property form--basic js-form-property-1">
                                                         <div class="row">
                                                             <div class="form-group form-group--description ${hasError}">
                                                                 <label for="in-1" class="control-label">Contract Type Name</label>
@@ -105,7 +105,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <button  class="form__submit" type="submit">Submit</button>
+                                                            <button class="form__submit" type="submit">Submit</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -127,17 +127,22 @@
                                                             <tr>
                                                                 <th class="datatable__head-1">Contract Type ID</th>
                                                                 <th class="datatable__head-2 datatable__head-sort">Contract Type Name</th>
-                                                                
-                                                                
+                                                                <th class="datatable__head-3 datatable__head-sort">Contract Count</th>
+                                                                <th class="datatable__head-4">Edit</th>
                                                                 <th class="datatable__head-5">Delete</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <c:forEach items="${list}" var="item">
-                                                                <tr data-toggle="modal" data-target="#${item.id}">
+                                                                <tr>
                                                                     <td class="datatable__cell-1">${item.id}</td>
                                                                     <td class="datatable__cell-2">${item.contractTypeName}</td>
-                                                                    
+                                                                    <td class="datatable__cell-3"></td>
+                                                                    <td class="datatable__cell-4">
+                                                                        <button type="button" class="form__submit" data-toggle="modal" data-target="#${item.id}">
+                                                                            <span class="glyphicon glyphicon-edit"></span>
+                                                                        </button>
+                                                                    </td>
                                                                     <td class="datatable__cell-5">
                                                                         <a href="<%=request.getContextPath()%>/ContractTypeDelete?id=${item.id}" class="form__submit">
                                                                             <span class="glyphicon glyphicon-trash"></span>
@@ -151,7 +156,7 @@
                                                                             <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                            <form onsubmit="return validation()" action="<%=request.getContextPath()%>/ContractTypeEdit" method="POST" class="form form--flex form--property form--basic js-form-property-1">
+                                                                            <form action="<%=request.getContextPath()%>/ContractTypeEdit" method="POST" class="form form--flex form--property form--basic js-form-property-1">
                                                                                 <div class="row">
                                                                                     <div class="form-group form-group--description ${hasError}">
                                                                                         <label for="in-1" class="control-label">Contract Type ID</label>
@@ -183,7 +188,7 @@
                                                                     <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <form onsubmit="return validation()" action="<%=request.getContextPath()%>/ContractTypeEdit" method="POST" class="form form--flex form--property form--basic js-form-property-1">
+                                                                    <form action="<%=request.getContextPath()%>/ContractTypeEdit" method="POST" class="form form--flex form--property form--basic js-form-property-1">
                                                                         <div class="row">
                                                                             <div class="form-group form-group--description ${hasErrorEdit}">
                                                                                 <label for="in-1" class="control-label">Contract Type ID</label>
@@ -214,11 +219,11 @@
                         </div>
                         <!-- END LISTING-->
                         <!-- BEGIN SIDEBAR-->
-
+                        
                         <div class="sidebar sidebar--dashboard">
                             <%@ include file="/template/dashboard/sidebar.jsp" %>
                         </div>
-
+                            
                         <!-- END SIDEBAR-->
                         <div class="clearfix"></div>
                     </div>
@@ -275,21 +280,6 @@
         $(window).on('load', function () {
             $('#myModal').modal('${modal}');
         });
-    </script>
-    <script type="text/javascript">
-        function validation() {
-            var typeName = document.getElementById()('in-1').value;
-            if (typeName.length>50) {
-                alert("Password must be at least 6 characters long.");
-                document.getElementById('parsley-id-11').innerHTML = 'Contract type name no more than 50 characters';
-            }
-            else {
-                return true;
-            }
-            return false;
-        }
-
-
     </script>
 
     <!-- END SCRIPTS and INCLUDES-->
