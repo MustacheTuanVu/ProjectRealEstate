@@ -45,8 +45,8 @@ public class FeaturesJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
+            utx.begin();
             em = getEntityManager();
-            em.getTransaction().begin();
             List<FeatureDetails> attachedFeatureDetailsList = new ArrayList<FeatureDetails>();
             for (FeatureDetails featureDetailsListFeatureDetailsToAttach : features.getFeatureDetailsList()) {
                 featureDetailsListFeatureDetailsToAttach = em.getReference(featureDetailsListFeatureDetailsToAttach.getClass(), featureDetailsListFeatureDetailsToAttach.getFeatureDetailsId());
@@ -63,10 +63,10 @@ public class FeaturesJpaController implements Serializable {
                     oldFeatureIdOfFeatureDetailsListFeatureDetails = em.merge(oldFeatureIdOfFeatureDetailsListFeatureDetails);
                 }
             }
-            em.getTransaction().commit();
+            utx.commit();
         } catch (Exception ex) {
             try {
-                em.getTransaction().rollback();
+                utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -84,8 +84,8 @@ public class FeaturesJpaController implements Serializable {
     public void edit(Features features) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
+            utx.begin();
             em = getEntityManager();
-            em.getTransaction().begin();
             Features persistentFeatures = em.find(Features.class, features.getFeaturesId());
             List<FeatureDetails> featureDetailsListOld = persistentFeatures.getFeatureDetailsList();
             List<FeatureDetails> featureDetailsListNew = features.getFeatureDetailsList();
@@ -120,10 +120,10 @@ public class FeaturesJpaController implements Serializable {
                     }
                 }
             }
-            em.getTransaction().commit();
+            utx.commit();
         } catch (Exception ex) {
             try {
-                em.getTransaction().rollback();
+                utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -145,8 +145,8 @@ public class FeaturesJpaController implements Serializable {
     public void destroy(String id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
+            utx.begin();
             em = getEntityManager();
-            em.getTransaction().begin();
             Features features;
             try {
                 features = em.getReference(Features.class, id);
@@ -166,10 +166,10 @@ public class FeaturesJpaController implements Serializable {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(features);
-            em.getTransaction().commit();
+            utx.commit();
         } catch (Exception ex) {
             try {
-                em.getTransaction().rollback();
+                utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }

@@ -110,21 +110,9 @@
     <!-- endinject -->
     <div class="box js-box">
         <!-- BEGIN HEADER-->
-        <%
-            if (session.getAttribute("user") == null) {
-        %>
-        <header class="header header--brand">
-            <%@ include file="/template/header1.jsp" %>
-        </header>
-        <%        
-            } else {
-        %>
         <header class="header header--brand">
             <%@ include file="/template/header.jsp" %>
         </header>
-        <%
-            }
-        %>
         <!-- END HEADER-->
 
         <!-- BEGIN NAVBAR-->
@@ -160,63 +148,44 @@
                                             <!-- Tab panes-->
                                             <div class="tab-content form-property__content">
                                                 <div id="basic" role="tabpanel" class="tab-pane active">
-                                                    <form action="<%=request.getContextPath()%>/EstateCreate" method="POST" class="form form--flex form--property form--basic js-form-property-1">
+                                                    <form action="<%=request.getContextPath()%>/EstateCreate" class="form form--flex form--property form--basic js-form-property-1">
                                                         <div class="row">
                                                             <div class="form-group form-group--description">
-                                                                <label for="in-1" class="control-label">Estate Name <span style="color: red">(*)</span></label>
-                                                                <input id="in-1" required type="text" name="estateName" data-placeholder="---" class="form-control">
+                                                                <label for="in-1" class="control-label">Estate Name</label>
+                                                                <input id="in-1" required type="text" name="estateName" data-placeholder="---" value="Text" class="form-control">
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="in-15" class="control-label">Estate Type <span style="color: red">(*)</span></label>
+                                                                <label for="in-15" class="control-label">Estate Type</label>
                                                                 <select id="in-15" required name="estateTypeId" data-placeholder="---" class="form-control">
-
-                                                                    <c:forEach items="${typeCon}" var="estateTypeList">
-                                                                        <option value="${estateTypeList.id}" selected="true">${estateTypeList.typeName}</option>
+                                                                    <option label=" "></option>
+                                                                    <c:forEach items="${estateTypeList}" var="estateTypeList">
+                                                                        <option value="${estateTypeList.id}">${cate.typeName}</option>
                                                                     </c:forEach>
                                                                 </select>
-                                                            </div>
-                                                            
-                                                            
-
-                                                            <div class="form-group">
-                                                                <label for="in-6" class="control-label">Address 1 <span style="color: red">(*)</span></label>
-                                                                <input id="in-6" type="text" name="address1" required class="form-control">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="in-6" class="control-label">Address 2</label>
-                                                                <input id="in-6" type="text" name="address2"  class="form-control">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-10" class="control-label">Bed room</label>
-                                                                <input id="in-10" type="number" name="bedRoom" placeholder=""  class="form-control">
+                                                                <input id="in-10" type="number" name="bedRoom" placeholder="" required class="form-control">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-10" class="control-label">Bath room</label>
-                                                                <input id="in-10" type="number" name="bathRoom" placeholder=""  class="form-control">
+                                                                <input id="in-10" type="number" name="bathRoom" placeholder="" required class="form-control">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-10" class="control-label">Garages</label>
-                                                                <input id="in-10" type="number" name="garages" placeholder=""  class="form-control">
+                                                                <input id="in-10" type="number" name="garages" placeholder="" required class="form-control">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-10" class="control-label">Price</label>
-                                                                <input id="in-10" type="number" name="price" placeholder=""  class="form-control">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="in-15" class="control-label">Contract Type </label>
-                                                                <select name="typeContract" id="in-9">
-                                                                    <c:forEach items="${listType}" var="type" >
-                                                                        <option value="${type.id}"  class="form-control">${type.contractTypeName}</option> 
-                                                                    </c:forEach>
-                                                                </select>
+                                                                <input id="in-10" type="number" name="price" placeholder="" required class="form-control">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-10" class="control-label">Areas</label>
-                                                                <input id="in-10" type="number" name="areas" placeholder=""  class="form-control">
+                                                                <input id="in-10" type="number" name="areas" placeholder="" required class="form-control">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-5" class="control-label">Direction</label>
-                                                                <select id="in-5" name="direction" data-placeholder="Choose a Direction..."  class="form-control js-in-select">
+                                                                <select id="in-5" name="direction" data-placeholder="Choose a Direction..." required class="form-control js-in-select">
                                                                     <option label=" "></option>
                                                                     <option value="East">East</option>
                                                                     <option value="West">West</option>
@@ -228,13 +197,28 @@
                                                                     <option value="North-West">North-East</option>
                                                                 </select>
                                                             </div>
-
+                                                            <div class="form-group">
+                                                                <label for="in-2" class="control-label">Estate Status</label>
+                                                                <select id="in-2" required name="property_type" data-placeholder="---" class="form-control">
+                                                                    <option label=" "></option>
+                                                                    <c:forEach items="${estateStatusList}" var="estateStatusList">
+                                                                        <option value="${estateStatusList.id}">${estateStatusList.estateStatusName}</option>
+                                                                    </c:forEach>
+                                                                </select>
+                                                            </div>
                                                             <div class="form-group">
                                                                 <label for="in-9" class="control-label">Built Up</label>
-                                                                <input id="in-9" type="number" placeholder=""  class="form-control">
+                                                                <input id="in-9" type="number" placeholder="" required class="form-control">
                                                             </div>
 
-
+                                                            <div class="form-group">
+                                                                <label for="in-6" class="control-label">Address 1</label>
+                                                                <input id="in-6" type="text" name="address1" required class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-6" class="control-label">Address 2</label>
+                                                                <input id="in-6" type="text" name="address2" required class="form-control">
+                                                            </div>
                                                             <div class="form-group form-group--description">
                                                                 <label for="in-6" class="control-label">Image 1</label>
                                                                 <input id="image1st" name="image1st" type="text" size="60" class="form-control"/>

@@ -7,15 +7,12 @@ package Servlet.Payment;
 
 import Controller.PaymentFrequencyJpaController;
 import Controller.exceptions.RollbackFailureException;
-import Entity.ContractType;
 import Entity.PaymentFrequency;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,7 +37,6 @@ public class PaymentCreate extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -78,38 +74,21 @@ public class PaymentCreate extends HttpServlet {
         Controller.PaymentFrequencyJpaController pay = new PaymentFrequencyJpaController(utx, em);
 
         String a = request.getParameter("txtPay");
-        String message = "";
-        String hasError = "";
-        String display = "none";
-        List<ContractType> listType = pay.findPaymentName(a);
 
-        if (listType.size() > 0) {
-            message = "Payment Name exits !";
-            hasError = "has-error";
-            display = "block";
-            request.setAttribute("message", message);
-            request.setAttribute("hasError", hasError);
-            request.setAttribute("display", display);
+        Entity.PaymentFrequency type = new PaymentFrequency();
+        type.setPaymentFrequencyName(a);
+        try {
+            //type.setContractList(listCon);
+            pay.create(type);
+            // response.sendRedirect(request.getContextPath()+"/List_Payment_Servlet");
 
-            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/PaymentList");
-            dispatcher.forward(request, response);
-        } else {
-
-            Entity.PaymentFrequency type = new PaymentFrequency();
-            type.setPaymentFrequencyName(a);
-            try {
-                //type.setContractList(listCon);
-                pay.create(type);
-                request.setAttribute("message", "Create New Completed !!!");
-                RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/PaymentList");
-                dispatcher.forward(request, response);
-                // response.sendRedirect(request.getContextPath()+"/List_Payment_Servlet");
-            } catch (RollbackFailureException ex) {
-                Logger.getLogger(PaymentCreate.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(PaymentCreate.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(PaymentCreate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(PaymentCreate.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        response.sendRedirect(request.getContextPath() + "/PaymentList");
     }
 
     /**
