@@ -38,7 +38,7 @@ public class EstateListWaiting extends HttpServlet {
         EntityManagerFactory em= (EntityManagerFactory) getServletContext().getAttribute("emf");
         Controller.EstateJpaController estCon= new EstateJpaController(utx, em);
         
-        request.setAttribute("list", estCon.getEstateWaiting());
+        //request.setAttribute("list", estCon.getEstateWaiting());
         request.getRequestDispatcher("/page/dashboard/dashboard_estate_waiting_update.jsp").forward(request, response);
     }
 

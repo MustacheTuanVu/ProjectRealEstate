@@ -21,13 +21,14 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 @Entity
 @Table(name = "estate_type")
 @NamedQueries({
     @NamedQuery(name = "EstateType.findAll", query = "SELECT e FROM EstateType e")})
 public class EstateType implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

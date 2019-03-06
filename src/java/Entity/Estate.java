@@ -27,21 +27,18 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 @Entity
 @Table(name = "estate")
 @NamedQueries({
     @NamedQuery(name = "Estate.findAll", query = "SELECT e FROM Estate e")})
 public class Estate implements Serializable {
-<<<<<<< HEAD
 
     @Size(max = 50)
     @Column(name = "estate_status")
     private String estateStatus;
 
-=======
->>>>>>> master
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -103,6 +100,14 @@ public class Estate implements Serializable {
     @Column(name = "year_build")
     @Temporal(TemporalType.DATE)
     private Date yearBuild;
+    @JoinColumn(name = "estate_status_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private EstateStatus estateStatusId;
+    @JoinColumn(name = "estate_type_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private EstateType estateTypeId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estateId")
+    private List<FeatureDetails> featureDetailsList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "estateId")
     private AssignDetails assignDetails;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "estateId")
@@ -111,14 +116,6 @@ public class Estate implements Serializable {
     private List<Schedule> scheduleList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "estateId")
     private ContractDetails contractDetails;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estateId")
-    private List<FeatureDetails> featureDetailsList;
-    @JoinColumn(name = "estate_type_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private EstateType estateTypeId;
-    @JoinColumn(name = "estate_status_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private EstateStatus estateStatusId;
 
     public Estate() {
     }
@@ -285,6 +282,30 @@ public class Estate implements Serializable {
         this.yearBuild = yearBuild;
     }
 
+    public EstateStatus getEstateStatusId() {
+        return estateStatusId;
+    }
+
+    public void setEstateStatusId(EstateStatus estateStatusId) {
+        this.estateStatusId = estateStatusId;
+    }
+
+    public EstateType getEstateTypeId() {
+        return estateTypeId;
+    }
+
+    public void setEstateTypeId(EstateType estateTypeId) {
+        this.estateTypeId = estateTypeId;
+    }
+
+    public List<FeatureDetails> getFeatureDetailsList() {
+        return featureDetailsList;
+    }
+
+    public void setFeatureDetailsList(List<FeatureDetails> featureDetailsList) {
+        this.featureDetailsList = featureDetailsList;
+    }
+
     public AssignDetails getAssignDetails() {
         return assignDetails;
     }
@@ -315,30 +336,6 @@ public class Estate implements Serializable {
 
     public void setContractDetails(ContractDetails contractDetails) {
         this.contractDetails = contractDetails;
-    }
-
-    public List<FeatureDetails> getFeatureDetailsList() {
-        return featureDetailsList;
-    }
-
-    public void setFeatureDetailsList(List<FeatureDetails> featureDetailsList) {
-        this.featureDetailsList = featureDetailsList;
-    }
-
-    public EstateType getEstateTypeId() {
-        return estateTypeId;
-    }
-
-    public void setEstateTypeId(EstateType estateTypeId) {
-        this.estateTypeId = estateTypeId;
-    }
-
-    public EstateStatus getEstateStatusId() {
-        return estateStatusId;
-    }
-
-    public void setEstateStatusId(EstateStatus estateStatusId) {
-        this.estateStatusId = estateStatusId;
     }
 
     @Override

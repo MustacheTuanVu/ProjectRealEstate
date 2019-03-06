@@ -45,7 +45,7 @@ public class CustomerDetails extends HttpServlet {
         if (user != null) {
             if (user.getRole().equals("Customer")) {
                 
-                request.setAttribute("list", cusCon.findByIdUser(user));
+                //request.setAttribute("list", cusCon.findByIdUser(user));
                 request.getRequestDispatcher("/page/dashboard/dashboard_profile.jsp").forward(request, response);
             } else {
                 request.getRequestDispatcher("/page/dashboard/dashboard_login.jsp").include(request, response);

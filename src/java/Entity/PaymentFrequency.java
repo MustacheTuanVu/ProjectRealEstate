@@ -22,19 +22,18 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 @Entity
 @Table(name = "payment_frequency")
 @NamedQueries({
     @NamedQuery(name = "PaymentFrequency.findAll", query = "SELECT p FROM PaymentFrequency p")})
 public class PaymentFrequency implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-//    @Basic(optional = false)
-//    @NotNull
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull

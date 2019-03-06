@@ -42,22 +42,6 @@ public class CustomerJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
-    
-    // find id customer from id user
-    public Customer findByIdUser(Users idUser){
-        try{
-
-        EntityManager em=getEntityManager();
-        Query q=em.createQuery("SELECT c FROM Customer c WHERE c.userId = :idUser");
-        q.setParameter("idUser", idUser);
-        
-        return (Customer) q.getSingleResult();
-        }
-        catch(Exception e){
-            return null;
-        }
-    }
 
     public void create(Customer customer) throws PreexistingEntityException, RollbackFailureException, Exception {
         if (customer.getContractList() == null) {
@@ -71,9 +55,8 @@ public class CustomerJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
-            //utx.begin();
+            utx.begin();
             em = getEntityManager();
-            em.getTransaction().begin();
             Users userId = customer.getUserId();
             if (userId != null) {
                 userId = em.getReference(userId.getClass(), userId.getId());
@@ -134,10 +117,10 @@ public class CustomerJpaController implements Serializable {
                     oldCustomerIdOfScheduleListSchedule = em.merge(oldCustomerIdOfScheduleListSchedule);
                 }
             }
-            em.getTransaction().commit();
+            utx.commit();
         } catch (Exception ex) {
             try {
-                em.getTransaction().rollback();
+                utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -155,9 +138,8 @@ public class CustomerJpaController implements Serializable {
     public void edit(Customer customer) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-           
+            utx.begin();
             em = getEntityManager();
-            em.getTransaction().begin();
             Customer persistentCustomer = em.find(Customer.class, customer.getId());
             Users userIdOld = persistentCustomer.getUserId();
             Users userIdNew = customer.getUserId();
@@ -267,10 +249,10 @@ public class CustomerJpaController implements Serializable {
                     }
                 }
             }
-            em.getTransaction().commit();
+            utx.commit();
         } catch (Exception ex) {
             try {
-                em.getTransaction().rollback();
+                utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }

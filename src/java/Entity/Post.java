@@ -23,13 +23,14 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 @Entity
 @Table(name = "post")
 @NamedQueries({
     @NamedQuery(name = "Post.findAll", query = "SELECT p FROM Post p")})
 public class Post implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -56,12 +57,12 @@ public class Post implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "post_image")
     private String postImage;
-    @JoinColumn(name = "employee", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Employee employee;
     @JoinColumn(name = "post_category", referencedColumnName = "category_id")
     @ManyToOne(optional = false)
     private Category postCategory;
+    @JoinColumn(name = "employee", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Employee employee;
 
     public Post() {
     }
@@ -118,20 +119,20 @@ public class Post implements Serializable {
         this.postImage = postImage;
     }
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
     public Category getPostCategory() {
         return postCategory;
     }
 
     public void setPostCategory(Category postCategory) {
         this.postCategory = postCategory;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     @Override

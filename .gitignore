@@ -23,16 +23,5 @@
 hs_err_pid*
 /web/WEB-INF/lib/
 /src/conf/
-<<<<<<< HEAD
 /web/WEB-INF/
 /nbproject/
-=======
-/nbproject/
-/setup/
-/test/
-/src/java/com/ckfinder/connector/data/
-/src/java/com/ckfinder/connector/errors/
-/src/java/com/ckfinder/connector/handlers/command/
-/src/java/com/ckfinder/connector/configuration/
-/src/java/com/ckfinder/connector/
->>>>>>> master

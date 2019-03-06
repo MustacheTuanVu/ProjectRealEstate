@@ -20,7 +20,6 @@ import Entity.Users;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
 import javax.transaction.UserTransaction;
 
 /**
@@ -39,44 +38,12 @@ public class UsersJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
-//     public Object checkLogin(String user,String pass){
-//        EntityManager em=getEntityManager();
-//        Query q=em.createQuery("SELECT u FROM Users u WHERE u.username LIKE :user AND u.password LIKE :pass AND u.status =TRUE");
-//        q.setParameter("user", user);
-//        q.setParameter("pass", pass);
-//        
-//        try {
-//            Object obj=q.getResultList().get(0);
-//            return obj;
-//
-//        } catch (ArrayIndexOutOfBoundsException e) {
-//            return null;
-//        }
-// 
-//    }
-     public Users checkLogin(String user,String pass){
-        EntityManager em=getEntityManager();
-        Query q=em.createQuery("SELECT u FROM Users u WHERE u.username LIKE :user AND u.password LIKE :pass AND u.status =TRUE");
-        q.setParameter("user", user);
-        q.setParameter("pass", pass);
-        
-        try {
-            Users obj=(Users) q.getResultList().get(0);
-            return obj;
-
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return null;
-        }
- 
-    }
 
     public void create(Users users) throws PreexistingEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            //utx.begin();
+            utx.begin();
             em = getEntityManager();
-            em.getTransaction().begin();
             Manager manager = users.getManager();
             if (manager != null) {
                 manager = em.getReference(manager.getClass(), manager.getManagerId());
@@ -120,12 +87,10 @@ public class UsersJpaController implements Serializable {
                 customer.setUserId(users);
                 customer = em.merge(customer);
             }
-           // utx.commit();
-            em.getTransaction().commit();
+            utx.commit();
         } catch (Exception ex) {
             try {
-                //utx.rollback();
-                em.getTransaction().rollback();
+                utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -143,9 +108,8 @@ public class UsersJpaController implements Serializable {
     public void edit(Users users) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-           // utx.begin();
+            utx.begin();
             em = getEntityManager();
-            em.getTransaction().begin();
             Users persistentUsers = em.find(Users.class, users.getId());
             Manager managerOld = persistentUsers.getManager();
             Manager managerNew = users.getManager();
@@ -205,12 +169,10 @@ public class UsersJpaController implements Serializable {
                 customerNew.setUserId(users);
                 customerNew = em.merge(customerNew);
             }
-           // utx.commit();
-            em.getTransaction().commit();
+            utx.commit();
         } catch (Exception ex) {
             try {
-                //utx.rollback();
-                em.getTransaction().rollback();
+                utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -272,12 +234,6 @@ public class UsersJpaController implements Serializable {
         }
     }
 
-    public List<Users> findUserActive(){
-        EntityManager em=getEntityManager();
-        Query q=em.createQuery("SELECT u FROM Users u WHERE u.status = TRUE AND u.role LIKE 'Customer'");
-        
-        return q.getResultList();
-    }
     public List<Users> findUsersEntities() {
         return findUsersEntities(true, -1, -1);
     }

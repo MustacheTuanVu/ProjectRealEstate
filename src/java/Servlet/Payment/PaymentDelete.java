@@ -12,7 +12,6 @@ import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -46,14 +45,13 @@ public class PaymentDelete extends HttpServlet {
         int id = Integer.valueOf(request.getParameter("id"));
         try {
             type.destroy(id);
-            request.setAttribute("message", "Delete Completed !!!");
-            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/PaymentList");
-            dispatcher.forward(request, response);
         } catch (RollbackFailureException ex) {
             Logger.getLogger(PaymentDelete.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(PaymentDelete.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        response.sendRedirect(request.getContextPath() + "/PaymentList");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

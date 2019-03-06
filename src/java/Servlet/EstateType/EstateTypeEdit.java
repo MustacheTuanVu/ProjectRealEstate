@@ -10,6 +10,7 @@ import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.RollbackFailureException;
 import Entity.EstateType;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -40,7 +40,7 @@ public class UserList extends HttpServlet {
         EntityManagerFactory em=(EntityManagerFactory) getServletContext().getAttribute("emf");
         Controller.UsersJpaController userCon= new UsersJpaController(utx, em);
         
-        request.setAttribute("list",userCon.findUserActive());
+        //request.setAttribute("list",userCon.findUserActive());
         request.getRequestDispatcher("/page/dashboard/dashboard_user.jsp").forward(request, response);
         
     }
