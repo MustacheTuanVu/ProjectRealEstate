@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import Entity.Users;
 import Entity.Contract;
 import Entity.Customer;
+import Entity.Employee;
 import java.util.ArrayList;
 import java.util.List;
 import Entity.Transactions;
@@ -369,6 +370,17 @@ public class CustomerJpaController implements Serializable {
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
+        } finally {
+            em.close();
+        }
+    }
+
+    public Customer getCustomerByUserID(int userID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM customer where user_id='" + userID + "'",Customer.class);
+            Customer ret = (Customer) query.getSingleResult();
+            return ret;
         } finally {
             em.close();
         }

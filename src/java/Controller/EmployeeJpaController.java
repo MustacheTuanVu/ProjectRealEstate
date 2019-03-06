@@ -424,4 +424,15 @@ public class EmployeeJpaController implements Serializable {
         }
     }
     
+    public Employee getCustomerByUserID(int userID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM employee where user_id='" + userID + "'",Employee.class);
+            Employee ret = (Employee) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
 }

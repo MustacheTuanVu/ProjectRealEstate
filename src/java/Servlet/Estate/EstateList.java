@@ -44,7 +44,13 @@ public class EstateList extends HttpServlet {
         
         request.setAttribute("estateList", estateList);
         
-        request.getRequestDispatcher("/page/dashboard/dashboard_property.jsp").forward(request, response);
+        String user = request.getParameter("user");
+        
+        if(user.equals("guest")){
+            request.getRequestDispatcher("/page/guest/properties_listing_grid.jsp").forward(request, response);
+        }else{
+            request.getRequestDispatcher("/page/dashboard/dashboard_property.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
