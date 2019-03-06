@@ -7,6 +7,7 @@ package Controller;
 
 import Controller.exceptions.IllegalOrphanException;
 import Controller.exceptions.NonexistentEntityException;
+import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -38,14 +39,14 @@ public class ContractTypeJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(ContractType contractType) throws RollbackFailureException, Exception {
+    public void create(ContractType contractType) throws PreexistingEntityException, RollbackFailureException, Exception {
         if (contractType.getContractList() == null) {
             contractType.setContractList(new ArrayList<Contract>());
         }
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             List<Contract> attachedContractList = new ArrayList<Contract>();
             for (Contract contractListContractToAttach : contractType.getContractList()) {
                 contractListContractToAttach = em.getReference(contractListContractToAttach.getClass(), contractListContractToAttach.getId());
@@ -62,12 +63,15 @@ public class ContractTypeJpaController implements Serializable {
                     oldContractTypeIdOfContractListContract = em.merge(oldContractTypeIdOfContractListContract);
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
+            }
+            if (findContractType(contractType.getId()) != null) {
+                throw new PreexistingEntityException("ContractType " + contractType + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -80,8 +84,8 @@ public class ContractTypeJpaController implements Serializable {
     public void edit(ContractType contractType) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             ContractType persistentContractType = em.find(ContractType.class, contractType.getId());
             List<Contract> contractListOld = persistentContractType.getContractList();
             List<Contract> contractListNew = contractType.getContractList();
@@ -116,10 +120,10 @@ public class ContractTypeJpaController implements Serializable {
                     }
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -141,8 +145,8 @@ public class ContractTypeJpaController implements Serializable {
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             ContractType contractType;
             try {
                 contractType = em.getReference(ContractType.class, id);
@@ -162,10 +166,10 @@ public class ContractTypeJpaController implements Serializable {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(contractType);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -221,6 +225,14 @@ public class ContractTypeJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    public List<ContractType> findContractTypeName(String a) {
+        
+        EntityManager em= getEntityManager();
+        Query q=em.createQuery("SELECT t FROM ContractType t WHERE t.contractTypeName like :typeName");
+        q.setParameter("typeName", a);
+        return q.getResultList();
     }
     
 }

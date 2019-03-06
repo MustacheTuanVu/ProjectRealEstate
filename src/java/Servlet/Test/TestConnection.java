@@ -6,11 +6,8 @@
 package Servlet.Test;
 
 import Controller.CategoryJpaController;
-import Controller.EstateJpaController;
-import Entity.Estate;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

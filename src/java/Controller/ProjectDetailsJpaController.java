@@ -15,6 +15,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Entity.Estate;
+import Entity.Project;
 import Entity.ProjectDetails;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +64,19 @@ public class ProjectDetailsJpaController implements Serializable {
                 estateId = em.getReference(estateId.getClass(), estateId.getId());
                 projectDetails.setEstateId(estateId);
             }
+            Project prjectId = projectDetails.getPrjectId();
+            if (prjectId != null) {
+                prjectId = em.getReference(prjectId.getClass(), prjectId.getProjectId());
+                projectDetails.setPrjectId(prjectId);
+            }
             em.persist(projectDetails);
             if (estateId != null) {
                 estateId.setProjectDetails(projectDetails);
                 estateId = em.merge(estateId);
+            }
+            if (prjectId != null) {
+                prjectId.getProjectDetailsList().add(projectDetails);
+                prjectId = em.merge(prjectId);
             }
             utx.commit();
         } catch (Exception ex) {
@@ -94,6 +104,8 @@ public class ProjectDetailsJpaController implements Serializable {
             ProjectDetails persistentProjectDetails = em.find(ProjectDetails.class, projectDetails.getProjectDetailId());
             Estate estateIdOld = persistentProjectDetails.getEstateId();
             Estate estateIdNew = projectDetails.getEstateId();
+            Project prjectIdOld = persistentProjectDetails.getPrjectId();
+            Project prjectIdNew = projectDetails.getPrjectId();
             List<String> illegalOrphanMessages = null;
             if (estateIdNew != null && !estateIdNew.equals(estateIdOld)) {
                 ProjectDetails oldProjectDetailsOfEstateId = estateIdNew.getProjectDetails();
@@ -111,6 +123,10 @@ public class ProjectDetailsJpaController implements Serializable {
                 estateIdNew = em.getReference(estateIdNew.getClass(), estateIdNew.getId());
                 projectDetails.setEstateId(estateIdNew);
             }
+            if (prjectIdNew != null) {
+                prjectIdNew = em.getReference(prjectIdNew.getClass(), prjectIdNew.getProjectId());
+                projectDetails.setPrjectId(prjectIdNew);
+            }
             projectDetails = em.merge(projectDetails);
             if (estateIdOld != null && !estateIdOld.equals(estateIdNew)) {
                 estateIdOld.setProjectDetails(null);
@@ -119,6 +135,14 @@ public class ProjectDetailsJpaController implements Serializable {
             if (estateIdNew != null && !estateIdNew.equals(estateIdOld)) {
                 estateIdNew.setProjectDetails(projectDetails);
                 estateIdNew = em.merge(estateIdNew);
+            }
+            if (prjectIdOld != null && !prjectIdOld.equals(prjectIdNew)) {
+                prjectIdOld.getProjectDetailsList().remove(projectDetails);
+                prjectIdOld = em.merge(prjectIdOld);
+            }
+            if (prjectIdNew != null && !prjectIdNew.equals(prjectIdOld)) {
+                prjectIdNew.getProjectDetailsList().add(projectDetails);
+                prjectIdNew = em.merge(prjectIdNew);
             }
             utx.commit();
         } catch (Exception ex) {
@@ -158,6 +182,11 @@ public class ProjectDetailsJpaController implements Serializable {
             if (estateId != null) {
                 estateId.setProjectDetails(null);
                 estateId = em.merge(estateId);
+            }
+            Project prjectId = projectDetails.getPrjectId();
+            if (prjectId != null) {
+                prjectId.getProjectDetailsList().remove(projectDetails);
+                prjectId = em.merge(prjectId);
             }
             em.remove(projectDetails);
             utx.commit();

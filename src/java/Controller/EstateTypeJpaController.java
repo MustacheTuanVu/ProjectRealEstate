@@ -237,4 +237,5 @@ public class EstateTypeJpaController implements Serializable {
             em.close();
         }
     }
+    
 }

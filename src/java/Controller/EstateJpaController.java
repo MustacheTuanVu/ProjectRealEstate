@@ -45,6 +45,8 @@ public class EstateJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
+    // function count number Estate indata base
+
     public void create(Estate estate) throws PreexistingEntityException, RollbackFailureException, Exception {
         if (estate.getFeatureDetailsList() == null) {
             estate.setFeatureDetailsList(new ArrayList<FeatureDetails>());
@@ -54,6 +56,10 @@ public class EstateJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
+<<<<<<< HEAD
+=======
+            //utx.begin();
+>>>>>>> master
             em = getEntityManager();
             em.getTransaction().begin();
             EstateStatus estateStatusId = estate.getEstateStatusId();
@@ -147,9 +153,17 @@ public class EstateJpaController implements Serializable {
                     oldEstateIdOfScheduleListSchedule = em.merge(oldEstateIdOfScheduleListSchedule);
                 }
             }
+<<<<<<< HEAD
             em.getTransaction().commit();
         } catch (Exception ex) {
             try {
+=======
+           // utx.commit();
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            try {
+                //utx.rollback();
+>>>>>>> master
                 em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
@@ -168,6 +182,11 @@ public class EstateJpaController implements Serializable {
     public void edit(Estate estate) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
+<<<<<<< HEAD
+=======
+            //utx.begin();
+            
+>>>>>>> master
             em = getEntityManager();
             em.getTransaction().begin();
             Estate persistentEstate = em.find(Estate.class, estate.getId());
@@ -323,9 +342,17 @@ public class EstateJpaController implements Serializable {
                     }
                 }
             }
+<<<<<<< HEAD
             em.getTransaction().commit();
         } catch (Exception ex) {
             try {
+=======
+            //utx.commit();
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            try {
+                //utx.rollback();
+>>>>>>> master
                 em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
@@ -467,16 +494,13 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
-    
-    public List<Estate> getEstateByName(String estateName) {
-        EntityManager em = getEntityManager();
-        try {
-            Query query = em.createNativeQuery("SELECT * FROM estate where estate_name='" + estateName + "'",Estate.class);
-            List<Estate> ret = query.getResultList();
-            return ret;
-        } finally {
-            em.close();
-        }
+
+    public List<Estate> getEstateWaiting() {
+        
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT e FROM Estate e WHERE e.estateStatusId = ?1 ");
+        q.setParameter(1, new EstateStatus(1));
+        return q.getResultList();
     }
     
 }
