@@ -58,8 +58,8 @@
         <header class="header header--brand">
             <%@ include file="/template/header1.jsp" %>
         </header>
-        <%        
-            } else {
+        <%
+        } else {
         %>
         <header class="header header--brand">
             <%@ include file="/template/header.jsp" %>
@@ -101,29 +101,31 @@
                                             <div class="auth__wrap auth__wrap--register">
                                                 <!-- BEGIN AUTH REGISTER-->
                                                 <h5 class="auth__title">Sign up a new account</h5>
-                                                <form action="#" class="form form--flex form--auth js-register-form js-parsley">
+                                                <form onsubmit="return checkPass()" action="RegisterUser" method="post" class="form form--flex form--auth js-register-form js-parsley">
                                                     <div class="row">
-                                                        <div class="form-group form-group--col-6">
-                                                            <label for="register-name-inline" class="control-label">First name</label>
-                                                            <input type="text" name="username" id="register-name-inline" required class="form-control">
-                                                        </div>
-                                                        <div class="form-group form-group--col-6">
-                                                            <label for="register-lastname-inline" class="control-label">Last name</label>
+                                                        <div class="form-group ">
+                                                            <label for="register-lastname-inline" class="control-label">User Name</label>
                                                             <input type="text" name="name" id="register-lastname-inline" required class="form-control">
+
+                                                            <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
+                                                                <div class="parsley-required">${message}</div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="form-group form-group--col-6">
-                                                            <label for="register-email-inline" class="control-label">E-mail</label>
-                                                            <input type="email" name="email" id="register-email-inline" required class="form-control">
+
+                                                        <div class="form-group ">
+                                                            <label for="register-email-inline" class="control-label">Password</label>
+                                                            <input type="password" name="password" id="register-pass-inline" required class="form-control">
+                                                            <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
+                                                                <div name="errPass" class="parsley-required"></div>
+                                                            </div>
                                                         </div>
-                                                        <div class="form-group form-group--col-6">
-                                                            <label for="register-password-inline" class="control-label">Password</label>
-                                                            <input type="password" name="password" id="register-password-inline" required class="form-control">
+                                                        <div class="form-group ">
+                                                            <label for="register-password-inline" class="control-label">Confirm</label>
+                                                            <input type="password" name="confirm" id="register-confirm-inline" required class="form-control">
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="form__options">Back to<a href="user_login.html">Log In</a>
+
+
+                                                        <div class="form__options">Back to<a href="<%=request.getContextPath()%>/LoginUser">Log In</a>
                                                         </div>
                                                         <button type="submit" class="form__submit">Sign up</button>
                                                     </div>
@@ -309,5 +311,34 @@
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
     <!-- END SCRIPTS and INCLUDES-->
+    <script>
+        function checkPass() {
+            var pass = document.getElementById('register-pass-inline').value;
+            var confirm = document.getElementById('register-confirm-inline').value;
+
+            if (pass !== confirm) {
+                document.getElementsByName()('errPass').innerHTML = 'password and confirm do not match';
+            }
+            else {
+                return true;
+            }
+            return false;
+        }
+    </script>
+    <script>
+            function validation(){
+                var user=document.getElementById('txtUser').value;
+                var pass=document.getElementById('txtPass').value;
+                
+                if (user==="") {
+                    document.getElementById('errUser').innerHTML='Enter Username';
+                } if(pass===""){
+                     document.getElementById('errPass').innerHTML='Enter PassWord';
+                }else{
+                    return true;
+                }
+                return false;
+            }
+        </script>
 </body>
 </html>

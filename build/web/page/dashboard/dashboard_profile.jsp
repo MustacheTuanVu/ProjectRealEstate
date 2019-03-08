@@ -85,7 +85,7 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--main">
                                     <div class="widget__content">
-                                        <form method="POST" action="DetailCustomer" class="form form--flex form--profile js-form">
+                                        <form method="POST" action="CustomerDetails" class="form form--flex form--profile js-form">
                                             <header class="form__header">
                                                 <h3 data-rel="#form-block-1" class="form__title js-form-title">My Agency</h3>
                                             </header>

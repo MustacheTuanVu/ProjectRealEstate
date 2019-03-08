@@ -28,6 +28,7 @@
         <!--[if lt IE 11]>
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
         <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
+        <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
     </head>
     <body class="dashboard_property_new menu-default hover-default sidebar-left">
         <!--
@@ -73,152 +74,91 @@
                         <header class="site__header">
                             <h1 class="site__title site__title--center">Dashboard</h1>
                         </header>
+
                         <!-- BEGIN LISTING-->
                         <div class="site site--dashboard">
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Add new Contract Type</h2>
+                                        <h2 class="widget__title">Property Management</h2><a href="<%=request.getContextPath()%>/EstateCreate" class="widget__btn js-widget-btn widget__btn--action">Add new property</a>
                                     </div>
                                     <div class="widget__content">
-                                        <!-- BEGIN Favorites-->
-                                        <section class="form-property form-property--dashboard">
-                                            <!-- Nav tabs-->
-                                            <!--
-                                            <ul role="tablist" class="nav form-property__tabs">
-                                                <li role="presentation" class="active"><a href="#basic" aria-controls="basic" role="tab" data-toggle="tab">Feature</a></li>
-                                            </ul> 
-                                            -->
-                                            <!-- Tab panes-->
-                                            <div class="tab-content form-property__content">
-                                                <div id="basic" role="tabpanel" class="tab-pane active">
-                                                    <form onsubmit="return validation()" action="<%=request.getContextPath()%>/ContractTypeCreate" method="get" class="form form--flex form--property form--basic js-form-property-1">
-                                                        <div class="row">
-                                                            <div class="form-group form-group--description ${hasError}">
-                                                                <label for="in-1" class="control-label">Contract Type Name</label>
-                                                                <input id="in-1" required type="text" name="txtType" data-placeholder="Input Type Name" value="" class="form-control">
-
-                                                                <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
-                                                                    <div class="parsley-required">${message}</div>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <button  class="form__submit" type="submit">Submit</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </section>
-                                    </div>
-                                </div>
-                                <div class="widget js-widget widget--dashboard">
-                                    <div class="widget__header">
-                                        <h2 class="widget__title">Contract Type manager</h2>
-                                    </div>
-                                    <div class="widget__content">
-                                        <!-- BEGIN Favorites-->
-                                        <section class="form-property form-property--dashboard">
-                                            <div class="datatable datatable--properties">
-                                                <div class="datatable__wrap">
-                                                    <table class="js-properties-table datatable__table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="datatable__head-1">Contract Type ID</th>
-                                                                <th class="datatable__head-2 datatable__head-sort">Contract Type Name</th>
-                                                                
-                                                                
-                                                                <th class="datatable__head-5">Delete</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <c:forEach items="${list}" var="item">
-                                                                <tr data-toggle="modal" data-target="#${item.id}">
-                                                                    <td class="datatable__cell-1">${item.id}</td>
-                                                                    <td class="datatable__cell-2">${item.contractTypeName}</td>
-                                                                    
-                                                                    <td class="datatable__cell-5">
-                                                                        <a href="<%=request.getContextPath()%>/ContractTypeDelete?id=${item.id}" class="form__submit">
-                                                                            <span class="glyphicon glyphicon-trash"></span>
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                            <div id="${item.id}" tabindex="-1" role="dialog" class="modal fade">
-                                                                <div role="document" class="modal-dialog">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <form onsubmit="return validation()" action="<%=request.getContextPath()%>/ContractTypeEdit" method="POST" class="form form--flex form--property form--basic js-form-property-1">
-                                                                                <div class="row">
-                                                                                    <div class="form-group form-group--description ${hasError}">
-                                                                                        <label for="in-1" class="control-label">Contract Type ID</label>
-                                                                                        <input id="in-1" required type="text" name="txtID" value="${item.id}" class="form-control" readonly="true">
-                                                                                        <label for="in-2" class="control-label">Contract Type Name</label>
-                                                                                        <input id="in-2" required type="text" name="txtType" data-placeholder="---" value="${item.contractTypeName}" class="form-control">
-
-                                                                                        <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
-                                                                                            <div class="parsley-required">${message}</div>
-
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <button class="form__submit" type="submit">Submit</button>
-                                                                                </div>
-                                                                            </form>
-                                                                        </div>
+                                        <div class="listing listing--grid">
+                                            <c:forEach items="${estateList}" var="estate">
+                                                <div class="listing__item">
+                                                    <div class="properties properties--management">
+                                                        <div class="properties__item-header">
+                                                            <span class="properties__state properties__state--default">${estate.estateStatus}</span>
+                                                            <div class="properties__actions">
+                                                                <button type="button" class="properties__link">Edit</button>
+                                                                <div class="dropdown properties__actions-dropdown">
+                                                                    <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>
+                                                                    <div class="dropdown__menu properties__dropdown-menu">
+                                                                        <button type="button" class="properties__link">Delete</button>
+                                                                        <button type="button" class="properties__link">Change status</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </c:forEach>
-                                                        </tbody>
-                                                    </table>
-                                                    <div id="myModal" tabindex="-1" role="dialog" class="modal fade">
-                                                        <div role="document" class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form onsubmit="return validation()" action="<%=request.getContextPath()%>/ContractTypeEdit" method="POST" class="form form--flex form--property form--basic js-form-property-1">
-                                                                        <div class="row">
-                                                                            <div class="form-group form-group--description ${hasErrorEdit}">
-                                                                                <label for="in-1" class="control-label">Contract Type ID</label>
-                                                                                <input id="in-1" required type="text" name="txtID" value="${id}" class="form-control" readonly="true">
-                                                                                <label for="in-2" class="control-label">Contract Type Name</label>
-                                                                                <input id="in-2" required type="text" name="txtType" data-placeholder="---" value="${featureName}" class="form-control">
-
-                                                                                <div class="help-block filled" id="parsley-id-11" style="display: ${displayEdit}">
-                                                                                    <div class="parsley-required">${messageEdit}</div>
-
-                                                                                </div>
-                                                                            </div>
+                                                        </div>
+                                                        <div class="properties__thumb">
+                                                            <a href="property_details.html" class="item-photo item-photo--static">
+                                                                <img src="${estate.image1st}" alt="">
+                                                                <figure class="item-photo__hover item-photo__hover--params">
+                                                                    <span class="properties__params">Bed Room - ${estate.bedRoom} room</span>
+                                                                    <span class="properties__params">Bath Room - ${estate.bathRoom} room</span>
+                                                                    <span class="properties__params">Garages - ${estate.garages}M<sup>2</sup></span>
+                                                                    <span class="properties__time">Areas - ${estate.areas}M<sup>2</sup></span>
+                                                                    <span class="properties__more">View details</span>
+                                                                </figure>
+                                                            </a>
+                                                            <span class="properties__ribon">For ${estate.estateStatusId.estateStatusName}</span>
+                                                            <span class="properties__ribon properties__ribon--status properties__ribon--done">${estate.estateTypeId.typeName}</span>
+                                                        </div>
+                                                        <!-- end of block .properties__thumb-->
+                                                        <div class="properties__details">
+                                                            <div class="properties__info">
+                                                                <a href="http://localhost:8080/ProjectRealEstate/property_details.html" class="properties__address">
+                                                                    <span class="properties__address-street">${estate.estateName}</span>
+                                                                    <span class="properties__address-city">${estate.address2}</span>
+                                                                </a>
+                                                                <div class="properties__offer">
+                                                                    <div class="properties__offer-column">
+                                                                        <div class="properties__offer-label">Direction</div>
+                                                                        <div class="properties__offer-value">
+                                                                            <strong> ${estate.direction}</strong>
                                                                         </div>
-                                                                        <div class="row">
-                                                                            <button class="form__submit" type="submit">Submit</button>
+                                                                    </div>
+                                                                    <div class="properties__offer-column">
+                                                                        <div class="properties__offer-label">Price</div>
+                                                                        <div class="properties__offer-value"><strong>${estate.price}</strong>
+                                                                            <c:if test = "${estate.estateStatusId.estateStatusName == 'Rent'}">
+                                                                                <span class="properties__offer-period">/month</span>
+                                                                            </c:if>
                                                                         </div>
-                                                                    </form>
+                                                                    </div>
                                                                 </div>
+                                                                <div class="properties__params--mob"><a href="#" class="properties__more">View details</a><span class="properties__params">Built-Up - 165 Sq Ft</span><span class="properties__params">Land Size - 210 Sq Ft</span></div>
                                                             </div>
                                                         </div>
+                                                        <!-- end of block .properties__info-->
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </section>
+                                                    <!-- end of block .properties__item-->
+                                                </div>    
+                                            </c:forEach>
+
+                                        </div>
+                                        <!--
+                                        <div class="widget__footer"><a class="widget__more">Show more properties</a></div>
+                                        -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- END LISTING-->
                         <!-- BEGIN SIDEBAR-->
-
                         <div class="sidebar sidebar--dashboard">
                             <%@ include file="/template/dashboard/sidebar.jsp" %>
                         </div>
-
                         <!-- END SIDEBAR-->
                         <div class="clearfix"></div>
                     </div>
@@ -270,28 +210,6 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demo.js"></script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
-
-    <script type="text/javascript">
-        $(window).on('load', function () {
-            $('#myModal').modal('${modal}');
-        });
-    </script>
-    <script type="text/javascript">
-        function validation() {
-            var typeName = document.getElementById()('in-1').value;
-            if (typeName.length>50) {
-                alert("Password must be at least 6 characters long.");
-                document.getElementById('parsley-id-11').innerHTML = 'Contract type name no more than 50 characters';
-            }
-            else {
-                return true;
-            }
-            return false;
-        }
-
-
-    </script>
-
     <!-- END SCRIPTS and INCLUDES-->
 </body>
 </html>

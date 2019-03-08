@@ -31,11 +31,11 @@
             <table>
                 <tr>
                     <td>Type Contract ID</td>
-                    <td><input type="text" name="txtID" readonly="true" value="${list.id}"/></td>
+                    <td><input type="text" name="txtID" readonly="true" value=""/></td>
                 </tr>
                 <tr>
                     <td>Type Contract Name</td>
-                    <td><input type="text" name="txtType" id="txtType" value="${list.contractTypeName}"/><span id="errType">${err}</span></td>
+                    <td><input type="text" name="txtType" id="txtType" value=""/><span id="errType">${err}</span></td>
                 </tr>
                 <tr>
                     <td></td>

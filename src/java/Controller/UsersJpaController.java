@@ -40,21 +40,14 @@ public class UsersJpaController implements Serializable {
         return emf.createEntityManager();
     }
     
-//     public Object checkLogin(String user,String pass){
-//        EntityManager em=getEntityManager();
-//        Query q=em.createQuery("SELECT u FROM Users u WHERE u.username LIKE :user AND u.password LIKE :pass AND u.status =TRUE");
-//        q.setParameter("user", user);
-//        q.setParameter("pass", pass);
-//        
-//        try {
-//            Object obj=q.getResultList().get(0);
-//            return obj;
-//
-//        } catch (ArrayIndexOutOfBoundsException e) {
-//            return null;
-//        }
-// 
-//    }
+
+    public List<Users> checkUser(String user){
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT u FROM Users u WHERE u.username LIKE :user");
+        q.setParameter("user", user);
+        
+        return q.getResultList();
+    }
      public Users checkLogin(String user,String pass){
         EntityManager em=getEntityManager();
         Query q=em.createQuery("SELECT u FROM Users u WHERE u.username LIKE :user AND u.password LIKE :pass AND u.status =TRUE");

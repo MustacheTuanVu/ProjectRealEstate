@@ -485,4 +485,15 @@ public class EstateJpaController implements Serializable {
         return q.getResultList();
     }
     
+    public List<Estate> getEstateByName(String estateName) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM estate where estate_name='" + estateName + "'",Estate.class);
+            List<Estate> ret = query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
 }

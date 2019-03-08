@@ -39,6 +39,8 @@ public class LoginUser extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
+        HttpSession session=request.getSession();
+        session.invalidate();
         request.getRequestDispatcher("/page/dashboard/dashboard_login.jsp").include(request, response);
     }
 

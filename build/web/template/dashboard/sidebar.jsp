@@ -43,6 +43,20 @@
                 </li>
 
                 <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/EstateListWaiting" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-user-admin"></use>
+                        </svg>List Estate Waiting
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/TransactionList" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-user-admin"></use>
+                        </svg>Estate Waiting Pay
+                    </a>
+                </li>
+                <li class="nav__item">
                     <a href="<%=request.getContextPath()%>/TransactionList" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-user-admin"></use>
