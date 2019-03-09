@@ -105,14 +105,14 @@
                                                     <div class="row">
                                                         <div class="form-group ">
                                                             <label for="register-lastname-inline" class="control-label">User Name</label>
-                                                            <input type="text" name="name" id="register-lastname-inline"  class="form-control">
+                                                            <input type="text" onchange="return checkPass()" name="name" id="register-lastname-inline"  class="form-control">
                                                             <div id="errNameRegister" class="parsley-required">${message}</div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="form-group ">
                                                             <label for="register-pass-inline" class="control-label">Password</label>
-                                                            <input type="password" name="password" id="register-pass-inline" required class="form-control">
+                                                            <input type="password" onchange="return checkPass()" name="password" id="register-pass-inline" required class="form-control">
                                                             <div id="errPassRegister" class="parsley-required"></div>
                                                         </div>
                                                     </div>
@@ -202,6 +202,8 @@
                                                         if (newPass !== confirmPass) {
                                                             document.getElementById('errPassRegister').innerHTML = 'NEW PASSWORD and CONFIRM NEW PASSWORD not ';
                                                         } else
+                                                        document.getElementById('errNameRegister').innerHTML=' ';
+                                                        
                                                             return true;
                                                         return false;
                                                     }
