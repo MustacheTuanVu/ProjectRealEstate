@@ -38,8 +38,6 @@ public class LoginUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        request.getRequestDispatcher("/page/dashboard/dashboard_login.jsp").include(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -84,14 +82,24 @@ public class LoginUser extends HttpServlet {
             System.out.println("sdfsd null");
         } else {
             switch (idUser.getRole()) {
-                case "Admin":
-                    System.out.println("Login Admin");
+                case "employee":
                     session.setAttribute("user", idUser);
-                    response.sendRedirect(request.getContextPath() + "/TransactionList");
+                    session.setAttribute("employeePanel", "employeePanel");
+                    response.sendRedirect(request.getContextPath() + "/index");
                     break;
-                case "Customer":
+                case "manager":
                     session.setAttribute("user", idUser);
-                    response.sendRedirect(request.getContextPath() + "/CustomerDetails");
+                    session.setAttribute("ManagePanel", "ManagePanel");
+                    response.sendRedirect(request.getContextPath() + "/index");
+                    break; 
+                case "director":
+                    session.setAttribute("user", idUser);
+                    session.setAttribute("DirectorPanel", "DirectorPanel");
+                    response.sendRedirect(request.getContextPath() + "/index");
+                    break; 
+                case "customer":
+                    session.setAttribute("user", idUser);
+                    response.sendRedirect(request.getContextPath() + "/index");
                     break;
             }
         }

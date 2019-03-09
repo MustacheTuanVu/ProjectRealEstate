@@ -2953,7 +2953,7 @@ webpackJsonpapp([0],[
 	  var decPlaces = Math.pow(10, 0);
 
 	  // Enumerate number abbreviations
-	  var abbrev = ["k", "m", "b", "t"];
+	  var abbrev = ["k", "M", "B", "t"];
 
 	  // Go through the array backwards, so we do the largest first
 	  for (var i = abbrev.length - 1; i >= 0; i--) {

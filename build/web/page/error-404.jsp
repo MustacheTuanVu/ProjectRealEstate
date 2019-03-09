@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<%@ page isErrorPage="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
@@ -30,7 +30,7 @@
         <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
         <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
     </head>
-    <body class="properties_listing_grid menu-default hover-default">
+    <body class="error_404 menu-default hover-default main--white">
         <!--
         SVG icons from sprite-inline.svg
         They are inlined in order to make them work,
@@ -67,342 +67,30 @@
         </nav>
         <!-- END NAVBAR-->
         <div class="site-wrap js-site-wrap">
-            <!-- BEGIN BREADCRUMBS-->
-            <nav class="breadcrumbs">
-                <div class="container">
-                    <ul>
-                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="http://localhost:8080/ProjectRealEstate/EstateList?user=guest&estateStatus=all&estateType=all" class="breadcrumbs__link">Estate</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">${estateStatus} - ${estateType} List</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <!-- END BREADCRUMBS-->
             <div class="center">
                 <div class="container">
-                    <div class="row">
-                        <!-- BEGIN site-->
-                        <div class="site site--main">
-                            <header class="site__header">
-                                <h1 class="site__title">${estateStatus} - ${estateType} Estate List</h1>
-                                <h5 class="site__headline">Found:<strong> ${size} estate</strong></h5>
-                            </header>
-                            <button type="button" data-goto-target=".js-search-form" class="widget__btn--goto js-goto-btn">Show Filter</button>
-                            <div class="site__panel">
-                                <div class="listing__sort">
+                    <div class="widget js-widget widget--landing">
+                        <div class="widget__content">
+                            <!-- BEGIN SEARCH-->
+                            <form class="form form--search form--error-status">
+                                <div class="row">
                                     <div class="form-group">
-                                        <label for="in-listing-sort" class="control-label">Sort by:</label>
-                                        <div class="form-control--select">
-                                            <select id="in-listing-sort" onchange="changeFunc()" class="form-control js-in-select">
-                                                <option value="price desc">Price Desc</option>
-                                                <option value="price asc">Price Asc</option>
-                                                <option value="date_add desc">Time Desc</option>
-                                                <option value="date_add asc">Time Asc</option>
-                                                <option value="areas desc">Area Desc</option>
-                                                <option value="areas asc">Area Asc</option>
-                                            </select>
-                                        </div>
+                                        <label class="control-label"></label>
+                                        <input type="text" placeholder="Please enter a search query" class="form-control">
+                                        <button class="form__lens"><span class="glyphicon glyphicon-search"></span></button>
                                     </div>
                                 </div>
-                                <!--end of block .listing__sort-->
-                                <div class="listing__view"><span class="control-label">View:</span><a href="properties_listing_grid.html" class="btn--white active"><i class="fa fa-th-large"></i></a><a href="properties_listing_list.html" class="btn--white"><i class="fa fa-bars"></i></a><a href="properties_listing_table.html" class="btn--white"><i class="fa fa-table"></i></a></div>
-                                <!--end of block .listing__view-->
-                            </div>
-                            <div class="listing__param">
-                                <span class="listing__param-item">
-                                    <span class="glyphicon glyphicon-sort"></span>
-                                    Sort: ${sorts}
-                                </span>
-                                <c:if test="${estateStatus !=' '}">
-                                    <span class="listing__param-item">
-                                        <span class="glyphicon glyphicon-filter"></span>
-                                        Status: ${estateStatus}
-                                    </span>
-                                </c:if>
-                                <c:if test="${estateType !=' '}">
-                                    <span class="listing__param-item">
-                                        <span class="glyphicon glyphicon-filter"></span>
-                                        Type: ${estateType}
-                                    </span>
-                                </c:if>
-                                <c:if test="${keywordF !=''}">
-                                    <span class="listing__param-item">
-                                        <span class="glyphicon glyphicon-search"></span>
-                                        Key word: ${keywordF}
-                                    </span>
-                                </c:if>
-                                <c:if test="${DirectionF !='all' && DirectionF !=''}">
-                                    <span class="listing__param-item">
-                                        <span class="glyphicon glyphicon-filter"></span>
-                                        Direction: ${DirectionF}
-                                    </span>
-                                </c:if>
-                                <c:if test="${DistrictF !='all' && DistrictF !=''}">
-                                    <span class="listing__param-item">
-                                        <span class="glyphicon glyphicon-filter"></span>
-                                        District: ${DistrictF}
-                                    </span>
-                                </c:if>
-                                <c:if test="${BuildFrom !='1945' && BuildTo !='2020' && BuildFrom !=''}">
-                                    <span class="listing__param-item">
-                                        <span class="glyphicon glyphicon-filter"></span>
-                                        Build: ${BuildFrom} - ${BuildTo}
-                                    </span>
-                                </c:if>
-                                <c:if test="${BedFrom !='0' || BedTo !='10'}">
-                                    <span class="listing__param-item">
-                                        <span class="glyphicon glyphicon-filter"></span>
-                                        Bed: ${BedFrom} - ${BedTo}
-                                    </span>
-                                </c:if>
-                                <c:if test="${BathFrom !='0' || BathTo !='10'}">
-                                    <span class="listing__param-item">
-                                        <span class="glyphicon glyphicon-filter"></span>
-                                        Bath: ${BathFrom} - ${BathTo}
-                                    </span>
-                                </c:if>
-                                <c:if test="${AreaFrom !='0' || AreaTo !='2000'}">
-                                    <span class="listing__param-item">
-                                        <span class="glyphicon glyphicon-filter"></span>
-                                        Area: ${AreaFrom} - ${AreaTo}
-                                    </span>
-                                </c:if>
-                                <c:if test="${PriceFrom !='0' || PriceTo !='10000000000'}">
-                                    <span class="listing__param-item">
-                                        <span class="glyphicon glyphicon-filter"></span>
-                                        Price: ${PriceFrom} - ${PriceTo}
-                                    </span>
-                                </c:if>
-                                <c:if test="${dateFrom !='2019/01/01' && dateTo !='2020/12/12' && dateTo !='dateFrom'}">
-                                    <span class="listing__param-item">
-                                        <span class="glyphicon glyphicon-filter"></span>
-                                        Date: ${dateFrom} - ${dateTo}
-                                    </span>
-                                </c:if>
-                                <span class="listing__param-item">
-                                    <a href="<%=request.getContextPath()%>/EstateList?user=guest&estateStatus=all&estateType=all" class="button__default button__default--medium button__default--reset ui__button ">Clear All</a>
-                                </span>
-                            </div>
-                            <!--end of block .listing__param-->
-                            <div class="site__main">
-                                <div class="widget js-widget widget--main">
-                                    <div class="widget__content">
-                                        <c:if test="${size==0}">
-                                            <div class="listing__empty">
-                                                <img class="listing__empty-headline" src="http://localhost:8080/ProjectRealEstate/assets/media-demo/productempty.jpeg">
-                                                <h4 class="listing__empty-title">
-                                                    Your search did not return any estate.
-                                                </h4>
-                                                <span class="listing__empty-headline">
-                                                    Please make sure all words are spelled correctly
-                                                    or try different keywords.
-                                                </span>
-                                            </div>
-                                        </c:if>
-                                        <div class="listing listing--grid js-properties-list">
-                                            <c:forEach items="${estateList}" var="estate">
-                                                <div class="listing__item">
-                                                    <div class="properties properties--grid">
-                                                        <div class="properties__thumb">
-                                                            <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" class="item-photo">
-                                                                <img src="${estate.image1st}" alt=""/>
-                                                                <figure class="item-photo__hover item-photo__hover--params">
-                                                                    <span class="properties__params">Bed Room - ${estate.bedRoom} room</span>
-                                                                    <span class="properties__params">Bath Room - ${estate.bathRoom} room</span>
-                                                                    <span class="properties__params">Garages - ${estate.garages}M<sup>2</sup></span>
-                                                                    <!--
-                                                                    <span class="properties__intro">My home is bright and spacious. Very good transport links. Close to the Olympic village, Westfiel...</span>
-                                                                    -->
-                                                                    <span class="properties__time">Areas - ${estate.areas}M<sup>2</sup></span>
-                                                                    <span class="properties__more">View details</span>
-                                                                </figure>
-                                                            </a>
-                                                            <span class="properties__ribon">For ${estate.estateStatusId.estateStatusName}</span>
-                                                            <span class="properties__ribon properties__ribon--status properties__ribon--done">${estate.estateTypeId.typeName}</span>
-                                                        </div>
-                                                        <!-- end of block .properties__thumb-->
-                                                        <div class="properties__details">
-                                                            <div class="properties__info"><a href="property_details.html" class="properties__address">
-                                                                    <span class="properties__address-street">${estate.estateName}</span>
-                                                                    <span class="properties__address-city">${estate.address2}</span></a>
-                                                                <div class="properties__offer">
-                                                                    <div class="properties__offer-column">
-                                                                        <div class="properties__offer-label">Direction</div>
-                                                                        <div class="properties__offer-value">
-                                                                            <strong> ${estate.direction}</strong>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="properties__offer-column">
-                                                                        <div class="properties__offer-label">Price</div>
-                                                                        <div class="properties__offer-value"><strong>${estate.price}</strong>
-                                                                                <c:if test = "${estate.estateStatusId.estateStatusName == 'Rent'}">
-                                                                                <span class="properties__offer-period">/month</span>
-                                                                            </c:if>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="properties__params--mob"><a href="#" class="properties__more">View details</a><span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- end of block .properties__info-->
-                                                    </div>
-                                                    <!-- end of block .properties__item-->
-                                                </div>
-                                            </c:forEach>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--
-                                <div class="widget__footer"><a href="" class="widget__more js-properties-more">More listings</a></div>
-                                -->
-                            </div>
+                            </form>
+                            <!-- END SEARCH-->
                         </div>
-                        <!-- END site-->
-                        <!-- BEGIN SIDEBAR-->
-                        <div class="sidebar">
-                            <div class="widget js-widget widget--sidebar">
-                                <div class="widget__header">
-                                    <h2 class="widget__title">Filter</h2>
-                                    <h5 class="widget__headline">Find your estate or house on the exact key parameters.</h5><a class="widget__btn js-widget-btn widget__btn--toggle">Show filter</a>
-                                </div>
-                                <div class="widget__content">
-                                    <!-- BEGIN SEARCH-->
-                                    <form action="<%=request.getContextPath()%>/EstateList" class="form form--flex form--search js-search-form form--sidebar">
-                                        <div class="row">
-                                            <div class="form-group">
-                                                <label for="in-keyword" class="control-label">Keyword</label>
-                                                <input name="keywordF" type="text" id="in-keyword" placeholder="Text" class="form-control">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="in-keyword" class="control-label">Type</label>
-                                                <select name="estateType" id="in-contract-type" data-placeholder="---" class="form-control">
-                                                    <option value="all">All</option>
-                                                    <c:forEach items="${estateTypeList}" var="item">
-                                                        <option value="${item.id}">${item.typeName}</option>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="in-keyword" class="control-label">Status</label>
-                                                <select name="estateStatus" id="in-contract-type" class="form-control">
-                                                    <option value="all">All</option>
-                                                    <option value="2">Sale</option>
-                                                    <option value="1">Rent</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="in-keyword" class="control-label">Direction</label>
-                                                <select name="DirectionF" id="in-contract-type" data-placeholder="---" class="form-control">
-                                                    <option label=" "></option>
-                                                    <option value="East">East</option>
-                                                    <option value="West">West</option>
-                                                    <option value="South">South</option>
-                                                    <option value="North">North</option>
-                                                    <option value="South">South-East</option>
-                                                    <option value="South">South-West</option>
-                                                    <option value="North-West">North-West</option>
-                                                    <option value="North-West">North-East</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="in-keyword" class="control-label">District</label>
-                                                <select name="DistrictF" id="in-contract-type" data-placeholder="---" class="form-control">
-                                                    <option value="all">all</option>
-                                                    <option value="1">1</option>
-                                                    <option value="West">West</option>
-                                                    <option value="South">South</option>
-                                                    <option value="North">North</option>
-                                                    <option value="South">South-East</option>
-                                                    <option value="South">South-West</option>
-                                                    <option value="North-West">North-West</option>
-                                                    <option value="North-West">North-East</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="form__mode">
-                                                    <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
-                                                </div>
-                                                <label for="range_year" class="control-label">Year Build</label>
-                                                <div class="form__ranges">
-                                                    <input id="range_year" class="js-search-range form__ranges-in">
-                                                </div>
-                                                <div class="form__inputs js-search-inputs">
-                                                    <input name="BuildFrom" type="text" id="in-price-from" placeholder="0" value="1945" data-input-type="from" class="form-control js-field-range">
-                                                    <input name="BuildTo" type="text" id="in-price-to" placeholder="10"  value="2020"  data-input-type="to" class="form-control js-field-range">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="form__mode">
-                                                    <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
-                                                </div>
-                                                <label for="range_bedroom" class="control-label">Bed room</label>
-                                                <div class="form__ranges">
-                                                    <input id="range_bedroom" class="js-search-range form__ranges-in">
-                                                </div>
-                                                <div class="form__inputs js-search-inputs">
-                                                    <input name="BedFrom" type="text" id="in-price-from" placeholder="0"  value="0"  data-input-type="from" class="form-control js-field-range">
-                                                    <input name="BedTo" type="text" id="in-price-to" placeholder="10"  value="10"  data-input-type="to" class="form-control js-field-range">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="form__mode">
-                                                    <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
-                                                </div>
-                                                <label for="range_bathroom" class="control-label">Bath room</label>
-                                                <div class="form__ranges">
-                                                    <input id="range_bathroom" class="js-search-range form__ranges-in">
-                                                </div>
-                                                <div class="form__inputs js-search-inputs">
-                                                    <input name="BathFrom" type="text" id="in-price-from" placeholder="0" value="0" data-input-type="from" class="form-control js-field-range">
-                                                    <input name="BathTo" type="text" id="in-price-to" placeholder="10" value="10" data-input-type="to" class="form-control js-field-range">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="form__mode">
-                                                    <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
-                                                </div>
-                                                <label for="range_area" class="control-label">Area</label>
-                                                <div class="form__ranges">
-                                                    <input id="range_area" class="js-search-range form__ranges-in">
-                                                </div>
-                                                <div class="form__inputs js-search-inputs">
-                                                    <input name="AreaFrom" type="text" id="in-area-from" placeholder="From" value="0" data-input-type="from" class="form-control js-field-range">
-                                                    <input name="AreaTo" type="text" id="in-area-to" placeholder="To" value="2000"  data-input-type="to" class="form-control js-field-range">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="form__mode">
-                                                    <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
-                                                </div>
-                                                <label for="range_price" class="control-label">Price</label>
-                                                <div class="form__ranges">
-                                                    <input id="range_price" class="js-search-range form__ranges-in">
-                                                </div>
-                                                <div class="form__inputs js-search-inputs">
-                                                    <input name="PriceFrom" type="text" id="in-area-from" placeholder="From" value="0" data-input-type="from" class="form-control js-field-range">
-                                                    <input name="PriceTo" type="text" id="in-area-to" placeholder="To" value="10000000000"  data-input-type="to" class="form-control js-field-range">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="in-datetime" class="control-label">Date Range</label>
-                                                <input name="dateRange" type="text" id="in-datetime" data-start-date="01/01/2019" data-end-date="12/12/2020" data-time-picker="true" data-single-picker="false" class="js-datetimerange form-control">
-                                            </div>
-                                            <div class="form-group">
-                                                <input name="user" type="hidden" id="in-keyword" value="guest" class="form-control">
-                                            </div>
-                                            <div class="form__buttons form__buttons--double">
-                                                <button type="button" class="form__reset js-form-reset">Reset</button>
-                                                <input type="submit" value="filter" name="filter" class="form__submit"/>
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <!-- end of block-->
-                                    <!-- END SEARCH-->
-                                </div>
-                            </div>
+                    </div>
+                    <div class="widget js-widget widget--landing widget--sep">
+                        <div class="widget__header">
+                            <h2 class="widget__title">404 Error. Page Not Found.</h2>
+                            <h5 class="widget__headline">We are sorry but the page you are looking for cannot be found on the server. It may be deleted or replaced. You can try search by another term.</h5>
                         </div>
-                        <!-- END SIDEBAR-->
-                        <div class="clearfix"></div>
+                        <div class="widget__content">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -454,13 +142,5 @@
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
     <!-- END SCRIPTS and INCLUDES-->
-    <script type="text/javascript">
-                                                function changeFunc() {
-                                                    var selectBox = document.getElementById("in-listing-sort");
-                                                    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-                                                    window.location = '<%=request.getContextPath()%>/EstateList?user=guest&estateStatus=${estateStatusID}&estateType=${estateTypeID}&sort=' + selectedValue;
-                                                }
-    </script>
-
 </body>
 </html>

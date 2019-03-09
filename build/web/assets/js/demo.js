@@ -647,7 +647,9 @@
     var $rangeArea = $("#range_area");
     var $rangePrice = $("#range_price");
     var $rangeCommision = $("#range_commision");
-    var $rangeRoom = $("#range_room");
+    var $rangeBedRoom = $("#range_bedroom");
+    var $rangeBathRoom = $("#range_bathroom");
+    var $rangeYear = $("#range_year");
     var $rangeUi = $("#range_ui");
 
     if ($rangeArea.length ) {
@@ -658,7 +660,7 @@
         hide_min_max: true,
         hide_from_to: false,
         grid: false,
-        postfix: ' sq ft',
+        postfix: ' m<sup>2<sup>',
         force_edges: true,
         step: 10,
         max_postfix: '+',
@@ -670,14 +672,14 @@
       $rangePrice.ionRangeSlider({
         type: "double",
         min: 0,
-        max: 5000000,
+        max: 10000000000,
         hide_min_max: true,
         hide_from_to: false,
         grid: false,
-        prefix: '$',
+        postfix: ' VND',
         force_edges: true,
-        max_postfix: '+',
-        step: 1000,
+        max_postfix: '',
+        step: 100000000,
         // converts numbers like 4000000 to 4m, remove if you don't like it
         prettify: function (value) {
           return app.utils.abbreviateNumber(value)
@@ -686,8 +688,8 @@
       });
     }
 
-    if ($rangeRoom.length ) {
-      $rangeRoom.ionRangeSlider({
+    if ($rangeBedRoom.length ) {
+      $rangeBedRoom.ionRangeSlider({
         type: "double",
         min: 0,
         max: 10,
@@ -697,6 +699,36 @@
         hide_from_to: false,
         grid: false,
         max_postfix: '+',
+        onFinish: app.rangeInputInteraction
+      });
+    }
+    
+    if ($rangeBathRoom.length ) {
+      $rangeBathRoom.ionRangeSlider({
+        type: "double",
+        min: 0,
+        max: 10,
+        from: 0,
+        to: 10,
+        hide_min_max: true,
+        hide_from_to: false,
+        grid: false,
+        max_postfix: '+',
+        onFinish: app.rangeInputInteraction
+      });
+    }
+    
+    if ($rangeYear.length ) {
+      $rangeYear.ionRangeSlider({
+        type: "double",
+        min: 1945,
+        max: 2019,
+        from: 0,
+        to: 10,
+        hide_min_max: true,
+        hide_from_to: false,
+        grid: false,
+        max_postfix: '',
         onFinish: app.rangeInputInteraction
       });
     }

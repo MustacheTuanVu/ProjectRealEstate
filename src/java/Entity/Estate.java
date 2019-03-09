@@ -36,6 +36,13 @@ import javax.validation.constraints.Size;
 public class Estate implements Serializable {
 
     @Size(max = 50)
+    @Column(name = "district")
+    private String district;
+    @Column(name = "date_add")
+    @Temporal(TemporalType.DATE)
+    private Date dateAdd;
+
+    @Size(max = 50)
     @Column(name = "estate_status")
     private String estateStatus;
 
@@ -369,6 +376,22 @@ public class Estate implements Serializable {
 
     public void setEstateStatus(String estateStatus) {
         this.estateStatus = estateStatus;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public Date getDateAdd() {
+        return dateAdd;
+    }
+
+    public void setDateAdd(Date dateAdd) {
+        this.dateAdd = dateAdd;
     }
     
 }

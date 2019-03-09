@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package User;
+package Servlet;
 
-import Controller.UsersJpaController;
-import Entity.Users;
+import Controller.EstateTypeJpaController;
+import Entity.EstateType;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,8 +23,8 @@ import javax.transaction.UserTransaction;
  *
  * @author kiems
  */
-@WebServlet(name = "LoginUser", urlPatterns = {"/LoginUser"})
-public class LoginUser extends HttpServlet {
+@WebServlet(name = "index", urlPatterns = {"/index"})
+public class index extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,12 +35,49 @@ public class LoginUser extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     UserTransaction utx;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.getRequestDispatcher("/page/dashboard/dashboard_login.jsp").include(request, response);
+        
+        // BEGIN SESSION HEADER FONTEND //
+        HttpSession session = request.getSession();
+        Entity.Users user = (Entity.Users) session.getAttribute("user");
+        if (user != null) {
+            request.setAttribute("user", "user");
+            request.setAttribute("displayLogin", "none");
+            request.setAttribute("displayUser", "block");
+            switch (user.getRole()) {
+                case "employee":
+                    session.setAttribute("name", user.getEmployee().getEmployeeName());
+                    session.setAttribute("image", user.getEmployee().getEmployeeImg());
+                    break;
+                case "manager":
+                    session.setAttribute("name", user.getManager().getManagerName());
+                    session.setAttribute("image", user.getManager().getManagerImg());
+                    break;
+                case "director":
+                    session.setAttribute("name", "Boss");
+                    session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
+                    break;
+                case "customer":
+                    session.setAttribute("name", user.getCustomer().getCustomerName());
+                    session.setAttribute("image", user.getCustomer().getCustomerImg());
+                    break;
+            }
+        } else {
+            request.setAttribute("displayLogin", "block");
+            request.setAttribute("displayUser", "none");
+        }
+        // END SESSION HEADER FONTEND //
+        
+        // BEGIN NAVBAR HEADER FONTEND //
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
+        List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();
+        request.setAttribute("estateTypeList", estateTypeList);
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
+        // END NAVBAR HEADER FONTEND //
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -68,31 +106,7 @@ public class LoginUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        UsersJpaController userCon = new UsersJpaController(utx, em);
-
-        String username = request.getParameter("username");
-        String pass = request.getParameter("password");
-
-        HttpSession session = request.getSession();
-        Users idUser = userCon.checkLogin(username, pass);
-
-        if (idUser == null) {
-            // Login fail*******
-            System.out.println("sdfsd null");
-        } else {
-            switch (idUser.getRole()) {
-                case "employee":
-                    System.out.println("Login Admin");
-                    session.setAttribute("user", idUser);
-                    response.sendRedirect(request.getContextPath() + "/EstateCreate");
-                    break;
-                case "customer":
-                    session.setAttribute("user", idUser);
-                    response.sendRedirect(request.getContextPath());
-                    break;
-            }
-        }
+        processRequest(request, response);
     }
 
     /**

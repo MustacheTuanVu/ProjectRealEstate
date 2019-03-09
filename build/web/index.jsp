@@ -29,7 +29,7 @@
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
         <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
     </head>
-    <body class="user_login menu-default hover-default">
+    <body class="index menu-default hover-default scroll-animation">
         <!--
         SVG icons from sprite-inline.svg
         They are inlined in order to make them work,
@@ -54,22 +54,188 @@
     <!-- endinject -->
     <div class="box js-box">
         <!-- BEGIN HEADER-->
-        <header class="header header--brand">
-            <%@ include file="/template/header.jsp" %>
+        <header class="header header--overlay header--dark">
+            <%@ include file="/template/guest/header.jsp" %>
         </header>
         <!-- END HEADER-->
 
         <!-- BEGIN NAVBAR-->
         <div id="header-nav-offset"></div>
-        <nav id="header-nav" class="navbar navbar--header">
-            <%@ include file="/template/navbar.jsp" %>
+        <nav id="header-nav" class="navbar navbar--header navbar--overlay">
+            <%@ include file="/template/guest/navbar.jsp" %>
         </nav>
         <!-- END NAVBAR-->
         <div class="site-wrap js-site-wrap">
             <!-- BEGIN CENTER SECTION-->
-            <div class="center">
-                <div class="container">
-                    
+            <div class="widget js-widget">
+                <div class="widget__content">
+                    <div class="banner js-banner banner--wide">
+                        <div style="background-image: url(&quot;assets/media-demo/banner/banner-1.jpg&quot;);" class="banner__item">
+                            <div class="map map--index map--banner">
+                                <div class="map__buttons">
+                                    <button type="button" class="map__change-map js-map-btn">Property Map</button>
+                                </div>
+                                <div class="map__wrap">
+                                    <div data-infobox-theme="white" class="map__view js-map-index-canvas"></div>
+                                </div>
+                            </div>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="banner__caption">
+                                        <h1 class="banner__title">The Best Way to Find Your Perfect Home</h1>
+                                        <h3 class="banner__subtitle">With over 700,000 active listings, Realtyspace has the largest inventory of apartments in the United States.</h3><span class="banner__btn">Get started</span>
+                                        <div class="banner__arrow-circle">?</div>
+                                        <svg class="banner__arrow-end js-arrow-end">
+                                        <use xlink:href="#icon-arrow-end"></use>
+                                        </svg>
+                                        <div class="banner__arrow">
+                                            <svg id="banner-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                 viewBox="0 0 774 284" enable-background="new 0 0 774 284" xml:space="preserve">
+                                            <path  fill="none" stroke-width="2" stroke-miterlimit="10" stroke-dasharray="0,2004.009" d="M220.6,239.6
+                                                   c-3.6-15.5-17.5-27.1-34.1-27.1h-150c-19.3,0-35,15.7-35,35c0,19.3,15.7,35,35,35c0,0,88,0,150,0c169,0,244.9-7.5,291-19
+                                                   c41.3-10.2,114.1-33.7,118-83c4.2-53.5-59.4-67.5-102-54c-47.2,15-52.3,78.2,1,90c58.1,12.9,169.6-53.6,274.7-210"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="banner__search">
+                                        <h4 class="banner__sidebar-title">The Best Way to Find Your Perfect Home</h4>
+                                        <!-- BEGIN SEARCH-->
+                                        <form action="<%=request.getContextPath()%>/EstateList" class="form form--flex form--search js-search-form form--banner-sidebar">
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <label for="in-keyword" class="control-label">Keyword</label>
+                                                    <input name="keywordF" type="text" id="in-keyword" placeholder="Text" class="form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="in-keyword" class="control-label">Type</label>
+                                                    <select name="estateType" id="in-contract-type" data-placeholder="---" class="form-control">
+                                                        <option value="all">All</option>
+                                                        <c:forEach items="${estateTypeList}" var="item">
+                                                            <option value="${item.id}">${item.typeName}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="in-keyword" class="control-label">Status</label>
+                                                    <select name="estateStatus" id="in-contract-type" class="form-control">
+                                                        <option value="all">All</option>
+                                                        <option value="2">Sale</option>
+                                                        <option value="1">Rent</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="in-keyword" class="control-label">Direction</label>
+                                                    <select name="DirectionF" id="in-contract-type" data-placeholder="---" class="form-control">
+                                                        <option label=" "></option>
+                                                        <option value="East">East</option>
+                                                        <option value="West">West</option>
+                                                        <option value="South">South</option>
+                                                        <option value="North">North</option>
+                                                        <option value="South">South-East</option>
+                                                        <option value="South">South-West</option>
+                                                        <option value="North-West">North-West</option>
+                                                        <option value="North-West">North-East</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="in-keyword" class="control-label">District</label>
+                                                    <select name="DistrictF" id="in-contract-type" data-placeholder="---" class="form-control">
+                                                        <option value="all">all</option>
+                                                        <option value="1">1</option>
+                                                        <option value="West">West</option>
+                                                        <option value="South">South</option>
+                                                        <option value="North">North</option>
+                                                        <option value="South">South-East</option>
+                                                        <option value="South">South-West</option>
+                                                        <option value="North-West">North-West</option>
+                                                        <option value="North-West">North-East</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form__mode">
+                                                        <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
+                                                    </div>
+                                                    <label for="range_year" class="control-label">Year Build</label>
+                                                    <div class="form__ranges">
+                                                        <input id="range_year" class="js-search-range form__ranges-in">
+                                                    </div>
+                                                    <div class="form__inputs js-search-inputs">
+                                                        <input name="BuildFrom" type="text" id="in-price-from" placeholder="0" value="1945" data-input-type="from" class="form-control js-field-range">
+                                                        <input name="BuildTo" type="text" id="in-price-to" placeholder="10"  value="2020"  data-input-type="to" class="form-control js-field-range">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form__mode">
+                                                        <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
+                                                    </div>
+                                                    <label for="range_bedroom" class="control-label">Bed room</label>
+                                                    <div class="form__ranges">
+                                                        <input id="range_bedroom" class="js-search-range form__ranges-in">
+                                                    </div>
+                                                    <div class="form__inputs js-search-inputs">
+                                                        <input name="BedFrom" type="text" id="in-price-from" placeholder="0"  value="0"  data-input-type="from" class="form-control js-field-range">
+                                                        <input name="BedTo" type="text" id="in-price-to" placeholder="10"  value="10"  data-input-type="to" class="form-control js-field-range">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form__mode">
+                                                        <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
+                                                    </div>
+                                                    <label for="range_bathroom" class="control-label">Bath room</label>
+                                                    <div class="form__ranges">
+                                                        <input id="range_bathroom" class="js-search-range form__ranges-in">
+                                                    </div>
+                                                    <div class="form__inputs js-search-inputs">
+                                                        <input name="BathFrom" type="text" id="in-price-from" placeholder="0" value="0" data-input-type="from" class="form-control js-field-range">
+                                                        <input name="BathTo" type="text" id="in-price-to" placeholder="10" value="10" data-input-type="to" class="form-control js-field-range">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form__mode">
+                                                        <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
+                                                    </div>
+                                                    <label for="range_area" class="control-label">Area</label>
+                                                    <div class="form__ranges">
+                                                        <input id="range_area" class="js-search-range form__ranges-in">
+                                                    </div>
+                                                    <div class="form__inputs js-search-inputs">
+                                                        <input name="AreaFrom" type="text" id="in-area-from" placeholder="From" value="0" data-input-type="from" class="form-control js-field-range">
+                                                        <input name="AreaTo" type="text" id="in-area-to" placeholder="To" value="2000"  data-input-type="to" class="form-control js-field-range">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form__mode">
+                                                        <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
+                                                    </div>
+                                                    <label for="range_price" class="control-label">Price</label>
+                                                    <div class="form__ranges">
+                                                        <input id="range_price" class="js-search-range form__ranges-in">
+                                                    </div>
+                                                    <div class="form__inputs js-search-inputs">
+                                                        <input name="PriceFrom" type="text" id="in-area-from" placeholder="From" value="0" data-input-type="from" class="form-control js-field-range">
+                                                        <input name="PriceTo" type="text" id="in-area-to" placeholder="To" value="10000000000"  data-input-type="to" class="form-control js-field-range">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="in-datetime" class="control-label">Date Range</label>
+                                                    <input name="dateRange" type="text" id="in-datetime" data-start-date="01/01/2019" data-end-date="12/12/2020" data-time-picker="true" data-single-picker="false" class="js-datetimerange form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <input name="user" type="hidden" id="in-keyword" value="guest" class="form-control">
+                                                </div>
+                                                <div class="form__buttons form__buttons--double">
+                                                    <button type="button" class="form__reset js-form-reset">Reset</button>
+                                                    <input type="submit" value="filter" name="filter" class="form__submit"/>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <!-- end of block-->
+                                        <!-- END SEARCH-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- END CENTER SECTION-->
@@ -77,7 +243,7 @@
             <!-- END AFTER CENTER SECTION-->
             <!-- BEGIN FOOTER-->
             <footer class="footer">
-                <%@ include file="/template/footer.jsp" %>
+                <%@ include file="/template/guest/footer.jsp" %>
             </footer>
             <!-- end of block .footer-->
             <!-- END FOOTER-->

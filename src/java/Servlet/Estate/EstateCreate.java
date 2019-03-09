@@ -134,7 +134,7 @@ public class EstateCreate extends HttpServlet {
                         request.setAttribute("message", message);
                         request.setAttribute("hasError", hasError);
                         request.setAttribute("display", display);
-
+                        
                         RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/EstateCreate");
                         dispatcher.forward(request, response);
                     } else {

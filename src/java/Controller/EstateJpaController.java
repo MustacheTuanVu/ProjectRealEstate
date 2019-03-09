@@ -467,16 +467,216 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public List<Estate> getEstateByName(String estateName) {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createNativeQuery("SELECT * FROM estate where estate_name='" + estateName + "'",Estate.class);
+            Query query = em.createNativeQuery("SELECT * FROM estate where estate_name='" + estateName + "'", Estate.class);
             List<Estate> ret = query.getResultList();
             return ret;
         } finally {
             em.close();
         }
     }
-    
+
+    public List<Estate> getEstateByStatusAndType(String statusID, String typeID, String sortConditions, String sortTypes) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = null;
+
+            if (statusID.equals("all")) {
+                query = em.createNativeQuery(
+                        "SELECT * FROM estate where "
+                        + "estate_status_id='1' "
+                        + "OR estate_status_id='2' "
+                        + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+            } else if (typeID.equals("all")) {
+                query = em.createNativeQuery(
+                        "SELECT * FROM estate where "
+                        + "estate_status_id='" + statusID + "' "
+                        + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+            } else {
+                query = em.createNativeQuery(
+                        "SELECT * FROM estate where "
+                        + "estate_status_id='" + statusID + "' "
+                        + "AND estate_type_id='" + typeID + "'"
+                        + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+            }
+            List<Estate> ret = query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Estate> getEstateInSiderBar(
+            String statusID,//
+            String typeID,//
+            String sortConditions,//
+            String sortTypes,
+            String estateName,
+            String direction,
+            String district,
+            String yearBuildFrom,
+            String yearBuildTo,
+            String bedRoomFrom,
+            String bedRoomTo,
+            String bathRoomFrom,
+            String bathRoomTo,
+            String areasFrom,
+            String areasTo,
+            String dateFrom,
+            String dateTo,
+            String PriceFrom,
+            String Priceto) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = null;
+
+            if (statusID.equals("all")) {
+                if (district.equals("all")) {
+                    System.out.println("query 1 run");
+                    query = em.createNativeQuery(
+                            "SELECT * FROM estate where "
+                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            + "estate_type_id = '" + typeID + "' AND " // warning
+                            + "(estate_status_id = '1' OR estate_status_id = '2') AND " // warning
+                            + "direction LIKE '%" + direction + "%' AND "
+                            //+ "district = '"+district+"' AND "
+                            + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                            + "bed_room > '" + bedRoomFrom + "' AND bed_room < '" + bedRoomTo + "' AND "
+                            + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
+                            + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
+                            + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' "
+                            + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+                } else {
+                    System.out.println("query 2 run");
+                    query = em.createNativeQuery(
+                            "SELECT * FROM estate where "
+                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            + "estate_type_id = '" + typeID + "' AND " // warning
+                            + "(estate_status_id = '1' OR estate_status_id = '2') AND " // warning
+                            + "direction LIKE '%" + direction + "%' AND "
+                            + "district = '" + district + "' AND "
+                            + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                            + "bed_room > '" + bedRoomFrom + "' AND bed_room < '" + bedRoomTo + "' AND "
+                            + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
+                            + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
+                            + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' "
+                            + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+                }
+            } else if (typeID.equals("all")) {
+                if (district.equals("all")) {
+                    System.out.println("query 3 run");
+                    query = em.createNativeQuery(
+                            "SELECT * FROM estate where "
+                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            //+ "estate_type_id = '"+typeID+"' AND " // warning
+                            + "estate_status_id = '" + statusID + "' AND " // warning
+                            + "direction LIKE '%" + direction + "%' AND "
+                            //+ "district = '"+district+"' AND "
+                            + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                            + "bed_room > '" + bedRoomFrom + "' AND bed_room < '" + bedRoomTo + "' AND "
+                            + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
+                            + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
+                            + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' "
+                            + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+                } else {
+                    System.out.println("query 4 run");
+                    query = em.createNativeQuery(
+                            "SELECT * FROM estate where "
+                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            //+ "estate_type_id = '" + typeID + "' AND " // warning
+                            + "estate_status_id = '" + statusID + "' AND " // warning
+                            + "direction LIKE '%" + direction + "%' AND "
+                            + "district = '" + district + "' AND "
+                            + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                            + "bed_room > '" + bedRoomFrom + "' AND bed_room < '" + bedRoomTo + "' AND "
+                            + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
+                            + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
+                            + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' "
+                            + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+                }
+            } else {
+                if (district.equals("all")) {
+                    System.out.println("query 5 run");
+                    query = em.createNativeQuery(
+                            "SELECT * FROM estate where "
+                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            + "estate_type_id = '" + typeID + "' AND " // warning
+                            + "estate_status_id = '" + statusID + "' AND " // warning
+                            + "direction LIKE '%" + direction + "%' AND "
+                            //+ "district = '"+district+"' AND "
+                            + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                            + "bed_room > '" + bedRoomFrom + "' AND bed_room < '" + bedRoomTo + "' AND "
+                            + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
+                            + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
+                            + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' "
+                            + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+                } else {
+                    System.out.println("query 6 run");
+                    query = em.createNativeQuery(
+                            "SELECT * FROM estate where "
+                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            + "estate_type_id = '" + typeID + "' AND " // warning
+                            + "estate_status_id = '" + statusID + "' AND " // warning
+                            + "direction LIKE '%" + direction + "%' AND "
+                            + "district = '" + district + "' AND "
+                            + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                            + "bed_room > '" + bedRoomFrom + "' AND bed_room < '" + bedRoomTo + "' AND "
+                            + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
+                            + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
+                            + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' "
+                            + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+                }
+            }
+            /*------------------*/
+            if (statusID.equals("all") && typeID.equals("all")) {
+                if (district.equals("all")) {
+                    System.out.println("query test 1 run");
+                    query = em.createNativeQuery(
+                            "SELECT * FROM estate where "
+                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            //+ "estate_type_id = '" + typeID + "' AND " // warning
+                            + "(estate_status_id = '1' OR estate_status_id = '2') AND " // warning
+                            + "direction LIKE '%" + direction + "%' AND "
+                            //+ "district = '"+district+"' AND "
+                            + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                            + "bed_room > '" + bedRoomFrom + "' AND bed_room < '" + bedRoomTo + "' AND "
+                            + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
+                            + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
+                            + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' "
+                            + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+                } else {
+                    System.out.println("query test 2 run");
+                    query = em.createNativeQuery(
+                            "SELECT * FROM estate where "
+                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            //+ "estate_type_id = '" + typeID + "' AND " // warning
+                            + "(estate_status_id = '1' OR estate_status_id = '2') AND " // warning
+                            + "direction LIKE '%" + direction + "%' AND "
+                            + "district = '" + district + "' AND "
+                            + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                            + "bed_room > '" + bedRoomFrom + "' AND bed_room < '" + bedRoomTo + "' AND "
+                            + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
+                            + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
+                            + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' "
+                            + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+                }
+            }
+            System.out.println("check: "+query);
+            List<Estate> ret = query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
 }
