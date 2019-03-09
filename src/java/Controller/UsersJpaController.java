@@ -6,7 +6,6 @@
 package Controller;
 
 import Controller.exceptions.NonexistentEntityException;
-import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -14,18 +13,17 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Entity.Manager;
-import Entity.Employee;
 import Entity.Customer;
+import Entity.Employee;
 import Entity.Users;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
 import javax.transaction.UserTransaction;
 
 /**
  *
- * @author kiems
+ * @author Cuong
  */
 public class UsersJpaController implements Serializable {
 
@@ -40,15 +38,7 @@ public class UsersJpaController implements Serializable {
         return emf.createEntityManager();
     }
     
-
-    public List<Users> checkUser(String user){
-        EntityManager em=getEntityManager();
-        Query q=em.createQuery("SELECT u FROM Users u WHERE u.username LIKE :user");
-        q.setParameter("user", user);
-        
-        return q.getResultList();
-    }
-     public Users checkLogin(String user,String pass){
+    public Users checkLogin(String user,String pass){
         EntityManager em=getEntityManager();
         Query q=em.createQuery("SELECT u FROM Users u WHERE u.username LIKE :user AND u.password LIKE :pass AND u.status =TRUE");
         q.setParameter("user", user);
@@ -63,11 +53,17 @@ public class UsersJpaController implements Serializable {
         }
  
     }
+    
+    public List<Users> findUserActive(){
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT u FROM Users u WHERE u.status = TRUE AND u.role LIKE 'Customer'");
+        
+        return q.getResultList();
+    }
 
-    public void create(Users users) throws PreexistingEntityException, RollbackFailureException, Exception {
+    public void create(Users users) throws RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            //utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
             Manager manager = users.getManager();
@@ -75,15 +71,15 @@ public class UsersJpaController implements Serializable {
                 manager = em.getReference(manager.getClass(), manager.getManagerId());
                 users.setManager(manager);
             }
-            Employee employee = users.getEmployee();
-            if (employee != null) {
-                employee = em.getReference(employee.getClass(), employee.getId());
-                users.setEmployee(employee);
-            }
             Customer customer = users.getCustomer();
             if (customer != null) {
                 customer = em.getReference(customer.getClass(), customer.getId());
                 users.setCustomer(customer);
+            }
+            Employee employee = users.getEmployee();
+            if (employee != null) {
+                employee = em.getReference(employee.getClass(), employee.getId());
+                users.setEmployee(employee);
             }
             em.persist(users);
             if (manager != null) {
@@ -95,15 +91,6 @@ public class UsersJpaController implements Serializable {
                 manager.setUserId(users);
                 manager = em.merge(manager);
             }
-            if (employee != null) {
-                Users oldUserIdOfEmployee = employee.getUserId();
-                if (oldUserIdOfEmployee != null) {
-                    oldUserIdOfEmployee.setEmployee(null);
-                    oldUserIdOfEmployee = em.merge(oldUserIdOfEmployee);
-                }
-                employee.setUserId(users);
-                employee = em.merge(employee);
-            }
             if (customer != null) {
                 Users oldUserIdOfCustomer = customer.getUserId();
                 if (oldUserIdOfCustomer != null) {
@@ -113,17 +100,21 @@ public class UsersJpaController implements Serializable {
                 customer.setUserId(users);
                 customer = em.merge(customer);
             }
-           // utx.commit();
+            if (employee != null) {
+                Users oldUserIdOfEmployee = employee.getUserId();
+                if (oldUserIdOfEmployee != null) {
+                    oldUserIdOfEmployee.setEmployee(null);
+                    oldUserIdOfEmployee = em.merge(oldUserIdOfEmployee);
+                }
+                employee.setUserId(users);
+                employee = em.merge(employee);
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                //utx.rollback();
                 em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            if (findUsers(users.getId()) != null) {
-                throw new PreexistingEntityException("Users " + users + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -136,27 +127,26 @@ public class UsersJpaController implements Serializable {
     public void edit(Users users) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-           // utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
             Users persistentUsers = em.find(Users.class, users.getId());
             Manager managerOld = persistentUsers.getManager();
             Manager managerNew = users.getManager();
-            Employee employeeOld = persistentUsers.getEmployee();
-            Employee employeeNew = users.getEmployee();
             Customer customerOld = persistentUsers.getCustomer();
             Customer customerNew = users.getCustomer();
+            Employee employeeOld = persistentUsers.getEmployee();
+            Employee employeeNew = users.getEmployee();
             if (managerNew != null) {
                 managerNew = em.getReference(managerNew.getClass(), managerNew.getManagerId());
                 users.setManager(managerNew);
             }
-            if (employeeNew != null) {
-                employeeNew = em.getReference(employeeNew.getClass(), employeeNew.getId());
-                users.setEmployee(employeeNew);
-            }
             if (customerNew != null) {
                 customerNew = em.getReference(customerNew.getClass(), customerNew.getId());
                 users.setCustomer(customerNew);
+            }
+            if (employeeNew != null) {
+                employeeNew = em.getReference(employeeNew.getClass(), employeeNew.getId());
+                users.setEmployee(employeeNew);
             }
             users = em.merge(users);
             if (managerOld != null && !managerOld.equals(managerNew)) {
@@ -172,19 +162,6 @@ public class UsersJpaController implements Serializable {
                 managerNew.setUserId(users);
                 managerNew = em.merge(managerNew);
             }
-            if (employeeOld != null && !employeeOld.equals(employeeNew)) {
-                employeeOld.setUserId(null);
-                employeeOld = em.merge(employeeOld);
-            }
-            if (employeeNew != null && !employeeNew.equals(employeeOld)) {
-                Users oldUserIdOfEmployee = employeeNew.getUserId();
-                if (oldUserIdOfEmployee != null) {
-                    oldUserIdOfEmployee.setEmployee(null);
-                    oldUserIdOfEmployee = em.merge(oldUserIdOfEmployee);
-                }
-                employeeNew.setUserId(users);
-                employeeNew = em.merge(employeeNew);
-            }
             if (customerOld != null && !customerOld.equals(customerNew)) {
                 customerOld.setUserId(null);
                 customerOld = em.merge(customerOld);
@@ -198,11 +175,22 @@ public class UsersJpaController implements Serializable {
                 customerNew.setUserId(users);
                 customerNew = em.merge(customerNew);
             }
-           // utx.commit();
+            if (employeeOld != null && !employeeOld.equals(employeeNew)) {
+                employeeOld.setUserId(null);
+                employeeOld = em.merge(employeeOld);
+            }
+            if (employeeNew != null && !employeeNew.equals(employeeOld)) {
+                Users oldUserIdOfEmployee = employeeNew.getUserId();
+                if (oldUserIdOfEmployee != null) {
+                    oldUserIdOfEmployee.setEmployee(null);
+                    oldUserIdOfEmployee = em.merge(oldUserIdOfEmployee);
+                }
+                employeeNew.setUserId(users);
+                employeeNew = em.merge(employeeNew);
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                //utx.rollback();
                 em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
@@ -225,8 +213,8 @@ public class UsersJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Users users;
             try {
                 users = em.getReference(Users.class, id);
@@ -239,21 +227,21 @@ public class UsersJpaController implements Serializable {
                 manager.setUserId(null);
                 manager = em.merge(manager);
             }
-            Employee employee = users.getEmployee();
-            if (employee != null) {
-                employee.setUserId(null);
-                employee = em.merge(employee);
-            }
             Customer customer = users.getCustomer();
             if (customer != null) {
                 customer.setUserId(null);
                 customer = em.merge(customer);
             }
+            Employee employee = users.getEmployee();
+            if (employee != null) {
+                employee.setUserId(null);
+                employee = em.merge(employee);
+            }
             em.remove(users);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -265,12 +253,6 @@ public class UsersJpaController implements Serializable {
         }
     }
 
-    public List<Users> findUserActive(){
-        EntityManager em=getEntityManager();
-        Query q=em.createQuery("SELECT u FROM Users u WHERE u.status = TRUE AND u.role LIKE 'Customer'");
-        
-        return q.getResultList();
-    }
     public List<Users> findUsersEntities() {
         return findUsersEntities(true, -1, -1);
     }

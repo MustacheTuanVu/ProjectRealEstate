@@ -43,6 +43,20 @@
                 </li>
 
                 <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/ProjectList" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-user-admin"></use>
+                        </svg>List Project
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/CreateProject" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-user-admin"></use>
+                        </svg>Create Project
+                    </a>
+                </li>
+                <li class="nav__item">
                     <a href="<%=request.getContextPath()%>/EstateListWaiting" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-user-admin"></use>

@@ -79,44 +79,44 @@ public class RegisterUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        //processRequest(request, response);
         EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
         Controller.UsersJpaController userCon = new UsersJpaController(utx, em);
         Entity.Users user = new Users();
 
         String a =request.getParameter("name");
         
-
         String message = "";
         String hasError = "";
         String display = "none";
         
-        if (userCon.checkUser(a).size() > 0) {
-            message = "UserName exits !";
-            hasError = "has-error";
-            display = "block";
-            request.setAttribute("message", message);
-            request.setAttribute("hasError", hasError);
-            request.setAttribute("display", display);
-
-            request.getRequestDispatcher("/page/dashboard/dashboard_register.jsp").forward(request, response);
-        }
-        else{
-            try {
-
-                user.setUsername(request.getParameter("name"));
-                user.setPassword(request.getParameter("password"));
-                user.setStatus(true);
-                user.setRole("Customer");
-                
-                userCon.create(user);
-                System.out.println("Register completed");
-            } catch (RollbackFailureException ex) {
-                Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+//        if (userCon.checkUser(a).size() > 0) {
+//            message = "UserName exits !!!";
+//            hasError = "has-error";
+//            display = "block";
+//            request.setAttribute("message", message);
+//            request.setAttribute("hasError", hasError);
+//            request.setAttribute("display", display);
+//
+//            request.getRequestDispatcher("/page/dashboard/dashboard_register.jsp").forward(request, response);
+//        }
+//        else{
+//            try {
+//
+//                user.setUsername(request.getParameter("name"));
+//                user.setPassword(request.getParameter("password"));
+//                user.setStatus(true);
+//                user.setRole("Customer");
+//                
+//                userCon.create(user);
+//                //request.getRequestDispatcher("/page/dashboard/dashboard_login.jsp").forward(request, response);
+//                response.sendRedirect(request.getContextPath()+"/LoginUser");
+//                System.out.println("Register completed");
+//            } catch (RollbackFailureException ex) {
+//                Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (Exception ex) {
+//                Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
 
     }
 

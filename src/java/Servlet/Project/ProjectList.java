@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet.User;
+package Servlet.Project;
 
-import Controller.UsersJpaController;
-import Controller.exceptions.RollbackFailureException;
-import Entity.Users;
+import Controller.ManagerJpaController;
+import Controller.ProjectJpaController;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,8 +21,8 @@ import javax.transaction.UserTransaction;
  *
  * @author Cuong
  */
-@WebServlet(name = "EditUser", urlPatterns = {"/EditUser"})
-public class Edit_User_Servlet extends HttpServlet {
+@WebServlet(name = "ProjectList", urlPatterns = {"/ProjectList"})
+public class ProjectList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,22 +33,18 @@ public class Edit_User_Servlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    String action=null;
-    String id = null;
     UserTransaction utx;
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        Controller.UsersJpaController user = new UsersJpaController(utx, em);
-
-        action = request.getParameter("action");
-        id = request.getParameter("id");
-
-        request.setAttribute("u", user.findUsers(Integer.valueOf(id)));
-        request.getRequestDispatcher("WEB-INF/user/edit_user.jsp").forward(request, response);
+        EntityManagerFactory em= (EntityManagerFactory) getServletContext().getAttribute("emf");
+        
+        Controller.ProjectJpaController proCon= new ProjectJpaController(utx, em);
+        Controller.ManagerJpaController manaCon= new ManagerJpaController(utx, em);
+        
+        request.setAttribute("listPro", proCon.findProjectEntities());
+        request.setAttribute("listMana", manaCon.findManagerEntities());
+        request.getRequestDispatcher("/page/dashboard/dashboard_project.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -80,35 +73,7 @@ public class Edit_User_Servlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
-        
-        System.out.println("doPost "+id);
-        EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
-                Controller.UsersJpaController userCon = new UsersJpaController(utx, em);
-                Entity.Users user = new Users();
-        
-        if (!request.getParameter("txtOldPass").equals((userCon.findUsers(Integer.valueOf(id))).getPassword())) {
-                System.out.println("Old password is not correct");
-            }
-            else {
-                
-                try {
-
-                    user.setId(Integer.valueOf(id));
-                    user.setUsername(request.getParameter("txtUser"));
-                    user.setPassword(request.getParameter("txtNewPass"));
-                    user.setStatus(true);
-                    user.setRole(("Customer"));
-                    userCon.edit(user);
-                    
-                    
-                    System.out.println("Edit Completed");
-                } catch (RollbackFailureException ex) {
-                    Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+        processRequest(request, response);
     }
 
     /**

@@ -101,33 +101,31 @@
                                             <div class="auth__wrap auth__wrap--register">
                                                 <!-- BEGIN AUTH REGISTER-->
                                                 <h5 class="auth__title">Sign up a new account</h5>
-                                                <form onsubmit="return checkPass()" action="RegisterUser" method="post" class="form form--flex form--auth js-register-form js-parsley">
+                                                <form  action="RegisterUser" method="post" onsubmit="return checkPass()" class="form form--flex form--auth js-register-form js-parsley">
                                                     <div class="row">
                                                         <div class="form-group ">
                                                             <label for="register-lastname-inline" class="control-label">User Name</label>
-                                                            <input type="text" name="name" id="register-lastname-inline" required class="form-control">
-
-                                                            <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
-                                                                <div class="parsley-required">${message}</div>
-                                                            </div>
+                                                            <input type="text" name="name" id="register-lastname-inline"  class="form-control">
+                                                            <div id="errNameRegister" class="parsley-required">${message}</div>
                                                         </div>
-
+                                                    </div>
+                                                    <div class="row">
                                                         <div class="form-group ">
-                                                            <label for="register-email-inline" class="control-label">Password</label>
+                                                            <label for="register-pass-inline" class="control-label">Password</label>
                                                             <input type="password" name="password" id="register-pass-inline" required class="form-control">
-                                                            <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
-                                                                <div name="errPass" class="parsley-required"></div>
-                                                            </div>
+                                                            <div id="errPassRegister" class="parsley-required"></div>
                                                         </div>
+                                                    </div>
+                                                    <div class="row">
                                                         <div class="form-group ">
-                                                            <label for="register-password-inline" class="control-label">Confirm</label>
+                                                            <label for="register-confirm-inline" class="control-label">Confirm</label>
                                                             <input type="password" name="confirm" id="register-confirm-inline" required class="form-control">
                                                         </div>
-
-
                                                         <div class="form__options">Back to<a href="<%=request.getContextPath()%>/LoginUser">Log In</a>
                                                         </div>
-                                                        <button type="submit" class="form__submit">Sign up</button>
+                                                        <div class="form-group">
+                                                            <input type="submit" value="Sign up" class="form__submit"/>
+                                                        </div>
                                                     </div>
                                                 </form>
                                                 <!-- end of block .auth__form-->
@@ -146,130 +144,7 @@
             <!-- END AFTER CENTER SECTION-->
             <!-- BEGIN FOOTER-->
             <footer class="footer">
-                <div class="container">
-                    <div class="footer__wrap">
-                        <div class="footer__col footer__col--first">
-                            <div class="widget js-widget widget--footer">
-                                <div class="widget__header">
-                                    <h2 class="widget__title">Menu</h2>
-                                </div>
-                                <div class="widget__content">
-                                    <nav class="nav nav--footer"><a href="index.html">Home</a><a href="properties_listing_grid.html">Realty</a><a href="agents_listing_grid.html">Agents</a><a href="gallery.html">Gallery</a><a href="blog.html">Blog</a><a href="pricing.html">Pricing</a><a href="contacts.html">Contacts</a><a href="feature_ui.html">UI</a></nav>
-                                    <!-- end of block .nav-footer-->
-                                </div>
-                            </div>
-                            <div class="widget js-widget widget--footer">
-                                <div class="widget__header">
-                                    <h2 class="widget__title">About</h2>
-                                </div>
-                                <div class="widget__content">
-                                    <aside class="widget_text">
-                                        <div class="textwidget">
-                                            RealtySpace is the leader in online real estate and operator of the WK of real estate web site for consumers and real estate professionals. Real Estate of websites captures more than 20 million monthly visitors
-                                            <p>RealtySpace is the leader in online real estate and operator of the WK of real</p>
-                                            <p><a>Read more</a></p>
-                                        </div>
-
-                                    </aside>
-                                </div>
-                            </div>
-                            <div class="widget js-widget widget--footer">
-                                <div class="widget__header">
-                                    <h2 class="widget__title">Social</h2>
-                                </div>
-                                <div class="widget__content">
-                                    <div class="social social--footer"><a href="#" class="social__item"><i class="fa fa-facebook"></i></a><a href="#" class="social__item"><i class="fa fa-twitter"></i></a><a href="#" class="social__item"><i class="fa fa-google-plus"></i></a></div>
-                                    <!-- end of block .social-footer-->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end of block .footer__col-first-->
-                        <div class="footer__col footer__col--second">
-                            <div class="widget js-widget widget--footer">
-                                <div class="widget__header">
-                                    <h2 class="widget__title">Contact</h2>
-                                </div>
-                                <div class="widget__content">
-                                    <section class="address address--footer">
-                                        <h4 class="address__headline">Our office</h4>
-                                        <address class="address__main"><span>1950 New York, NY, Ave NW, California, DC 3000600, USA</span><span>08 - 17 mon-fr</span><a href="tel:+442240052225">+1 202 555 0135</a><a href="tel:+442240052225">+1 202 555 0135</a><span>Fax: +1 202 555 0135</span><a href="mailto:hello@example.com">hello@example.com</a></address>
-                                    </section>
-                                    <!-- end of block .address-->
-                                </div>
-                            </div>
-                            <div class="widget js-widget widget--footer">
-                                <div class="widget__header">
-                                    <h2 class="widget__title">Feedback</h2>
-                                </div>
-                                <div class="widget__content">
-                                    <!-- BEGIN SECTION FEEDBACK-->
-                                    <form action="#" class="form form--flex form--footer js-parsley">
-                                        <div class="row">
-                                            <div class="form-group">
-                                                <label for="in-email" class="sr-only control-label">E-mail</label>
-                                                <input id="in-email" type="email" name="email" placeholder="E-mail" required data-parsley-trigger="change" class="form-control">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="in-message" class="sr-only control-label">Message for Us</label>
-                                                <textarea id="in-message" name="message" placeholder="Message for Us" required data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 20 caracters long comment.." class="form-control"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <button type="submit" class="form__submit">Send</button>
-                                        </div>
-                                    </form>
-                                    <!-- end of block .form__wrap-->
-                                    <!-- END SECTION FEEDBACK-->
-                                </div>
-                            </div>
-                        </div>
-                        <!--end of block .footer__col-second-->
-                        <div class="footer__col footer__col--third">
-                            <div class="widget js-widget widget--footer">
-                                <div class="widget__header">
-                                    <h2 class="widget__title">Latest Articles</h2>
-                                </div>
-                                <div class="widget__content">
-                                    <div class="listing listing--footer">
-                                        <div class="listing__item">
-                                            <!-- BEGIN SECTION ARTICLE-->
-                                            <div class="article article--footer">
-                                                <div class="article__details"><a href="blog_details.html" class="article__item-title">Sustainable architecture &amp; design.</a>
-                                                    <time datetime="2009-08-29" class="article__time">Mon - 3 Sep - 3:17 PM</time>
-                                                </div>
-                                                <!-- end of block .article-->
-                                            </div>
-                                            <!-- END SECTION ARTICLE-->
-                                        </div>
-                                        <div class="listing__item">
-                                            <!-- BEGIN SECTION ARTICLE-->
-                                            <div class="article article--footer">
-                                                <div class="article__details"><a href="blog_details.html" class="article__item-title">You’ve been approved for a rental home.</a>
-                                                    <time datetime="2009-08-29" class="article__time">Mon - 3 Sep - 3:17 PM</time>
-                                                </div>
-                                                <!-- end of block .article-->
-                                            </div>
-                                            <!-- END SECTION ARTICLE-->
-                                        </div>
-                                        <div class="listing__item">
-                                            <!-- BEGIN SECTION ARTICLE-->
-                                            <div class="article article--footer">
-                                                <div class="article__details"><a href="blog_details.html" class="article__item-title">The Block Glasshouse winners.</a>
-                                                    <time datetime="2009-08-29" class="article__time">Mon - 3 Sep - 3:17 PM</time>
-                                                </div>
-                                                <!-- end of block .article-->
-                                            </div>
-                                            <!-- END SECTION ARTICLE-->
-                                        </div>
-                                    </div><a href="blog.html" class="widget__more"> More articles</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end of block .footer__col-third-->
-                        <div class="clearfix"></div><span class="footer__copyright">&copy; 2016 RealtySpace. All rights reserved</span>
-                        <!-- end of block .footer__copyright-->
-                    </div>
-                </div>
+                <%@ include file="/template/footer.jsp" %>
             </footer>
             <!-- end of block .footer-->
             <!-- END FOOTER-->
@@ -311,34 +186,25 @@
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
     <!-- END SCRIPTS and INCLUDES-->
-    <script>
-        function checkPass() {
-            var pass = document.getElementById('register-pass-inline').value;
-            var confirm = document.getElementById('register-confirm-inline').value;
+    <script type="text/javascript">
+                                                    function checkPass()
+                                                    {
+                                                        var newPass = document.getElementById('register-pass-inline').value;
+                                                        var confirmPass = document.getElementById('register-confirm-inline').value;
+                                                        var username = document.getElementById('register-lastname-inline').value;
 
-            if (pass !== confirm) {
-                document.getElementsByName()('errPass').innerHTML = 'password and confirm do not match';
-            }
-            else {
-                return true;
-            }
-            return false;
-        }
+                                                        if (username.length > 50) {
+                                                            document.getElementById('errNameRegister').innerHTML = 'Username cannot be longer than 50 characters ';
+                                                        } else
+                                                        if (newPass.length > 50) {
+                                                            document.getElementById('errPassRegister').innerHTML = 'Username cannot be longer than 50 characters ';
+                                                        } else
+                                                        if (newPass !== confirmPass) {
+                                                            document.getElementById('errPassRegister').innerHTML = 'NEW PASSWORD and CONFIRM NEW PASSWORD not ';
+                                                        } else
+                                                            return true;
+                                                        return false;
+                                                    }
     </script>
-    <script>
-            function validation(){
-                var user=document.getElementById('txtUser').value;
-                var pass=document.getElementById('txtPass').value;
-                
-                if (user==="") {
-                    document.getElementById('errUser').innerHTML='Enter Username';
-                } if(pass===""){
-                     document.getElementById('errPass').innerHTML='Enter PassWord';
-                }else{
-                    return true;
-                }
-                return false;
-            }
-        </script>
 </body>
 </html>

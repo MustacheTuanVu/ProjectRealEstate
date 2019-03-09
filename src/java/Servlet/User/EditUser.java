@@ -6,8 +6,12 @@
 package Servlet.User;
 
 import Controller.UsersJpaController;
+import Controller.exceptions.RollbackFailureException;
 import Entity.Users;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +25,8 @@ import javax.transaction.UserTransaction;
  *
  * @author Cuong
  */
-@WebServlet(name = "LoginUser", urlPatterns = {"/LoginUser"})
-public class LoginUser extends HttpServlet {
+@WebServlet(name = "EditUser", urlPatterns = {"/EditUser"})
+public class EditUser extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,15 +37,22 @@ public class LoginUser extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    String action = null;
+    String id = null;
     UserTransaction utx;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        HttpSession session=request.getSession();
-        session.invalidate();
-        request.getRequestDispatcher("/page/dashboard/dashboard_login.jsp").include(request, response);
+//        EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
+//        Controller.UsersJpaController user = new UsersJpaController(utx, em);
+//
+//        action = request.getParameter("action");
+//        id = request.getParameter("id");
+//
+//        request.setAttribute("u", user.findUsers(Integer.valueOf(id)));
+//        request.getRequestDispatcher("WEB-INF/user/edit_user.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -70,33 +81,38 @@ public class LoginUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
+//        processRequest(request, response);
 
+        HttpSession session = request.getSession();
+        Users user = (Users) session.getAttribute("user");
+        System.out.println("User ID " + user.getId());
         EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
         Controller.UsersJpaController userCon = new UsersJpaController(utx, em);
 
-        String username = request.getParameter("username");
-        String pass = request.getParameter("password");
-
-        HttpSession session = request.getSession();
-        Users idUser = userCon.checkLogin(username, pass);
-
-        if (idUser == null) {
-            request.setAttribute("message", "Login Fail !!!");
+        String newpass=request.getParameter("txtOldPass");
+        System.out.println("txtPass "+ newpass);
+        System.out.println("old Pass "+user.getPassword());
+        String oldPass=(user.getPassword());
+        
+        if (!newpass.equals(oldPass)) {
+            request.setAttribute("message", "Old Password Incorrect !!!");
             request.setAttribute("display", "block");
-            request.getRequestDispatcher("/page/dashboard/dashboard_login.jsp").forward(request, response);
-            System.out.println("sdfsd null");
+            request.getRequestDispatcher("/page/dashboard/dashboard_profile.jsp").forward(request, response);
         } else {
-            switch (idUser.getRole()) {
-                case "Admin":
-                    System.out.println("Login Admin");
-                    session.setAttribute("user", idUser);
-                    response.sendRedirect(request.getContextPath() + "/TransactionList");
-                    break;
-                case "Customer":
-                    session.setAttribute("user", idUser);
-                    response.sendRedirect(request.getContextPath() + "/CustomerDetails");
-                    break;
+            try {
+
+                //user.setId(Integer.valueOf(id));
+                //user.setUsername(request.getParameter("txtUser"));
+                user.setPassword(request.getParameter("txtNewPass"));
+                user.setStatus(true);
+                user.setRole(("Customer"));
+                userCon.edit(user);
+
+                System.out.println("Edit Completed");
+            } catch (RollbackFailureException ex) {
+                Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
