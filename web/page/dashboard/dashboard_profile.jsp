@@ -82,9 +82,21 @@
     <!-- endinject -->
     <div class="box js-box">
         <!-- BEGIN HEADER-->
+        <%
+            if (session.getAttribute("user") == null) {
+        %>
+        <header class="header header--brand">
+            <%@ include file="/template/header1.jsp" %>
+        </header>
+        <%        
+            } else {
+        %>
         <header class="header header--brand">
             <%@ include file="/template/header.jsp" %>
         </header>
+        <%
+            }
+        %>
         <!-- END HEADER-->
         <!-- BEGIN NAVBAR-->
         <div id="header-nav-offset"></div>

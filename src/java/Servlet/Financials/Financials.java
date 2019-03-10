@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet.Project;
+package Servlet.Financials;
 
-import Controller.ManagerJpaController;
-import Controller.ProjectJpaController;
+import Controller.EstateJpaController;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.persistence.EntityManagerFactory;
@@ -15,15 +14,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.transaction.UserTransaction;
 
 /**
  *
  * @author Cuong
  */
-@WebServlet(name = "ProjectList", urlPatterns = {"/ProjectList"})
-public class ProjectList extends HttpServlet {
+@WebServlet(name = "Financials", urlPatterns = {"/Financials"})
+public class Financials extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,32 +31,31 @@ public class ProjectList extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    UserTransaction utx;
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        HttpSession session = request.getSession();
-        Entity.Users users = (Entity.Users) session.getAttribute("user");
-        if (users != null) {
-
-            if (users.getRole().equals("Admin")) {
-
-                EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
-
-                Controller.ProjectJpaController proCon = new ProjectJpaController(utx, em);
-                Controller.ManagerJpaController manaCon = new ManagerJpaController(utx, em);
-
-                request.setAttribute("listPro", proCon.findProjectByStatus());
-                request.setAttribute("listMana", manaCon.findManagerEntities());
-                request.getRequestDispatcher("/page/dashboard/dashboard_project.jsp").forward(request, response);
-            } else {
-                response.sendRedirect(request.getContextPath() + "/LoginUser");
-            }
-        } else {
-            response.sendRedirect(request.getContextPath() + "/LoginUser");
-        }
+        EntityManagerFactory emf=(EntityManagerFactory) getServletContext().getAttribute("emf");
+        
+        Controller.EstateJpaController estCon= new EstateJpaController(null, emf);
+        
+        
+        // count total Money
+        request.setAttribute("countMoney", estCon.countMoney().toString());
+        // count total Transaction
+        request.setAttribute("countTransaction", estCon.countTransaction().toString());
+        // count total Contract
+        request.setAttribute("countContract", estCon.countContract().toString());
+        // count total Customer
+        request.setAttribute("countCustomer", estCon.countCustomer().toString());
+        // count total Employee
+        request.setAttribute("countEmployee", estCon.countEmployee().toString());
+        // count total estate sold
+        request.setAttribute("countEstateSold", estCon.countEstateSold().toString());
+        // count total estate
+        request.setAttribute("countEstate", estCon.countEstate().toString());
+        request.getRequestDispatcher("/page/dashboard/dashboard_financials.jsp").forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

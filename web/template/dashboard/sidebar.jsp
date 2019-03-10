@@ -42,6 +42,14 @@
                     <a class="nav__link text-center" style="color: red !important;">----- CƯỜNG -----</a>
                 </li>
 
+                
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/Financials" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-user-admin"></use>
+                        </svg>Financials
+                    </a>
+                </li>
                 <li class="nav__item">
                     <a href="<%=request.getContextPath()%>/ProjectList" class="nav__link">
                         <svg class="nav__icon">

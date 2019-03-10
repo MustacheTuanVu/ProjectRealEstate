@@ -163,7 +163,7 @@
                                                     <form action="<%=request.getContextPath()%>/CreateProject" method="POST" class="form form--flex form--property form--basic js-form-property-1">
                                                         <div class="row">
                                                             <div class="form-group form-group--description">
-                                                                <label for="in-1" class="control-label">Project Name </label>
+                                                                <label for="in-1" class="control-label">Project Name <span style="color: red">(*)</span> </label>
                                                                 <input id="in-1" required type="text" name="projectName" data-placeholder="---" class="form-control">
                                                             </div>
                                                             
@@ -173,7 +173,7 @@
                                                                 <input id="in-6" type="text" name="addressProject" required class="form-control">
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="in-2" class="control-label">Block Number</label>
+                                                                <label for="in-2" class="control-label">Block Number <span style="color: red">(*)</span></label>
                                                                 <select id="in-15" required name="blockNumber" data-placeholder="---" class="form-control">
 
                                                                  
@@ -191,11 +191,11 @@
                                                                 </select>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="in-3" class="control-label">Project Area</label>
+                                                                <label for="in-3" class="control-label">Project Area <span style="color: red">(*)</span></label>
                                                                 <input id="in-3" type="number" name="projectArea" placeholder=""  class="form-control">
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="in-4" class="control-label">Manager Name </label>
+                                                                <label for="in-4" class="control-label">Manager Name <span style="color: red">(*)</span></label>
                                                                 <select id="in-4" required name="manager" data-placeholder="---" class="form-control">
                                                                     <c:forEach items="${list}" var="list">
                                                                         <option value="${list.managerId}" selected="true">${list.managerName}</option>
@@ -542,76 +542,7 @@
                         <!-- END LISTING-->
                         <!-- BEGIN SIDEBAR-->
                         <div class="sidebar sidebar--dashboard">
-                            <div class="widget js-widget widget--sidebar-dashboard widget--collapsing">
-                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Dashboard</a>
-                                </div>
-                                <div class="widget__content">
-                                    <nav class="nav nav--sidebar">
-                                        <ul class="nav__list">
-                                            <li class="nav__item"><a href="dashboard.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-dashboard"></use>
-                                                    </svg>Dashboard</a></li>
-                                            <li class="nav__item"><a href="dashboard_property_new.html" class="nav__link active">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-add-listing"></use>
-                                                    </svg>Add Listing</a></li>
-                                            <li class="nav__item">
-                                                <hr class="nav__separator">
-                                            </li>
-                                            <li class="nav__item"><a href="dashboard_news.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-news"></use>
-                                                    </svg>News Feed</a></li>
-                                            <li class="nav__item"><a href="dashboard_profile.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-user-admin"></use>
-                                                    </svg>Profile</a></li>
-                                            <li class="nav__item"><a href="dashboard_activity.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-clock"></use>
-                                                    </svg>Activity Log</a></li>
-                                            <li class="nav__item">
-                                                <hr class="nav__separator">
-                                            </li>
-                                            <li class="nav__item"><a href="dashboard_favorites_listings.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-favorite-listings"></use>
-                                                    </svg>Favorite Listings</a></li>
-                                            <li class="nav__item"><a href="dashboard_favorites_agents.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-favorite-agents"></use>
-                                                    </svg>Favorite Agents</a></li>
-                                            <li class="nav__item"><a href="dashboard_favorites_search.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-favorite-search"></use>
-                                                    </svg>Favorite search</a></li>
-                                            <li class="nav__item">
-                                                <hr class="nav__separator">
-                                            </li>
-                                            <li class="nav__item"><a href="dashboard_financials.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-financials"></use>
-                                                    </svg>Financials</a></li>
-                                            <li class="nav__item"><a href="dashboard_statistics.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-statistics"></use>
-                                                    </svg>Statistics</a></li>
-                                            <li class="nav__item">
-                                                <hr class="nav__separator">
-                                            </li>
-                                            <li class="nav__item"><a href="dashboard_property.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-property-edit"></use>
-                                                    </svg>Property management</a></li>
-                                            <li class="nav__item"><a href="dashboard_blog.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-blog-edit"></use>
-                                                    </svg>Blog Management</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+                            <%@ include file="/template/dashboard/sidebar.jsp" %>
                         </div>
                         <!-- END SIDEBAR-->
                         <div class="clearfix"></div>

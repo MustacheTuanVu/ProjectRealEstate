@@ -495,5 +495,72 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
+
+    //Count total estate
+    public Object countEstate() {
+        
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT COUNT(e) FROM Estate e WHERE e.estateStatusId = ?1 OR e.estateStatusId = ?2");
+        q.setParameter(1, new EstateStatus(1));
+        q.setParameter(2, new EstateStatus(2));
+
+        return q.getSingleResult();
+    }
+    //Count total estate sold
+    public Object countEstateSold() {
+        
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT COUNT(e) FROM Estate e WHERE e.estateStatusId = ?4");
+        q.setParameter(4, new EstateStatus(4));
+
+        return q.getSingleResult();
+    }
+    //Count total Employee
+    public Object countEmployee() {
+        
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT COUNT(e.id) FROM Employee e,Users u WHERE e.userId = u AND u.status = True");
+        
+
+        return q.getSingleResult();
+    }
+    //Count total Customer
+    public Object countCustomer() {
+        
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT COUNT(e.id) FROM Customer e,Users u WHERE e.userId = u AND u.status = True");
+        
+
+        return q.getSingleResult();
+    }
+    //count contract
+    public Object countContract() {
+        
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT COUNT(c) FROM Contract c WHERE c.status LIKE 'Public' ");
+        
+
+        return q.getSingleResult();
+    }
+    //count Transaction
+    public Object countTransaction() {
+        
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT COUNT(c) FROM Transactions c  ");
+        
+
+        return q.getSingleResult();
+    }
+    //count payment to cus tomer
+    public Object countMoney() {
+        
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT SUM(c.money) FROM Transactions c  ");
+        
+
+        return q.getSingleResult();
+    }
+
+    
     
 }

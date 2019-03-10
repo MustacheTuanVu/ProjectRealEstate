@@ -3,27 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet.Project;
+package Servlet.Estate;
 
-import Controller.ManagerJpaController;
-import Controller.ProjectJpaController;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.transaction.UserTransaction;
 
 /**
  *
  * @author Cuong
  */
-@WebServlet(name = "ProjectList", urlPatterns = {"/ProjectList"})
-public class ProjectList extends HttpServlet {
+@WebServlet(name = "test", urlPatterns = {"/test"})
+public class test extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,31 +29,20 @@ public class ProjectList extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    UserTransaction utx;
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        HttpSession session = request.getSession();
-        Entity.Users users = (Entity.Users) session.getAttribute("user");
-        if (users != null) {
-
-            if (users.getRole().equals("Admin")) {
-
-                EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
-
-                Controller.ProjectJpaController proCon = new ProjectJpaController(utx, em);
-                Controller.ManagerJpaController manaCon = new ManagerJpaController(utx, em);
-
-                request.setAttribute("listPro", proCon.findProjectByStatus());
-                request.setAttribute("listMana", manaCon.findManagerEntities());
-                request.getRequestDispatcher("/page/dashboard/dashboard_project.jsp").forward(request, response);
-            } else {
-                response.sendRedirect(request.getContextPath() + "/LoginUser");
-            }
-        } else {
-            response.sendRedirect(request.getContextPath() + "/LoginUser");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet test</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet test at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

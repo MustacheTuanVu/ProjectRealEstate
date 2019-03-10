@@ -192,78 +192,30 @@
                                                                                     </div>
                                                                                     <div class="form-group form-group--description">
                                                                                         <label for="in-1" class="control-label">Project Name </label>
-                                                                                        <input id="in-1" required type="text" value="${item.projectName}" name="projectName" data-placeholder="---" class="form-control">
+                                                                                        <input id="in-1" readonly="true" type="text" value="${item.projectName}" name="projectName" data-placeholder="---" class="form-control">
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <label for="in-6" class="control-label">Project Address</label>
-                                                                                        <input id="in-6" type="text" value="${item.projectAddress}" name="addressProject" required class="form-control">
+                                                                                        <input id="in-6" readonly="true" type="text" value="${item.projectAddress}" name="addressProject" required class="form-control">
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <label for="in-2" class="control-label">Block Number</label>
-                                                                                        <select id="in-15" required name="blockNumber" data-placeholder="---" class="form-control">
-
-
-                                                                                            <option value="1" >1</option>
-                                                                                            <option value="2" >2</option>
-                                                                                            <option value="3" >3</option>
-                                                                                            <option value="4" >4</option>
-                                                                                            <option value="5" >5</option>
-                                                                                            <option value="6" >6</option>
-                                                                                            <option value="7" >7</option>
-                                                                                            <option value="8" >8</option>
-                                                                                            <option value="9" >9</option>
-                                                                                            <option value="10" >10</option>
-
-                                                                                        </select>
+                                                                                        <input id="in-6" readonly="true" type="number" value="${item.blockNumber}" name="addressProject" required class="form-control">
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <label for="in-3" class="control-label">Project Area</label>
-                                                                                        <input id="in-3" value="${item.projectArea}" type="number" name="projectArea" placeholder=""  class="form-control">
+                                                                                        <input id="in-3" readonly="true" value="${item.projectArea}" type="number" name="projectArea" placeholder=""  class="form-control">
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <label for="in-4" class="control-label">Manager Name </label>
-                                                                                        <select id="in-4" required name="manager" data-placeholder="---" class="form-control">
-                                                                                            <c:forEach items="${listMana}" var="list">
-                                                                                                <option value="${list.managerId}" >${list.managerName}</option>
-                                                                                            </c:forEach>
-                                                                                        </select>
+                                                                                        <input id="in-3" readonly="true" value="${item.managerId.managerName}" type="text" name="projectArea" placeholder=""  class="form-control">
                                                                                     </div>
-                                                                                    <div class="form-group form-group--description">
-                                                                                        <label for="in-5" class="control-label">Image 1</label>
-                                                                                        <input id="image1st" style="display: none"  name="image1st" type="text" size="60" class="form-control"/>
-                                                                                        <img src="${item.image1st}" height="30" width="30" />
-                                                                                        <input type="button" class="form__submit" value="Browse Server" onclick="BrowseServer1();" />
+                                                                                    <div class="row">
+                                                                                        <a onclick="return confirm('Are You Sure Public Project !!!')" href="<%=request.getContextPath()%>/ProjectUpdateStatus?action=Public&id=${item.projectId}" class="form__submit" type="submit">Accept</a>
+                                                                                        <a onclick="return confirm('Are You Sure Trash Project !!!')" href="<%=request.getContextPath()%>/ProjectUpdateStatus?action=Trash&id=${item.projectId}" class="form__submit" type="submit">Trash</a>
                                                                                     </div>
-                                                                                    <div class="form-group form-group--description">
-                                                                                        <label for="in-6" class="control-label">Image 2</label>
-                                                                                        
-                                                                                        <input id="image2st" style="display: none" name="image2st" type="text" size="60" class="form-control"/>
-                                                                                        <img src="${item.image2st}" height="30" width="30" />
-                                                                                        <input type="button" class="form__submit" value="Browse Server" onclick="BrowseServer2();" />
-                                                                                    </div>
-                                                                                    <div class="form-group form-group--description">
-                                                                                        <label for="in-7" class="control-label">Image 3</label>
-                                                                                        <input id="image3st" style="display: none" name="image3st" type="text" size="60" class="form-control"/>
-                                                                                        <img src="${item.image3st}" height="30" width="30" />
-                                                                                        <input type="button" class="form__submit" value="Browse Server" onclick="BrowseServer3();" />
-                                                                                    </div>
-                                                                                    <div class="form-group form-group--description">
-                                                                                        <label for="in-8" class="control-label">Image 4</label>
-                                                                                        <input id="image4st" style="display: none" name="image4st" type="text" size="60" class="form-control"/>
-                                                                                        <img src="${item.image4st}" height="30" width="30" />
-                                                                                        <input type="button" class="form__submit" value="Browse Server" onclick="BrowseServer4();" />
-                                                                                    </div>
-                                                                                    <div class="form-group form-group--description">
-                                                                                        <label for="in-9" class="control-label">Image 5</label>
-                                                                                        <input id="image5st" style="display: none" name="image5st" type="text" size="60" class="form-control"/>
-                                                                                            <img src="${item.image5st}" height="30" width="30" />
-                                                                                        <input type="button" class="form__submit" value="Browse Server" onclick="BrowseServer5();" />
-                                                                                    </div>
+                                                                                </div>
 
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <button type="submit" class="form__submit">Save</button>
-                                                                                </div>
 
                                                                             </form>
                                                                         </div>
@@ -369,9 +321,9 @@
     <!-- endinject -->
 
     <script type="text/javascript">
-                                                                    $(window).on('load', function () {
-                                                                        $('#myModal').modal('${modal}');
-                                                                    });
+            $(window).on('load', function () {
+                $('#myModal').modal('${modal}');
+            });
     </script>
 
     <script type="text/javascript">

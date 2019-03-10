@@ -9,6 +9,7 @@ import Controller.exceptions.IllegalOrphanException;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
+import Entity.EstateStatus;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -254,6 +255,12 @@ public class ProjectJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    public List<Project> findProjectByStatus() {
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT p FROM Project p WHERE p.projectStatus LIKE 'Waiting for Director' ");
+        return q.getResultList();
     }
     
 }

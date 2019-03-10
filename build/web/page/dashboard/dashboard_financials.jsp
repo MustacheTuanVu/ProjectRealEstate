@@ -27,7 +27,7 @@
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
         <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
     </head>
-    <body class="my_profile menu-default hover-default compact my_profile">
+    <body class="dashboard_financials menu-default hover-default sidebar-left">
         <!--
         SVG icons from sprite-inline.svg
         They are inlined in order to make them work,
@@ -52,9 +52,21 @@
     <!-- endinject -->
     <div class="box js-box">
         <!-- BEGIN HEADER-->
+        <%
+            if (session.getAttribute("user") == null) {
+        %>
+        <header class="header header--brand">
+            <%@ include file="/template/header1.jsp" %>
+        </header>
+        <%
+        } else {
+        %>
         <header class="header header--brand">
             <%@ include file="/template/header.jsp" %>
         </header>
+        <%
+            }
+        %>
         <!-- END HEADER-->
         <!-- BEGIN NAVBAR-->
         <div id="header-nav-offset"></div>
@@ -63,200 +75,125 @@
         </nav>
         <!-- END NAVBAR-->
         <div class="site-wrap js-site-wrap">
-            <!-- BEGIN BREADCRUMBS-->
-            <nav class="breadcrumbs">
-                <div class="container">
-                    <ul>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">My profile</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <!-- END BREADCRUMBS-->
+            <!-- BEGIN CENTER SECTION-->
             <div class="center">
                 <div class="container">
                     <div class="row">
-                        <div class="site site--main">
-                            <header class="site__header">
-                                <h1 class="site__title">My profile</h1>
-                                <h2 class="site__headline">Add and edit listing information</h2>
-                            </header>
-                            <div class="site__panel"><span class="site__header-text">Flexible configuration and editing forms, add and edit listing information, photos and location of the position</span></div>
+                        <header class="site__header">
+                            <h1 class="site__title site__title--center">Dashboard</h1>
+                        </header>
+                        <!-- BEGIN LISTING-->
+                        <div class="site site--dashboard">
                             <div class="site__main">
-                                <div class="widget js-widget widget--main">
+                                <div class="widget js-widget widget--dashboard">
+                                    <div class="widget__header">
+                                        <h2 class="widget__title">Credit</h2>
+                                    </div>
                                     <div class="widget__content">
-                                        <form method="POST" action="CustomerDetails" class="form form--flex form--profile js-form">
-                                            <header class="form__header">
-                                                <h3 data-rel="#form-block-1" class="form__title js-form-title">My Agency</h3>
-                                            </header>
-                                            <div id="form-block-1" class="form__block js-form-block">
-                                                <div class="form__check form__check--agent">
-                                                    <input type="checkbox" name="agent" id="in-agent" class="in-checkbox">
-                                                    <label for="in-agent" class="in-label">I am an agent</label>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="form-group">
-                                                        <label for="in-1" class="control-label">ID</label>
-                                                        <input id="in-1" value="${list.id}" readonly="true" name="txtID" data-placeholder="---" value="Lara Group Agency" class="form-control">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="in-2" class="control-label">Your Name</label>
-                                                        <input id="in-2" value="${list.customerName}" required name="txtName" data-placeholder="---" value="Lara Group Agency" class="form-control">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="in-3" class="control-label">Indentity Card</label>
-                                                        <input id="in-3" value="${list.customerIndentityCard}" required name="txtCard" data-placeholder="---" value="Lara Group Agency" class="form-control">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="in-4" class="control-label">Address</label>
-                                                        <input id="in-4" value="${list.customerAddress}" required name="txtAddress" data-placeholder="---" value="Lara Group Agency" class="form-control">
-                                                        <!-- end of block .form-property__control-->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <header class="form__header">
-                                                <h3 data-rel="#form-block-2" class="form__title js-form-title">Contact</h3>
-                                            </header>
-                                            <div id="form-block-2" class="form__block js-form-block">
-                                                <div class="row">
-                                                    <div class="form-group">
-                                                        <label for="in-11" class="control-label">Phone</label>
-                                                        <input id="in-11" name="txtPhone" value="${list.phone}" type="text" required value="adam.svenson@realtyspace.com" class="form-control">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="in-12" class="control-label">Email</label>
-                                                        <input id="in-12" name="txtMail" value="${list.mail}" type="email" placeholder="" required value="adam.svenson@realtyspace.com" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <header class="form__header">
-                                                <h3 data-rel="#form-block-3" class="form__title js-form-title">About me</h3>
-                                            </header>
-                                            <div id="form-block-3" class="form__block js-form-block">
-                                                <div class="row">
-                                                    <div class="form-group form-group--description">
-                                                        <label for="in-13" class="control-label">Description</label>
-                                                        <textarea id="in-13" name="txtContent" required data-parsley-trigger="keyup" data-parsley-minlength="200" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 200 caracters long comment.." class="form-control form-control--description">${list.customerContent}</textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <button class="form__submit">Save changes</button>
-                                            </div>
-                                        </form>
-                                        <hr>
-                                        <form method="POST" onsubmit="return checkPass()" action="EditUser" class="form form--flex js-form">
-                                            <header class="form__header">
-                                                <h3 data-rel="#form-block-5" class="form__title js-form-title">Change your password</h3>
-                                            </header>
-                                            <div id="form-block-5" class="form__block js-form-block">
-                                                <div class="row">
-                                                    <div class="col-sm-12 col-md-6 col-lg-4">
-                                                        <div class="row">
-                                                            <div class="form-group">
-                                                                <label for="in-14" class="control-label">Current Password</label>
-                                                                <input id="in-14" type="password" required name="txtOldPass" data-placeholder="---" value="" class="form-control">
-                                                                <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
-                                                                    <div class="parsley-required">${message}</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="form-group">
-                                                                <label for="in-15" class="control-label">New Password</label>
-                                                                <input id="in-15" type="password" required name="txtNewPass" data-placeholder="---" value="" class="form-control">
-                                                                <div id="errPass" class="parsley-required"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="form-group">
-                                                                <label for="in-16" class="control-label">Confirm New Password</label>
-                                                                <input id="in-16" type="password" required name="txtConfirm" data-placeholder="---" value="" class="form-control">
-                                                            </div>
+                                        <section class="info info--financials">
+                                            <div class="info__list">
+                                                <div class="info__column">
+                                                    <div class="info__item">
+                                                        <div class="info__title">Available Credits</div>
+                                                        <div class="info__value info__value--succes"><span class="info__value-label">RM</span> 1,800</div>
+                                                        <div class="info__actions"><a href="dashboard_payment.html" class="info__more">Add credits</a>
+                                                            <button class="info__link">Top-up history</button>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-12 col-md-6 col-lg-8">
-                                                        <h5>HINT</h5>
-                                                        <p>Password hint. A reminder to you of how you made up your password. Some systems let you enter a password hint so that if you forget your password, the hint will be displayed to help jog your memory. For example, if your password is your child's birthday, you might use "Alfred" or "Nicole" as a reminder.</p>
+                                                </div>
+                                                <div class="info__column">
+                                                    <div class="info__item">
+                                                        <div class="info__title">Income</div>
+                                                        <div class="info__value info__value--small"><span class="info__value-label">RM</span> 17,505</div>
+                                                    </div>
+                                                    <div class="info__item">
+                                                        <div class="info__title">Expenses</div>
+                                                        <div class="info__value info__value--small"><span class="info__value-label">RM</span> 15,330</div>
+                                                    </div>
+                                                </div>
+                                                <div class="info__column">
+                                                    <div class="info__item">
+                                                        <div class="info__title">Current Balance</div>
+                                                        <div class="info__value info__value--info"><span class="info__value-label">RM</span> 2,175 <i class="fa fa-arrow-up info__value--positive"></i></div>
+                                                        <div class="info__chart info__chart--balance">
+                                                            <canvas id="current-balance" class="info__chart-balance"></canvas>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <input type="submit" value="Save password" class="form__submit"/>
+                                        </section>
+                                    </div>
+                                </div>
+                                <div class="widget js-widget widget--dashboard">
+                                    <div class="widget__header">
+                                        <h2 class="widget__title">Commission</h2>
+                                    </div>
+                                    <div class="widget__content">
+                                        <section class="info info--commission">
+                                            <h5 class="info__group-name">Estate</h5>
+                                            <div class="info__list">
+                                                <div class="info__column">
+                                                    <div class="info__item">
+                                                        <div class="info__title">Total Estate</div>
+                                                        <div class="info__value info__value--small"><span class="info__value-label">RM</span> ${countEstate}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="info__column">
+                                                    <div class="info__item">
+                                                        <div class="info__title">Estate Sold</div>
+                                                        <div class="info__value info__value--small"><span class="info__value-label">RM</span> ${countEstateSold}</div>
+                                                    </div>
+                                                </div>
+                                                
                                             </div>
-                                        </form>
+                                            <h5 class="info__group-name">Pay</h5>
+                                            <div class="info__list">
+                                                <div class="info__column">
+                                                    <div class="info__item">
+                                                        <div class="info__title">Contract</div>
+                                                        <div class="info__value info__value--small"><span class="info__value-label">RM</span> ${countContract}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="info__column">
+                                                    <div class="info__item">
+                                                        <div class="info__title">Transaction</div>
+                                                        <div class="info__value info__value--small"><span class="info__value-label">RM</span> ${countTransaction}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="info__column">
+                                                    <div class="info__item">
+                                                        <div class="info__title">Payment to Customer</div>
+                                                        <div class="info__value info__value--small"><span class="info__value-label">RM</span>${countMoney} </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h5 class="info__group-name">User</h5>
+                                            <div class="info__list">
+                                                <div class="info__column">
+                                                    <div class="info__item">
+                                                        <div class="info__title">Employee</div>
+                                                        <div class="info__value info__value--small"><span class="info__value-label">RM</span> ${countEmployee}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="info__column">
+                                                    <div class="info__item">
+                                                        <div class="info__title">Customer</div>
+                                                        <div class="info__value info__value--small"><span class="info__value-label">RM</span> ${countCustomer}</div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </section>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="sidebar">
-                            <div class="widget js-widget widget--sidebar widget--first-no-head">
-                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Show profile</a>
-                                </div>
-                                <div class="widget__content">
-                                    <!-- BEGIN WORKER PROFILE-->
-                                    <div class="worker sidebar-advanced">
-                                        <h3 class="worker__name">Jenniffer Hartnet</h3>
-                                        <div class="worker__photo">
-
-                                            <div class="worker__avatar">
-                                                <img src="${list.customerImg}"  alt="Your Avatar" height="203" width="231.22" />
-
-                                            </div>
-                                            <input id="xFilePath" type="hidden"  name="txtImg">
-                                            <input type="button" class="worker__avatar-upload" value="Upload your profile picture" onclick="BrowseServer();" />
-                                        </div>
-                                        <nav class="worker__nav">
-                                            <ul>
-                                                <li><a href="my_listings.html">My Estate</a></li>
-                                                <li><a href="my_profile.html">My Profile</a></li>
-                                                <li><a href="my_profile.html">My Contract</a></li>
-                                            </ul>
-                                        </nav>
-                                        <!-- end of block .worker__nav-->
-                                    </div>
-                                    <!-- end of block .worker__item-->
-                                    <!-- END WORKER PROFILE-->
-                                </div>
-                            </div>
-                            <div class="widget js-widget widget--sidebar widget--dark">
-                                <div class="widget__header">
-                                    <h2 class="widget__title">Our agents</h2>
-                                    <h5 class="widget__headline">Find your apartment or house on the exact key parameters.</h5><a class="widget__btn js-widget-btn widget__btn--toggle">Show worker</a>
-                                </div>
-                                <div class="widget__content">
-                                    <div class="listing listing--sidebar">
-                                        <div class="listing__item">
-                                            <div data-sr="enter bottom move 80px, scale(0), over 0s" data-animate-end="animate-end" class="worker js-unhide-block vcard worker--sidebar">
-                                                <div class="worker__photo"><a href="agent_profile.html" class="item-photo item-photo--static"><img src="assets/media-demo/workers/worker-1.jpg" alt="Christopher Pakulla" class="photo"/>
-                                                        <figure class="item-photo__hover"><span class="item-photo__more">View</span></figure></a></div>
-                                                <h3 class="worker__name fn">Christopher Pakulla</h3>
-                                                <div class="worker__post">Realtor, West USA Realty</div><a href="tel:+44(0)2035102390" class="worker__tel uri">+44 (0) 20 3510 2390</a>
-                                            </div>
-                                            <!-- end of block .worker-->
-                                        </div>
-                                        <div class="listing__item">
-                                            <div data-sr="enter bottom move 80px, scale(0), over 0.3s" data-animate-end="animate-end" class="worker js-unhide-block vcard worker--sidebar">
-                                                <div class="worker__photo"><a href="agent_profile.html" class="item-photo item-photo--static"><img src="assets/media-demo/workers/worker-2.jpg" alt="Lisa Wemert" class="photo"/>
-                                                        <figure class="item-photo__hover"><span class="item-photo__more">View</span></figure></a></div>
-                                                <h3 class="worker__name fn">Lisa Wemert</h3>
-                                                <div class="worker__post">Managing Broker/Partner, e-PRO</div><a href="tel:+44(0)203510567" class="worker__tel uri">+44 (0) 20 3510 567</a>
-                                            </div>
-                                            <!-- end of block .worker-->
-                                        </div>
-                                        <div class="listing__item">
-                                            <div data-sr="enter bottom move 80px, scale(0), over 0.6s" data-animate-end="animate-end" class="worker js-unhide-block vcard worker--sidebar">
-                                                <div class="worker__photo"><a href="agent_profile.html" class="item-photo item-photo--static"><img src="assets/media-demo/workers/worker-3.jpg" alt="Mariusz Ciesla" class="photo"/>
-                                                        <figure class="item-photo__hover"><span class="item-photo__more">View</span></figure></a></div>
-                                                <h3 class="worker__name fn">Mariusz Ciesla</h3>
-                                                <div class="worker__post">Real Estate Professional</div><a href="tel:+44(0)203510334" class="worker__tel uri">+44 (0) 20 3510 334</a>
-                                            </div>
-                                            <!-- end of block .worker-->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <!-- END LISTING-->
+                        <!-- BEGIN SIDEBAR-->
+                        <div class="sidebar sidebar--dashboard">
+                            <%@ include file="/template/dashboard/sidebar.jsp" %>
                         </div>
+                        <!-- END SIDEBAR-->
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -305,39 +242,8 @@
     -->
     <!-- build:jsdemo-->
     <script type="text/javascript" src="assets/js/demo.js"></script>
-
-    <script type="text/javascript">
-
-                                                function checkPass()
-                                                {
-
-                                                    var newPass = document.getElementById('in-15').value;
-                                                    var confirmPass = document.getElementById('in-16').value;
-
-                                                    if (newPass !== confirmPass) {
-                                                        document.getElementById('errPass').innerHTML = 'NEW PASSWORD and CONFIRM NEW PASSWORD not ';
-                                                    } else
-                                                        return true;
-                                                    return false;
-                                                }
-
-                                                function BrowseServer()
-                                                {
-                                                    // You can use the "CKFinder" class to render CKFinder in a page:
-                                                    var finder = new CKFinder();
-                                                    finder.basePath = '../';	// The path for the installation of CKFinder (default = "/ckfinder/").
-                                                    finder.selectActionFunction = SetFileField;
-                                                    finder.popup();
-                                                }
-                                                function SetFileField(fileUrl)
-                                                {
-                                                    document.getElementById('xFilePath').value = fileUrl;
-                                                }
-
-    </script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
     <!-- END SCRIPTS and INCLUDES-->
-
 </body>
 </html>

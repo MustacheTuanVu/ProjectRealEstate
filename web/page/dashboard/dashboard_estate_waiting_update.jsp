@@ -118,11 +118,23 @@
                                                                             <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                            <form action="<%=request.getContextPath()%>/ContractEdit" method="POST" class="form form--flex form--property form--basic js-form-property-1">
+                                                                            <form action="<%=request.getContextPath()%>/EstateUpdateStatus" method="POST" class="form form--flex form--property form--basic js-form-property-1">
+                                                                                <h3>Details Estate</h3>
                                                                                 <div class="row">
-
+                                                                                        <label for="in-1" class="control-label">Estate ID</label>
+                                                                                        <input id="in-1" readonly="true" type="text" name="txtType" data-placeholder="Input Type Name" value="${item.id}" class="form-control">
+                                                                                    
+                                                                                        <label for="in-1" class="control-label">Estate Name</label>
+                                                                                        <input id="in-1" readonly="true" type="text" name="txtType" data-placeholder="Input Type Name" value="${item.estateName}" class="form-control">
+                                                                                    
+                                                                                        <label for="in-1" class="control-label">Customer Name</label>
+                                                                                        <input id="in-1" readonly="true" type="text" name="txtType" data-placeholder="Input Type Name" value="${item.contractDetails.contractId.customerId.customerName}" class="form-control">
+                                                                                    
+                                                                                        <label for="in-1" class="control-label">Estate Address</label>
+                                                                                        <input id="in-1" readonly="true" type="text" name="txtType" data-placeholder="Input Type Name" value="${item.address1}" class="form-control">
                                                                                     <div class="row">
-                                                                                        <button class="form__submit" type="submit">Save</button>
+                                                                                        <a onclick="return confirm('Are You Sure Public Estate !!!')" href="<%=request.getContextPath() %>/EstateUpdateStatus?action=Public&id=${item.id}" class="form__submit" type="submit">Accept</a>
+                                                                                        <a onclick="return confirm('Are You Sure Trash Estate !!!')" href="<%=request.getContextPath() %>/EstateUpdateStatus?action=Trash&id=${item.id}" class="form__submit" type="submit">Trash</a>
                                                                                     </div>
                                                                                 </div>
                                                                             </form>

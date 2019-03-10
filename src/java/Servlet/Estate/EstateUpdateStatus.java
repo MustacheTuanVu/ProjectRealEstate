@@ -3,27 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet.Project;
+package Servlet.Estate;
 
-import Controller.ManagerJpaController;
-import Controller.ProjectJpaController;
+import Controller.EstateJpaController;
+import Controller.exceptions.NonexistentEntityException;
+import Controller.exceptions.RollbackFailureException;
+import Entity.Estate;
+import Entity.EstateStatus;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.transaction.UserTransaction;
 
 /**
  *
  * @author Cuong
  */
-@WebServlet(name = "ProjectList", urlPatterns = {"/ProjectList"})
-public class ProjectList extends HttpServlet {
+@WebServlet(name = "EstateUpdateStatus", urlPatterns = {"/EstateUpdateStatus"})
+public class EstateUpdateStatus extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,31 +37,40 @@ public class ProjectList extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    UserTransaction utx;
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        HttpSession session = request.getSession();
-        Entity.Users users = (Entity.Users) session.getAttribute("user");
-        if (users != null) {
-
-            if (users.getRole().equals("Admin")) {
-
-                EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
-
-                Controller.ProjectJpaController proCon = new ProjectJpaController(utx, em);
-                Controller.ManagerJpaController manaCon = new ManagerJpaController(utx, em);
-
-                request.setAttribute("listPro", proCon.findProjectByStatus());
-                request.setAttribute("listMana", manaCon.findManagerEntities());
-                request.getRequestDispatcher("/page/dashboard/dashboard_project.jsp").forward(request, response);
-            } else {
-                response.sendRedirect(request.getContextPath() + "/LoginUser");
+         try {
+            EntityManagerFactory emf=(EntityManagerFactory) getServletContext().getAttribute("emf");
+            Controller.EstateJpaController estCon= new EstateJpaController(null, emf);
+            
+            String action=request.getParameter("action");
+            String id=request.getParameter("id");
+            
+            Entity.Estate est= estCon.findEstate(id);
+            Entity.EstateStatus sta= new EstateStatus();
+            switch(action){
+                case "Public":
+                    sta.setId(2);
+                    est.setEstateStatusId(sta);
+                    estCon.edit(est);
+                    
+                    response.sendRedirect(request.getContextPath()+"/EstateListWaiting");
+                    break;
+                case "Trash":
+                    sta.setId(3);
+                    est.setEstateStatusId(sta);
+                    estCon.edit(est);
+                    
+                    response.sendRedirect(request.getContextPath()+"/EstateListWaiting");
+                    break;
             }
-        } else {
-            response.sendRedirect(request.getContextPath() + "/LoginUser");
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(EstateUpdateStatus.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(EstateUpdateStatus.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(EstateUpdateStatus.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -88,7 +100,7 @@ public class ProjectList extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       
     }
 
     /**

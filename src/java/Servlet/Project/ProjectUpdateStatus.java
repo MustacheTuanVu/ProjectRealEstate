@@ -5,25 +5,29 @@
  */
 package Servlet.Project;
 
-import Controller.ManagerJpaController;
+import Controller.EstateJpaController;
 import Controller.ProjectJpaController;
+import Controller.exceptions.NonexistentEntityException;
+import Controller.exceptions.RollbackFailureException;
+import Entity.EstateStatus;
+import Servlet.Estate.EstateUpdateStatus;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.transaction.UserTransaction;
 
 /**
  *
  * @author Cuong
  */
-@WebServlet(name = "ProjectList", urlPatterns = {"/ProjectList"})
-public class ProjectList extends HttpServlet {
+@WebServlet(name = "ProjectUpdateStatus", urlPatterns = {"/ProjectUpdateStatus"})
+public class ProjectUpdateStatus extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,31 +38,38 @@ public class ProjectList extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    UserTransaction utx;
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        HttpSession session = request.getSession();
-        Entity.Users users = (Entity.Users) session.getAttribute("user");
-        if (users != null) {
-
-            if (users.getRole().equals("Admin")) {
-
-                EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
-
-                Controller.ProjectJpaController proCon = new ProjectJpaController(utx, em);
-                Controller.ManagerJpaController manaCon = new ManagerJpaController(utx, em);
-
-                request.setAttribute("listPro", proCon.findProjectByStatus());
-                request.setAttribute("listMana", manaCon.findManagerEntities());
-                request.getRequestDispatcher("/page/dashboard/dashboard_project.jsp").forward(request, response);
-            } else {
-                response.sendRedirect(request.getContextPath() + "/LoginUser");
+        try {
+            EntityManagerFactory emf=(EntityManagerFactory) getServletContext().getAttribute("emf");
+            Controller.ProjectJpaController proCon= new ProjectJpaController(null, emf);
+            
+            String action=request.getParameter("action");
+            String id=request.getParameter("id");
+            
+            Entity.Project pro= proCon.findProject(id);
+            //Entity.EstateStatus sta= new EstateStatus();
+            switch(action){
+                case "Public":
+                    pro.setProjectStatus("Public");
+                    pro.setStatus("Public");
+                    proCon.edit(pro);
+                    response.sendRedirect(request.getContextPath()+"/ProjectList");
+                    break;
+                case "Trash":
+                    pro.setProjectStatus("Trash");
+                    pro.setStatus("Trash");
+                    proCon.edit(pro);
+                    response.sendRedirect(request.getContextPath()+"/ProjectList");
+                    break;
             }
-        } else {
-            response.sendRedirect(request.getContextPath() + "/LoginUser");
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(EstateUpdateStatus.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(EstateUpdateStatus.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(EstateUpdateStatus.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
