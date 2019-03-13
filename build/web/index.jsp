@@ -213,7 +213,7 @@
                                                     </div>
                                                     <div class="form__inputs js-search-inputs">
                                                         <input name="PriceFrom" type="text" id="in-area-from" placeholder="From" value="0" data-input-type="from" class="form-control js-field-range">
-                                                        <input name="PriceTo" type="text" id="in-area-to" placeholder="To" value="10000000000"  data-input-type="to" class="form-control js-field-range">
+                                                        <input name="PriceTo" type="text" id="in-area-to" placeholder="To" value="500000"  data-input-type="to" class="form-control js-field-range">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">

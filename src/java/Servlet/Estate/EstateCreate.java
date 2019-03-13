@@ -126,6 +126,7 @@ public class EstateCreate extends HttpServlet {
                     String message = "";
                     String hasError = "";
                     String display = "none";
+                    /*
                     List<Estate> estateList = (List<Estate>) estateControl.getEstateByName(estateName);
                     if (estateList.size() > 0) {
                         message = "Estate exits !";
@@ -178,7 +179,7 @@ public class EstateCreate extends HttpServlet {
                         } catch (Exception ex) {
                             Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    }
+                    }*/
                 } else {
                     EstateTypeJpaController estateType = new EstateTypeJpaController(utx, emf);
                     List<EstateType> estateTypeList = estateType.findEstateTypeEntities();

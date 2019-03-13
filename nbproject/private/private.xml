@@ -3,11 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/abc/ProjectRealEstate/web/index.jsp</file>
-            <file>file:/D:/abc/ProjectRealEstate/src/java/Servlet/EmployeeList.java</file>
-            <file>file:/D:/abc/ProjectRealEstate/src/java/Servlet/Estate/EstateList.java</file>
-            <file>file:/D:/abc/ProjectRealEstate/src/java/Entity/Employee.java</file>
-            <file>file:/D:/abc/ProjectRealEstate/web/page/guest/properties_employee_list.jsp</file>
+            <file>file:/D:/abc/ProjectRealEstate/web/page/dashboard/director/index.jsp</file>
+            <file>file:/D:/abc/ProjectRealEstate/web/template/dashboard/director/sidebar.jsp</file>
         </group>
     </open-files>
 </project-private>

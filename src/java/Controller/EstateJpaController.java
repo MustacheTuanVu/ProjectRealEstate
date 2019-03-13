@@ -24,9 +24,13 @@ import Entity.FeatureDetails;
 import java.util.ArrayList;
 import java.util.List;
 import Entity.Schedule;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 
 /**
  *
@@ -93,6 +97,19 @@ public class EstateJpaController implements Serializable {
                 attachedScheduleList.add(scheduleListScheduleToAttach);
             }
             estate.setScheduleList(attachedScheduleList);
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            javax.validation.Validator validator =  factory.getValidator();
+
+            Set<ConstraintViolation<Estate>> constraintViolations;
+            constraintViolations = validator.validate(estate);
+
+            if (constraintViolations.size() > 0 ) {
+                System.out.println("Constraint Violations occurred..");
+                for (ConstraintViolation<Estate> estates : constraintViolations) {
+                    System.out.println(estates.getRootBeanClass().getSimpleName()+
+                    "." + estates.getPropertyPath() + " " + estates.getMessage());
+                }
+            }
             em.persist(estate);
             if (estateStatusId != null) {
                 estateStatusId.getEstateList().add(estate);
@@ -467,48 +484,45 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
-
-    public List<Estate> getEstateByName(String estateName) {
+    
+    public int getEmployeeByEstateCount(String estateID) {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createNativeQuery("SELECT * FROM estate where estate_name='" + estateName + "'", Estate.class);
-            List<Estate> ret = query.getResultList();
+            //Query query = em.createNativeQuery("SELECT employee_id FROM assign_details where estate_id='" + estateID + "'", String.class);
+            Query query = em.createNativeQuery("SELECT COUNT(employee_id) FROM assign_details where estate_id='" + estateID + "'");
+            int ret = (int) query.getSingleResult();
             return ret;
         } finally {
             em.close();
         }
     }
 
-    public List<Estate> getEstateByStatusAndType(String statusID, String typeID, String sortConditions, String sortTypes) {
+    public int getEmployeeByEstate(String estateID) {
         EntityManager em = getEntityManager();
         try {
-            Query query = null;
-
-            if (statusID.equals("all")) {
-                query = em.createNativeQuery(
-                        "SELECT * FROM estate where "
-                        + "estate_status_id='1' "
-                        + "OR estate_status_id='2' "
-                        + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
-            } else if (typeID.equals("all")) {
-                query = em.createNativeQuery(
-                        "SELECT * FROM estate where "
-                        + "estate_status_id='" + statusID + "' "
-                        + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
-            } else {
-                query = em.createNativeQuery(
-                        "SELECT * FROM estate where "
-                        + "estate_status_id='" + statusID + "' "
-                        + "AND estate_type_id='" + typeID + "'"
-                        + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
-            }
-            List<Estate> ret = query.getResultList();
+            //Query query = em.createNativeQuery("SELECT employee_id FROM assign_details where estate_id='" + estateID + "'", String.class);
+            Query query = em.createNativeQuery("SELECT employee_id FROM assign_details where estate_id='" + estateID + "'");
+            int ret = (int) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<String> getEstateByEmployee(String employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'");
+            List<String> ret = (List<String>) query.getResultList();
             return ret;
         } finally {
             em.close();
         }
     }
 
+    
+    //REMEMBER
     public List<Estate> getEstateInSiderBar(
             String statusID,//
             String typeID,//
@@ -548,7 +562,8 @@ public class EstateJpaController implements Serializable {
                             + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
                             + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
                             + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
-                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' AND "
+                            + "estate_status = 'publish' "
                             + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
                 } else {
                     System.out.println("query 2 run");
@@ -564,7 +579,8 @@ public class EstateJpaController implements Serializable {
                             + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
                             + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
                             + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
-                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' AND "
+                            + "estate_status = 'publish' "
                             + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
                 }
             } else if (typeID.equals("all")) {
@@ -582,7 +598,8 @@ public class EstateJpaController implements Serializable {
                             + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
                             + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
                             + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
-                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' AND "
+                            + "estate_status = 'publish' "
                             + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
                 } else {
                     System.out.println("query 4 run");
@@ -598,7 +615,8 @@ public class EstateJpaController implements Serializable {
                             + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
                             + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
                             + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
-                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' AND "
+                            + "estate_status = 'publish' "
                             + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
                 }
             } else {
@@ -616,7 +634,8 @@ public class EstateJpaController implements Serializable {
                             + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
                             + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
                             + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
-                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' AND "
+                            + "estate_status = 'publish' "
                             + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
                 } else {
                     System.out.println("query 6 run");
@@ -632,7 +651,8 @@ public class EstateJpaController implements Serializable {
                             + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
                             + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
                             + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
-                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' AND "
+                            + "estate_status = 'publish' "
                             + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
                 }
             }
@@ -652,7 +672,8 @@ public class EstateJpaController implements Serializable {
                             + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
                             + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
                             + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
-                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' AND "
+                            + "estate_status = 'publish' "
                             + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
                 } else {
                     System.out.println("query test 2 run");
@@ -668,7 +689,8 @@ public class EstateJpaController implements Serializable {
                             + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
                             + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
                             + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
-                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' AND "
+                            + "estate_status = 'publish' "
                             + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
                 }
             }

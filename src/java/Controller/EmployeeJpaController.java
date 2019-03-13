@@ -435,4 +435,15 @@ public class EmployeeJpaController implements Serializable {
         }
     }
     
+    public int getEstateCountByEmployeeID(int employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT count FROM estate where user_id='" + employeeID + "'",Employee.class);
+            int ret = (int) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
 }

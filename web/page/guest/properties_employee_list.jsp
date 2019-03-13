@@ -84,7 +84,7 @@
                         <section class="site site--main">
                             <header class="site__header">
                                 <h3 class="site__title">Agents listing</h3>
-                                <h4 class="site__headline">Our team of agents consists of 8 persons</h4>
+                                <h4 class="site__headline">Our team of agents consists of <strong class="text-danger">${employeeListCount}</strong> persons</h4>
                             </header>
                             <div class="site__panel"><span class="site__header-text">Our team of agents are ready to help you reach your real estate goals by making your needs our number one priority. We recognize you have a choice when it comes to working with a real estate professional.</span></div>
                             <div class="site__main">
@@ -95,7 +95,7 @@
                                                 <div class="listing__item">
                                                     <div data-sr="enter bottom move 80px, scale(0), over 0.3s" data-animate-end="animate-end" class="worker js-unhide-block vcard worker--grid">
                                                         <div class="worker__photo">
-                                                            <a href="agent_profile.html" class="item-photo item-photo--static">
+                                                            <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${item.id}" class="item-photo item-photo--static">
                                                                 <img src="${item.employeeImg}" alt="Lisa Wemert" class="photo"/>
                                                                 <figure class="item-photo__hover">
                                                                     <span class="item-photo__more">View</span>
@@ -106,13 +106,14 @@
                                                             <h3 class="worker__name fn">${item.employeeName}</h3>
                                                             <div class="worker__post">${item.employeeMail}</div>
                                                             <button type="button" class="worker__show js-unhide">Contact agent</button>
-                                                            <div class="worker__listings"><i class="worker__favorites"></i> My Listings -<a href="agent_profile.html">1 property</a></div>
+                                                            <div class="worker__listings"><i class="worker__favorites"></i> My Listings -<a href="agent_profile.html">${item.expr1}</a></div>
                                                             <!-- end of block .worker__listings-->
                                                         </div>
                                                         <div class="worker__descr">
                                                             <p>${item.employeeContent}.</p>
                                                         </div>
-                                                        <!-- end of block .worker__descr--><a href="agent_profile.html" class="worker__more">more details</a>
+                                                        <!-- end of block .worker__descr-->
+                                                        <a href="agent_profile.html" class="worker__more">more details</a>
                                                     </div>
                                                     <!-- end of block .worker-->
                                                 </div>

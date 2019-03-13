@@ -116,7 +116,7 @@ public class EstateList extends HttpServlet {
         request.setAttribute("AreaTo", AreaTo);
         String PriceFrom = (request.getParameter("PriceFrom") != null) ? request.getParameter("PriceFrom") : "0";
         request.setAttribute("PriceFrom", PriceFrom);
-        String PriceTo = (request.getParameter("PriceTo") != null) ? request.getParameter("PriceTo") : "10000000000";
+        String PriceTo = (request.getParameter("PriceTo") != null) ? request.getParameter("PriceTo") : "500000";
         request.setAttribute("PriceTo", PriceTo);
         String dateRange = (request.getParameter("dateRange") != null) ? request.getParameter("dateRange") : "2019/01/01 - 2020/12/12";
         int dateIndex = dateRange.indexOf("-");

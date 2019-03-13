@@ -167,7 +167,7 @@
                                         Area: ${AreaFrom} - ${AreaTo}
                                     </span>
                                 </c:if>
-                                <c:if test="${PriceFrom !='0' || PriceTo !='10000000000'}">
+                                <c:if test="${PriceFrom !='0' || PriceTo !='500000'}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-filter"></span>
                                         Price: ${PriceFrom} - ${PriceTo}
@@ -222,7 +222,7 @@
                                                         </div>
                                                         <!-- end of block .properties__thumb-->
                                                         <div class="properties__details">
-                                                            <div class="properties__info"><a href="property_details.html" class="properties__address">
+                                                            <div class="properties__info"><a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" class="properties__address">
                                                                     <span class="properties__address-street">${estate.estateName}</span>
                                                                     <span class="properties__address-city">${estate.address2}</span></a>
                                                                 <div class="properties__offer">
@@ -380,7 +380,7 @@
                                                 </div>
                                                 <div class="form__inputs js-search-inputs">
                                                     <input name="PriceFrom" type="text" id="in-area-from" placeholder="From" value="0" data-input-type="from" class="form-control js-field-range">
-                                                    <input name="PriceTo" type="text" id="in-area-to" placeholder="To" value="10000000000"  data-input-type="to" class="form-control js-field-range">
+                                                    <input name="PriceTo" type="text" id="in-area-to" placeholder="To" value="500000"  data-input-type="to" class="form-control js-field-range">
                                                 </div>
                                             </div>
                                             <div class="form-group">

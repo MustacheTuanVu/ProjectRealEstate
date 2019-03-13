@@ -4,6 +4,7 @@
     Author     : kiems
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <div class="container">
@@ -126,6 +127,18 @@
                             <span class="auth__name"> Hi ${name}</span>
                         </button>
                         <div class="dropdown__menu auth__dropdown--logged-in js-user-logged-in">
+                            <nav class="nav nav--auth">
+                                <ul class="nav__list">
+                                    <li class="nav__item">
+                                        <c:if test="${role=='customer'}">
+                                            <a href="<%=request.getContextPath()%>/DashboardUser" class="nav__link">Dashboard</a>
+                                        </c:if>
+                                        <c:if test="${role=='director'}">
+                                            <a href="<%=request.getContextPath()%>/DashboardDirector" class="nav__link">Dashboard</a>
+                                        </c:if>
+                                    </li>
+                                </ul>
+                            </nav>
                             <nav class="nav nav--auth">
                                 <ul class="nav__list">
                                     <li class="nav__item"><a href="<%=request.getContextPath()%>/Logout" class="nav__link">Log out</a></li>

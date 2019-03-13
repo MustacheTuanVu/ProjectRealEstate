@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Contract;
+package Servlet.Contract;
 
-import Controller.AssignDetailsJpaController;
-import Controller.ContractTypeJpaController;
+import Controller.ContractDetailsJpaController;
+import Controller.ContractJpaController;
 import Controller.CustomerJpaController;
-import Controller.EmployeeJpaController;
-import Controller.PaymentFrequencyJpaController;
-import Entity.AssignDetails;
+import Controller.EstateTypeJpaController;
+import Entity.ContractDetails;
 import Entity.Customer;
-import Entity.Employee;
+import Entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.persistence.EntityManagerFactory;
@@ -28,8 +27,8 @@ import javax.transaction.UserTransaction;
  *
  * @author kiems
  */
-@WebServlet(name = "Create_Contract_Servlet", urlPatterns = {"/Create_Contract_Servlet"})
-public class Create_Contract_Servlet extends HttpServlet {
+@WebServlet(name = "MyContract", urlPatterns = {"/MyContract"})
+public class MyContract extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,56 +39,40 @@ public class Create_Contract_Servlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-        
-    /*
-        customerID -- session
-        employeeID -- estateID -> assignID ->employeeID
-        contractType -- "Hop dong moi gioi"
-        contractDetails -- "wait"
-        payment freequency -- "ONCE"
-        payment amount -- estate 
-        fee amount -- ""
-        date_sign -- now
-        document_url -- "wait"
-        status -- "wait to employee"
-    */
     UserTransaction utx;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
-        Entity.Users user = (Entity.Users) session.getAttribute("user");
-        
-        if (user != null) {
-            if (user.getRole().equals("employee")) {
-                EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
-                
-                String estateID = request.getParameter("estateID");
-                AssignDetailsJpaController assignCon = new AssignDetailsJpaController(utx, em);
-                //AssignDetails assign = assignCon.getEmployeeByEstateID();
-                
-                EmployeeJpaController empCon = new EmployeeJpaController(utx, em);
-                
-                Controller.CustomerJpaController cusCon = new CustomerJpaController(utx, em);
-                Customer customer = cusCon.getCustomerByUserID(user.getId());
-                
-                
-                
-                Controller.ContractTypeJpaController conType = new ContractTypeJpaController(utx, em);
-                Controller.PaymentFrequencyJpaController payCon = new PaymentFrequencyJpaController(utx, em);
-                // Controller.ContractJpaController conCon= new ContractJpaController(utx, em);
-
-                request.setAttribute("listType", conType.findContractTypeEntities());
-                request.setAttribute("listCus", cusCon.findCustomerEntities());
-                request.setAttribute("listEmp", empCon.findEmployeeEntities());
-                request.setAttribute("listPay", payCon.findPaymentFrequencyEntities());
-                request.getRequestDispatcher("/page/dashboard/dashboard_contract_create.jsp").forward(request, response);
-            } else {
-                response.sendRedirect(request.getContextPath() + "/LoginUser");
-            }
+        Users users = (Users) session.getAttribute("user");
+        if (users != null) {
+            request.setAttribute("users", "user");
+            request.setAttribute("displayLogin", "none");
+            request.setAttribute("displayUser", "block");
+            session.setAttribute("name", users.getCustomer().getCustomerName());
+            session.setAttribute("image", users.getCustomer().getCustomerImg());
+            
+            /*-----------------------------------------------------------*/
+            
+            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+            CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
+            EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
+            ContractDetailsJpaController contractDetailsControl = new ContractDetailsJpaController(utx, emf);
+            Customer customer = customerControl.findCustomer(users.getId());
+            
+            
+            
+            request.setAttribute("customer", customer);
+            request.setAttribute("contractDetails", contractDetailsControl.findContractDetailsEntities());
+            request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
+            request.getRequestDispatcher("/page/guest/my_contract.jsp").forward(request, response);
         } else {
-            response.sendRedirect(request.getContextPath() + "/LoginUser");
+            request.setAttribute("displayLogin", "block");
+            request.setAttribute("displayUser", "none");
+            response.sendRedirect(request.getContextPath()+"/LoginUser");
         }
+        // END SESSION HEADER FONTEND //
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

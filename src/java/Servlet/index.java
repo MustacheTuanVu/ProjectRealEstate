@@ -50,6 +50,7 @@ public class index extends HttpServlet {
             switch (user.getRole()) {
                 case "employee":
                     session.setAttribute("name", user.getEmployee().getEmployeeName());
+                    request.setAttribute("role", "employee");
                     session.setAttribute("image", user.getEmployee().getEmployeeImg());
                     break;
                 case "manager":
@@ -58,6 +59,7 @@ public class index extends HttpServlet {
                     break;
                 case "director":
                     session.setAttribute("name", "Boss");
+                    request.setAttribute("role", "director");
                     session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
                     break;
                 case "customer":

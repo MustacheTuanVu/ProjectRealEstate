@@ -23,7 +23,8 @@
                     <a href="<%=request.getContextPath()%>/EstateList?user=guest&estateStatus=all&estateType=all" class="navbar__link">Estate
                         <svg class="navbar__arrow">
                         <use xlink:href="#icon-arrow-right"></use>
-                        </svg></a>
+                        </svg>
+                    </a>
                     <div role="menu" class="js-dropdown-menu navbar__dropdown navbar__dropdown--colls-2">
                         <button class="navbar__back js-navbar-submenu-back">
                             <svg class="navbar__arrow">
@@ -50,75 +51,14 @@
                         </div>
                     </div>
                 </li>
-                <li class="navbar__item js-dropdown">
-                    <a class="navbar__link">Agents
-                        <svg class="navbar__arrow">
-                        <use xlink:href="#icon-arrow-right"></use>
-                        </svg></a>
-                    <div role="menu" class="js-dropdown-menu navbar__dropdown">
-                        <button class="navbar__back js-navbar-submenu-back">
-                            <svg class="navbar__arrow">
-                            <use xlink:href="#icon-arrow-left"></use>
-                            </svg>Back
-                        </button>
-                        <div class="navbar__submenu">
-                            <ul class="navbar__subnav">
-                                <li class="navbar__subitem"><a href="agent_profile.html" class="navbar__sublink js-navbar-sub-sublink">Agent's profile</a></li>
-                                <li class="navbar__subitem navbar__subitem-dropdown js-dropdown"><a href="agents_listing_list.html" class="navbar__sublink js-navbar-sublink">Agent's listing
-                                        <svg class="navbar__arrow">
-                                        <use xlink:href="#icon-arrow-right"></use>
-                                        </svg></a>
-                                    <div class="navbar__submenu navbar__submenu--level">
-                                        <button class="navbar__back js-navbar-submenu-back">
-                                            <svg class="navbar__arrow">
-                                            <use xlink:href="#icon-arrow-left"></use>
-                                            </svg>Back
-                                        </button>
-                                        <ul class="navbar__subnav">
-                                            <li class="navbar__subitem"><a href="agents_listing_list.html" class="navbar__sublink js-navbar-sub-sublink">List</a></li>
-                                            <li class="navbar__subitem"><a href="agents_listing_grid.html" class="navbar__sublink js-navbar-sub-sublink">Grid</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li class="navbar__subitem navbar__subitem-dropdown js-dropdown"><a href="agent_profile_blog_list.html" class="navbar__sublink js-navbar-sublink">Agent's blog
-                                        <svg class="navbar__arrow">
-                                        <use xlink:href="#icon-arrow-right"></use>
-                                        </svg></a>
-                                    <div class="navbar__submenu navbar__submenu--level">
-                                        <button class="navbar__back js-navbar-submenu-back">
-                                            <svg class="navbar__arrow">
-                                            <use xlink:href="#icon-arrow-left"></use>
-                                            </svg>Back
-                                        </button>
-                                        <ul class="navbar__subnav">
-                                            <li class="navbar__subitem"><a href="agent_profile_blog_list.html" class="navbar__sublink js-navbar-sub-sublink">List</a></li>
-                                            <li class="navbar__subitem"><a href="agent_profile_blog_grid.html" class="navbar__sublink js-navbar-sub-sublink">Grid</a></li>
-                                            <li class="navbar__subitem"><a href="agent_profile_blog_details.html" class="navbar__sublink js-navbar-sub-sublink">Details</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li class="navbar__subitem navbar__subitem-dropdown js-dropdown"><a href="agent_profile_listing_list.html" class="navbar__sublink js-navbar-sublink">Agent's properties
-                                        <svg class="navbar__arrow">
-                                        <use xlink:href="#icon-arrow-right"></use>
-                                        </svg></a>
-                                    <div class="navbar__submenu navbar__submenu--level">
-                                        <button class="navbar__back js-navbar-submenu-back">
-                                            <svg class="navbar__arrow">
-                                            <use xlink:href="#icon-arrow-left"></use>
-                                            </svg>Back
-                                        </button>
-                                        <ul class="navbar__subnav">
-                                            <li class="navbar__subitem"><a href="agent_profile_listing_list.html" class="navbar__sublink js-navbar-sub-sublink">List</a></li>
-                                            <li class="navbar__subitem"><a href="agent_profile_listing_grid.html" class="navbar__sublink js-navbar-sub-sublink">Grid</a></li>
-                                            <li class="navbar__subitem"><a href="agent_profile_listing_table.html" class="navbar__sublink js-navbar-sub-sublink">Table</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li class="navbar__subitem"><a href="agent_profile_testimonials.html" class="navbar__sublink js-navbar-sub-sublink">Agent's testimonials</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                <li class="navbar__item">
+                    <a href="<%=request.getContextPath()%>/EmployeeList?user=guest" class="navbar__link">Agent</a>
                 </li>
+                <li class="navbar__item" style="display: ${displayUser}">
+                    <a href="<%=request.getContextPath()%>/RequestSale" class="navbar__link">Request Sale</a>
+                </li>
+                
+                <!--
                 <li class="navbar__item js-dropdown">
                     <a class="navbar__link">User
                         <svg class="navbar__arrow">
@@ -332,6 +272,7 @@
                         </div>
                     </div>
                 </li>
+                -->
             </ul>
             <!-- end of block  navbar__nav-->
         </div>
