@@ -54,6 +54,9 @@
                 <li class="navbar__item">
                     <a href="<%=request.getContextPath()%>/EmployeeList?user=guest" class="navbar__link">Agent</a>
                 </li>
+                <li class="navbar__item">
+                    <a href="<%=request.getContextPath()%>/ProjectList?user=guest" class="navbar__link">Project</a>
+                </li>
                 <li class="navbar__item" style="display: ${displayUser}">
                     <a href="<%=request.getContextPath()%>/RequestSale" class="navbar__link">Request Sale</a>
                 </li>

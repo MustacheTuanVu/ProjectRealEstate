@@ -722,7 +722,7 @@
       $rangeYear.ionRangeSlider({
         type: "double",
         min: 1945,
-        max: 2019,
+        max: 2020,
         from: 0,
         to: 10,
         hide_min_max: true,

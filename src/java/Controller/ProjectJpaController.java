@@ -191,5 +191,68 @@ public class ProjectJpaController implements Serializable {
             em.close();
         }
     }
+
+    public List<Project> getProjectInSiderBar(
+            String projectName,
+            String district,
+            String yearBuildFrom,
+            String yearBuildTo,
+            String dateFrom,
+            String dateTo) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = null;
+            if (district.equals("all")) {
+                query = em.createNativeQuery(
+                        "SELECT * FROM project where "
+                        + "project_name LIKE '%" + projectName + "%' AND "
+                        //+ "district = '"+district+"' AND "
+                        + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                        + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                        + "project_status = 'publish' "
+                        + "ORDER BY date_add DESC", Project.class);
+            } else {
+                query = em.createNativeQuery(
+                        "SELECT * FROM project where "
+                        + "project_name LIKE '%" + projectName + "%' AND "
+                        + "district = '" + district + "' AND "
+                        + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                        + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                        + "project_status = 'publish' "
+                        + "ORDER BY date_add DESC", Project.class);
+            }
+            System.out.println(query);
+            List<Project> ret = (List<Project>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
     
+    public int getManagerByProjectCount(int managerID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery(
+                        "SELECT count(*) FROM project where manager_id = '" + managerID + "'");
+            System.out.println(query);
+            int ret = (int) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public int getManagerByProject(int projectID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery(
+                        "SELECT manager_id FROM project where project_id = '" + projectID + "'");
+            System.out.println(query);
+            int ret = (int) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
 }

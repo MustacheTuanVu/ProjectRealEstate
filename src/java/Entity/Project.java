@@ -6,6 +6,7 @@
 package Entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -27,6 +30,21 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Project.findAll", query = "SELECT p FROM Project p")})
 public class Project implements Serializable {
+
+    @Column(name = "year_build")
+    @Temporal(TemporalType.DATE)
+    private Date yearBuild;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "floor_number")
+    private double floorNumber;
+    @Column(name = "date_add")
+    @Temporal(TemporalType.DATE)
+    private Date dateAdd;
+    @Size(max = 50)
+    @Column(name = "district")
+    private String district;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,10 +72,6 @@ public class Project implements Serializable {
     @NotNull
     @Column(name = "block_number")
     private int blockNumber;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "project_area")
-    private double projectArea;
     @Size(max = 255)
     @Column(name = "image_1st")
     private String image1st;
@@ -90,13 +104,12 @@ public class Project implements Serializable {
         this.projectId = projectId;
     }
 
-    public Project(String projectId, String projectName, String projectAddress, String projectStatus, int blockNumber, double projectArea) {
+    public Project(String projectId, String projectName, String projectAddress, String projectStatus, int blockNumber) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.projectAddress = projectAddress;
         this.projectStatus = projectStatus;
         this.blockNumber = blockNumber;
-        this.projectArea = projectArea;
     }
 
     public String getProjectId() {
@@ -137,14 +150,6 @@ public class Project implements Serializable {
 
     public void setBlockNumber(int blockNumber) {
         this.blockNumber = blockNumber;
-    }
-
-    public double getProjectArea() {
-        return projectArea;
-    }
-
-    public void setProjectArea(double projectArea) {
-        this.projectArea = projectArea;
     }
 
     public String getImage1st() {
@@ -234,6 +239,38 @@ public class Project implements Serializable {
     @Override
     public String toString() {
         return "Entity.Project[ projectId=" + projectId + " ]";
+    }
+
+    public double getFloorNumber() {
+        return floorNumber;
+    }
+
+    public void setFloorNumber(double floorNumber) {
+        this.floorNumber = floorNumber;
+    }
+
+    public Date getDateAdd() {
+        return dateAdd;
+    }
+
+    public void setDateAdd(Date dateAdd) {
+        this.dateAdd = dateAdd;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public Date getYearBuild() {
+        return yearBuild;
+    }
+
+    public void setYearBuild(Date yearBuild) {
+        this.yearBuild = yearBuild;
     }
     
 }
