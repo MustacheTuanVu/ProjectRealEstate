@@ -85,7 +85,9 @@
                         <div class="site site--main">
                             <!-- BEGIN PROPERTY DETAILS-->
                             <div class="property">
-                                <h1 class="property__title">1600 Pennsylvania Ave NW<span class="property__city">Washington DC20500, Collingswood, USA 21050</span></h1>
+                                <h1 class="property__title">${find.projectName}
+                                    <span class="property__city">${find.projectAddress}</span>
+                                </h1>
                                 <div class="property__header">
                                     <div class="property__price property__price--commision">
                                         <span class="property__price-label">district</span>
@@ -98,7 +100,7 @@
                                     -->
                                 </div>
                                 <div class="clearfix"></div>
-                                
+
                                 <div class="property__slider">
                                     <div class="property__ribon">Project</div>
                                     <div class="property__ribon property__ribon--status property__ribon--done">
@@ -160,6 +162,52 @@
                                             </button>
                                         </div>
                                     </div>
+                                </div>      
+                                <div class="widget js-widget widget--details">
+                                    <div class="property__info">
+                                        <div class="property__info-item">District: <strong> ${find.district}</strong></div>
+                                        <div class="property__info-item">Status: <strong> ${find.projectStatus}</strong></div>
+                                        <div class="property__info-item">Year build: <strong> <fmt:formatDate value="${find.yearBuild}" pattern="yyyy" /></strong></div>
+                                        <div class="property__info-item">Date add: <strong> <fmt:formatDate value="${find.dateAdd}" pattern="dd/MM/yyyy" /></strong></div>
+                                    </div>
+                                    <div class="property__plan">
+                                        <dl class="property__plan-item">
+                                            <dt class="property__plan-icon">
+                                                <svg>
+                                                <use xlink:href="#icon-area"></use>
+                                                </svg>
+                                            </dt>
+                                            <dd class="property__plan-title">Block Number</dd>
+                                            <dd class="property__plan-value">${find.blockNumber}</dd>
+                                        </dl>
+                                        <dl class="property__plan-item">
+                                            <dt class="property__plan-icon property__plan-icon--window">
+                                                <svg>
+                                                <use xlink:href="#icon-window"></use>
+                                                </svg>
+                                            </dt>
+                                            <dd class="property__plan-title">Floor Number</dd>
+                                            <dd class="property__plan-value">${find.floorNumber}</dd>
+                                        </dl>
+                                        <dl class="property__plan-item">
+                                            <dt class="property__plan-icon property__plan-icon--bathrooms">
+                                                <svg>
+                                                <use xlink:href="#icon-bathrooms"></use>
+                                                </svg>
+                                            </dt>
+                                            <dd class="property__plan-title">Unit Number</dd>
+                                            <dd class="property__plan-value">${countEstate}</dd>
+                                        </dl>
+                                        <dl class="property__plan-item">
+                                            <dt class="property__plan-icon property__plan-icon--garage">
+                                                <svg>
+                                                <use xlink:href="#icon-garage"></use>
+                                                </svg>
+                                            </dt>
+                                            <dd class="property__plan-title">Value</dd>
+                                            <dd class="property__plan-value">${sumPrice} USD</dd>
+                                        </dl>
+                                    </div>
                                 </div>
                                 <div class="widget js-widget widget--details">
                                     <div class="widget__header">
@@ -171,39 +219,101 @@
                                                 <table class="js-property-table datatable__table table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <th class="datatable__head-1">No.</th>
-                                                            <th class="datatable__head-2 datatable__head-sort">Bedrooms</th>
-                                                            <th class="datatable__head-3 datatable__head-sort">Floor</th>
-                                                            <th class="datatable__head-4 datatable__head-sort">Area</th>
-                                                            <th class="datatable__head-5 datatable__head-sort">Status</th>
-                                                            <th class="datatable__head-6 datatable__head-sort">Price</th>
-                                                            <th class="datatable__head-7 datatable__head-sort">Commision</th>
-                                                            <th class="datatable__head-8 datatable__head-sort">Credit</th>
+                                                            <td class="datatable__head-1">No.</td>
+                                                            <td class="datatable__head-2 datatable__head-sort">Block</td>
+                                                            <td class="datatable__head-3 datatable__head-sort">Floor</td>
+                                                            <td class="datatable__head-4 datatable__head-sort">Area</td>
+                                                            <td class="datatable__head-5 datatable__head-sort">BedRoom</td>
+                                                            <td class="datatable__head-6 datatable__head-sort">BathRoom</td>
+                                                            <td class="datatable__head-7 datatable__head-sort">Price</td>
+                                                            <td class="datatable__head-8 datatable__head-sort">Status</td>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr data-info="&lt;table class=&quot;table table--stripped&quot;&gt;&lt;tr&gt;&lt;td&gt;Bedrooms:&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Floor:&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Area:&lt;/td&gt;&lt;td&gt;12&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Status:&lt;/td&gt;&lt;td&gt;For sale &lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;/td&gt;&lt;td&gt;Price:&lt;/td&gt;&lt;td&gt; RM 402,000 &lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Commision:&lt;/td&gt;&lt;td&gt; 3% &lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Credit:&lt;/td&gt;&lt;td&gt; RM 8,000&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;">
-                                                            <td class="datatable__cell datatable__cell--1">1</td>
-                                                            <td class="datatable__cell datatable__cell--2">2</td>
-                                                            <td class="datatable__cell datatable__cell--3">12</td>
-                                                            <td class="datatable__cell datatable__cell--4">65 Sq Ft</td>
-                                                            <td class="datatable__cell datatable__cell--5">For sale</td>
-                                                            <td class="datatable__cell datatable__cell--6">RM 402,000</td>
-                                                            <td class="datatable__cell datatable__cell--7">3%</td>
-                                                            <td class="datatable__cell datatable__cell--8">RM 8,000</td>
-                                                        </tr>
+                                                        <c:forEach items="${estateList}" var="item">
+                                                            <tr <c:if test="${item.estateStatus=='project'}">onclick="myFunction(${item.id})"</c:if>
+                                                                <c:if test="${item.estateStatus!='project'}">style="background: #cccccc !important"</c:if>>
+                                                                <td class="datatable__cell datatable__cell--5">${item.id}</td>
+                                                                <td class="datatable__cell datatable__cell--5">${item.block}</td>
+                                                                <td class="datatable__cell datatable__cell--5">${item.floor}</td>
+                                                                <td class="datatable__cell datatable__cell--5">${item.areas}</td>
+                                                                <td class="datatable__cell datatable__cell--5">${item.bedRoom}</td>
+                                                                <td class="datatable__cell datatable__cell--5">${item.bathRoom}</td>
+                                                                <td class="datatable__cell datatable__cell--5">${item.price}</td>
+                                                                <td class="datatable__cell datatable__cell--5">
+                                                                    <c:if test="${item.estateStatus=='project'}">
+                                                                        publish
+                                                                    </c:if>
+                                                                    ${item.estateStatus}
+                                                                </td>
+                                                            </tr>
+                                                        <div id="${item.id}" tabindex="-1" role="dialog" class="modal fade">
+                                                            <div role="document" class="modal-dialog modal-md">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="widget js-widget widget--dashboard">
+                                                                            <div class="widget__header">
+                                                                                <h2 class="widget__title">Estate Details</h2>
+                                                                            </div>
+                                                                            <div class="widget__content">
+                                                                                <!-- BEGIN SECTION ACTIVITY-->
+                                                                                <section class="activity activity--feed">
+                                                                                    <ul class="activity__list">
+                                                                                        <li class="activity__date">Estate No. ${item.id}</li>
+                                                                                        <li class="activity__item">
+                                                                                            <div class="activity__title">
+                                                                                                <a>Block: </a>${item.block}
+                                                                                            </div>
+                                                                                        </li>
+                                                                                        <li class="activity__item">
+                                                                                            <div class="activity__title">
+                                                                                                <a>Floor: </a>${item.floor}
+                                                                                            </div>
+                                                                                        </li>
+                                                                                        <li class="activity__item">
+                                                                                            <div class="activity__title">
+                                                                                                <a>Area: </a>${item.areas}
+                                                                                            </div>
+                                                                                        </li>
+                                                                                        <li class="activity__item">
+                                                                                            <div class="activity__title">
+                                                                                                <a>BedRoom: </a>${item.bedRoom}
+                                                                                            </div>
+                                                                                        </li>
+                                                                                        <li class="activity__item">
+                                                                                            <div class="activity__title">
+                                                                                                <a>BathRoom: </a>${item.bathRoom}
+                                                                                            </div>
+                                                                                        </li>
+                                                                                        <li class="activity__item">
+                                                                                            <div class="activity__title">
+                                                                                                <a>Price: </a>${item.price}
+                                                                                            </div>
+                                                                                        </li>
+                                                                                        <li class="activity__item">
+                                                                                            <div class="activity__title">
+                                                                                                <a>Status: </a>${item.estateStatus}
+                                                                                            </div>
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                    <div class="widget__footer">
+                                                                                        <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${item.id}" class="widget__more">
+                                                                                            Request Buy
+                                                                                        </a>
+                                                                                    </div>
+                                                                                </section>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </c:forEach>
                                                     </tbody>
                                                 </table>
-                                            </div>
-                                            <div id="modal-datatable-detail" tabindex="-1" role="dialog" class="modal modal--datatable fade">
-                                                <div role="document" class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                                                        </div>
-                                                        <div class="modal-body"></div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -216,22 +326,32 @@
                                         <div class="info info--property">
                                             <div class="info__column">
                                                 <div class="info__donut">
-                                                    <canvas id="property-statistics-units" class="info__chart"></canvas>
-                                                    <div class="info__total">Total Unit <br> <strong class="info__total-value">1,725</strong></div>
+                                                    <canvas id="property-statistics-units" class="info__chart" width="300" height="300" style="width: 300px !important; height: 300px !important;"></canvas>
+                                                    <div class="info__total">Total Unit <br> 
+                                                        <strong id="getUnit" class="info__total-value">${countEstate}</strong>
+                                                    </div>
                                                 </div>
+
                                                 <ul class="info__legend">
-                                                    <li class="info__legend-item info__legend-item--green">Total sold unit <br> <strong>957</strong></li>
-                                                    <li class="info__legend-item info__legend-item--light-green">Total unsold unit <br> <strong>768</strong></li>
+                                                    <li class="info__legend-item info__legend-item--green">Total sold unit <br> 
+                                                        <strong id="getSold">${countEstateSold}</strong>
+                                                    </li>
+                                                    <li class="info__legend-item info__legend-item--light-green">Total unsold unit <br> 
+                                                        <strong id="getUnsold">${countEstateUnSold}</strong>
+                                                    </li>
                                                 </ul>
                                             </div>
                                             <div class="info__column">
                                                 <div class="info__donut">
-                                                    <canvas id="property-statistics-price" class="info__chart"></canvas>
-                                                    <div class="info__total">Total Price <br> <strong>RM</strong> <strong class="info__total-value">755</strong> <strong>,000,000</strong></div>
+                                                    <canvas id="property-statistics-price" class="info__chart" width="300" height="300" style="width: 300px !important; height: 300px !important;"></canvas>
+                                                    <div class="info__total">Total Price <br>  
+                                                        <strong class="info__total-value">${sumPrice}</strong> </div>
                                                 </div>
                                                 <ul class="info__legend">
-                                                    <li class="info__legend-item info__legend-item--blue">Total sold price <br> RM <strong>590,000,000</strong></li>
-                                                    <li class="info__legend-item info__legend-item--light-blue">Total unsold price <br> RM <strong>165,000,000</strong></li>
+                                                    <li class="info__legend-item info__legend-item--blue">Total sold price <br> 
+                                                        <strong id="getSoldPrice">${sumPriceSold}</strong></li>
+                                                    <li class="info__legend-item info__legend-item--light-blue">Total unsold price <br> 
+                                                        <strong id="getUnsoldPrice">${sumPriceUnSold}</strong></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -242,7 +362,7 @@
                         </div>
                         <!-- END site-->
                         <!-- BEGIN SIDEBAR-->
-                        
+
                         <div class="sidebar">
                             <div class="widget js-widget widget--sidebar widget--first-no-head">
                                 <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Show agent</a>
@@ -251,9 +371,9 @@
                                     <div class="widget__content">
                                         <div data-sr="enter bottom move 80px, scale(0), over 0s" data-animate-end="animate-end" class="worker js-unhide-block vcard worker--sidebar-advanced">
                                             <h3 class="worker__name fn">${manager.managerName}</h3>
-                                            <div class="worker__post">Employee</div>
+                                            <div class="worker__post">Manager</div>
                                             <div class="worker__photo">
-                                                <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${manager.managerId}" class="item-photo item-photo--static">
+                                                <a href="#" class="item-photo item-photo--static">
                                                     <img src="${manager.managerImg}" alt="Christopher Pakulla" class="photo"/>
                                                     <figure class="item-photo__hover"><span class="item-photo__more">View Details</span></figure>
                                                 </a>
@@ -262,7 +382,7 @@
                                                 <button type="button" class="worker__show js-unhide">Contact agent</button>
                                                 <div class="worker__listings">
                                                     <i class="worker__favorites worker__favorites--highlight"></i> My Listings -
-                                                    <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${manager.managerId}">${countProject} estate</a></div>
+                                                    <a href="#">${countProject} Project</a></div>
                                                 <!-- end of block .worker__listings-->
                                                 <div class="worker__intro-row">
                                                     <div class="worker__intro-col">
@@ -339,6 +459,11 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demo.js"></script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
+    <script type="text/javascript">
+                                                                function myFunction(id) {
+                                                                    $('#' + id).modal('show');
+                                                                }
+    </script>
     <!-- END SCRIPTS and INCLUDES-->
 </body>
 </html>

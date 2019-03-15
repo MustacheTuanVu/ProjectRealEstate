@@ -192,6 +192,9 @@
                                                             <div class="form-group form-group--description">
                                                                 <label for="in-1" class="control-label">Estate Name</label>
                                                                 <input id="in-1" required type="text" name="estateName" data-placeholder="---" value="Text" class="form-control">
+                                                                <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
+                                                                    <div class="parsley-required">${message}</div>
+                                                                </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-15" class="control-label">Estate Type</label>

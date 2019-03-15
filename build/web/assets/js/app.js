@@ -1587,31 +1587,48 @@ webpackJsonpapp([0],[
 
 	"use strict";
 	module.exports = function () {
+          var unitSold = document.getElementById("getSold");
+          if(unitSold){
+              var unitSoldGet = unitSold.innerHTML;
+          }
+          var unitUnSold = document.getElementById("getUnsold");
+          if(unitUnSold){
+              var unitUnSoldGet = unitUnSold.innerHTML;
+          }
 	  var Chart = __webpack_require__(/*! chart.js */ 151);
 	  var units = [
 	    {
-	      value: 957,
+	      value: Number(unitSoldGet),
 	      color:"#43a047",
 	      highlight: "#43a047",
 	      label: "Total sold unit"
 	    },
 	    {
-	      value: 768,
+	      value: Number(unitUnSoldGet),
 	      color: "#a5d6a7",
 	      highlight: "#a5d6a7",
 	      label: "Total unsold unit"
 	    }
 	  ];
+          
+          var unitSoldPrice = document.getElementById("getSoldPrice");
+          if(unitSoldPrice){
+              var unitSoldGetPrice = unitSoldPrice.innerHTML;
+          }
+          var unitUnSoldPrice = document.getElementById("getUnsoldPrice");
+          if(unitUnSoldPrice){
+              var unitUnSoldGetPrice = unitUnSoldPrice.innerHTML;
+          }
 
 	  var price = [
 	    {
-	      value: 590,
+	      value: Number(unitSoldGetPrice),
 	      color:"#1e88e5",
 	      highlight: "#1e88e5",
 	      label: "Total sold price"
 	    },
 	    {
-	      value: 165,
+	      value: Number(unitUnSoldGetPrice),
 	      color: "#90caf9",
 	      highlight: "#90caf9",
 	      label: "Total unsold price"

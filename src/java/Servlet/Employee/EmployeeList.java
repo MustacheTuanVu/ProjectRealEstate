@@ -52,18 +52,22 @@ public class EmployeeList extends HttpServlet {
             switch (users.getRole()) {
                 case "employee":
                     session.setAttribute("name", users.getEmployee().getEmployeeName());
+                    request.setAttribute("role", "employee");
                     session.setAttribute("image", users.getEmployee().getEmployeeImg());
                     break;
                 case "manager":
                     session.setAttribute("name", users.getManager().getManagerName());
+                    request.setAttribute("role", "manager");
                     session.setAttribute("image", users.getManager().getManagerImg());
                     break;
                 case "director":
                     session.setAttribute("name", "Boss");
+                    request.setAttribute("role", "director");
                     session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
                     break;
                 case "customer":
                     session.setAttribute("name", users.getCustomer().getCustomerName());
+                    request.setAttribute("role", "customer");
                     session.setAttribute("image", users.getCustomer().getCustomerImg());
                     break;
             }

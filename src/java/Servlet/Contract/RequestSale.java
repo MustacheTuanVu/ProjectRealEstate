@@ -61,39 +61,44 @@ public class RequestSale extends HttpServlet {
         HttpSession session = request.getSession();
         Users users = (Users) session.getAttribute("user");
         if (users != null) {
-            request.setAttribute("users", "user");
+            request.setAttribute("user", "user");
             request.setAttribute("displayLogin", "none");
             request.setAttribute("displayUser", "block");
             switch (users.getRole()) {
                 case "employee":
                     session.setAttribute("name", users.getEmployee().getEmployeeName());
+                    request.setAttribute("role", "employee");
                     session.setAttribute("image", users.getEmployee().getEmployeeImg());
                     break;
                 case "manager":
                     session.setAttribute("name", users.getManager().getManagerName());
+                    request.setAttribute("role", "manager");
                     session.setAttribute("image", users.getManager().getManagerImg());
                     break;
                 case "director":
                     session.setAttribute("name", "Boss");
+                    request.setAttribute("role", "director");
                     session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
                     break;
                 case "customer":
                     session.setAttribute("name", users.getCustomer().getCustomerName());
+                    request.setAttribute("role", "customer");
                     session.setAttribute("image", users.getCustomer().getCustomerImg());
                     break;
             }
+
+            // BEGIN EMPLOYEE LIST SHOW//
+            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+            EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
+
+            request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
+            request.getRequestDispatcher("/page/guest/request_sale.jsp").forward(request, response);
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
+            response.sendRedirect(request.getContextPath() + "/LoginUser");
         }
         // END SESSION HEADER FONTEND //
-
-        // BEGIN EMPLOYEE LIST SHOW//
-        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
-
-        request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
-        request.getRequestDispatcher("/page/guest/request_sale.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -200,7 +205,7 @@ public class RequestSale extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(RequestSale.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         /*-----------------------------------------------------------*/
         ContractDetailsJpaController contractDetailsControl = new ContractDetailsJpaController(utx, emf);
         ContractDetails contractDetails = new ContractDetails();

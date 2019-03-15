@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
@@ -30,8 +29,100 @@
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
         <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
         <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
+        <script type="text/javascript">
+            function BrowseServer() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField;
+                finder.popup();
+            }
+            function SetFileField(fileUrl) {
+                var countimage = 0;
+                if (document.getElementById('imageup1st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image1st').value = fileUrl;
+                    document.getElementById('imageup1st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 1/5 photo";
+                } else if (document.getElementById('imageup2st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image2st').value = fileUrl;
+                    document.getElementById('imageup2st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 2/5 photo";
+                } else if (document.getElementById('imageup3st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image3st').value = fileUrl;
+                    document.getElementById('imageup3st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 3/5 photo";
+                } else if (document.getElementById('imageup4st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image4st').value = fileUrl;
+                    document.getElementById('imageup4st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 4/5 photo";
+                } else if (document.getElementById('imageup5st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image5st').value = fileUrl;
+                    document.getElementById('imageup5st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 5/5 photo";
+                }
+            }
+        </script>
+        <script type="text/javascript">
+            function BrowseServer1() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField1;
+                finder.popup();
+            }
+            function SetFileField1(fileUrl) {
+                document.getElementById('image1st').value = fileUrl;
+                document.getElementById('imageup1st').src = fileUrl;
+            }
+        </script>
+        <script type="text/javascript">
+            function BrowseServer2() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField2;
+                finder.popup();
+            }
+            function SetFileField2(fileUrl) {
+                document.getElementById('image2st').value = fileUrl;
+                document.getElementById('imageup2st').src = fileUrl;
+            }
+        </script>
+        <script type="text/javascript">
+            function BrowseServer3() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField3;
+                finder.popup();
+            }
+            function SetFileField3(fileUrl) {
+                document.getElementById('image3st').value = fileUrl;
+                document.getElementById('imageup3st').src = fileUrl;
+            }
+        </script>
+        <script type="text/javascript">
+            function BrowseServer4() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField4;
+                finder.popup();
+            }
+            function SetFileField4(fileUrl) {
+                document.getElementById('image4st').value = fileUrl;
+                document.getElementById('imageup4st').src = fileUrl;
+            }
+        </script>
+        <script type="text/javascript">
+            function BrowseServer5() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField5;
+                finder.popup();
+            }
+            function SetFileField5(fileUrl) {
+                document.getElementById('image5st').value = fileUrl;
+                document.getElementById('imageup5st').src = fileUrl;
+            }
+        </script>
     </head>
-    <body class="property_details menu-default hover-default">
+    <body class="dashboard_property_new menu-default hover-default sidebar-left">
         <!--
         SVG icons from sprite-inline.svg
         They are inlined in order to make them work,
@@ -68,236 +159,281 @@
         </nav>
         <!-- END NAVBAR-->
         <div class="site-wrap js-site-wrap">
-            <!-- BEGIN BREADCRUMBS-->
-            <nav class="breadcrumbs">
-                <div class="container">
-                    <ul>
-                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Estate Details</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <!-- END BREADCRUMBS-->
+            <!-- BEGIN CENTER SECTION-->
             <div class="center">
                 <div class="container">
                     <div class="row">
-                        <!-- BEGIN site-->
-                        <div class="site site--main">
-                            <!-- BEGIN PROPERTY DETAILS-->
-                            <div class="property">
-                                <h1 class="property__title">${find.estateName}<span class="property__city">${find.address2}</span></h1>
-                                <div class="property__header">
-                                    <div class="property__price"><strong class="property__price-value">${find.price}</strong><span class="property__price-label">Inclusive TVA</span></div>
-                                    <h4 class="property__commision">Direction: <strong>${find.direction}</strong></h4>
-                                    <c:if test="${find.estateStatus != 'waitting to transaction'}">
-                                        <div class="property__actions">
-                                            <a href="<%=request.getContextPath()%>/CreateContract?estateID=${find.id}&employeeID=${employee.id}" class="btn--default"><i class="fa fa-refresh"></i>Request Buy</a>
-                                            <button type="button" class="btn--default"><i class="fa fa-star"></i>Contact</button>
-                                        </div>
-                                    </c:if>
-                                </div>
-                                <div class="clearfix"></div>
-                                <div class="property__slider">
-                                    <div class="property__ribon">For ${find.estateStatusId.estateStatusName}</div>
-                                    <div class="property__ribon property__ribon--status property__ribon--done">
-                                        ${find.estateTypeId.typeName}
+                        <header class="site__header">
+                            <h1 class="site__title site__title--center">Dashboard</h1>
+                        </header>
+                        <!-- BEGIN LISTING-->
+                        <div class="site site--dashboard">
+                            <div class="site__main">
+                                <div class="widget js-widget widget--dashboard">
+                                    <div class="widget__header">
+                                        <h2 class="widget__title">Add new property</h2>
                                     </div>
-                                    <div id="properties-thumbs" class="slider slider--small js-slider-thumbs">
-                                        <div class="slider__block js-slick-slider">
-                                            <div class="slider__item slider__item--0"><a href="${find.image1st}" data-size="1740x960" data-gallery-index='0' class="slider__img js-gallery-item"><img data-lazy="${find.image1st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                            <div class="slider__item slider__item--1"><a href="${find.image2st}" data-size="1740x960" data-gallery-index='1' class="slider__img js-gallery-item"><img data-lazy="${find.image2st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                            <div class="slider__item slider__item--2"><a href="${find.image3st}" data-size="1740x960" data-gallery-index='2' class="slider__img js-gallery-item"><img data-lazy="${find.image3st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                            <div class="slider__item slider__item--3"><a href="${find.image4st}" data-size="1740x960" data-gallery-index='3' class="slider__img js-gallery-item"><img data-lazy="${find.image4st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                            <div class="slider__item slider__item--0"><a href="${find.image5st}" data-size="1740x960" data-gallery-index='4' class="slider__img js-gallery-item"><img data-lazy="${find.image5st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                            <div class="slider__item slider__item--1"><a href="${find.image1st}" data-size="1740x960" data-gallery-index='5' class="slider__img js-gallery-item"><img data-lazy="${find.image1st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                            <div class="slider__item slider__item--2"><a href="${find.image2st}" data-size="1740x960" data-gallery-index='6' class="slider__img js-gallery-item"><img data-lazy="${find.image2st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                            <div class="slider__item slider__item--3"><a href="${find.image3st}" data-size="1740x960" data-gallery-index='7' class="slider__img js-gallery-item"><img data-lazy="${find.image3st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                            <div class="slider__item slider__item--0"><a href="${find.image4st}" data-size="1740x960" data-gallery-index='8' class="slider__img js-gallery-item"><img data-lazy="${find.image4st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                        </div>
-                                    </div>
-                                    <div class="slider slider--thumbs">
-                                        <div class="slider__wrap">
-                                            <div class="slider__block js-slick-slider">
-                                                <div data-slide-rel='0' class="slider__item slider__item--0">
-                                                    <div class="slider__img"><img data-lazy="${find.image1st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                                <div data-slide-rel='1' class="slider__item slider__item--1">
-                                                    <div class="slider__img"><img data-lazy="${find.image2st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                                <div data-slide-rel='2' class="slider__item slider__item--2">
-                                                    <div class="slider__img"><img data-lazy="${find.image3st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                                <div data-slide-rel='3' class="slider__item slider__item--3">
-                                                    <div class="slider__img"><img data-lazy="${find.image4st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                                <div data-slide-rel='4' class="slider__item slider__item--0">
-                                                    <div class="slider__img"><img data-lazy="${find.image5st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                                <div data-slide-rel='5' class="slider__item slider__item--1">
-                                                    <div class="slider__img"><img data-lazy="${find.image1st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                                <div data-slide-rel='6' class="slider__item slider__item--2">
-                                                    <div class="slider__img"><img data-lazy="${find.image2st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                                <div data-slide-rel='7' class="slider__item slider__item--3">
-                                                    <div class="slider__img"><img data-lazy="${find.image3st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                                <div data-slide-rel='8' class="slider__item slider__item--0">
-                                                    <div class="slider__img"><img data-lazy="${find.image4st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                            </div>
-                                            <button type="button" class="slider__control slider__control--prev js-slick-prev">
-                                                <svg class="slider__control-icon">
-                                                <use xlink:href="#icon-arrow-left"></use>
-                                                </svg>
-                                            </button>
-                                            <button type="button" class="slider__control slider__control--next js-slick-next">
-                                                <svg class="slider__control-icon">
-                                                <use xlink:href="#icon-arrow-right"></use>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="property__info">
-                                    <div class="property__info-item">Property type: <strong> ${find.estateTypeId.typeName}</strong></div>
-                                    <div class="property__info-item">Status: <strong> ${find.estateStatusId.estateStatusName}</strong></div>
-                                    <div class="property__info-item">Year Build: <strong> <fmt:formatDate value="${find.yearBuild}" pattern="yyyy" /></strong></div>
-                                    <div class="property__info-item">Land Size: <strong> ${find.areas}m<sup>2</sup></strong></div>
-                                </div>
-                                <div class="property__plan">
-                                    <dl class="property__plan-item">
-                                        <dt class="property__plan-icon">
-                                            <svg>
-                                            <use xlink:href="#icon-area"></use>
-                                            </svg>
-                                        </dt>
-                                        <dd class="property__plan-title">Area</dd>
-                                        <dd class="property__plan-value">${find.areas}m<sup>2</sup></dd>
-                                    </dl>
-                                    <dl class="property__plan-item">
-                                        <dt class="property__plan-icon property__plan-icon--window">
-                                            <svg>
-                                            <use xlink:href="#icon-window"></use>
-                                            </svg>
-                                        </dt>
-                                        <dd class="property__plan-title">Bedrooms</dd>
-                                        <dd class="property__plan-value">${find.bedRoom} room</dd>
-                                    </dl>
-                                    <dl class="property__plan-item">
-                                        <dt class="property__plan-icon property__plan-icon--bathrooms">
-                                            <svg>
-                                            <use xlink:href="#icon-bathrooms"></use>
-                                            </svg>
-                                        </dt>
-                                        <dd class="property__plan-title">Bathrooms</dd>
-                                        <dd class="property__plan-value">${find.bathRoom} room</dd>
-                                    </dl>
-                                    <!--
-                                    <dl class="property__plan-item">
-                                        <dt class="property__plan-icon">
-                                            <svg>
-                                            <use xlink:href="#icon-bedrooms"></use>
-                                            </svg>
-                                        </dt>
-                                        <dd class="property__plan-title">Beds</dd>
-                                        <dd class="property__plan-value">${find.bedRoom} room</dd>
-                                    </dl>
-                                    -->
-                                    <dl class="property__plan-item">
-                                        <dt class="property__plan-icon property__plan-icon--garage">
-                                            <svg>
-                                            <use xlink:href="#icon-garage"></use>
-                                            </svg>
-                                        </dt>
-                                        <dd class="property__plan-title">Garages</dd>
-                                        <dd class="property__plan-value">${find.garages}m<sup>2</sup></dd>
-                                    </dl>
-                                </div>
-                                <div class="property__params">
-                                    <h4 class="property__subtitle">Feature</h4>
-                                    <ul class="property__params-list property__params-list--options">
-                                        <li>${find.featureDetailsList}</li>
-                                    </ul>
-                                </div>
-                                <div class="property__description js-unhide-block">
-                                    <h4 class="property__subtitle">Description</h4>
-                                    <div class="property__description-wrap">
-                                        <p>
-                                            ${find.estateContent}
-                                        </p>
-                                    </div>
-                                    <button type="button" class="property__btn-more js-unhide">More information ...</button>
-                                </div>
-                                <!--                
-                                <div class="widget js-widget widget--details">
                                     <div class="widget__content">
-                                        <div class="map map--properties">
-                                            <div class="map__buttons">
-                                                <button type="button" class="map__change-map js-map-btn active">Property Map</button>
-                                                <button type="button" class="map__change-panorama js-panorama-btn">Street view</button>
-                                            </div>
-                                            <div class="map__wrap">
-                                                <div data-type="map" class="map__view js-map-canvas"></div>
-                                                <div data-type="panorama" class="map__view map__view--panorama js-map-canvas"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                -->
+                                        <!-- BEGIN Favorites-->
+                                        <section class="form-property form-property--dashboard">
+                                            <!-- Nav tabs-->
+                                            <ul role="tablist" class="nav form-property__tabs">
+                                                <li role="presentation" class="active"><a>Basic</a></li>
+                                                <li role="presentation"><a>Photo</a></li>
+                                                <li role="presentation"><a>Feature</a></li>
+                                                <!--
+                                                <li role="presentation"><a href="#Status" aria-controls="Status" role="tab" data-toggle="tab">Extra</a></li>
+                                                -->
+                                            </ul>
+                                            <!-- Tab panes-->
+                                            <form action="<%=request.getContextPath()%>/EstateCreate" class="form form--flex form--property form--basic js-form-property-1">
+                                                <div class="tab-content form-property__content">
+                                                    <div id="basic" role="tabpanel" class="tab-pane active">
+                                                        <div class="row">
+                                                            <div class="form-group form-group--description ${hasError}">
+                                                                <label for="in-1" class="control-label">Estate Name</label>
+                                                                <input id="in-1" required type="text" name="estateName" data-placeholder="---" value="Text" class="form-control">
+                                                                <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
+                                                                    <div class="parsley-required">${message}</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-15" class="control-label">Estate Type</label>
+                                                                <select id="in-15" required name="estateTypeId" data-placeholder="---" class="form-control">
+                                                                    <option label=" "></option>
+                                                                    <c:forEach items="${estateTypeList}" var="estateTypeList">
+                                                                        <option value="${estateTypeList.id}">${estateTypeList.typeName}</option>
+                                                                    </c:forEach>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-10" class="control-label">Bed room</label>
+                                                                <input id="in-10" type="number" name="bedRoom" placeholder="" required class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-10" class="control-label">Bath room</label>
+                                                                <input id="in-10" type="number" name="bathRoom" placeholder="" required class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-10" class="control-label">Garages</label>
+                                                                <input id="in-10" type="number" name="garages" placeholder="" required class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-10" class="control-label">Price</label>
+                                                                <input id="in-10" type="number" name="price" placeholder="" required class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-10" class="control-label">Areas</label>
+                                                                <input id="in-10" type="number" name="areas" placeholder="" required class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-5" class="control-label">Direction</label>
+                                                                <select id="in-5" name="direction" data-placeholder="Choose a Direction..." required class="form-control js-in-select">
+                                                                    <option label=" "></option>
+                                                                    <option value="East">East</option>
+                                                                    <option value="West">West</option>
+                                                                    <option value="South">South</option>
+                                                                    <option value="North">North</option>
+                                                                    <option value="South">South-East</option>
+                                                                    <option value="South">South-West</option>
+                                                                    <option value="North-West">North-West</option>
+                                                                    <option value="North-West">North-East</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-2" class="control-label">Estate Status</label>
+                                                                <select id="in-2" required name="estateStatusId" data-placeholder="---" class="form-control">
+                                                                    <option label=" "></option>
+                                                                    <c:forEach items="${estateStatusList}" var="estateStatusList">
+                                                                        <option value="${estateStatusList.id}">${estateStatusList.estateStatusName}</option>
+                                                                    </c:forEach>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-9" class="control-label">Built Up</label>
+                                                                <input name="yearBuild" type="text" id="in-datetime" value="01/01/2019" data-time-picker="false" data-single-picker="true" class="js-datetimerange form-control">
+                                                            </div>
 
-
-                            </div>
-                            <!-- end of block .property-->
-                        </div>
-                        <!-- END site-->
-                        <!-- BEGIN SIDEBAR-->
-                        <div class="sidebar">
-                            <div class="widget js-widget widget--sidebar widget--first-no-head">
-                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Show agent</a>
-                                </div>
-                                <c:if test="${displayEmployee=='yes'}">
-                                <div class="widget__content">
-                                    <div data-sr="enter bottom move 80px, scale(0), over 0s" data-animate-end="animate-end" class="worker js-unhide-block vcard worker--sidebar-advanced">
-                                        <h3 class="worker__name fn">${employee.employeeName}</h3>
-                                        <div class="worker__post">Employee</div>
-                                        <div class="worker__photo">
-                                            <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${employee.id}" class="item-photo item-photo--static">
-                                                <img src="${employee.employeeImg}" alt="Christopher Pakulla" class="photo"/>
-                                                <figure class="item-photo__hover"><span class="item-photo__more">View Details</span></figure>
-                                            </a>
-                                        </div>
-                                        <div class="worker__intro">
-                                            <button type="button" class="worker__show js-unhide">Contact agent</button>
-                                            <div class="worker__listings">
-                                                <i class="worker__favorites worker__favorites--highlight"></i> My Listings -
-                                                <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${employee.id}">${employee.expr1} estate</a></div>
-                                            <!-- end of block .worker__listings-->
-                                            <div class="worker__intro-row">
-                                                <div class="worker__intro-col">
-                                                    <div class="worker__contacts">
-                                                        <div class="tel"><span class="type">Tel.</span><a href="tel:${employee.employeePhone}" class="uri value">${employee.employeePhone}</a></div>
-                                                        <div class="email"><span class="type">Email</span><a href="mailto:${employee.employeeMail}" class="uri value">${employee.employeeMail}</a></div>
-                                                        <div class="skype"><span class="type">Address</span><a href="skype:Walkenboy?call" class="uri value"> ${employee.employeeAddress}</a></div>
+                                                            <div class="form-group">
+                                                                <label for="in-6" class="control-label">Address 1</label>
+                                                                <input id="in-6" type="text" name="address1" required class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-6" class="control-label">Address 2</label>
+                                                                <input id="in-6" type="text" name="address2" required class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-6" class="control-label">District</label>
+                                                                <select id="in-5" name="district" data-placeholder="Choose a District..." required class="form-control js-in-select">
+                                                                    <option label=" "></option>
+                                                                    <option value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                                    <option value="11">11</option>
+                                                                    <option value="12">12</option>
+                                                                    <option value="Binh Thanh">Binh Thanh</option>
+                                                                    <option value="Thu Duc">Thu Duc</option>
+                                                                    <option value="Go Vap">Go Vap</option>
+                                                                    <option value="Hoc Mon">Hoc Mon</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group form-group--description">
+                                                                <label for="in-6" class="control-label">Content</label>
+                                                                <textarea id="in-6" name="estateDescription" rows="4" cols="50" class="form-control"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <a href="#Photo" aria-controls="Photo" class="form__submit" role="tab" data-toggle="tab">Next</a>
+                                                        </div>
                                                     </div>
-                                                    <!-- end of block .worker__contacts-->
+                                                    <div id="Photo" role="tabpanel" class="tab-pane">
+                                                        <div class="listing--items listing--grid listing--photos">
+                                                            <div class="listing__actions">
+                                                                <div class="listing__actions-border"></div>
+                                                                <h4 id="countimage" class="form__title js-form-title active">Estate have 0/5 photo</h4>
+                                                                <input type="button" class="btn--action js-listing-add-photo" value="Add Photo" onclick="BrowseServer();" />
+                                                            </div>
+                                                            <div class="listing__list js-photos-list">
+                                                                <div class="listing__item js-listing-item">
+                                                                    <div class="listing__item-header">
+                                                                        <div></div>
+                                                                        <div class="listing__tools">
+                                                                            <input onclick="BrowseServer1();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="listing__thumb">
+                                                                        <a class="item-photo item-photo--static js-gallery-item">
+                                                                            <input id="image1st" name="image1st" type="hidden"/>
+                                                                            <img width="240" height="160" id="imageup1st" name="imageup1st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- end of block .listing__item 11111-->
+                                                                <div class="listing__item js-listing-item">
+                                                                    <div class="listing__item-header">
+                                                                        <div></div>
+                                                                        <div class="listing__tools">
+                                                                            <input onclick="BrowseServer2();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="listing__thumb">
+                                                                        <a class="item-photo item-photo--static js-gallery-item">
+                                                                            <input id="image2st" name="image2st" type="hidden"/>
+                                                                            <img width="240" height="160" id="imageup2st" name="imageup2st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- end of block .listing__item 2222222-->
+                                                                <div class="listing__item js-listing-item">
+                                                                    <div class="listing__item-header">
+                                                                        <div></div>
+                                                                        <div class="listing__tools">
+                                                                            <input onclick="BrowseServer3();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="listing__thumb">
+                                                                        <a class="item-photo item-photo--static js-gallery-item">
+                                                                            <input id="image3st" name="image3st" type="hidden"/>
+                                                                            <img width="240" height="160" id="imageup3st" name="imageup3st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- end of block .listing__item 3333333-->
+                                                                <div class="listing__item js-listing-item">
+                                                                    <div class="listing__item-header">
+                                                                        <div></div>
+                                                                        <div class="listing__tools">
+                                                                            <input onclick="BrowseServer4();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="listing__thumb">
+                                                                        <a class="item-photo item-photo--static js-gallery-item">
+                                                                            <input id="image4st" name="image4st" type="hidden"/>
+                                                                            <img width="240" height="160" id="imageup4st" name="imageup4st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- end of block .listing__item 44444-->
+                                                                <div class="listing__item js-listing-item">
+                                                                    <div class="listing__item-header">
+                                                                        <div></div>
+                                                                        <div class="listing__tools">
+                                                                            <input onclick="BrowseServer5();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="listing__thumb">
+                                                                        <a class="item-photo item-photo--static js-gallery-item">
+                                                                            <input id="image5st" name="image5st" type="hidden"/>
+                                                                            <img width="240" height="160" id="imageup5st" name="imageup5st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- end of block .listing__item 55555-->
+                                                            </div>
+                                                        </div>
+                                                        <!-- END Photos-->
+                                                        <!--<form class="form form--flex form--property form--photo js-form-property">-->
+                                                        <div class="row">
+                                                            <a href="#Status" aria-controls="Photo" class="form__submit" role="tab" data-toggle="tab">Next</a>
+                                                        </div>
+                                                        <!--</form>-->
+                                                    </div>
+                                                    <div id="Status" role="tabpanel" class="tab-pane">
+                                                        <!--<form class="form form--flex form--property form--extra js-form-property">-->
+                                                        <div class="row">
+                                                            <div class="form-group form-group--col-12 form-group--inline">
+                                                                <label class="control-label">Estate Feature</label>
+                                                                <ul class="form__check">
+                                                                    <c:forEach items="${featuresList}" var="item">
+                                                                        <li>
+                                                                            <input value="${item.featuresId}" type="checkbox" name="feature" id="${item.featuresId}" class="in-checkbox">
+                                                                            <label for="${item.featuresId}" class="in-label">${item.featureName}</label>
+                                                                        </li>
+                                                                    </c:forEach>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <input type="submit" name="submit" value="submit" class="form__submit"/>
+                                                        </div>
+                                                        <!--</form>-->
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="worker__intro-row">
-                                                <div class="worker__descr">
-                                                    <p>${employee.employeeContent}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="clearfix"></div>
+                                            </form>
+                                        </section>
                                     </div>
-                                    <!-- end of block .worker-->
                                 </div>
-                                </c:if>
                             </div>
+                        </div>
+                        <!-- END LISTING-->
+                        <!-- BEGIN SIDEBAR-->
+                        <div class="sidebar sidebar--dashboard">
+                            <%@ include file="/template/dashboard/employee/sidebar.jsp" %>
                         </div>
                         <!-- END SIDEBAR-->
                         <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="myModal" tabindex="-1" role="dialog" class="modal fade">
+                <div role="document" class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="site__title">Add Success</h2>
+                        </div>
+                        <div class="modal-body">
+                            <h3>Are you want continue create estate ?</h3>
+                            <button type="button" data-dismiss="modal" aria-label="Close" class="form__submit">Yes</button>
+                            <a href="<%=request.getContextPath()%>/EstateList?user=admin" class="form__submit">No</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -305,7 +441,6 @@
             <!-- BEGIN AFTER CENTER SECTION-->
             <!-- END AFTER CENTER SECTION-->
             <!-- BEGIN FOOTER-->
-
             <footer class="footer">
                 <%@ include file="/template/footer.jsp" %>
             </footer>
@@ -348,6 +483,13 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demo.js"></script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
+
+    <script type="text/javascript">
+        $(window).on('load', function () {
+            $('#myModal').modal('${modal}');
+        });
+    </script>
+
     <!-- END SCRIPTS and INCLUDES-->
 </body>
 </html>

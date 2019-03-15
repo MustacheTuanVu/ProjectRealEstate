@@ -520,9 +520,67 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
-
     
-    //REMEMBER
+    public List<String> getEstateByProject(String projectID) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT estate_id FROM project_details where prject_id='" + projectID + "'");
+            List<String> ret = (List<String>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public int getEstateByProjectCount(String projectID) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT count(*) FROM project_details where prject_id='" + projectID + "'");
+            int ret = (int) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public Estate getEstateByName(String estateName) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT * FROM estate where estate_name='" + estateName + "'",Estate.class);
+            if(!query.getResultList().isEmpty()){
+                Estate ret = (Estate) query.getSingleResult();
+                return ret;
+            }else{
+                return null;
+            }
+        } finally {
+            em.close();
+        }
+    }
+    
+    public Estate getEstateByAddress(String address1, String address2) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT * FROM estate where "
+                    + "address1='" + address1 + "' AND "
+                    + "address2='" + address2 + "' ",Estate.class
+            );
+            if(!query.getResultList().isEmpty()){
+                Estate ret = (Estate) query.getSingleResult();
+                return ret;
+            }else{
+                return null;
+            }
+        } finally {
+            em.close();
+        }
+    }
+    
+    //REMEMBER 
     public List<Estate> getEstateInSiderBar(
             String statusID,//
             String typeID,//

@@ -57,7 +57,7 @@
                 <li class="navbar__item">
                     <a href="<%=request.getContextPath()%>/ProjectList?user=guest" class="navbar__link">Project</a>
                 </li>
-                <li class="navbar__item" style="display: ${displayUser}">
+                <li class="navbar__item">
                     <a href="<%=request.getContextPath()%>/RequestSale" class="navbar__link">Request Sale</a>
                 </li>
                 

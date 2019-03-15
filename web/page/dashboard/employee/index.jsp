@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
@@ -29,9 +28,8 @@
         <!--[if lt IE 11]>
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
         <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
-        <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
     </head>
-    <body class="property_details menu-default hover-default">
+    <body class="dashboard_property_new menu-default hover-default sidebar-left">
         <!--
         SVG icons from sprite-inline.svg
         They are inlined in order to make them work,
@@ -60,7 +58,7 @@
             <%@ include file="/template/guest/header.jsp" %>
         </header>
         <!-- END HEADER-->
-
+        
         <!-- BEGIN NAVBAR-->
         <div id="header-nav-offset"></div>
         <nav id="header-nav" class="navbar navbar--header">
@@ -68,234 +66,26 @@
         </nav>
         <!-- END NAVBAR-->
         <div class="site-wrap js-site-wrap">
-            <!-- BEGIN BREADCRUMBS-->
-            <nav class="breadcrumbs">
-                <div class="container">
-                    <ul>
-                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Estate Details</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <!-- END BREADCRUMBS-->
+            <!-- BEGIN CENTER SECTION-->
             <div class="center">
                 <div class="container">
                     <div class="row">
-                        <!-- BEGIN site-->
-                        <div class="site site--main">
-                            <!-- BEGIN PROPERTY DETAILS-->
-                            <div class="property">
-                                <h1 class="property__title">${find.estateName}<span class="property__city">${find.address2}</span></h1>
-                                <div class="property__header">
-                                    <div class="property__price"><strong class="property__price-value">${find.price}</strong><span class="property__price-label">Inclusive TVA</span></div>
-                                    <h4 class="property__commision">Direction: <strong>${find.direction}</strong></h4>
-                                    <c:if test="${find.estateStatus != 'waitting to transaction'}">
-                                        <div class="property__actions">
-                                            <a href="<%=request.getContextPath()%>/CreateContract?estateID=${find.id}&employeeID=${employee.id}" class="btn--default"><i class="fa fa-refresh"></i>Request Buy</a>
-                                            <button type="button" class="btn--default"><i class="fa fa-star"></i>Contact</button>
-                                        </div>
-                                    </c:if>
-                                </div>
-                                <div class="clearfix"></div>
-                                <div class="property__slider">
-                                    <div class="property__ribon">For ${find.estateStatusId.estateStatusName}</div>
-                                    <div class="property__ribon property__ribon--status property__ribon--done">
-                                        ${find.estateTypeId.typeName}
-                                    </div>
-                                    <div id="properties-thumbs" class="slider slider--small js-slider-thumbs">
-                                        <div class="slider__block js-slick-slider">
-                                            <div class="slider__item slider__item--0"><a href="${find.image1st}" data-size="1740x960" data-gallery-index='0' class="slider__img js-gallery-item"><img data-lazy="${find.image1st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                            <div class="slider__item slider__item--1"><a href="${find.image2st}" data-size="1740x960" data-gallery-index='1' class="slider__img js-gallery-item"><img data-lazy="${find.image2st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                            <div class="slider__item slider__item--2"><a href="${find.image3st}" data-size="1740x960" data-gallery-index='2' class="slider__img js-gallery-item"><img data-lazy="${find.image3st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                            <div class="slider__item slider__item--3"><a href="${find.image4st}" data-size="1740x960" data-gallery-index='3' class="slider__img js-gallery-item"><img data-lazy="${find.image4st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                            <div class="slider__item slider__item--0"><a href="${find.image5st}" data-size="1740x960" data-gallery-index='4' class="slider__img js-gallery-item"><img data-lazy="${find.image5st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                            <div class="slider__item slider__item--1"><a href="${find.image1st}" data-size="1740x960" data-gallery-index='5' class="slider__img js-gallery-item"><img data-lazy="${find.image1st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                            <div class="slider__item slider__item--2"><a href="${find.image2st}" data-size="1740x960" data-gallery-index='6' class="slider__img js-gallery-item"><img data-lazy="${find.image2st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                            <div class="slider__item slider__item--3"><a href="${find.image3st}" data-size="1740x960" data-gallery-index='7' class="slider__img js-gallery-item"><img data-lazy="${find.image3st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                            <div class="slider__item slider__item--0"><a href="${find.image4st}" data-size="1740x960" data-gallery-index='8' class="slider__img js-gallery-item"><img data-lazy="${find.image4st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
-                                        </div>
-                                    </div>
-                                    <div class="slider slider--thumbs">
-                                        <div class="slider__wrap">
-                                            <div class="slider__block js-slick-slider">
-                                                <div data-slide-rel='0' class="slider__item slider__item--0">
-                                                    <div class="slider__img"><img data-lazy="${find.image1st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                                <div data-slide-rel='1' class="slider__item slider__item--1">
-                                                    <div class="slider__img"><img data-lazy="${find.image2st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                                <div data-slide-rel='2' class="slider__item slider__item--2">
-                                                    <div class="slider__img"><img data-lazy="${find.image3st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                                <div data-slide-rel='3' class="slider__item slider__item--3">
-                                                    <div class="slider__img"><img data-lazy="${find.image4st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                                <div data-slide-rel='4' class="slider__item slider__item--0">
-                                                    <div class="slider__img"><img data-lazy="${find.image5st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                                <div data-slide-rel='5' class="slider__item slider__item--1">
-                                                    <div class="slider__img"><img data-lazy="${find.image1st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                                <div data-slide-rel='6' class="slider__item slider__item--2">
-                                                    <div class="slider__img"><img data-lazy="${find.image2st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                                <div data-slide-rel='7' class="slider__item slider__item--3">
-                                                    <div class="slider__img"><img data-lazy="${find.image3st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                                <div data-slide-rel='8' class="slider__item slider__item--0">
-                                                    <div class="slider__img"><img data-lazy="${find.image4st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt=""></div>
-                                                </div>
-                                            </div>
-                                            <button type="button" class="slider__control slider__control--prev js-slick-prev">
-                                                <svg class="slider__control-icon">
-                                                <use xlink:href="#icon-arrow-left"></use>
-                                                </svg>
-                                            </button>
-                                            <button type="button" class="slider__control slider__control--next js-slick-next">
-                                                <svg class="slider__control-icon">
-                                                <use xlink:href="#icon-arrow-right"></use>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="property__info">
-                                    <div class="property__info-item">Property type: <strong> ${find.estateTypeId.typeName}</strong></div>
-                                    <div class="property__info-item">Status: <strong> ${find.estateStatusId.estateStatusName}</strong></div>
-                                    <div class="property__info-item">Year Build: <strong> <fmt:formatDate value="${find.yearBuild}" pattern="yyyy" /></strong></div>
-                                    <div class="property__info-item">Land Size: <strong> ${find.areas}m<sup>2</sup></strong></div>
-                                </div>
-                                <div class="property__plan">
-                                    <dl class="property__plan-item">
-                                        <dt class="property__plan-icon">
-                                            <svg>
-                                            <use xlink:href="#icon-area"></use>
-                                            </svg>
-                                        </dt>
-                                        <dd class="property__plan-title">Area</dd>
-                                        <dd class="property__plan-value">${find.areas}m<sup>2</sup></dd>
-                                    </dl>
-                                    <dl class="property__plan-item">
-                                        <dt class="property__plan-icon property__plan-icon--window">
-                                            <svg>
-                                            <use xlink:href="#icon-window"></use>
-                                            </svg>
-                                        </dt>
-                                        <dd class="property__plan-title">Bedrooms</dd>
-                                        <dd class="property__plan-value">${find.bedRoom} room</dd>
-                                    </dl>
-                                    <dl class="property__plan-item">
-                                        <dt class="property__plan-icon property__plan-icon--bathrooms">
-                                            <svg>
-                                            <use xlink:href="#icon-bathrooms"></use>
-                                            </svg>
-                                        </dt>
-                                        <dd class="property__plan-title">Bathrooms</dd>
-                                        <dd class="property__plan-value">${find.bathRoom} room</dd>
-                                    </dl>
-                                    <!--
-                                    <dl class="property__plan-item">
-                                        <dt class="property__plan-icon">
-                                            <svg>
-                                            <use xlink:href="#icon-bedrooms"></use>
-                                            </svg>
-                                        </dt>
-                                        <dd class="property__plan-title">Beds</dd>
-                                        <dd class="property__plan-value">${find.bedRoom} room</dd>
-                                    </dl>
-                                    -->
-                                    <dl class="property__plan-item">
-                                        <dt class="property__plan-icon property__plan-icon--garage">
-                                            <svg>
-                                            <use xlink:href="#icon-garage"></use>
-                                            </svg>
-                                        </dt>
-                                        <dd class="property__plan-title">Garages</dd>
-                                        <dd class="property__plan-value">${find.garages}m<sup>2</sup></dd>
-                                    </dl>
-                                </div>
-                                <div class="property__params">
-                                    <h4 class="property__subtitle">Feature</h4>
-                                    <ul class="property__params-list property__params-list--options">
-                                        <li>${find.featureDetailsList}</li>
-                                    </ul>
-                                </div>
-                                <div class="property__description js-unhide-block">
-                                    <h4 class="property__subtitle">Description</h4>
-                                    <div class="property__description-wrap">
-                                        <p>
-                                            ${find.estateContent}
-                                        </p>
-                                    </div>
-                                    <button type="button" class="property__btn-more js-unhide">More information ...</button>
-                                </div>
-                                <!--                
-                                <div class="widget js-widget widget--details">
-                                    <div class="widget__content">
-                                        <div class="map map--properties">
-                                            <div class="map__buttons">
-                                                <button type="button" class="map__change-map js-map-btn active">Property Map</button>
-                                                <button type="button" class="map__change-panorama js-panorama-btn">Street view</button>
-                                            </div>
-                                            <div class="map__wrap">
-                                                <div data-type="map" class="map__view js-map-canvas"></div>
-                                                <div data-type="panorama" class="map__view map__view--panorama js-map-canvas"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                -->
-
-
+                        <header class="site__header">
+                            <h1 class="site__title site__title--center">Dashboard</h1>
+                        </header>
+                        <!-- BEGIN LISTING-->
+                        <div class="site site--dashboard">
+                            <div class="site__main">
+                                <h1 class="site__title site__title--center">DIRECTOR PANEL</h1>
                             </div>
-                            <!-- end of block .property-->
                         </div>
-                        <!-- END site-->
+                        <!-- END LISTING-->
                         <!-- BEGIN SIDEBAR-->
-                        <div class="sidebar">
-                            <div class="widget js-widget widget--sidebar widget--first-no-head">
-                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Show agent</a>
-                                </div>
-                                <c:if test="${displayEmployee=='yes'}">
-                                <div class="widget__content">
-                                    <div data-sr="enter bottom move 80px, scale(0), over 0s" data-animate-end="animate-end" class="worker js-unhide-block vcard worker--sidebar-advanced">
-                                        <h3 class="worker__name fn">${employee.employeeName}</h3>
-                                        <div class="worker__post">Employee</div>
-                                        <div class="worker__photo">
-                                            <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${employee.id}" class="item-photo item-photo--static">
-                                                <img src="${employee.employeeImg}" alt="Christopher Pakulla" class="photo"/>
-                                                <figure class="item-photo__hover"><span class="item-photo__more">View Details</span></figure>
-                                            </a>
-                                        </div>
-                                        <div class="worker__intro">
-                                            <button type="button" class="worker__show js-unhide">Contact agent</button>
-                                            <div class="worker__listings">
-                                                <i class="worker__favorites worker__favorites--highlight"></i> My Listings -
-                                                <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${employee.id}">${employee.expr1} estate</a></div>
-                                            <!-- end of block .worker__listings-->
-                                            <div class="worker__intro-row">
-                                                <div class="worker__intro-col">
-                                                    <div class="worker__contacts">
-                                                        <div class="tel"><span class="type">Tel.</span><a href="tel:${employee.employeePhone}" class="uri value">${employee.employeePhone}</a></div>
-                                                        <div class="email"><span class="type">Email</span><a href="mailto:${employee.employeeMail}" class="uri value">${employee.employeeMail}</a></div>
-                                                        <div class="skype"><span class="type">Address</span><a href="skype:Walkenboy?call" class="uri value"> ${employee.employeeAddress}</a></div>
-                                                    </div>
-                                                    <!-- end of block .worker__contacts-->
-                                                </div>
-                                            </div>
-                                            <div class="worker__intro-row">
-                                                <div class="worker__descr">
-                                                    <p>${employee.employeeContent}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    <!-- end of block .worker-->
-                                </div>
-                                </c:if>
-                            </div>
+                        
+                        <div class="sidebar sidebar--dashboard">
+                            <%@ include file="/template/dashboard/employee/sidebar.jsp" %>
                         </div>
+                            
                         <!-- END SIDEBAR-->
                         <div class="clearfix"></div>
                     </div>
@@ -305,7 +95,6 @@
             <!-- BEGIN AFTER CENTER SECTION-->
             <!-- END AFTER CENTER SECTION-->
             <!-- BEGIN FOOTER-->
-
             <footer class="footer">
                 <%@ include file="/template/footer.jsp" %>
             </footer>
@@ -348,6 +137,7 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demo.js"></script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
+
     <!-- END SCRIPTS and INCLUDES-->
 </body>
 </html>

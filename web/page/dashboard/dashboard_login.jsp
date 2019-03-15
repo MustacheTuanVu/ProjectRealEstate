@@ -55,14 +55,14 @@
     <div class="box js-box">
         <!-- BEGIN HEADER-->
         <header class="header header--brand">
-            <%@ include file="/template/header.jsp" %>
+            <%@ include file="/template/guest/header.jsp" %>
         </header>
         <!-- END HEADER-->
 
         <!-- BEGIN NAVBAR-->
         <div id="header-nav-offset"></div>
         <nav id="header-nav" class="navbar navbar--header">
-            <%@ include file="/template/navbar.jsp" %>
+            <%@ include file="/template/guest/navbar.jsp" %>
         </nav>
         <!-- END NAVBAR-->
         <div class="site-wrap js-site-wrap">

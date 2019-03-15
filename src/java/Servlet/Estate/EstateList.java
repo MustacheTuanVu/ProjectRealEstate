@@ -49,24 +49,28 @@ public class EstateList extends HttpServlet {
         HttpSession session = request.getSession();
         Users users = (Users) session.getAttribute("user");
         if (users != null) {
-            request.setAttribute("users", "user");
+            request.setAttribute("user", "user");
             request.setAttribute("displayLogin", "none");
             request.setAttribute("displayUser", "block");
             switch (users.getRole()) {
                 case "employee":
                     session.setAttribute("name", users.getEmployee().getEmployeeName());
+                    request.setAttribute("role", "employee");
                     session.setAttribute("image", users.getEmployee().getEmployeeImg());
                     break;
                 case "manager":
                     session.setAttribute("name", users.getManager().getManagerName());
+                    request.setAttribute("role", "manager");
                     session.setAttribute("image", users.getManager().getManagerImg());
                     break;
                 case "director":
                     session.setAttribute("name", "Boss");
+                    request.setAttribute("role", "director");
                     session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
                     break;
                 case "customer":
                     session.setAttribute("name", users.getCustomer().getCustomerName());
+                    request.setAttribute("role", "customer");
                     session.setAttribute("image", users.getCustomer().getCustomerImg());
                     break;
             }
@@ -171,7 +175,18 @@ public class EstateList extends HttpServlet {
         if(user.equals("guest")){
             request.getRequestDispatcher("/page/guest/properties_listing_grid.jsp").forward(request, response);
         }else{
-            request.getRequestDispatcher("/page/dashboard/dashboard_property.jsp").forward(request, response);
+            String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "";
+            String name = (request.getParameter("estateName") != null) ? request.getParameter("estateName") : "";
+            String add1 = (request.getParameter("address1") != null) ? request.getParameter("address1") : "";
+            String add2 = (request.getParameter("address2") != null) ? request.getParameter("address2") : "";
+            String img = (request.getParameter("img") != null) ? request.getParameter("img") : "";
+            request.setAttribute("modal", modal);
+            request.setAttribute("name", name);
+            request.setAttribute("add1", add1);
+            request.setAttribute("add2", add2);
+            request.setAttribute("img", img);
+            request.setAttribute("estateList", estateControl.findEstateEntities());
+            request.getRequestDispatcher("/page/dashboard/employee/dashboard_property.jsp").forward(request, response);
         }
         
     }

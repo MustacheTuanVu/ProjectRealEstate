@@ -91,7 +91,7 @@
                                     <h4 class="property__commision">Direction: <strong>${find.direction}</strong></h4>
                                     <c:if test="${find.estateStatus != 'waitting to transaction'}">
                                         <div class="property__actions">
-                                            <a href="<%=request.getContextPath()%>/CreateContract?estateID=${find.id}" class="btn--default"><i class="fa fa-refresh"></i>Request Buy</a>
+                                            <a href="<%=request.getContextPath()%>/CreateContract?estateID=${find.id}&employeeID=${employee.id}" class="btn--default"><i class="fa fa-refresh"></i>Request Buy</a>
                                             <button type="button" class="btn--default"><i class="fa fa-star"></i>Contact</button>
                                         </div>
                                     </c:if>

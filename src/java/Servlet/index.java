@@ -55,6 +55,7 @@ public class index extends HttpServlet {
                     break;
                 case "manager":
                     session.setAttribute("name", user.getManager().getManagerName());
+                    request.setAttribute("role", "manager");
                     session.setAttribute("image", user.getManager().getManagerImg());
                     break;
                 case "director":
@@ -64,6 +65,7 @@ public class index extends HttpServlet {
                     break;
                 case "customer":
                     session.setAttribute("name", user.getCustomer().getCustomerName());
+                    request.setAttribute("role", "customer");
                     session.setAttribute("image", user.getCustomer().getCustomerImg());
                     break;
             }

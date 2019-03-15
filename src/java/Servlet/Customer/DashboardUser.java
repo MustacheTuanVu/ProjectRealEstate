@@ -49,6 +49,7 @@ public class DashboardUser extends HttpServlet {
             request.setAttribute("displayLogin", "none");
             request.setAttribute("displayUser", "block");
             session.setAttribute("name", users.getCustomer().getCustomerName());
+                    request.setAttribute("role", "customer");
             session.setAttribute("image", users.getCustomer().getCustomerImg());
             
             /*-----------------------------------------------------------*/

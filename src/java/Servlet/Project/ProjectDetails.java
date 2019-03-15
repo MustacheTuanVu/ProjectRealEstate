@@ -16,6 +16,8 @@ import Entity.Project;
 import Entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -49,24 +51,28 @@ public class ProjectDetails extends HttpServlet {
         HttpSession session = request.getSession();
         Users users = (Users) session.getAttribute("user");
         if (users != null) {
-            request.setAttribute("users", "user");
+            request.setAttribute("user", "user");
             request.setAttribute("displayLogin", "none");
             request.setAttribute("displayUser", "block");
             switch (users.getRole()) {
                 case "employee":
                     session.setAttribute("name", users.getEmployee().getEmployeeName());
+                    request.setAttribute("role", "employee");
                     session.setAttribute("image", users.getEmployee().getEmployeeImg());
                     break;
                 case "manager":
                     session.setAttribute("name", users.getManager().getManagerName());
+                    request.setAttribute("role", "manager");
                     session.setAttribute("image", users.getManager().getManagerImg());
                     break;
                 case "director":
                     session.setAttribute("name", "Boss");
+                    request.setAttribute("role", "director");
                     session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
                     break;
                 case "customer":
                     session.setAttribute("name", users.getCustomer().getCustomerName());
+                    request.setAttribute("role", "customer");
                     session.setAttribute("image", users.getCustomer().getCustomerImg());
                     break;
             }
@@ -82,12 +88,37 @@ public class ProjectDetails extends HttpServlet {
         ManagerJpaController managerControl = new ManagerJpaController(utx, emf);
         EstateJpaController estateControl = new EstateJpaController(utx, emf);
         
+        
+        
         request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
 
         String id = request.getParameter("projectId");
         Project find = projectControl.findProject(id);
         
+        List<String> estateIDList = estateControl.getEstateByProject(id);
+        List<Estate> estateList = new ArrayList<>();
+        
+        for (String string : estateIDList) {
+            estateList.add(estateControl.findEstate(string));
+        }
+        
         int countProject = projectControl.getManagerByProjectCount(find.getManagerId().getManagerId());
+        int countEstate = estateControl.getEstateByProjectCount(id);
+        
+        int countEstateSold = 0;
+        int countEstateUnSold = 0;
+        Double sumPrice = 0.0;
+        Double sumPriceSold = 0.0;
+        Double sumPriceUnSold = 0.0;
+        for (Estate estate : estateList) {
+            sumPrice = sumPrice + estate.getPrice();
+            if(estate.getEstateStatusId().getEstateStatusName().equals("Saled")){
+                countEstateSold = countEstateSold + 1;
+                sumPriceSold = sumPriceSold + estate.getPrice();
+            }
+        }
+        countEstateUnSold = countEstate - countEstateSold;
+        sumPriceUnSold = sumPrice - sumPriceSold;
         String displayManager = "yes";
         if(countProject != 0){
             int managerID = projectControl.getManagerByProject(Integer.parseInt(id));
@@ -96,6 +127,14 @@ public class ProjectDetails extends HttpServlet {
         }else{
             displayManager = "no";
         }
+        
+        request.setAttribute("estateList", estateList);
+        request.setAttribute("countEstate", countEstate);
+        request.setAttribute("countEstateSold", countEstateSold);
+        request.setAttribute("countEstateUnSold", countEstateUnSold);
+        request.setAttribute("sumPrice", sumPrice);
+        request.setAttribute("sumPriceUnSold", sumPriceUnSold);
+        request.setAttribute("sumPriceSold", sumPriceSold);
         request.setAttribute("displayManager", displayManager);
         request.setAttribute("find", find);
         request.getRequestDispatcher("/page/guest/project_details.jsp").forward(request, response);

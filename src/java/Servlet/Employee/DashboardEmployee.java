@@ -3,18 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet.Estate;
+package Servlet.Employee;
 
-import Controller.EmployeeJpaController;
-import Controller.EstateJpaController;
 import Controller.EstateTypeJpaController;
-import Controller.ViewEmployeeAssignJpaController;
-import Entity.Estate;
-import Entity.Users;
+import Entity.EstateType;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,8 +23,8 @@ import javax.transaction.UserTransaction;
  *
  * @author kiems
  */
-@WebServlet(name = "EstateDetails", urlPatterns = {"/EstateDetails"})
-public class EstateDetails extends HttpServlet {
+@WebServlet(name = "DashboardEmployee", urlPatterns = {"/DashboardEmployee"})
+public class DashboardEmployee extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,24 +39,22 @@ public class EstateDetails extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
-        Users users = (Users) session.getAttribute("user");
-        if (users != null) {
+        Entity.Users user = (Entity.Users) session.getAttribute("user");
+        if (user != null) {
             request.setAttribute("user", "user");
             request.setAttribute("displayLogin", "none");
             request.setAttribute("displayUser", "block");
-            switch (users.getRole()) {
+            switch (user.getRole()) {
                 case "employee":
-                    session.setAttribute("name", users.getEmployee().getEmployeeName());
+                    session.setAttribute("name", user.getEmployee().getEmployeeName());
                     request.setAttribute("role", "employee");
-                    session.setAttribute("image", users.getEmployee().getEmployeeImg());
+                    session.setAttribute("image", user.getEmployee().getEmployeeImg());
                     break;
                 case "manager":
-                    session.setAttribute("name", users.getManager().getManagerName());
-                    request.setAttribute("role", "manager");
-                    session.setAttribute("image", users.getManager().getManagerImg());
+                    session.setAttribute("name", user.getManager().getManagerName());
+                    session.setAttribute("image", user.getManager().getManagerImg());
                     break;
                 case "director":
                     session.setAttribute("name", "Boss");
@@ -68,9 +62,8 @@ public class EstateDetails extends HttpServlet {
                     session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
                     break;
                 case "customer":
-                    session.setAttribute("name", users.getCustomer().getCustomerName());
-                    request.setAttribute("role", "customer");
-                    session.setAttribute("image", users.getCustomer().getCustomerImg());
+                    session.setAttribute("name", user.getCustomer().getCustomerName());
+                    session.setAttribute("image", user.getCustomer().getCustomerImg());
                     break;
             }
         } else {
@@ -79,28 +72,13 @@ public class EstateDetails extends HttpServlet {
         }
         // END SESSION HEADER FONTEND //
         
+        // BEGIN NAVBAR HEADER FONTEND //
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
-        ViewEmployeeAssignJpaController viewEmployeeAssignControl = new ViewEmployeeAssignJpaController(utx, emf);
-        EstateJpaController estateControl = new EstateJpaController(utx, emf);
-        
-        request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
-
-        String id = request.getParameter("estateID");
-        Estate find = estateControl.findEstate(id);
-        
-        int countEstate = estateControl.getEmployeeByEstateCount(id);
-        String displayEmployee = "yes";
-        if(countEstate != 0){
-            int employeeID = estateControl.getEmployeeByEstate(id);
-            request.setAttribute("employee", viewEmployeeAssignControl.findViewEmployeeAssign(employeeID));
-        }else{
-            displayEmployee = "no";
-        }
-        request.setAttribute("displayEmployee", displayEmployee);
-        request.setAttribute("find", find);
-        request.getRequestDispatcher("/page/guest/properties_details.jsp").forward(request, response);
-        
+        List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();
+        request.setAttribute("estateTypeList", estateTypeList);
+        request.getRequestDispatcher("/page/dashboard/employee/index.jsp").forward(request, response);
+        // END NAVBAR HEADER FONTEND //
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
