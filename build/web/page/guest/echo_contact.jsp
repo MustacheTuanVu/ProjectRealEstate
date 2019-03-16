@@ -105,9 +105,17 @@
                                                 class="button__action ui__button ui__button--1">ACCEPT
                                             </a>
                                         </c:if>
-                                        
-                                        <button onclick="showContract()" class="button__action ui__button ui__button--1">Show Contract</button>
-                                        <button onclick="showDescription()" class="button__action ui__button ui__button--1">Show Description</button>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <button onclick="showContract()" class="button__default">Show Contract</button>
+                                                <button onclick="showDescription()" class="button__default">Show Description</button>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <button onclick="checkTransaction()" class="button__default" style="display: ${displayTransaction}">Check Transaction</button>
+                                            </div>
+                                            
+                                            
+                                        </div>
                                     </div>
                                     <div class="widget__content" id="section-1">
                                         <section class="info info--statistics">
@@ -335,6 +343,23 @@
                                             </div>
                                         </section>
                                     </div>
+                                    <div class="widget__content" id="section-3" style="display: none;">
+                                        <section class="info info--statistics">
+                                            <div class="info__about">
+                                                <h4 class="info__about-title">Check Transaction</h4>
+                                            </div>
+                                            <div class="info__about">
+                                                <form action="<%=request.getContextPath()%>/CreateContract" method="POST">
+                                                    <label>Money</label>
+                                                    <input type="number" name="money" placeholder="0000000">
+                                                    <input type="hidden" name="price" value="${estate.price}">
+                                                    <input type="hidden" name="customer" value="${customer.id}">
+                                                    <input type="hidden" name="contract" value="${contract.id}">
+                                                    <button type="submit" class="button__default">Submit</button>
+                                                </form>
+                                            </div>
+                                        </section>
+                                    </div>
                                 </div>
                                 <div class="widget js-widget widget--main">
 
@@ -394,15 +419,24 @@
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
     <script type="text/javascript">
-                                            function showContract() {
-                                                document.getElementById("section-1").style.display = "none";
-                                                document.getElementById("section-2").style.display = "block";
-                                            }
+        function showContract() {
+            document.getElementById("section-1").style.display = "none";
+            document.getElementById("section-2").style.display = "block";
+            document.getElementById("section-3").style.display = "none";
+        }
     </script>
     <script type="text/javascript">
         function showDescription() {
             document.getElementById("section-1").style.display = "block";
             document.getElementById("section-2").style.display = "none";
+            document.getElementById("section-3").style.display = "none";
+        }
+    </script>
+    <script type="text/javascript">
+        function checkTransaction() {
+            document.getElementById("section-1").style.display = "none";
+            document.getElementById("section-2").style.display = "none";
+            document.getElementById("section-3").style.display = "block";
         }
     </script>
     <!-- END SCRIPTS and INCLUDES-->

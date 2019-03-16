@@ -14,6 +14,7 @@ import Entity.EstateType;
 import Entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
@@ -55,6 +56,7 @@ public class EstateList extends HttpServlet {
             switch (users.getRole()) {
                 case "employee":
                     session.setAttribute("name", users.getEmployee().getEmployeeName());
+                    session.setAttribute("employeeID", users.getEmployee().getId());
                     request.setAttribute("role", "employee");
                     session.setAttribute("image", users.getEmployee().getEmployeeImg());
                     break;
@@ -81,6 +83,9 @@ public class EstateList extends HttpServlet {
         // END SESSION HEADER FONTEND //
         
         // BEGIN ESTATE LIST SHOW//
+        
+        
+        
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         EstateJpaController estateControl = new EstateJpaController(utx, emf);
         EstateStatusJpaController estateStatusControl = new EstateStatusJpaController(utx, emf);
@@ -142,7 +147,7 @@ public class EstateList extends HttpServlet {
         request.setAttribute("estateStatusID", estateStatusID);
         request.setAttribute("estateTypeID", estateTypeID);
         request.setAttribute("sorts", sort);
-        List<Estate> estateList = estateControl.getEstateInSiderBar(
+        List<Estate> estateLists = estateControl.getEstateInSiderBar(
             StatusF,
             TypeF,
             sortConditions,
@@ -163,8 +168,8 @@ public class EstateList extends HttpServlet {
             PriceFrom,
             PriceTo
         );
-        request.setAttribute("estateList", estateList);
-        request.setAttribute("size", estateList.size());
+        request.setAttribute("estateList", estateLists);
+        request.setAttribute("size", estateLists.size());
         // END ESTATE LIST SHOW//
         
         // BEGIN SEARCH ESTATE SIDEBAR //
@@ -176,16 +181,48 @@ public class EstateList extends HttpServlet {
             request.getRequestDispatcher("/page/guest/properties_listing_grid.jsp").forward(request, response);
         }else{
             String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "";
+            String id = (request.getParameter("estateID") != null) ? request.getParameter("estateID") : "";
             String name = (request.getParameter("estateName") != null) ? request.getParameter("estateName") : "";
             String add1 = (request.getParameter("address1") != null) ? request.getParameter("address1") : "";
             String add2 = (request.getParameter("address2") != null) ? request.getParameter("address2") : "";
             String img = (request.getParameter("img") != null) ? request.getParameter("img") : "";
             request.setAttribute("modal", modal);
+            request.setAttribute("id", id);
             request.setAttribute("name", name);
             request.setAttribute("add1", add1);
             request.setAttribute("add2", add2);
             request.setAttribute("img", img);
-            request.setAttribute("estateList", estateControl.findEstateEntities());
+            
+            String modalTranFail = (request.getParameter("modalTranFail") != null) ? request.getParameter("modalTranFail") : "hide";
+            String modalTranOke = (request.getParameter("modalTranOke") != null) ? request.getParameter("modalTranOke") : "hide";
+            request.setAttribute("modalTranFail", modalTranFail);
+            request.setAttribute("modalTranOke", modalTranOke);
+            
+            String statusFilter = (request.getParameter("filter") != null) ? request.getParameter("filter") : "";
+            
+            List<String> estateIDList = estateControl.getEstateByEmployeeFilter(
+                    String.valueOf(users.getEmployee().getId()),
+                    statusFilter
+            );
+            List<Estate> estateList = new ArrayList<>();
+            
+            String search = (request.getParameter("search") != null) ? request.getParameter("search") : "";
+            
+            if(search.equals("search")){
+                String searchInput = (request.getParameter("searchInput") != null) ? request.getParameter("searchInput") : "";
+                List<String> estateIDListSearch = estateControl.getEstateByEmployeeSearch(
+                    String.valueOf(users.getEmployee().getId()),
+                    searchInput
+                );
+                for (String string : estateIDListSearch) {
+                    estateList.add(estateControl.findEstate(string));
+                }
+            }else{
+                for (String string : estateIDList) {
+                    estateList.add(estateControl.findEstate(string));
+                }
+            }
+            request.setAttribute("estateList", estateList);
             request.getRequestDispatcher("/page/dashboard/employee/dashboard_property.jsp").forward(request, response);
         }
         

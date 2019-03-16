@@ -172,12 +172,6 @@ public class EstateEdit extends HttpServlet {
         int estateStatusId = Integer.valueOf(request.getParameter("estateStatusId")); //NOTE
         EstateStatus estateStatus = em.getReference(EstateStatus.class, estateStatusId);
 
-        String message = "";
-        String hasError = "";
-        String display = "none";
-
-        List<Estate> estateList = (List<Estate>) estateControl.getEstateByName(estateName);
-
         Estate estate = estateControl.findEstate(request.getParameter("estateID"));
         estate.setEstateName(estateName);
         estate.setEstateTypeId(estateType);
@@ -194,7 +188,7 @@ public class EstateEdit extends HttpServlet {
         estate.setImage4st(image4st);
         estate.setImage5st(image5st);
         estate.setDirection(direction);
-        estate.setEstateStatus("waitting for director");
+        estate.setEstateStatus("waitting for director edit");
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         Date day;
@@ -208,7 +202,7 @@ public class EstateEdit extends HttpServlet {
         estate.setEstateStatusId(estateStatus);
         try {
             estateControl.edit(estate);
-            response.sendRedirect(request.getContextPath() + "/EstateList?user=admin");
+            response.sendRedirect(request.getContextPath() + "/EstateList?user=employee");
         } catch (RollbackFailureException ex) {
             Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

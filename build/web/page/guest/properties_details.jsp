@@ -89,8 +89,8 @@
                                 <div class="property__header">
                                     <div class="property__price"><strong class="property__price-value">${find.price}</strong><span class="property__price-label">Inclusive TVA</span></div>
                                     <h4 class="property__commision">Direction: <strong>${find.direction}</strong></h4>
-                                    <c:if test="${find.estateStatus != 'waitting to transaction'}">
-                                        <div class="property__actions">
+                                    <c:if test="${find.estateStatus == 'publish' || find.estateStatus == 'project'}">
+                                        <div class="property__actions" style="display: ${displayRequest}">
                                             <a href="<%=request.getContextPath()%>/CreateContract?estateID=${find.id}&employeeID=${employee.id}" class="btn--default"><i class="fa fa-refresh"></i>Request Buy</a>
                                             <button type="button" class="btn--default"><i class="fa fa-star"></i>Contact</button>
                                         </div>
@@ -217,7 +217,9 @@
                                 <div class="property__params">
                                     <h4 class="property__subtitle">Feature</h4>
                                     <ul class="property__params-list property__params-list--options">
-                                        <li>${find.featureDetailsList}</li>
+                                        <c:forEach items="${featureList}" var="item">
+                                            <li>${item.featureName}</li>
+                                        </c:forEach>
                                     </ul>
                                 </div>
                                 <div class="property__description js-unhide-block">

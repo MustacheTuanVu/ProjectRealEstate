@@ -98,16 +98,16 @@ public class EstateJpaController implements Serializable {
             }
             estate.setScheduleList(attachedScheduleList);
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-            javax.validation.Validator validator =  factory.getValidator();
+            javax.validation.Validator validator = factory.getValidator();
 
             Set<ConstraintViolation<Estate>> constraintViolations;
             constraintViolations = validator.validate(estate);
 
-            if (constraintViolations.size() > 0 ) {
+            if (constraintViolations.size() > 0) {
                 System.out.println("Constraint Violations occurred..");
                 for (ConstraintViolation<Estate> estates : constraintViolations) {
-                    System.out.println(estates.getRootBeanClass().getSimpleName()+
-                    "." + estates.getPropertyPath() + " " + estates.getMessage());
+                    System.out.println(estates.getRootBeanClass().getSimpleName()
+                            + "." + estates.getPropertyPath() + " " + estates.getMessage());
                 }
             }
             em.persist(estate);
@@ -484,7 +484,7 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public int getEmployeeByEstateCount(String estateID) {
         EntityManager em = getEntityManager();
         try {
@@ -508,7 +508,7 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public List<String> getEstateByEmployee(String employeeID) {
         EntityManager em = getEntityManager();
         try {
@@ -520,7 +520,49 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
+
+    public List<String> getEstateByEmployeeFilter(String employeeID, String status) {
+        EntityManager em = getEntityManager();
+        try {
+            List<String> estateIDList = getEstateByEmployee(employeeID);
+            List<String> ret = (List<String>) new ArrayList<String>();
+            for (String string : estateIDList) {
+                Query query = em.createNativeQuery("SELECT id FROM estate where "
+                        + "id = '" + string + "' AND "
+                        + "estate_status LIKE '%" + status + "%'"
+                );
+                if (query.getResultList().size()!=0){
+                    ret.add((String) query.getSingleResult());
+                }
+            }
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
     
+    public List<String> getEstateByEmployeeSearch(String employeeID, String address) {
+        EntityManager em = getEntityManager();
+        try {
+            List<String> estateIDList = getEstateByEmployee(employeeID);
+            List<String> ret = (List<String>) new ArrayList<String>();
+            for (String string : estateIDList) {
+                Query query = em.createNativeQuery("SELECT id FROM estate where "
+                        + "id = '" + string + "' AND "
+                        + "(address1 LIKE '%" + address + "%' OR address2 LIKE '%" + address + "%')"
+                );
+                System.out.println(query);
+                if (query.getResultList().size()!=0){
+                    ret.add((String) query.getSingleResult());
+                }
+            }
+            System.out.println(ret.size());
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
     public List<String> getEstateByProject(String projectID) {
         EntityManager em = getEntityManager();
         try {
@@ -544,42 +586,42 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public Estate getEstateByName(String estateName) {
         EntityManager em = getEntityManager();
         try {
             //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
-            Query query = em.createNativeQuery("SELECT * FROM estate where estate_name='" + estateName + "'",Estate.class);
-            if(!query.getResultList().isEmpty()){
+            Query query = em.createNativeQuery("SELECT * FROM estate where estate_name='" + estateName + "'", Estate.class);
+            if (!query.getResultList().isEmpty()) {
                 Estate ret = (Estate) query.getSingleResult();
                 return ret;
-            }else{
+            } else {
                 return null;
             }
         } finally {
             em.close();
         }
     }
-    
+
     public Estate getEstateByAddress(String address1, String address2) {
         EntityManager em = getEntityManager();
         try {
             //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
             Query query = em.createNativeQuery("SELECT * FROM estate where "
                     + "address1='" + address1 + "' AND "
-                    + "address2='" + address2 + "' ",Estate.class
+                    + "address2='" + address2 + "' ", Estate.class
             );
-            if(!query.getResultList().isEmpty()){
+            if (!query.getResultList().isEmpty()) {
                 Estate ret = (Estate) query.getSingleResult();
                 return ret;
-            }else{
+            } else {
                 return null;
             }
         } finally {
             em.close();
         }
     }
-    
+
     //REMEMBER 
     public List<Estate> getEstateInSiderBar(
             String statusID,//
@@ -752,7 +794,7 @@ public class EstateJpaController implements Serializable {
                             + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
                 }
             }
-            System.out.println("check: "+query);
+            System.out.println("check: " + query);
             List<Estate> ret = query.getResultList();
             return ret;
         } finally {

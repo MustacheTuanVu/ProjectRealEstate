@@ -8,7 +8,6 @@ package Servlet.EstateType;
 import Controller.EstateTypeJpaController;
 import Entity.EstateType;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
@@ -16,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
 /**
@@ -35,17 +35,42 @@ public class EstateTypeList extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
-        List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();
-        
-        request.setAttribute("estateTypeList", estateTypeList);
-        
-        request.getRequestDispatcher("/page/dashboard/dashboard_estate_type_new.jsp").forward(request, response);
-        
+
+        HttpSession session = request.getSession();
+        Entity.Users user = (Entity.Users) session.getAttribute("user");
+
+        if (user != null) {
+            if (user.getRole().equals("employee")) {
+                request.setAttribute("user", "user");
+                request.setAttribute("displayLogin", "none");
+                request.setAttribute("displayUser", "block");
+
+                session.setAttribute("name", user.getEmployee().getEmployeeName());
+                request.setAttribute("role", "employee");
+                session.setAttribute("image", user.getEmployee().getEmployeeImg());
+                
+                String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "hide";
+                request.setAttribute("modalDelete", modal);
+
+                EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+                EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
+                List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();
+                
+                request.setAttribute("estateTypeList", estateTypeList);
+
+                request.getRequestDispatcher("/page/dashboard/employee/dashboard_estate_type_new.jsp").forward(request, response);
+
+            } else {
+                response.sendRedirect(request.getContextPath() + "/LoginUser");
+            }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/LoginUser");
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

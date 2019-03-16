@@ -8,11 +8,16 @@ package Servlet.Estate;
 import Controller.EmployeeJpaController;
 import Controller.EstateJpaController;
 import Controller.EstateTypeJpaController;
+import Controller.FeatureDetailsJpaController;
+import Controller.FeaturesJpaController;
 import Controller.ViewEmployeeAssignJpaController;
 import Entity.Estate;
+import Entity.Features;
 import Entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -55,21 +60,25 @@ public class EstateDetails extends HttpServlet {
                 case "employee":
                     session.setAttribute("name", users.getEmployee().getEmployeeName());
                     request.setAttribute("role", "employee");
+                    request.setAttribute("displayRequest", "none");
                     session.setAttribute("image", users.getEmployee().getEmployeeImg());
                     break;
                 case "manager":
                     session.setAttribute("name", users.getManager().getManagerName());
                     request.setAttribute("role", "manager");
+                    request.setAttribute("displayRequest", "none");
                     session.setAttribute("image", users.getManager().getManagerImg());
                     break;
                 case "director":
                     session.setAttribute("name", "Boss");
                     request.setAttribute("role", "director");
+                    request.setAttribute("displayRequest", "none");
                     session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
                     break;
                 case "customer":
                     session.setAttribute("name", users.getCustomer().getCustomerName());
                     request.setAttribute("role", "customer");
+                    request.setAttribute("displayRequest", "block");
                     session.setAttribute("image", users.getCustomer().getCustomerImg());
                     break;
             }
@@ -83,10 +92,20 @@ public class EstateDetails extends HttpServlet {
         EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
         ViewEmployeeAssignJpaController viewEmployeeAssignControl = new ViewEmployeeAssignJpaController(utx, emf);
         EstateJpaController estateControl = new EstateJpaController(utx, emf);
+        FeaturesJpaController featuresJpaController = new FeaturesJpaController(utx, emf);
+        FeatureDetailsJpaController featureDetailsJpaController = new FeatureDetailsJpaController(utx, emf);
         
         request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
 
         String id = request.getParameter("estateID");
+        
+        List<String> featureIDList = featureDetailsJpaController.findFeatureDetailsByEstate(id);
+        List<Features> featureList = new ArrayList<>();
+        
+        for (String string : featureIDList) {
+            featureList.add(featuresJpaController.findFeatures(string));
+        }
+        
         Estate find = estateControl.findEstate(id);
         
         int countEstate = estateControl.getEmployeeByEstateCount(id);
@@ -99,6 +118,7 @@ public class EstateDetails extends HttpServlet {
         }
         request.setAttribute("displayEmployee", displayEmployee);
         request.setAttribute("find", find);
+        request.setAttribute("featureList", featureList);
         request.getRequestDispatcher("/page/guest/properties_details.jsp").forward(request, response);
         
     }

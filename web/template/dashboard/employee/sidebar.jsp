@@ -28,6 +28,37 @@
                     </a>
                 </li>
                 <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/EstateTypeList" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-add-listing"></use>
+                        </svg>Estate Type List
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/FeatureList" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-add-listing"></use>
+                        </svg>Feature List
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <hr class="nav__separator">
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/RequestBuyList" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-add-listing"></use>
+                        </svg>Request Buy
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/RequestSaleList" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-add-listing"></use>
+                        </svg>Request Sale
+                    </a>
+                </li>
+                <li class="nav__item">
                     <hr class="nav__separator">
                 </li>
             </ul>

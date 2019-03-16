@@ -3,15 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet.Feature;
+package Servlet.Estate;
 
+import Controller.EstateJpaController;
+import Controller.EstateStatusJpaController;
+import Controller.EstateTypeJpaController;
+import Controller.FeatureDetailsJpaController;
 import Controller.FeaturesJpaController;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.RollbackFailureException;
+import Entity.Estate;
+import Entity.EstateStatus;
+import Entity.EstateType;
+import Entity.Features;
+import Entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,8 +37,8 @@ import javax.transaction.UserTransaction;
  *
  * @author kiems
  */
-@WebServlet(name = "FeatureDelete", urlPatterns = {"/FeatureDelete"})
-public class FeatureDelete extends HttpServlet {
+@WebServlet(name = "EstateDelete", urlPatterns = {"/EstateDelete"})
+public class EstateDelete extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,51 +50,38 @@ public class FeatureDelete extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
         Entity.Users user = (Entity.Users) session.getAttribute("user");
 
         if (user != null) {
             if (user.getRole().equals("employee")) {
-                request.setAttribute("user", "user");
-                request.setAttribute("displayLogin", "none");
-                request.setAttribute("displayUser", "block");
-
-                session.setAttribute("name", user.getEmployee().getEmployeeName());
-                request.setAttribute("role", "employee");
-                session.setAttribute("image", user.getEmployee().getEmployeeImg());
-
                 EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-                FeaturesJpaController featuresControl = new FeaturesJpaController(utx, emf);
+                EntityManager em = emf.createEntityManager();
 
-                String id = request.getParameter("id");
-
-                if (featuresControl.getFeatureByEstateCount(id) != 0) {
-                    response.sendRedirect(request.getContextPath() + "/EstateTypeList?modal=show");
-                } else {
-                    try {
-                        featuresControl.destroy(id);
-                        response.sendRedirect(request.getContextPath() + "/FeatureList");
-                    } catch (NonexistentEntityException ex) {
-                        Logger.getLogger(FeatureDelete.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (RollbackFailureException ex) {
-                        Logger.getLogger(FeatureDelete.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (Exception ex) {
-                        Logger.getLogger(FeatureDelete.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                EstateJpaController estateControl = new EstateJpaController(utx, emf);
+                Estate find = estateControl.findEstate(request.getParameter("estateID"));
+                find.setEstateStatus("waitting for director delete");
+                try {
+                    estateControl.edit(find);
+                    response.sendRedirect(request.getContextPath() + "/EstateList?user=employee");
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(EstateDelete.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (RollbackFailureException ex) {
+                    Logger.getLogger(EstateDelete.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(EstateDelete.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
+                    
             } else {
                 response.sendRedirect(request.getContextPath() + "/LoginUser");
             }
         } else {
             response.sendRedirect(request.getContextPath() + "/LoginUser");
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

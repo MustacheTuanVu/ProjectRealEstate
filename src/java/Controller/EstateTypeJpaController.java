@@ -226,12 +226,25 @@ public class EstateTypeJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public List<EstateType> getEstateTypeByName(String estateTypeName) {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createNativeQuery("SELECT * FROM estate_type where type_name='" + estateTypeName + "'",EstateType.class);
+            Query query = em.createNativeQuery("SELECT * FROM estate_type where type_name='" + estateTypeName + "'", EstateType.class);
             List<EstateType> ret = query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public int getEstateTypeByEstateCount(String estateTypeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT count(id) as axs FROM estate where estate_type_id='" + estateTypeID + "'");
+            int ret = (int) query.getSingleResult();
+            System.out.println(query);
+            System.out.println(ret);
             return ret;
         } finally {
             em.close();

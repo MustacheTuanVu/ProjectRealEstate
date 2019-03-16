@@ -5,16 +5,29 @@
  */
 package Servlet.Contract;
 
+import Controller.ContractJpaController;
 import Controller.CustomerJpaController;
 import Controller.EmployeeJpaController;
 import Controller.EstateJpaController;
 import Controller.EstateTypeJpaController;
+import Controller.TransactionsJpaController;
+import Controller.exceptions.RollbackFailureException;
+import Entity.Contract;
 import Entity.Customer;
 import Entity.Employee;
 import Entity.Estate;
 import Entity.Users;
+import Entity.Transactions;
+import Servlet.Estate.EstateCreate;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.Entity;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,6 +54,7 @@ public class CreateContract extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -52,31 +66,46 @@ public class CreateContract extends HttpServlet {
             request.setAttribute("users", "user");
             request.setAttribute("displayLogin", "none");
             request.setAttribute("displayUser", "block");
-            session.setAttribute("name", users.getCustomer().getCustomerName());
-                    request.setAttribute("role", "customer");
-            session.setAttribute("image", users.getCustomer().getCustomerImg());
-            
+
             /*-----------------------------------------------------------*/
-            
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
             EstateJpaController estateControl = new EstateJpaController(utx, emf);
             EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
             EmployeeJpaController employeeControl = new EmployeeJpaController(utx, emf);
-            
+            ContractJpaController contractJpaController = new ContractJpaController(utx, emf);
+
             Estate estate = estateControl.findEstate(request.getParameter("estateID"));
-            Customer customer = customerControl.findCustomer(users.getId());
+            Customer customer = new Customer();
+            if (users.getRole().equals("customer")) {
+                session.setAttribute("name", users.getCustomer().getCustomerName());
+                request.setAttribute("role", "customer");
+                session.setAttribute("image", users.getCustomer().getCustomerImg());
+                customer = customerControl.findCustomer(users.getId());
+                request.setAttribute("displayTransaction", "none");
+            }
+            if (users.getRole().equals("employee")) {
+                session.setAttribute("name", users.getEmployee().getEmployeeName());
+                request.setAttribute("role", "employee");
+                session.setAttribute("image", users.getEmployee().getEmployeeImg());
+                customer = customerControl.findCustomer(estate.getContractDetails().getContractId().getCustomerId().getId());
+                request.setAttribute("displayTransaction", "block");
+            } else {
+                request.setAttribute("displayTransaction", "none");
+            }
             Employee employee = employeeControl.findEmployee(Integer.parseInt(request.getParameter("employeeID")));
-            
+            Contract contract = contractJpaController.findContract(estate.getContractDetails().getContractId().getId());
+
             request.setAttribute("estate", estate);
             request.setAttribute("employee", employee);
             request.setAttribute("customer", customer);
+            request.setAttribute("contract", contract);
             request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
             request.getRequestDispatcher("/page/guest/echo_contact.jsp").forward(request, response);
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
-            response.sendRedirect(request.getContextPath()+"/LoginUser");
+            response.sendRedirect(request.getContextPath() + "/LoginUser");
         }
         // END SESSION HEADER FONTEND //
     }
@@ -107,7 +136,49 @@ public class CreateContract extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        Users users = (Users) session.getAttribute("user");
+        if (users.getRole().equals("employee")) {
+            Double price = Double.parseDouble(request.getParameter("price"));
+            Double money = Double.parseDouble(request.getParameter("money"));
+
+            if (price > money) {
+                response.sendRedirect(request.getContextPath() + "/EstateList?user=employee&"
+                        + "modalTranFail=show"
+                );
+            } else if (price == money) {
+                EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+                CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
+                TransactionsJpaController transactionsJpaController = new TransactionsJpaController(utx, emf);
+                ContractJpaController contractJpaController = new ContractJpaController(utx, emf);
+                Customer customer = customerControl.findCustomer(Integer.parseInt(request.getParameter("customer")));
+                Transactions transactions = new Transactions();
+                transactions.setCustomerOffered(customer);
+
+                SimpleDateFormat sdff = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+                Date date = new Date();
+                try {
+                    transactions.setTransactionsDate(sdff.parse(date.toString()));
+                } catch (ParseException ex) {
+                    Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                int contractID = Integer.parseInt(request.getParameter("contract"));
+                transactions.setContractId(contractJpaController.findContract(contractID));
+                transactions.setMoney(money);
+                try {
+                    transactionsJpaController.create(transactions);
+                } catch (RollbackFailureException ex) {
+                    Logger.getLogger(CreateContract.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(CreateContract.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                response.sendRedirect(request.getContextPath() + "/EstateList?user=employee&"
+                        + "modalTranOke=show"
+                );
+            }
+
+        }
     }
 
     /**

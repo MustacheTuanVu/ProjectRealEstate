@@ -5,12 +5,15 @@
  */
 package Servlet.Estate;
 
+import Controller.AssignDetailsJpaController;
 import Controller.EstateJpaController;
 import Controller.EstateStatusJpaController;
 import Controller.EstateTypeJpaController;
 import Controller.FeatureDetailsJpaController;
 import Controller.FeaturesJpaController;
+import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
+import Entity.AssignDetails;
 import Entity.Estate;
 import Entity.EstateStatus;
 import Entity.EstateType;
@@ -137,19 +140,11 @@ public class EstateCreate extends HttpServlet {
                             break;
                         }
                     }
-                    Estate estateListByName = (Estate) estateControl.getEstateByName(estateName);
                     Estate estateListByAdress = (Estate) estateControl.getEstateByAddress(address1,address2);
-                    if (estateListByName != null) {
-                        response.sendRedirect(request.getContextPath() + "/EstateList?user=employee"
-                                + "estateName="+estateName+"&"
-                                + "address1="+estateListByName.getAddress1()+"&"
-                                + "address2="+estateListByName.getAddress2()+"&"
-                                + "img="+estateListByName.getImage1st()+"&"
-                                + "modal=show"
-                        );
-                    }else if(estateListByAdress != null){
-                        response.sendRedirect(request.getContextPath() + "/EstateList?user=employee"
-                                + "estateName="+estateListByAdress+"&"
+                    if(estateListByAdress != null){
+                        response.sendRedirect(request.getContextPath() + "/EstateList?user=employee&"
+                                + "estateID="+estateListByAdress.getId()+"&"
+                                + "estateName="+estateListByAdress.getEstateName()+"&"
                                 + "address1="+estateListByAdress.getAddress1()+"&"
                                 + "address2="+estateListByAdress.getAddress2()+"&"
                                 + "img="+estateListByAdress.getImage1st()+"&"
@@ -176,7 +171,7 @@ public class EstateCreate extends HttpServlet {
                         estate.setBlock(block);
                         estate.setAddress1(address1);
                         estate.setAddress2(address2);
-                        estate.setEstateStatus("waitting for director");
+                        estate.setEstateStatus("waitting for director create");
                         estate.setDistrict(request.getParameter("district"));
                         
                         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -211,17 +206,38 @@ public class EstateCreate extends HttpServlet {
                         FeaturesJpaController featuresStatusControl = new FeaturesJpaController(utx, emf);
                         FeatureDetailsJpaController featureDetailsControl = new FeatureDetailsJpaController(utx, emf);
                         
-                        for (String string : feature) {
-                            FeatureDetails featureDetails = new FeatureDetails();
-                            featureDetails.setEstateId(estate);
-                            featureDetails.setFeatureId(featuresStatusControl.findFeatures(string));
-                            try {
-                                featureDetailsControl.create(featureDetails);
-                            } catch (RollbackFailureException ex) {
-                                Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
-                            } catch (Exception ex) {
-                                Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                        if(feature != null){
+                            for (String string : feature) {
+                                FeatureDetails featureDetails = new FeatureDetails();
+                                featureDetails.setEstateId(estate);
+                                featureDetails.setFeatureId(featuresStatusControl.findFeatures(string));
+                                try {
+                                    featureDetailsControl.create(featureDetails);
+                                } catch (RollbackFailureException ex) {
+                                    Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (Exception ex) {
+                                    Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                             }
+                        }
+                        
+                        AssignDetailsJpaController assignDetailsControl = new AssignDetailsJpaController(utx, emf);
+                        AssignDetails assignDetails = new AssignDetails();
+                        assignDetails.setEstateId(estate);
+                        assignDetails.setEmployeeId(user.getEmployee());
+                        try {
+                            assignDetails.setDateTo(sdff.parse(date.toString()));
+                        } catch (ParseException ex) {
+                            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        try {
+                            assignDetailsControl.create(assignDetails);
+                        } catch (PreexistingEntityException ex) {
+                            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (RollbackFailureException ex) {
+                            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (Exception ex) {
+                            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 } else {
