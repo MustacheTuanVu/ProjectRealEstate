@@ -9,8 +9,10 @@ import Controller.ContractJpaController;
 import Controller.CustomerJpaController;
 import Controller.EmployeeJpaController;
 import Controller.EstateJpaController;
+import Controller.EstateStatusJpaController;
 import Controller.EstateTypeJpaController;
 import Controller.TransactionsJpaController;
+import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.RollbackFailureException;
 import Entity.Contract;
 import Entity.Customer;
@@ -25,6 +27,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Entity;
@@ -142,11 +145,13 @@ public class CreateContract extends HttpServlet {
             Double price = Double.parseDouble(request.getParameter("price"));
             Double money = Double.parseDouble(request.getParameter("money"));
 
+            
             if (price > money) {
                 response.sendRedirect(request.getContextPath() + "/EstateList?user=employee&"
                         + "modalTranFail=show"
                 );
-            } else if (price == money) {
+            } else if (Objects.equals(price, money)) {
+                System.out.println("okeeeeeee");
                 EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
                 CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
                 TransactionsJpaController transactionsJpaController = new TransactionsJpaController(utx, emf);
@@ -154,7 +159,7 @@ public class CreateContract extends HttpServlet {
                 Customer customer = customerControl.findCustomer(Integer.parseInt(request.getParameter("customer")));
                 Transactions transactions = new Transactions();
                 transactions.setCustomerOffered(customer);
-
+                
                 SimpleDateFormat sdff = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
                 Date date = new Date();
                 try {
@@ -173,6 +178,38 @@ public class CreateContract extends HttpServlet {
                 } catch (Exception ex) {
                     Logger.getLogger(CreateContract.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
+                EstateJpaController estateControl = new EstateJpaController(utx, emf);
+                EstateStatusJpaController estateStatusJpaController = new EstateStatusJpaController(utx, emf);
+                String estateID = estateControl.getEstateIDByContract(String.valueOf(contractID));
+                Estate estate = estateControl.findEstate(estateID);
+                estate.setEstateStatus("sold");
+                if(estate.getEstateStatusId().getId()==1){
+                    estate.setEstateStatusId(estateStatusJpaController.findEstateStatus(4));
+                }else if(estate.getEstateStatusId().getId()==2){
+                    estate.setEstateStatusId(estateStatusJpaController.findEstateStatus(5));
+                }
+                
+                try {
+                    estateControl.edit(estate);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(CreateContract.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (RollbackFailureException ex) {
+                    Logger.getLogger(CreateContract.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(CreateContract.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                Contract contract = contractJpaController.findContract(contractID);
+                contract.setStatus("done");
+                try {
+                    contractJpaController.edit(contract);
+                } catch (RollbackFailureException ex) {
+                    Logger.getLogger(CreateContract.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(CreateContract.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 response.sendRedirect(request.getContextPath() + "/EstateList?user=employee&"
                         + "modalTranOke=show"
                 );

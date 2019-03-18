@@ -3,17 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet.Project;
+package Servlet.Manager;
 
+import Controller.ContractDetailsJpaController;
+import Controller.ContractJpaController;
 import Controller.CustomerJpaController;
+import Controller.EmployeeJpaController;
 import Controller.EstateJpaController;
-import Controller.EstateStatusJpaController;
 import Controller.EstateTypeJpaController;
 import Controller.ManagerJpaController;
 import Controller.ProjectJpaController;
+import Entity.Contract;
+import Entity.ContractDetails;
 import Entity.Customer;
+import Entity.Employee;
 import Entity.Estate;
-import Entity.Manager;
 import Entity.Project;
 import Entity.Users;
 import java.io.IOException;
@@ -33,8 +37,8 @@ import javax.transaction.UserTransaction;
  *
  * @author kiems
  */
-@WebServlet(name = "ProjectList", urlPatterns = {"/ProjectList"})
-public class ProjectList extends HttpServlet {
+@WebServlet(name = "ProjectDashboard", urlPatterns = {"/ProjectDashboard"})
+public class ProjectDashboard extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -84,52 +88,103 @@ public class ProjectList extends HttpServlet {
         }
         // END SESSION HEADER FONTEND //
         
-        // BEGIN ESTATE LIST SHOW//
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        ProjectJpaController projectControl = new ProjectJpaController(utx, emf);
         EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
-        
-        String keywordF = (request.getParameter("keywordF") != null) ? request.getParameter("keywordF") : "";
-        request.setAttribute("keywordF", keywordF);
-        
-        String DistrictF = (request.getParameter("DistrictF") != null) ? request.getParameter("DistrictF") : "all";
-        request.setAttribute("DistrictF", DistrictF);
-        String BuildFrom = (request.getParameter("BuildFrom") != null) ? request.getParameter("BuildFrom") : "1945";
-        request.setAttribute("BuildFrom", BuildFrom);
-        String BuildTo = (request.getParameter("BuildTo") != null) ? request.getParameter("BuildTo") : "2020";
-        request.setAttribute("BuildTo", BuildTo);
-        
-        String dateRange = (request.getParameter("dateRange") != null) ? request.getParameter("dateRange") : "2019/01/01 - 2020/12/12";
-        int dateIndex = dateRange.indexOf("-");
-        String dateFrom = dateRange.substring(0,dateIndex-1);
-        request.setAttribute("dateFrom", dateFrom);
-        String dateTo = dateRange.substring(dateIndex+1);
-        request.setAttribute("dateTo", dateTo);
+        ProjectJpaController projectControl = new ProjectJpaController(utx, emf);
+        ManagerJpaController managerControl = new ManagerJpaController(utx, emf);
+        EstateJpaController estateControl = new EstateJpaController(utx, emf);
         
         
         
-        List<Project> projectList = projectControl.getProjectInSiderBar(
-            keywordF,
-            DistrictF,
-            BuildFrom,
-            BuildTo,
-            dateFrom,
-            dateTo
-        );
-        request.setAttribute("projectList", projectList);
-        request.setAttribute("size", projectList.size());
-        // END ESTATE LIST SHOW//
-        
-        // BEGIN //
-        // END //
         request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
-        String user = request.getParameter("user");
-        if(user.equals("guest")){
-            request.getRequestDispatcher("/page/guest/project_list.jsp").forward(request, response);
-        }else if(user.equals("manager")){
-            users.getManager().getManagerId();
-            request.getRequestDispatcher("/page/dashboard/manager/dashboard_project.jsp").forward(request, response);
+
+        String id = request.getParameter("projectId");
+        Project find = projectControl.findProject(id);
+        
+        List<String> estateIDList = estateControl.getEstateByProject(id);
+        List<Estate> estateList = new ArrayList<>();
+        
+        for (String string : estateIDList) {
+            estateList.add(estateControl.findEstate(string));
         }
+        
+        int countProject = projectControl.getManagerByProjectCount(find.getManagerId().getManagerId());
+        int countEstate = estateControl.getEstateByProjectCount(id);
+        
+        int countEstateSold = 0;
+        int countEstateUnSold = 0;
+        Double sumPrice = 0.0;
+        Double sumPriceSold = 0.0;
+        Double sumPriceUnSold = 0.0;
+        for (Estate estate : estateList) {
+            sumPrice = sumPrice + estate.getPrice();
+            if(estate.getEstateStatus().equals("sold")){
+                countEstateSold = countEstateSold + 1;
+                sumPriceSold = sumPriceSold + estate.getPrice();
+            }
+        }
+        countEstateUnSold = countEstate - countEstateSold;
+        sumPriceUnSold = sumPrice - sumPriceSold;
+        String displayManager = "yes";
+        if(countProject != 0){
+            int managerID = projectControl.getManagerByProject(Integer.parseInt(id));
+            request.setAttribute("manager", managerControl.findManager(managerID));
+            request.setAttribute("countProject", countProject);
+        }else{
+            displayManager = "no";
+        }
+        
+        EmployeeJpaController employeeJpaController = new EmployeeJpaController(utx, emf);
+        List<Employee> employeeList = new ArrayList<>();
+        
+        for (Estate estate : estateList) {
+            if(estate.getAssignDetails()!=null){
+                if(!employeeList.contains(employeeJpaController.findEmployee(estate.getAssignDetails().getEmployeeId().getId()))){
+                    employeeList.add(
+                        employeeJpaController.findEmployee(estate.getAssignDetails().getEmployeeId().getId())
+                    );
+                }
+            }
+            
+        }
+        
+        CustomerJpaController customerJpaController = new CustomerJpaController(utx, emf);
+        List<Customer> customerList = new ArrayList<>();
+        for (Estate estate : estateList) {
+            if(estate.getContractDetails()!=null){
+                if(!customerList.contains(customerJpaController.findCustomer(estate.getContractDetails().getContractId().getCustomerId().getId()))){
+                    customerList.add(
+                        customerJpaController.findCustomer(estate.getContractDetails().getContractId().getCustomerId().getId())
+                    );
+                }
+            }
+        }
+        
+        ContractDetailsJpaController contractJpaController = new ContractDetailsJpaController(utx, emf);
+        List<ContractDetails> contractDetails = new ArrayList<>();
+        for (Estate estate : estateList) {
+            if(estate.getContractDetails()!=null){
+                if(!contractDetails.contains(contractJpaController.findContractDetails(estate.getContractDetails().getId()))){
+                    contractDetails.add(
+                        contractJpaController.findContractDetails(estate.getContractDetails().getId())
+                    );
+                }
+            }
+        }
+        
+        request.setAttribute("contractDetails", contractDetails);
+        request.setAttribute("customerList", customerList);
+        request.setAttribute("employeeList", employeeList);
+        request.setAttribute("estateList", estateList);
+        request.setAttribute("countEstate", countEstate);
+        request.setAttribute("countEstateSold", countEstateSold);
+        request.setAttribute("countEstateUnSold", countEstateUnSold);
+        request.setAttribute("sumPrice", sumPrice);
+        request.setAttribute("sumPriceUnSold", sumPriceUnSold);
+        request.setAttribute("sumPriceSold", sumPriceSold);
+        request.setAttribute("displayManager", displayManager);
+        request.setAttribute("find", find);
+        request.getRequestDispatcher("/page/dashboard/manager/dashboard_project_details.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

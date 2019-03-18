@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
@@ -93,120 +94,57 @@
                                                         <button type="submit" name="search" value="search" class="btn--link js-tags-rename">Search</button>
                                                     </form>
                                                 </div>
-                                                <div class="tags tags--favorites js-tags">
-                                                    <div class="tags__list js-tags-list">
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee" style="color: #00bbaa" class="tags__item js-tags-all">All</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=waitting for director" style="color: #f3bc65" class="tags__item js-tags-item">Waitting for director</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=waitting to transaction" style="color: #f3bc65" class="tags__item js-tags-item">Waitting to transaction</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=Waitting for employee" style="color: #f3bc65" class="tags__item js-tags-item">Waitting for employee</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=publish" style="color: #00bbaa" class="tags__item js-tags-item">Publish</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=project" style="color: #00bbaa" class="tags__item js-tags-item">Project</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=sold" style="color: #c5cbd2" class="tags__item js-tags-item">Sold</a>
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div class="widget__footer"><hr></div>
                                         </div>
-                                        <div class="listing listing--grid">
-                                            <c:forEach items="${estateList}" var="estate">
+                                        <div class="listing listing--grid js-properties-list">
+                                            <c:forEach items="${projectList}" var="item">
                                                 <div class="listing__item">
-                                                    <div class="properties properties--management">
-                                                        <div class="properties__item-header">
-                                                            <c:choose>
-                                                                <c:when test="${estate.estateStatus == 'waitting to transaction'}">
-                                                                    <span style="color: #f3bc65" class="properties__state properties__state--highlight">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                <c:when test="${estate.estateStatus == 'waitting for employee'}">
-                                                                    <span style="color: #f3bc65" class="properties__state properties__state--highlight">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                <c:when test="${estate.estateStatus == 'waitting for director' ||
-                                                                                estate.estateStatus == 'waitting for director create' ||
-                                                                                estate.estateStatus == 'waitting for director edit'
-                                                                        }">
-                                                                    <span style="color: #f3bc65" class="properties__state properties__state--highlight">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                <c:when test="${estate.estateStatus == 'waitting for director delete'}">
-                                                                    <span style="color: #c5cbd2" class="properties__state properties__state--hidden">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                    <c:when test="${estate.estateStatus == 'sold'}">
-                                                                    <span style="color: #c5cbd2" class="properties__state properties__state--hidden">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                <c:when test="${estate.estateStatus == 'publish'}">
-                                                                    <span style="color: #00bbaa" class="properties__state properties__state--default">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                <c:when test="${estate.estateStatus == 'project'}">
-                                                                    <span style="color: #00bbaa" class="properties__state properties__state--default">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                            </c:choose>
-                                                            <div class="properties__actions">
-                                                                <c:if test="${estate.estateStatus == 'publish'}">
-                                                                    <a href="<%=request.getContextPath()%>/EstateEdit?estateID=${estate.id}" class="properties__link">Edit</a>
-                                                                    <div class="dropdown properties__actions-dropdown">
-                                                                        <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>
-                                                                        <div class="dropdown__menu properties__dropdown-menu">
-                                                                            <a href="<%=request.getContextPath()%>/EstateDelete?estateID=${estate.id}" class="properties__link">Delete</a>
-                                                                            <button type="button" class="properties__link">Change status</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </c:if>
-                                                                <c:if test="${estate.estateStatus == 'waitting to transaction'}">
-                                                                    <a href="<%=request.getContextPath()%>/CreateContract?estateID=${estate.id}&employeeID=${employeeID}" class="properties__link">Check</a>
-                                                                    <div class="dropdown properties__actions-dropdown">
-                                                                        <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>
-                                                                        <div class="dropdown__menu properties__dropdown-menu">
-                                                                            <a href="<%=request.getContextPath()%>/EstateDelete?estateID=${estate.id}" class="properties__link">Delete</a>
-                                                                            <button type="button" class="properties__link">Change status</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </c:if>
-                                                            </div>
-                                                        </div>
+                                                    <div class="properties properties--grid">
                                                         <div class="properties__thumb">
-                                                            <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" target="_blank" class="item-photo item-photo--static">
-                                                                <img src="${estate.image1st}" alt="">
+                                                            <a href="<%=request.getContextPath()%>/ProjectDashboard?projectId=${item.projectId}" class="item-photo">
+                                                                <img src="${item.image1st}" alt=""/>
                                                                 <figure class="item-photo__hover item-photo__hover--params">
-                                                                    <span class="properties__params">Bed Room - ${estate.bedRoom} room</span>
-                                                                    <span class="properties__params">Bath Room - ${estate.bathRoom} room</span>
-                                                                    <span class="properties__params">Garages - ${estate.garages}M<sup>2</sup></span>
-                                                                    <span class="properties__time">Areas - ${estate.areas}M<sup>2</sup></span>
+                                                                    <span class="properties__params">Block Number - ${item.blockNumber} block</span>
+                                                                    <span class="properties__params">Floor Number - ${item.floorNumber} floor</span>
+                                                                    <span class="properties__params">Year Build - <fmt:formatDate value="${item.yearBuild}" pattern="yyyy" /></span>
+                                                                    <!--
+                                                                    <span class="properties__intro">My home is bright and spacious. Very good transport links. Close to the Olympic village, Westfiel...</span>
+                                                                    -->
+                                                                    <span class="properties__time">Date - <fmt:formatDate value="${item.dateAdd}" pattern="dd/MM/yyyy" /></span>
                                                                     <span class="properties__more">View details</span>
                                                                 </figure>
                                                             </a>
-                                                            <span class="properties__ribon">For ${estate.estateStatusId.estateStatusName}</span>
-                                                            <span class="properties__ribon properties__ribon--status properties__ribon--done">${estate.estateTypeId.typeName}</span>
+                                                            <span class="properties__ribon">Project</span>
+                                                            <span class="properties__ribon properties__ribon--status properties__ribon--done">${item.projectStatus}</span>
                                                         </div>
                                                         <!-- end of block .properties__thumb-->
                                                         <div class="properties__details">
-                                                            <div class="properties__info">
-                                                                <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}"  target="_blank"  class="properties__address">
-                                                                    <span class="properties__address-street">${estate.estateName}</span>
-                                                                    <span class="properties__address-city">${estate.address2}</span>
-                                                                </a>
+                                                            <div class="properties__info"><a href="<%=request.getContextPath()%>/ProjectDetails?projectId=${item.projectId}" class="properties__address">
+                                                                    <span class="properties__address-street">${item.projectName}</span>
+                                                                    <span class="properties__address-city">${item.projectAddress}</span></a>
                                                                 <div class="properties__offer">
                                                                     <div class="properties__offer-column">
-                                                                        <div class="properties__offer-label">Direction</div>
+                                                                        <div class="properties__offer-label">District</div>
                                                                         <div class="properties__offer-value">
-                                                                            <strong> ${estate.direction}</strong>
+                                                                            <strong> ${item.district}</strong>
                                                                         </div>
                                                                     </div>
                                                                     <div class="properties__offer-column">
-                                                                        <div class="properties__offer-label">Price</div>
-                                                                        <div class="properties__offer-value"><strong>${estate.price}</strong>
-                                                                                <c:if test = "${estate.estateStatusId.estateStatusName == 'Rent'}">
-                                                                                <span class="properties__offer-period">/month</span>
-                                                                            </c:if>
+                                                                        <div class="properties__offer-label">Manager</div>
+                                                                        <div class="properties__offer-value">
+                                                                            <strong>${item.managerId.managerName}</strong>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="properties__params--mob"><a href="#" class="properties__more">View details</a><span class="properties__params">Built-Up - 165 Sq Ft</span><span class="properties__params">Land Size - 210 Sq Ft</span></div>
+                                                                <div class="properties__params--mob"><a href="#" class="properties__more">View details</a><span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
                                                             </div>
                                                         </div>
                                                         <!-- end of block .properties__info-->
                                                     </div>
                                                     <!-- end of block .properties__item-->
-                                                </div>    
+                                                </div>
                                             </c:forEach>
-
                                         </div>
                                         <!--
                                         <div class="widget__footer"><a class="widget__more">Show more properties</a></div>
@@ -218,7 +156,7 @@
                         <!-- END LISTING-->
                         <!-- BEGIN SIDEBAR-->
                         <div class="sidebar sidebar--dashboard">
-                            <%@ include file="/template/dashboard/employee/sidebar.jsp" %>
+                            <%@ include file="/template/dashboard/manager/sidebar.jsp" %>
                         </div>
                         <!-- END SIDEBAR-->
                         <div class="clearfix"></div>
@@ -243,7 +181,6 @@
                             <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${id}" class="btn btn-default" >View This Estate</a>
                         </div>
                     </div>
-
                 </div>
             </div>
             <div id="myModalFail" class="modal fade" role="dialog">
@@ -258,7 +195,7 @@
                         <div class="modal-body">
                             <p style="text-align: center; color: red"><strong>transaction not enough</strong></p>
                             <img src="<%=request.getContextPath()%>/assets/media-demo/fail.jpg" alt="error" width="225" height="255">
-                            </div>
+                        </div>
                     </div>
 
                 </div>

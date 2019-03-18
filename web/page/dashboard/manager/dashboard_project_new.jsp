@@ -29,6 +29,98 @@
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
         <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
         <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
+        <script type="text/javascript">
+            function BrowseServer() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField;
+                finder.popup();
+            }
+            function SetFileField(fileUrl) {
+                var countimage = 0;
+                if (document.getElementById('imageup1st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image1st').value = fileUrl;
+                    document.getElementById('imageup1st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 1/5 photo";
+                } else if (document.getElementById('imageup2st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image2st').value = fileUrl;
+                    document.getElementById('imageup2st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 2/5 photo";
+                } else if (document.getElementById('imageup3st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image3st').value = fileUrl;
+                    document.getElementById('imageup3st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 3/5 photo";
+                } else if (document.getElementById('imageup4st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image4st').value = fileUrl;
+                    document.getElementById('imageup4st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 4/5 photo";
+                } else if (document.getElementById('imageup5st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image5st').value = fileUrl;
+                    document.getElementById('imageup5st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 5/5 photo";
+                }
+            }
+        </script>
+        <script type="text/javascript">
+            function BrowseServer1() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField1;
+                finder.popup();
+            }
+            function SetFileField1(fileUrl) {
+                document.getElementById('image1st').value = fileUrl;
+                document.getElementById('imageup1st').src = fileUrl;
+            }
+        </script>
+        <script type="text/javascript">
+            function BrowseServer2() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField2;
+                finder.popup();
+            }
+            function SetFileField2(fileUrl) {
+                document.getElementById('image2st').value = fileUrl;
+                document.getElementById('imageup2st').src = fileUrl;
+            }
+        </script>
+        <script type="text/javascript">
+            function BrowseServer3() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField3;
+                finder.popup();
+            }
+            function SetFileField3(fileUrl) {
+                document.getElementById('image3st').value = fileUrl;
+                document.getElementById('imageup3st').src = fileUrl;
+            }
+        </script>
+        <script type="text/javascript">
+            function BrowseServer4() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField4;
+                finder.popup();
+            }
+            function SetFileField4(fileUrl) {
+                document.getElementById('image4st').value = fileUrl;
+                document.getElementById('imageup4st').src = fileUrl;
+            }
+        </script>
+        <script type="text/javascript">
+            function BrowseServer5() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField5;
+                finder.popup();
+            }
+            function SetFileField5(fileUrl) {
+                document.getElementById('image5st').value = fileUrl;
+                document.getElementById('imageup5st').src = fileUrl;
+            }
+        </script>
     </head>
     <body class="dashboard_property_new menu-default hover-default sidebar-left">
         <!--
@@ -74,143 +166,194 @@
                         <header class="site__header">
                             <h1 class="site__title site__title--center">Dashboard</h1>
                         </header>
-
                         <!-- BEGIN LISTING-->
                         <div class="site site--dashboard">
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Property Management</h2><a href="<%=request.getContextPath()%>/EstateCreate" class="widget__btn js-widget-btn widget__btn--action">Add new property</a>
+                                        <h2 class="widget__title">Add new property</h2>
                                     </div>
                                     <div class="widget__content">
-                                        <div class="widget__content">
-                                            <!-- BEGIN Favorites-->
-                                            <div class="listing--items">
-                                                <div class="listing__actions">
-                                                    <form action="<%=request.getContextPath()%>/EstateList">
-                                                        <input type="hidden" name="user" value="employee">
-                                                        <input type="text" name="searchInput" placeholder="Input Address" style="width: 500px;">
-                                                        <button type="submit" name="search" value="search" class="btn--link js-tags-rename">Search</button>
-                                                    </form>
-                                                </div>
-                                                <div class="tags tags--favorites js-tags">
-                                                    <div class="tags__list js-tags-list">
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee" style="color: #00bbaa" class="tags__item js-tags-all">All</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=waitting for director" style="color: #f3bc65" class="tags__item js-tags-item">Waitting for director</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=waitting to transaction" style="color: #f3bc65" class="tags__item js-tags-item">Waitting to transaction</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=Waitting for employee" style="color: #f3bc65" class="tags__item js-tags-item">Waitting for employee</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=publish" style="color: #00bbaa" class="tags__item js-tags-item">Publish</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=project" style="color: #00bbaa" class="tags__item js-tags-item">Project</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=sold" style="color: #c5cbd2" class="tags__item js-tags-item">Sold</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="widget__footer"><hr></div>
-                                        </div>
-                                        <div class="listing listing--grid">
-                                            <c:forEach items="${estateList}" var="estate">
-                                                <div class="listing__item">
-                                                    <div class="properties properties--management">
-                                                        <div class="properties__item-header">
-                                                            <c:choose>
-                                                                <c:when test="${estate.estateStatus == 'waitting to transaction'}">
-                                                                    <span style="color: #f3bc65" class="properties__state properties__state--highlight">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                <c:when test="${estate.estateStatus == 'waitting for employee'}">
-                                                                    <span style="color: #f3bc65" class="properties__state properties__state--highlight">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                <c:when test="${estate.estateStatus == 'waitting for director' ||
-                                                                                estate.estateStatus == 'waitting for director create' ||
-                                                                                estate.estateStatus == 'waitting for director edit'
-                                                                        }">
-                                                                    <span style="color: #f3bc65" class="properties__state properties__state--highlight">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                <c:when test="${estate.estateStatus == 'waitting for director delete'}">
-                                                                    <span style="color: #c5cbd2" class="properties__state properties__state--hidden">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                    <c:when test="${estate.estateStatus == 'sold'}">
-                                                                    <span style="color: #c5cbd2" class="properties__state properties__state--hidden">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                <c:when test="${estate.estateStatus == 'publish'}">
-                                                                    <span style="color: #00bbaa" class="properties__state properties__state--default">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                <c:when test="${estate.estateStatus == 'project'}">
-                                                                    <span style="color: #00bbaa" class="properties__state properties__state--default">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                            </c:choose>
-                                                            <div class="properties__actions">
-                                                                <c:if test="${estate.estateStatus == 'publish'}">
-                                                                    <a href="<%=request.getContextPath()%>/EstateEdit?estateID=${estate.id}" class="properties__link">Edit</a>
-                                                                    <div class="dropdown properties__actions-dropdown">
-                                                                        <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>
-                                                                        <div class="dropdown__menu properties__dropdown-menu">
-                                                                            <a href="<%=request.getContextPath()%>/EstateDelete?estateID=${estate.id}" class="properties__link">Delete</a>
-                                                                            <button type="button" class="properties__link">Change status</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </c:if>
-                                                                <c:if test="${estate.estateStatus == 'waitting to transaction'}">
-                                                                    <a href="<%=request.getContextPath()%>/CreateContract?estateID=${estate.id}&employeeID=${employeeID}" class="properties__link">Check</a>
-                                                                    <div class="dropdown properties__actions-dropdown">
-                                                                        <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>
-                                                                        <div class="dropdown__menu properties__dropdown-menu">
-                                                                            <a href="<%=request.getContextPath()%>/EstateDelete?estateID=${estate.id}" class="properties__link">Delete</a>
-                                                                            <button type="button" class="properties__link">Change status</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </c:if>
+                                        <!-- BEGIN Favorites-->
+                                        <section class="form-property form-property--dashboard">
+                                            <!-- Nav tabs-->
+                                            <ul role="tablist" class="nav form-property__tabs">
+                                                <li role="presentation" class="active"><a>Basic</a></li>
+                                                <li role="presentation"><a>Photo</a></li>
+                                                <li role="presentation"><a>Manager</a></li>
+                                                <!--
+                                                <li role="presentation"><a href="#Status" aria-controls="Status" role="tab" data-toggle="tab">Extra</a></li>
+                                                -->
+                                            </ul>
+                                            <!-- Tab panes-->
+                                            <form action="<%=request.getContextPath()%>/ProjectCreate" class="form form--flex form--property form--basic js-form-property-1">
+                                                <div class="tab-content form-property__content">
+                                                    <div id="basic" role="tabpanel" class="tab-pane active">
+                                                        <div class="row">
+                                                            <div class="form-group form-group--description ${hasError}">
+                                                                <label for="in-1" class="control-label">Project Name</label>
+                                                                <input id="in-1" required type="text" name="projectName" data-placeholder="---" value="Text" class="form-control">
+                                                                <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
+                                                                    <div class="parsley-required">${message}</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-10" class="control-label">Block Number</label>
+                                                                <input id="in-10" type="number" name="blockNumber" placeholder="" required class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-10" class="control-label">Floor Number</label>
+                                                                <input id="in-10" type="number" name="floorNumber" placeholder="" required class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-9" class="control-label">Built Up</label>
+                                                                <input name="yearBuild" type="text" id="in-datetime" value="01/01/2019" data-time-picker="false" data-single-picker="true" class="js-datetimerange form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-6" class="control-label">Address</label>
+                                                                <input id="in-6" type="text" name="address" required class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="in-6" class="control-label">District</label>
+                                                                <select id="in-5" name="district" data-placeholder="Choose a District..." required class="form-control js-in-select">
+                                                                    <option label=" "></option>
+                                                                    <option value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                                    <option value="11">11</option>
+                                                                    <option value="12">12</option>
+                                                                    <option value="Binh Thanh">Binh Thanh</option>
+                                                                    <option value="Thu Duc">Thu Duc</option>
+                                                                    <option value="Go Vap">Go Vap</option>
+                                                                    <option value="Hoc Mon">Hoc Mon</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group form-group--description">
+                                                                <label for="in-6" class="control-label">Content</label>
+                                                                <textarea id="in-6" name="projectContent" rows="4" cols="50" class="form-control"></textarea>
                                                             </div>
                                                         </div>
-                                                        <div class="properties__thumb">
-                                                            <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" target="_blank" class="item-photo item-photo--static">
-                                                                <img src="${estate.image1st}" alt="">
-                                                                <figure class="item-photo__hover item-photo__hover--params">
-                                                                    <span class="properties__params">Bed Room - ${estate.bedRoom} room</span>
-                                                                    <span class="properties__params">Bath Room - ${estate.bathRoom} room</span>
-                                                                    <span class="properties__params">Garages - ${estate.garages}M<sup>2</sup></span>
-                                                                    <span class="properties__time">Areas - ${estate.areas}M<sup>2</sup></span>
-                                                                    <span class="properties__more">View details</span>
-                                                                </figure>
-                                                            </a>
-                                                            <span class="properties__ribon">For ${estate.estateStatusId.estateStatusName}</span>
-                                                            <span class="properties__ribon properties__ribon--status properties__ribon--done">${estate.estateTypeId.typeName}</span>
+                                                        <div class="row">
+                                                            <a href="#Photo" aria-controls="Photo" class="form__submit" role="tab" data-toggle="tab">Next</a>
                                                         </div>
-                                                        <!-- end of block .properties__thumb-->
-                                                        <div class="properties__details">
-                                                            <div class="properties__info">
-                                                                <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}"  target="_blank"  class="properties__address">
-                                                                    <span class="properties__address-street">${estate.estateName}</span>
-                                                                    <span class="properties__address-city">${estate.address2}</span>
-                                                                </a>
-                                                                <div class="properties__offer">
-                                                                    <div class="properties__offer-column">
-                                                                        <div class="properties__offer-label">Direction</div>
-                                                                        <div class="properties__offer-value">
-                                                                            <strong> ${estate.direction}</strong>
+                                                    </div>
+                                                    <div id="Photo" role="tabpanel" class="tab-pane">
+                                                        <div class="listing--items listing--grid listing--photos">
+                                                            <div class="listing__actions">
+                                                                <div class="listing__actions-border"></div>
+                                                                <h4 id="countimage" class="form__title js-form-title active">Project have 0/5 photo</h4>
+                                                                <input type="button" class="btn--action js-listing-add-photo" value="Add Photo" onclick="BrowseServer();" />
+                                                            </div>
+                                                            <div class="listing__list js-photos-list">
+                                                                <div class="listing__item js-listing-item">
+                                                                    <div class="listing__item-header">
+                                                                        <div></div>
+                                                                        <div class="listing__tools">
+                                                                            <input onclick="BrowseServer1();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
                                                                         </div>
                                                                     </div>
-                                                                    <div class="properties__offer-column">
-                                                                        <div class="properties__offer-label">Price</div>
-                                                                        <div class="properties__offer-value"><strong>${estate.price}</strong>
-                                                                                <c:if test = "${estate.estateStatusId.estateStatusName == 'Rent'}">
-                                                                                <span class="properties__offer-period">/month</span>
-                                                                            </c:if>
-                                                                        </div>
+                                                                    <div class="listing__thumb">
+                                                                        <a class="item-photo item-photo--static js-gallery-item">
+                                                                            <input id="image1st" name="image1st" type="hidden"/>
+                                                                            <img width="240" height="160" id="imageup1st" name="imageup1st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
+                                                                        </a>
                                                                     </div>
                                                                 </div>
-                                                                <div class="properties__params--mob"><a href="#" class="properties__more">View details</a><span class="properties__params">Built-Up - 165 Sq Ft</span><span class="properties__params">Land Size - 210 Sq Ft</span></div>
+                                                                <!-- end of block .listing__item 11111-->
+                                                                <div class="listing__item js-listing-item">
+                                                                    <div class="listing__item-header">
+                                                                        <div></div>
+                                                                        <div class="listing__tools">
+                                                                            <input onclick="BrowseServer2();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="listing__thumb">
+                                                                        <a class="item-photo item-photo--static js-gallery-item">
+                                                                            <input id="image2st" name="image2st" type="hidden"/>
+                                                                            <img width="240" height="160" id="imageup2st" name="imageup2st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- end of block .listing__item 2222222-->
+                                                                <div class="listing__item js-listing-item">
+                                                                    <div class="listing__item-header">
+                                                                        <div></div>
+                                                                        <div class="listing__tools">
+                                                                            <input onclick="BrowseServer3();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="listing__thumb">
+                                                                        <a class="item-photo item-photo--static js-gallery-item">
+                                                                            <input id="image3st" name="image3st" type="hidden"/>
+                                                                            <img width="240" height="160" id="imageup3st" name="imageup3st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- end of block .listing__item 3333333-->
+                                                                <div class="listing__item js-listing-item">
+                                                                    <div class="listing__item-header">
+                                                                        <div></div>
+                                                                        <div class="listing__tools">
+                                                                            <input onclick="BrowseServer4();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="listing__thumb">
+                                                                        <a class="item-photo item-photo--static js-gallery-item">
+                                                                            <input id="image4st" name="image4st" type="hidden"/>
+                                                                            <img width="240" height="160" id="imageup4st" name="imageup4st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- end of block .listing__item 44444-->
+                                                                <div class="listing__item js-listing-item">
+                                                                    <div class="listing__item-header">
+                                                                        <div></div>
+                                                                        <div class="listing__tools">
+                                                                            <input onclick="BrowseServer5();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="listing__thumb">
+                                                                        <a class="item-photo item-photo--static js-gallery-item">
+                                                                            <input id="image5st" name="image5st" type="hidden"/>
+                                                                            <img width="240" height="160" id="imageup5st" name="imageup5st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- end of block .listing__item 55555-->
                                                             </div>
                                                         </div>
-                                                        <!-- end of block .properties__info-->
+                                                        <!-- END Photos-->
+                                                        <!--<form class="form form--flex form--property form--photo js-form-property">-->
+                                                        <div class="row">
+                                                            <a href="#Status" aria-controls="Photo" class="form__submit" role="tab" data-toggle="tab">Next</a>
+                                                        </div>
+                                                        <!--</form>-->
                                                     </div>
-                                                    <!-- end of block .properties__item-->
-                                                </div>    
-                                            </c:forEach>
-
-                                        </div>
-                                        <!--
-                                        <div class="widget__footer"><a class="widget__more">Show more properties</a></div>
-                                        -->
+                                                    <div id="Status" role="tabpanel" class="tab-pane">
+                                                        <!--<form class="form form--flex form--property form--extra js-form-property">-->
+                                                        <div class="row">
+                                                            <div class="form-group form-group--col-12 form-group--inline">
+                                                                <label class="control-label">Manager</label>
+                                                                <div class="listing listing--grid">
+                                                                   
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <input type="submit" name="submit" value="submit" class="form__submit"/>
+                                                        </div>
+                                                        <!--</form>-->
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </section>
                                     </div>
                                 </div>
                             </div>
@@ -225,58 +368,19 @@
                     </div>
                 </div>
             </div>
-            <div id="myModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
 
-                    <!-- Modal content-->
+            <div id="myModal" tabindex="-1" role="dialog" class="modal fade">
+                <div role="document" class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Estate <strong>"${name}"</strong> Exist !</h4>
+                            <h2 class="site__title">Add Success</h2>
                         </div>
                         <div class="modal-body">
-                            <p>This Estate Exits. It appear at <br>
-                                <strong>${add1} - ${add2}</strong></p>
-                            <img src="${img}" alt="error">
-                        </div>
-                        <div class="modal-footer">
-                            <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${id}" class="btn btn-default" >View This Estate</a>
+                            <h3>Are you want continue create estate ?</h3>
+                            <button type="button" data-dismiss="modal" aria-label="Close" class="form__submit">Yes</button>
+                            <a href="<%=request.getContextPath()%>/EstateList?user=admin" class="form__submit">No</a>
                         </div>
                     </div>
-
-                </div>
-            </div>
-            <div id="myModalFail" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 style="text-align: center; color: red" class="modal-title">Transaction Fail</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p style="text-align: center; color: red"><strong>transaction not enough</strong></p>
-                            <img src="<%=request.getContextPath()%>/assets/media-demo/fail.jpg" alt="error" width="225" height="255">
-                            </div>
-                    </div>
-
-                </div>
-            </div>
-            <div id="myModalShow" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Transaction Success</h4>
-                        </div>
-                        <div class="modal-body">
-                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" alt="error">
-                        </div>
-                    </div>
-
                 </div>
             </div>
             <!-- END CENTER SECTION-->
@@ -325,13 +429,13 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demo.js"></script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
-    <!-- END SCRIPTS and INCLUDES-->
+
     <script type="text/javascript">
-        $(window).on('load', function () {
-            $('#myModalShow').modal('${modalTranOke}');
-            $('#myModalFail').modal('${modalTranFail}');
-            $('#myModal').modal('${modal}');
-        });
+                                                                                $(window).on('load', function () {
+                                                                                    $('#myModal').modal('${modal}');
+                                                                                });
     </script>
+
+    <!-- END SCRIPTS and INCLUDES-->
 </body>
 </html>

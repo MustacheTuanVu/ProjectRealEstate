@@ -61,6 +61,13 @@
                 <li class="nav__item">
                     <hr class="nav__separator">
                 </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/BlogList" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-add-listing"></use>
+                        </svg>Blog Manager
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>

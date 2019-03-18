@@ -128,6 +128,9 @@
                                                                 <c:when test="${estate.estateStatus == 'waitting for director delete'}">
                                                                     <span style="color: #c5cbd2" class="properties__state properties__state--hidden">${estate.estateStatus}</span>
                                                                 </c:when>
+                                                                    <c:when test="${estate.estateStatus == 'sold'}">
+                                                                    <span style="color: #c5cbd2" class="properties__state properties__state--hidden">${estate.estateStatus}</span>
+                                                                </c:when>
                                                                 <c:when test="${estate.estateStatus == 'publish'}">
                                                                     <span style="color: #00bbaa" class="properties__state properties__state--default">${estate.estateStatus}</span>
                                                                 </c:when>

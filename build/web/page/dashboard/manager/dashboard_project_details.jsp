@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
@@ -80,133 +81,345 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Property Management</h2><a href="<%=request.getContextPath()%>/EstateCreate" class="widget__btn js-widget-btn widget__btn--action">Add new property</a>
+                                        <h2 class="property__title">${find.projectName}
+                                            <span class="property__city">${find.projectAddress}</span>
+                                        </h2>
+                                        <a href="<%=request.getContextPath()%>/EstateCreate" class="widget__btn js-widget-btn widget__btn--action">Add new property</a>
+                                    </div>
+                                    <div class="widget js-widget widget--details">
+                                        <div class="widget__header">
+                                            <h2 class="widget__title">Summary chart information</h2>
+                                        </div>
                                     </div>
                                     <div class="widget__content">
-                                        <div class="widget__content">
-                                            <!-- BEGIN Favorites-->
-                                            <div class="listing--items">
-                                                <div class="listing__actions">
-                                                    <form action="<%=request.getContextPath()%>/EstateList">
-                                                        <input type="hidden" name="user" value="employee">
-                                                        <input type="text" name="searchInput" placeholder="Input Address" style="width: 500px;">
-                                                        <button type="submit" name="search" value="search" class="btn--link js-tags-rename">Search</button>
-                                                    </form>
+                                        <div class="info info--property">
+                                            <div class="info__column">
+                                                <div class="info__donut">
+                                                    <canvas id="property-statistics-units" class="info__chart" width="300" height="300" style="width: 300px !important; height: 300px !important;"></canvas>
+                                                    <div class="info__total">
+                                                        <br><br><span style="color: white">------------</span>  
+                                                        Total Unit<br> 
+                                                        <span style="color: white">------------</span>  
+                                                        <strong id="getUnit" class="info__total-value">${countEstate}</strong>
+                                                    </div>
                                                 </div>
-                                                <div class="tags tags--favorites js-tags">
-                                                    <div class="tags__list js-tags-list">
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee" style="color: #00bbaa" class="tags__item js-tags-all">All</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=waitting for director" style="color: #f3bc65" class="tags__item js-tags-item">Waitting for director</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=waitting to transaction" style="color: #f3bc65" class="tags__item js-tags-item">Waitting to transaction</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=Waitting for employee" style="color: #f3bc65" class="tags__item js-tags-item">Waitting for employee</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=publish" style="color: #00bbaa" class="tags__item js-tags-item">Publish</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=project" style="color: #00bbaa" class="tags__item js-tags-item">Project</a>
-                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=sold" style="color: #c5cbd2" class="tags__item js-tags-item">Sold</a>
+
+                                                <ul class="info__legend">
+                                                    <li class="info__legend-item info__legend-item--green">Total sold unit <br> 
+                                                        <strong id="getSold">${countEstateSold}</strong>
+                                                    </li>
+                                                    <li class="info__legend-item info__legend-item--light-green">Total unsold unit <br> 
+                                                        <strong id="getUnsold">${countEstateUnSold}</strong>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="info__column">
+                                                <div class="info__donut">
+                                                    <canvas id="property-statistics-price" class="info__chart" width="300" height="300" style="width: 300px !important; height: 300px !important;"></canvas>
+                                                    <div class="info__total">
+                                                        <br><br><span style="color: white">------------</span>
+                                                        Total Price <br>
+                                                        <span style="color: white">--</span>
+                                                        <strong class="info__total-value">${sumPrice}</strong> 
+                                                    </div>
+                                                </div>
+                                                <ul class="info__legend">
+                                                    <li class="info__legend-item info__legend-item--blue">Total sold price <br> 
+                                                        <strong id="getSoldPrice">${sumPriceSold}</strong></li>
+                                                    <li class="info__legend-item info__legend-item--light-blue">Total unsold price <br> 
+                                                        <strong id="getUnsoldPrice">${sumPriceUnSold}</strong></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="widget__content">
+                                        <div class="property">
+                                            <h1 class="property__title">${find.projectName}
+                                                <span class="property__city">${find.projectAddress}</span>
+                                            </h1>
+                                            <div class="clearfix"></div>     
+                                            <div class="widget js-widget widget--details">
+                                                <div class="property__info">
+                                                    <div class="property__info-item">District: <strong> ${find.district}</strong></div>
+                                                    <div class="property__info-item">Status: <strong> ${find.projectStatus}</strong></div>
+                                                    <div class="property__info-item">Year build: <strong> <fmt:formatDate value="${find.yearBuild}" pattern="yyyy" /></strong></div>
+                                                    <div class="property__info-item">Date add: <strong> <fmt:formatDate value="${find.dateAdd}" pattern="dd/MM/yyyy" /></strong></div>
+                                                </div>
+                                                <div class="property__plan">
+                                                    <dl class="property__plan-item">
+                                                        <dt class="property__plan-icon">
+                                                            <svg>
+                                                            <use xlink:href="#icon-area"></use>
+                                                            </svg>
+                                                        </dt>
+                                                        <dd class="property__plan-title">Block Number</dd>
+                                                        <dd class="property__plan-value">${find.blockNumber}</dd>
+                                                    </dl>
+                                                    <dl class="property__plan-item">
+                                                        <dt class="property__plan-icon property__plan-icon--window">
+                                                            <svg>
+                                                            <use xlink:href="#icon-window"></use>
+                                                            </svg>
+                                                        </dt>
+                                                        <dd class="property__plan-title">Floor Number</dd>
+                                                        <dd class="property__plan-value">${find.floorNumber}</dd>
+                                                    </dl>
+                                                    <dl class="property__plan-item">
+                                                        <dt class="property__plan-icon property__plan-icon--bathrooms">
+                                                            <svg>
+                                                            <use xlink:href="#icon-bathrooms"></use>
+                                                            </svg>
+                                                        </dt>
+                                                        <dd class="property__plan-title">Unit Number</dd>
+                                                        <dd class="property__plan-value">${countEstate}</dd>
+                                                    </dl>
+                                                    <dl class="property__plan-item">
+                                                        <dt class="property__plan-icon property__plan-icon--garage">
+                                                            <svg>
+                                                            <use xlink:href="#icon-garage"></use>
+                                                            </svg>
+                                                        </dt>
+                                                        <dd class="property__plan-title">Value</dd>
+                                                        <dd class="property__plan-value">${sumPrice} USD</dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                            <div class="widget js-widget widget--details">
+                                                <div class="widget__header">
+                                                    <h2 class="widget__title">Employee List Of This Project</h2>
+                                                </div>
+                                                <div class="widget__content">
+                                                    <div class="listing listing--grid">
+                                                        <c:forEach items="${employeeList}" var="item">
+                                                            <div class="listing__item">
+                                                                <div data-sr="enter bottom move 80px, scale(0), over 0.3s" data-animate-end="animate-end" class="worker js-unhide-block vcard worker--grid">
+                                                                    <div class="worker__photo">
+                                                                        <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${item.id}" class="item-photo item-photo--static">
+                                                                            <img src="${item.employeeImg}" alt="Lisa Wemert" class="photo"/>
+                                                                            <figure class="item-photo__hover">
+                                                                                <span class="item-photo__more">View</span>
+                                                                            </figure>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="worker__intro">
+                                                                        <h3 class="worker__name fn">${item.employeeName}</h3>
+                                                                        <div class="worker__post">${item.employeeMail}</div>
+                                                                        <button type="button" class="worker__show js-unhide">Contact agent</button>
+                                                                        <!-- end of block .worker__listings-->
+                                                                    </div>
+                                                                    <div class="worker__descr">
+                                                                        <p>${item.employeeContent}.</p>
+                                                                    </div>
+                                                                    <!-- end of block .worker__descr-->
+                                                                    <a href="agent_profile.html" class="worker__more">more details</a>
+                                                                </div>
+                                                                <!-- end of block .worker-->
+                                                            </div>
+                                                        </c:forEach>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="widget__footer"><hr></div>
-                                        </div>
-                                        <div class="listing listing--grid">
-                                            <c:forEach items="${estateList}" var="estate">
-                                                <div class="listing__item">
-                                                    <div class="properties properties--management">
-                                                        <div class="properties__item-header">
-                                                            <c:choose>
-                                                                <c:when test="${estate.estateStatus == 'waitting to transaction'}">
-                                                                    <span style="color: #f3bc65" class="properties__state properties__state--highlight">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                <c:when test="${estate.estateStatus == 'waitting for employee'}">
-                                                                    <span style="color: #f3bc65" class="properties__state properties__state--highlight">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                <c:when test="${estate.estateStatus == 'waitting for director' ||
-                                                                                estate.estateStatus == 'waitting for director create' ||
-                                                                                estate.estateStatus == 'waitting for director edit'
-                                                                        }">
-                                                                    <span style="color: #f3bc65" class="properties__state properties__state--highlight">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                <c:when test="${estate.estateStatus == 'waitting for director delete'}">
-                                                                    <span style="color: #c5cbd2" class="properties__state properties__state--hidden">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                    <c:when test="${estate.estateStatus == 'sold'}">
-                                                                    <span style="color: #c5cbd2" class="properties__state properties__state--hidden">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                <c:when test="${estate.estateStatus == 'publish'}">
-                                                                    <span style="color: #00bbaa" class="properties__state properties__state--default">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                                <c:when test="${estate.estateStatus == 'project'}">
-                                                                    <span style="color: #00bbaa" class="properties__state properties__state--default">${estate.estateStatus}</span>
-                                                                </c:when>
-                                                            </c:choose>
-                                                            <div class="properties__actions">
-                                                                <c:if test="${estate.estateStatus == 'publish'}">
-                                                                    <a href="<%=request.getContextPath()%>/EstateEdit?estateID=${estate.id}" class="properties__link">Edit</a>
-                                                                    <div class="dropdown properties__actions-dropdown">
-                                                                        <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>
-                                                                        <div class="dropdown__menu properties__dropdown-menu">
-                                                                            <a href="<%=request.getContextPath()%>/EstateDelete?estateID=${estate.id}" class="properties__link">Delete</a>
-                                                                            <button type="button" class="properties__link">Change status</button>
-                                                                        </div>
+                                            <div class="widget js-widget widget--details">
+                                                <div class="widget__header">
+                                                    <h2 class="widget__title">Customer List Of This Project</h2>
+                                                </div>
+                                                <div class="widget__content">
+                                                    <div class="listing listing--grid">
+                                                        <c:forEach items="${customerList}" var="item">
+                                                            <div class="listing__item">
+                                                                <div data-sr="enter bottom move 80px, scale(0), over 0.3s" data-animate-end="animate-end" class="worker js-unhide-block vcard worker--grid">
+                                                                    <div class="worker__photo">
+                                                                        <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${item.id}" class="item-photo item-photo--static">
+                                                                            <img src="${item.customerImg}" alt="Lisa Wemert" class="photo"/>
+                                                                            <figure class="item-photo__hover">
+                                                                                <span class="item-photo__more">View</span>
+                                                                            </figure>
+                                                                        </a>
                                                                     </div>
-                                                                </c:if>
-                                                                <c:if test="${estate.estateStatus == 'waitting to transaction'}">
-                                                                    <a href="<%=request.getContextPath()%>/CreateContract?estateID=${estate.id}&employeeID=${employeeID}" class="properties__link">Check</a>
-                                                                    <div class="dropdown properties__actions-dropdown">
-                                                                        <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>
-                                                                        <div class="dropdown__menu properties__dropdown-menu">
-                                                                            <a href="<%=request.getContextPath()%>/EstateDelete?estateID=${estate.id}" class="properties__link">Delete</a>
-                                                                            <button type="button" class="properties__link">Change status</button>
-                                                                        </div>
+                                                                    <div class="worker__intro">
+                                                                        <h3 class="worker__name fn">${item.customerName}</h3>
+                                                                        <div class="worker__post">${item.mail}</div>
+                                                                        <button type="button" class="worker__show js-unhide">Contact agent</button>
+                                                                        <!-- end of block .worker__listings-->
                                                                     </div>
-                                                                </c:if>
-                                                            </div>
-                                                        </div>
-                                                        <div class="properties__thumb">
-                                                            <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" target="_blank" class="item-photo item-photo--static">
-                                                                <img src="${estate.image1st}" alt="">
-                                                                <figure class="item-photo__hover item-photo__hover--params">
-                                                                    <span class="properties__params">Bed Room - ${estate.bedRoom} room</span>
-                                                                    <span class="properties__params">Bath Room - ${estate.bathRoom} room</span>
-                                                                    <span class="properties__params">Garages - ${estate.garages}M<sup>2</sup></span>
-                                                                    <span class="properties__time">Areas - ${estate.areas}M<sup>2</sup></span>
-                                                                    <span class="properties__more">View details</span>
-                                                                </figure>
-                                                            </a>
-                                                            <span class="properties__ribon">For ${estate.estateStatusId.estateStatusName}</span>
-                                                            <span class="properties__ribon properties__ribon--status properties__ribon--done">${estate.estateTypeId.typeName}</span>
-                                                        </div>
-                                                        <!-- end of block .properties__thumb-->
-                                                        <div class="properties__details">
-                                                            <div class="properties__info">
-                                                                <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}"  target="_blank"  class="properties__address">
-                                                                    <span class="properties__address-street">${estate.estateName}</span>
-                                                                    <span class="properties__address-city">${estate.address2}</span>
-                                                                </a>
-                                                                <div class="properties__offer">
-                                                                    <div class="properties__offer-column">
-                                                                        <div class="properties__offer-label">Direction</div>
-                                                                        <div class="properties__offer-value">
-                                                                            <strong> ${estate.direction}</strong>
-                                                                        </div>
+                                                                    <div class="worker__descr">
+                                                                        <p>${item.customerContent}.</p>
                                                                     </div>
-                                                                    <div class="properties__offer-column">
-                                                                        <div class="properties__offer-label">Price</div>
-                                                                        <div class="properties__offer-value"><strong>${estate.price}</strong>
-                                                                                <c:if test = "${estate.estateStatusId.estateStatusName == 'Rent'}">
-                                                                                <span class="properties__offer-period">/month</span>
-                                                                            </c:if>
-                                                                        </div>
-                                                                    </div>
+                                                                    <!-- end of block .worker__descr-->
+                                                                    <a href="agent_profile.html" class="worker__more">more details</a>
                                                                 </div>
-                                                                <div class="properties__params--mob"><a href="#" class="properties__more">View details</a><span class="properties__params">Built-Up - 165 Sq Ft</span><span class="properties__params">Land Size - 210 Sq Ft</span></div>
+                                                                <!-- end of block .worker-->
+                                                            </div>
+                                                        </c:forEach>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="widget js-widget widget--details">
+                                                <div class="widget__header">
+                                                    <h2 class="widget__title">Contract Of This Project</h2>
+                                                </div>
+                                                <div class="widget__content">
+                                                    <div class="datatable datatable--properties">
+                                                        <div class="datatable__wrap">
+                                                            <table class="js-properties-table datatable__table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="datatable__head-1">Location Address</th>
+                                                                        <th class="datatable__head-2 datatable__head-sort">Employee</th>
+                                                                        <th class="datatable__head-3 datatable__head-sort">Price</th>
+                                                                        <th class="datatable__head-4 datatable__head-sort">Status</th>
+                                                                        <th class="datatable__head-5">Details</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <c:forEach items="${contractDetails}" var="item">
+                                                                        <tr>
+                                                                            <td class="datatable__cell-1">${item.estateId.address1} <br>
+                                                                                ${item.estateId.address2}
+                                                                            </td>
+                                                                            <td class="datatable__cell-1"><strong> ${item.contractId.employeeId.employeeName} </strong>
+                                                                            </td>
+                                                                            <td class="datatable__cell-2"><strong> ${item.estateId.price} </strong>VND</td>
+                                                                            <td class="datatable__cell-2"><strong>${item.contractId.status}</strong></td>
+                                                                            <td class="datatable__cell-5">
+                                                                                <c:if test="${item.contractId.status != 'waitting for employee'}">
+                                                                                    <a href="<%=request.getContextPath()%>/CreateContract?estateID=${item.estateId.id}&employeeID=${item.contractId.employeeId.id}" class="datatable__more">
+                                                                                        View Details
+                                                                                    </a>
+                                                                                </c:if>
+                                                                                <c:if test="${item.contractId.status == 'waitting for employee'}">
+                                                                                    <span class="datatable__more" style="color: red">Access Deny View !</span>
+                                                                                </c:if>
+
+                                                                            </td>
+                                                                        </tr>    
+                                                                    </c:forEach>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div id="modal-datatable-detail" tabindex="-1" role="dialog" class="modal modal--datatable fade">
+                                                            <div role="document" class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                                                                    </div>
+                                                                    <div class="modal-body"></div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <!-- end of block .properties__info-->
                                                     </div>
-                                                    <!-- end of block .properties__item-->
-                                                </div>    
-                                            </c:forEach>
-
+                                                </div>
+                                            </div>
+                                            <div class="widget js-widget widget--details">
+                                                <div class="widget__header">
+                                                    <h2 class="widget__title">Projects Specification & Unit Specifications</h2>
+                                                </div>
+                                                <div class="widget__content">
+                                                    <div class="datatable datatable--property">
+                                                        <div class="datatable__wrap">
+                                                            <table class="js-property-table datatable__table table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td class="datatable__head-1">No.</td>
+                                                                        <td class="datatable__head-2 datatable__head-sort">Block</td>
+                                                                        <td class="datatable__head-3 datatable__head-sort">Floor</td>
+                                                                        <td class="datatable__head-4 datatable__head-sort">Area</td>
+                                                                        <td class="datatable__head-5 datatable__head-sort">BedRoom</td>
+                                                                        <td class="datatable__head-6 datatable__head-sort">BathRoom</td>
+                                                                        <td class="datatable__head-7 datatable__head-sort">Price</td>
+                                                                        <td class="datatable__head-8 datatable__head-sort">Status</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <c:forEach items="${estateList}" var="item">
+                                                                        <tr <c:if test="${item.estateStatus=='project'}">onclick="myFunction(${item.id})"</c:if>
+                                                                                                                         <c:if test="${item.estateStatus!='project'}">style="background: #cccccc !important"</c:if>>
+                                                                            <td class="datatable__cell datatable__cell--5">${item.id}</td>
+                                                                            <td class="datatable__cell datatable__cell--5">${item.block}</td>
+                                                                            <td class="datatable__cell datatable__cell--5">${item.floor}</td>
+                                                                            <td class="datatable__cell datatable__cell--5">${item.areas}</td>
+                                                                            <td class="datatable__cell datatable__cell--5">${item.bedRoom}</td>
+                                                                            <td class="datatable__cell datatable__cell--5">${item.bathRoom}</td>
+                                                                            <td class="datatable__cell datatable__cell--5">${item.price}</td>
+                                                                            <td class="datatable__cell datatable__cell--5">
+                                                                                <c:if test="${item.estateStatus=='project'}">
+                                                                                    publish
+                                                                                </c:if>
+                                                                                ${item.estateStatus}
+                                                                            </td>
+                                                                        </tr>
+                                                                    <div id="${item.id}" tabindex="-1" role="dialog" class="modal fade">
+                                                                        <div role="document" class="modal-dialog modal-md">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <div class="widget js-widget widget--dashboard">
+                                                                                        <div class="widget__header">
+                                                                                            <h2 class="widget__title">Estate Details</h2>
+                                                                                        </div>
+                                                                                        <div class="widget__content">
+                                                                                            <!-- BEGIN SECTION ACTIVITY-->
+                                                                                            <section class="activity activity--feed">
+                                                                                                <ul class="activity__list">
+                                                                                                    <li class="activity__date">Estate No. ${item.id}</li>
+                                                                                                    <li class="activity__item">
+                                                                                                        <div class="activity__title">
+                                                                                                            <a>Block: </a>${item.block}
+                                                                                                        </div>
+                                                                                                    </li>
+                                                                                                    <li class="activity__item">
+                                                                                                        <div class="activity__title">
+                                                                                                            <a>Floor: </a>${item.floor}
+                                                                                                        </div>
+                                                                                                    </li>
+                                                                                                    <li class="activity__item">
+                                                                                                        <div class="activity__title">
+                                                                                                            <a>Area: </a>${item.areas}
+                                                                                                        </div>
+                                                                                                    </li>
+                                                                                                    <li class="activity__item">
+                                                                                                        <div class="activity__title">
+                                                                                                            <a>BedRoom: </a>${item.bedRoom}
+                                                                                                        </div>
+                                                                                                    </li>
+                                                                                                    <li class="activity__item">
+                                                                                                        <div class="activity__title">
+                                                                                                            <a>BathRoom: </a>${item.bathRoom}
+                                                                                                        </div>
+                                                                                                    </li>
+                                                                                                    <li class="activity__item">
+                                                                                                        <div class="activity__title">
+                                                                                                            <a>Price: </a>${item.price}
+                                                                                                        </div>
+                                                                                                    </li>
+                                                                                                    <li class="activity__item">
+                                                                                                        <div class="activity__title">
+                                                                                                            <a>Status: </a>${item.estateStatus}
+                                                                                                        </div>
+                                                                                                    </li>
+                                                                                                </ul>
+                                                                                                <div class="widget__footer">
+                                                                                                    <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${item.id}" class="widget__more">
+                                                                                                        Request Buy
+                                                                                                    </a>
+                                                                                                </div>
+                                                                                            </section>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:forEach>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <!--
                                         <div class="widget__footer"><a class="widget__more">Show more properties</a></div>
@@ -218,7 +431,7 @@
                         <!-- END LISTING-->
                         <!-- BEGIN SIDEBAR-->
                         <div class="sidebar sidebar--dashboard">
-                            <%@ include file="/template/dashboard/employee/sidebar.jsp" %>
+                            <%@ include file="/template/dashboard/manager/sidebar.jsp" %>
                         </div>
                         <!-- END SIDEBAR-->
                         <div class="clearfix"></div>
@@ -243,7 +456,6 @@
                             <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${id}" class="btn btn-default" >View This Estate</a>
                         </div>
                     </div>
-
                 </div>
             </div>
             <div id="myModalFail" class="modal fade" role="dialog">
@@ -258,7 +470,7 @@
                         <div class="modal-body">
                             <p style="text-align: center; color: red"><strong>transaction not enough</strong></p>
                             <img src="<%=request.getContextPath()%>/assets/media-demo/fail.jpg" alt="error" width="225" height="255">
-                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -327,11 +539,11 @@
     <!-- endinject -->
     <!-- END SCRIPTS and INCLUDES-->
     <script type="text/javascript">
-        $(window).on('load', function () {
-            $('#myModalShow').modal('${modalTranOke}');
-            $('#myModalFail').modal('${modalTranFail}');
-            $('#myModal').modal('${modal}');
-        });
+                                                                            $(window).on('load', function () {
+                                                                                $('#myModalShow').modal('${modalTranOke}');
+                                                                                $('#myModalFail').modal('${modalTranFail}');
+                                                                                $('#myModal').modal('${modal}');
+                                                                            });
     </script>
 </body>
 </html>

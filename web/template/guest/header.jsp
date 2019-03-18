@@ -139,6 +139,9 @@
                                         <c:if test="${role=='employee'}">
                                             <a href="<%=request.getContextPath()%>/DashboardEmployee" class="nav__link">Dashboard</a>
                                         </c:if>
+                                        <c:if test="${role=='manager'}">
+                                            <a href="<%=request.getContextPath()%>/DashboardManager" class="nav__link">Dashboard</a>
+                                        </c:if>
                                     </li>
                                 </ul>
                             </nav>

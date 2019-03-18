@@ -3,22 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet.Project;
+package Servlet.Manager;
 
-import Controller.CustomerJpaController;
-import Controller.EstateJpaController;
-import Controller.EstateStatusJpaController;
 import Controller.EstateTypeJpaController;
-import Controller.ManagerJpaController;
-import Controller.ProjectJpaController;
-import Entity.Customer;
-import Entity.Estate;
-import Entity.Manager;
-import Entity.Project;
-import Entity.Users;
+import Entity.EstateType;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
@@ -33,8 +23,8 @@ import javax.transaction.UserTransaction;
  *
  * @author kiems
  */
-@WebServlet(name = "ProjectList", urlPatterns = {"/ProjectList"})
-public class ProjectList extends HttpServlet {
+@WebServlet(name = "DashboardManager", urlPatterns = {"/DashboardManager"})
+public class DashboardManager extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,21 +41,20 @@ public class ProjectList extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
-        Users users = (Users) session.getAttribute("user");
-        if (users != null) {
+        Entity.Users user = (Entity.Users) session.getAttribute("user");
+        if (user != null) {
             request.setAttribute("user", "user");
             request.setAttribute("displayLogin", "none");
             request.setAttribute("displayUser", "block");
-            switch (users.getRole()) {
+            switch (user.getRole()) {
                 case "employee":
-                    session.setAttribute("name", users.getEmployee().getEmployeeName());
+                    session.setAttribute("name", user.getEmployee().getEmployeeName());
                     request.setAttribute("role", "employee");
-                    session.setAttribute("image", users.getEmployee().getEmployeeImg());
+                    session.setAttribute("image", user.getEmployee().getEmployeeImg());
                     break;
                 case "manager":
-                    session.setAttribute("name", users.getManager().getManagerName());
-                    request.setAttribute("role", "manager");
-                    session.setAttribute("image", users.getManager().getManagerImg());
+                    session.setAttribute("name", user.getManager().getManagerName());
+                    session.setAttribute("image", user.getManager().getManagerImg());
                     break;
                 case "director":
                     session.setAttribute("name", "Boss");
@@ -73,9 +62,8 @@ public class ProjectList extends HttpServlet {
                     session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
                     break;
                 case "customer":
-                    session.setAttribute("name", users.getCustomer().getCustomerName());
-                    request.setAttribute("role", "customer");
-                    session.setAttribute("image", users.getCustomer().getCustomerImg());
+                    session.setAttribute("name", user.getCustomer().getCustomerName());
+                    session.setAttribute("image", user.getCustomer().getCustomerImg());
                     break;
             }
         } else {
@@ -84,52 +72,13 @@ public class ProjectList extends HttpServlet {
         }
         // END SESSION HEADER FONTEND //
         
-        // BEGIN ESTATE LIST SHOW//
+        // BEGIN NAVBAR HEADER FONTEND //
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        ProjectJpaController projectControl = new ProjectJpaController(utx, emf);
         EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
-        
-        String keywordF = (request.getParameter("keywordF") != null) ? request.getParameter("keywordF") : "";
-        request.setAttribute("keywordF", keywordF);
-        
-        String DistrictF = (request.getParameter("DistrictF") != null) ? request.getParameter("DistrictF") : "all";
-        request.setAttribute("DistrictF", DistrictF);
-        String BuildFrom = (request.getParameter("BuildFrom") != null) ? request.getParameter("BuildFrom") : "1945";
-        request.setAttribute("BuildFrom", BuildFrom);
-        String BuildTo = (request.getParameter("BuildTo") != null) ? request.getParameter("BuildTo") : "2020";
-        request.setAttribute("BuildTo", BuildTo);
-        
-        String dateRange = (request.getParameter("dateRange") != null) ? request.getParameter("dateRange") : "2019/01/01 - 2020/12/12";
-        int dateIndex = dateRange.indexOf("-");
-        String dateFrom = dateRange.substring(0,dateIndex-1);
-        request.setAttribute("dateFrom", dateFrom);
-        String dateTo = dateRange.substring(dateIndex+1);
-        request.setAttribute("dateTo", dateTo);
-        
-        
-        
-        List<Project> projectList = projectControl.getProjectInSiderBar(
-            keywordF,
-            DistrictF,
-            BuildFrom,
-            BuildTo,
-            dateFrom,
-            dateTo
-        );
-        request.setAttribute("projectList", projectList);
-        request.setAttribute("size", projectList.size());
-        // END ESTATE LIST SHOW//
-        
-        // BEGIN //
-        // END //
-        request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
-        String user = request.getParameter("user");
-        if(user.equals("guest")){
-            request.getRequestDispatcher("/page/guest/project_list.jsp").forward(request, response);
-        }else if(user.equals("manager")){
-            users.getManager().getManagerId();
-            request.getRequestDispatcher("/page/dashboard/manager/dashboard_project.jsp").forward(request, response);
-        }
+        List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();
+        request.setAttribute("estateTypeList", estateTypeList);
+        request.getRequestDispatcher("/page/dashboard/manager/index.jsp").forward(request, response);
+        // END NAVBAR HEADER FONTEND //
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

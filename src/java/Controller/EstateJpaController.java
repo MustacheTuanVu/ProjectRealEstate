@@ -602,6 +602,22 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public String getEstateIDByContract(String contractID) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT estate_id FROM contract_details where contract_id='" + contractID + "'");
+            if (!query.getResultList().isEmpty()) {
+                String ret = (String) query.getSingleResult();
+                return ret;
+            } else {
+                return null;
+            }
+        } finally {
+            em.close();
+        }
+    }
 
     public Estate getEstateByAddress(String address1, String address2) {
         EntityManager em = getEntityManager();

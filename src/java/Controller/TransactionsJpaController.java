@@ -40,8 +40,8 @@ public class TransactionsJpaController implements Serializable {
     public void create(Transactions transactions) throws PreexistingEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Customer customerOffered = transactions.getCustomerOffered();
             if (customerOffered != null) {
                 customerOffered = em.getReference(customerOffered.getClass(), customerOffered.getId());
@@ -52,10 +52,10 @@ public class TransactionsJpaController implements Serializable {
                 customerOffered.getTransactionsList().add(transactions);
                 customerOffered = em.merge(customerOffered);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -73,8 +73,8 @@ public class TransactionsJpaController implements Serializable {
     public void edit(Transactions transactions) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Transactions persistentTransactions = em.find(Transactions.class, transactions.getId());
             Customer customerOfferedOld = persistentTransactions.getCustomerOffered();
             Customer customerOfferedNew = transactions.getCustomerOffered();
@@ -91,10 +91,10 @@ public class TransactionsJpaController implements Serializable {
                 customerOfferedNew.getTransactionsList().add(transactions);
                 customerOfferedNew = em.merge(customerOfferedNew);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -116,8 +116,8 @@ public class TransactionsJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Transactions transactions;
             try {
                 transactions = em.getReference(Transactions.class, id);
@@ -131,10 +131,10 @@ public class TransactionsJpaController implements Serializable {
                 customerOffered = em.merge(customerOffered);
             }
             em.remove(transactions);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }

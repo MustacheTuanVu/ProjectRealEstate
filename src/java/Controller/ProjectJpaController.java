@@ -8,6 +8,7 @@ package Controller;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
+import Entity.Estate;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -250,6 +251,24 @@ public class ProjectJpaController implements Serializable {
             System.out.println(query);
             int ret = (int) query.getSingleResult();
             return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public Project getProjectByAddress(String address) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT * FROM project where "
+                    + "project_address='" + address + "'", Estate.class
+            );
+            if (!query.getResultList().isEmpty()) {
+                Project ret = (Project) query.getSingleResult();
+                return ret;
+            } else {
+                return null;
+            }
         } finally {
             em.close();
         }
