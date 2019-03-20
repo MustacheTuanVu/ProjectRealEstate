@@ -221,4 +221,16 @@ public class PostJpaController implements Serializable {
         }
     }
     
+    public List<Post> getPostByEmployee(String employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM post where employee='" + employeeID + "'", Post.class);
+            
+            List<Post> ret = (List<Post>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
 }

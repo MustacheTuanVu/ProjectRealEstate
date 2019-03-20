@@ -10,6 +10,7 @@ import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.RollbackFailureException;
 import Entity.EstateType;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
 /**
@@ -43,47 +45,67 @@ public class EstateTypeEdit extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
 
-        String id = request.getParameter("estateTypeID");
-        String estateTypeName = request.getParameter("estateTypeName");
-        System.out.println(id);
-        EstateType find = estateTypeControl.findEstateType(id);
-        find.setTypeName(estateTypeName);
+        HttpSession session = request.getSession();
+        Entity.Users user = (Entity.Users) session.getAttribute("user");
 
-        String message = "";
-        String hasError = "";
-        String display = "none";
-        String modal = "hiden";
-        List<EstateType> estateTypeList = (List<EstateType>) estateTypeControl.getEstateTypeByName(estateTypeName);
+        if (user != null) {
+            if (user.getRole().equals("employee")) {
+                request.setAttribute("user", "user");
+                request.setAttribute("displayLogin", "none");
+                request.setAttribute("displayUser", "block");
 
-        if (estateTypeList.size() > 0) {
-            message = "Type exits !";
-            hasError = "has-error";
-            display = "block";
-            modal = "show";
+                session.setAttribute("name", user.getEmployee().getEmployeeName());
+                request.setAttribute("role", "employee");
+                session.setAttribute("image", user.getEmployee().getEmployeeImg());
 
-            request.setAttribute("id", id);
-            request.setAttribute("estateTypeName", estateTypeName);
-            request.setAttribute("messageEdit", message);
-            request.setAttribute("hasErrorEdit", hasError);
-            request.setAttribute("displayEdit", display);
-            request.setAttribute("modal", modal);
+                EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+                EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
 
-            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/EstateTypeList");
-            dispatcher.forward(request, response);
-        } else {
-            try {
-                estateTypeControl.edit(find);
-            } catch (NonexistentEntityException ex) {
-                Logger.getLogger(EstateTypeEdit.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (RollbackFailureException ex) {
-                Logger.getLogger(EstateTypeEdit.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(EstateTypeEdit.class.getName()).log(Level.SEVERE, null, ex);
+                String id = request.getParameter("estateTypeID");
+                String estateTypeName = request.getParameter("estateTypeName");
+                System.out.println(id);
+                EstateType find = estateTypeControl.findEstateType(id);
+                find.setTypeName(estateTypeName);
+
+                String message = "";
+                String hasError = "";
+                String display = "none";
+                String modal = "hidden";
+                List<EstateType> estateTypeList = (List<EstateType>) estateTypeControl.getEstateTypeByName(estateTypeName);
+
+                if (estateTypeList.size() > 0) {
+                    message = "Type exits !";
+                    hasError = "has-error";
+                    display = "block";
+                    modal = "show";
+
+                    request.setAttribute("id", id);
+                    request.setAttribute("estateTypeName", estateTypeName);
+                    request.setAttribute("messageEdit", message);
+                    request.setAttribute("hasErrorEdit", hasError);
+                    request.setAttribute("displayEdit", display);
+                    request.setAttribute("modal", modal);
+
+                    RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/EstateTypeList");
+                    dispatcher.forward(request, response);
+                } else {
+                    try {
+                        estateTypeControl.edit(find);
+                    } catch (NonexistentEntityException ex) {
+                        Logger.getLogger(EstateTypeEdit.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (RollbackFailureException ex) {
+                        Logger.getLogger(EstateTypeEdit.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception ex) {
+                        Logger.getLogger(EstateTypeEdit.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    response.sendRedirect(request.getContextPath() + "/EstateTypeList");
+                }
+            } else {
+                response.sendRedirect(request.getContextPath() + "/LoginUser");
             }
-            response.sendRedirect(request.getContextPath() + "/EstateTypeList");
+        } else {
+            response.sendRedirect(request.getContextPath() + "/LoginUser");
         }
 
     }

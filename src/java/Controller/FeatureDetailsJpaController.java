@@ -41,8 +41,8 @@ public class FeatureDetailsJpaController implements Serializable {
     public void create(FeatureDetails featureDetails) throws PreexistingEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Estate estateId = featureDetails.getEstateId();
             if (estateId != null) {
                 estateId = em.getReference(estateId.getClass(), estateId.getId());
@@ -62,10 +62,10 @@ public class FeatureDetailsJpaController implements Serializable {
                 featureId.getFeatureDetailsList().add(featureDetails);
                 featureId = em.merge(featureId);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -83,8 +83,8 @@ public class FeatureDetailsJpaController implements Serializable {
     public void edit(FeatureDetails featureDetails) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             FeatureDetails persistentFeatureDetails = em.find(FeatureDetails.class, featureDetails.getFeatureDetailsId());
             Estate estateIdOld = persistentFeatureDetails.getEstateId();
             Estate estateIdNew = featureDetails.getEstateId();
@@ -115,10 +115,10 @@ public class FeatureDetailsJpaController implements Serializable {
                 featureIdNew.getFeatureDetailsList().add(featureDetails);
                 featureIdNew = em.merge(featureIdNew);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -140,8 +140,8 @@ public class FeatureDetailsJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             FeatureDetails featureDetails;
             try {
                 featureDetails = em.getReference(FeatureDetails.class, id);
@@ -160,10 +160,10 @@ public class FeatureDetailsJpaController implements Serializable {
                 featureId = em.merge(featureId);
             }
             em.remove(featureDetails);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -221,4 +221,25 @@ public class FeatureDetailsJpaController implements Serializable {
         }
     }
     
+    public List<String> findFeatureDetailsByEstate(String estateID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT feature_id FROM feature_details where estate_id='" + estateID + "'");
+            List<String> ret = (List<String>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Integer> findEstatesByFeature(String estateID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT feature_details_id FROM feature_details where estate_id='" + estateID + "'");
+            List<Integer> ret = (List<Integer>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
 }

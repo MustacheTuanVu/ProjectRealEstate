@@ -23,13 +23,14 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 @Entity
 @Table(name = "employee")
 @NamedQueries({
     @NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e")})
 public class Employee implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -71,17 +72,17 @@ public class Employee implements Serializable {
     @Size(min = 1, max = 1073741823)
     @Column(name = "employee_content")
     private String employeeContent;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
-    private List<Post> postList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeId")
-    private List<AssignDetails> assignDetailsList;
     @OneToMany(mappedBy = "employeeId")
     private List<Contract> contractList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeId")
-    private List<Schedule> scheduleList;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @OneToOne
     private Users userId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeId")
+    private List<AssignDetails> assignDetailsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeId")
+    private List<Schedule> scheduleList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
+    private List<Post> postList;
 
     public Employee() {
     }
@@ -165,12 +166,20 @@ public class Employee implements Serializable {
         this.employeeContent = employeeContent;
     }
 
-    public List<Post> getPostList() {
-        return postList;
+    public List<Contract> getContractList() {
+        return contractList;
     }
 
-    public void setPostList(List<Post> postList) {
-        this.postList = postList;
+    public void setContractList(List<Contract> contractList) {
+        this.contractList = contractList;
+    }
+
+    public Users getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Users userId) {
+        this.userId = userId;
     }
 
     public List<AssignDetails> getAssignDetailsList() {
@@ -181,14 +190,6 @@ public class Employee implements Serializable {
         this.assignDetailsList = assignDetailsList;
     }
 
-    public List<Contract> getContractList() {
-        return contractList;
-    }
-
-    public void setContractList(List<Contract> contractList) {
-        this.contractList = contractList;
-    }
-
     public List<Schedule> getScheduleList() {
         return scheduleList;
     }
@@ -197,12 +198,12 @@ public class Employee implements Serializable {
         this.scheduleList = scheduleList;
     }
 
-    public Users getUserId() {
-        return userId;
+    public List<Post> getPostList() {
+        return postList;
     }
 
-    public void setUserId(Users userId) {
-        this.userId = userId;
+    public void setPostList(List<Post> postList) {
+        this.postList = postList;
     }
 
     @Override

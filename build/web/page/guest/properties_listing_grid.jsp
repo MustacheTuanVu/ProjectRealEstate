@@ -30,7 +30,7 @@
         <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
         <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
     </head>
-    <body class="dashboard_property_new menu-default hover-default sidebar-left">
+    <body class="properties_listing_grid menu-default hover-default">
         <!--
         SVG icons from sprite-inline.svg
         They are inlined in order to make them work,
@@ -56,14 +56,14 @@
     <div class="box js-box">
         <!-- BEGIN HEADER-->
         <header class="header header--brand">
-            <%@ include file="/template/header.jsp" %>
+            <%@ include file="/template/guest/header.jsp" %>
         </header>
         <!-- END HEADER-->
 
         <!-- BEGIN NAVBAR-->
         <div id="header-nav-offset"></div>
         <nav id="header-nav" class="navbar navbar--header">
-            <%@ include file="/template/navbar.jsp" %>
+            <%@ include file="/template/guest/navbar.jsp" %>
         </nav>
         <!-- END NAVBAR-->
         <div class="site-wrap js-site-wrap">
@@ -71,10 +71,9 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Listing</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">United states</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Apartment for sale</a></li>
+                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Home</a></li>
+                        <li class="breadcrumbs__item"><a href="http://localhost:8080/ProjectRealEstate/EstateList?user=guest&estateStatus=all&estateType=all" class="breadcrumbs__link">Estate</a></li>
+                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">${estateStatus} - ${estateType} List</a></li>
                     </ul>
                 </div>
             </nav>
@@ -85,8 +84,8 @@
                         <!-- BEGIN site-->
                         <div class="site site--main">
                             <header class="site__header">
-                                <h1 class="site__title">Listing estate</h1>
-                                <h5 class="site__headline">Found:<strong> 641 apatments</strong></h5>
+                                <h1 class="site__title">${estateStatus} - ${estateType} Estate List</h1>
+                                <h5 class="site__headline">Found:<strong> ${size} estate</strong></h5>
                             </header>
                             <button type="button" data-goto-target=".js-search-form" class="widget__btn--goto js-goto-btn">Show Filter</button>
                             <div class="site__panel">
@@ -94,18 +93,13 @@
                                     <div class="form-group">
                                         <label for="in-listing-sort" class="control-label">Sort by:</label>
                                         <div class="form-control--select">
-                                            <select id="in-listing-sort" class="form-control js-in-select">
-                                                <option>Price + P&amp;P: Highest First</option>
-                                                <option>Time: Ending Soonset</option>
-                                                <option>Time: Newly Listed</option>
-                                                <option>Price + P&amp;P: Lowest First</option>
-                                                <option>Price + P&amp;P: Highest First</option>
-                                                <option>Price: Lowest First</option>
-                                                <option>Price: Highest First</option>
-                                                <option>Distance: Nearest First</option>
-                                                <option>Condition: New First</option>
-                                                <option>Condition: Used First</option>
-                                                <option>Best Match</option>
+                                            <select id="in-listing-sort" onchange="changeFunc()" class="form-control js-in-select">
+                                                <option value="price desc">Price Desc</option>
+                                                <option value="price asc">Price Asc</option>
+                                                <option value="date_add desc">Time Desc</option>
+                                                <option value="date_add asc">Time Asc</option>
+                                                <option value="areas desc">Area Desc</option>
+                                                <option value="areas asc">Area Asc</option>
                                             </select>
                                         </div>
                                     </div>
@@ -114,60 +108,146 @@
                                 <div class="listing__view"><span class="control-label">View:</span><a href="properties_listing_grid.html" class="btn--white active"><i class="fa fa-th-large"></i></a><a href="properties_listing_list.html" class="btn--white"><i class="fa fa-bars"></i></a><a href="properties_listing_table.html" class="btn--white"><i class="fa fa-table"></i></a></div>
                                 <!--end of block .listing__view-->
                             </div>
-                            <div class="listing__param"><span class="listing__param-item"><a class="listing__param-delete"></a>USA</span><span class="listing__param-item"><a class="listing__param-delete"></a>New Jersey</span><span class="listing__param-item"><a class="listing__param-delete"></a>New York City</span><span class="listing__param-item"><a class="listing__param-delete"></a>California</span><span class="listing__param-item"><a class="listing__param-delete"></a>Los Angeles</span><span class="listing__param-item"><a class="listing__param-delete"></a>For sale</span><span class="listing__param-item"><a class="listing__param-delete"></a>Privat apartment</span><span class="listing__param-item"><a class="listing__param-delete"></a>Price: $50k - $400k</span><span class="listing__param-item"><a class="listing__param-delete"></a>Area: 60 - 145 m2</span><span class="listing__param-item"><a class="listing__param-delete"></a>2 bedrooms</span><span class="listing__param-item"><a class="listing__param-delete"></a>3 bedrooms</span><span class="listing__param-item"><a class="listing__param-delete"></a>4 bedrooms<span class="listing__param-item"></span><a class="listing__param-delete"></a>Clear All</span></div>
+                            <div class="listing__param">
+                                <span class="listing__param-item">
+                                    <span class="glyphicon glyphicon-sort"></span>
+                                    Sort: ${sorts}
+                                </span>
+                                <c:if test="${estateStatus !=' '}">
+                                    <span class="listing__param-item">
+                                        <span class="glyphicon glyphicon-filter"></span>
+                                        Status: ${estateStatus}
+                                    </span>
+                                </c:if>
+                                <c:if test="${estateType !=' '}">
+                                    <span class="listing__param-item">
+                                        <span class="glyphicon glyphicon-filter"></span>
+                                        Type: ${estateType}
+                                    </span>
+                                </c:if>
+                                <c:if test="${keywordF !=''}">
+                                    <span class="listing__param-item">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                        Key word: ${keywordF}
+                                    </span>
+                                </c:if>
+                                <c:if test="${DirectionF !='all' && DirectionF !=''}">
+                                    <span class="listing__param-item">
+                                        <span class="glyphicon glyphicon-filter"></span>
+                                        Direction: ${DirectionF}
+                                    </span>
+                                </c:if>
+                                <c:if test="${DistrictF !='all' && DistrictF !=''}">
+                                    <span class="listing__param-item">
+                                        <span class="glyphicon glyphicon-filter"></span>
+                                        District: ${DistrictF}
+                                    </span>
+                                </c:if>
+                                <c:if test="${BuildFrom !='1945' && BuildTo !='2020' && BuildFrom !=''}">
+                                    <span class="listing__param-item">
+                                        <span class="glyphicon glyphicon-filter"></span>
+                                        Build: ${BuildFrom} - ${BuildTo}
+                                    </span>
+                                </c:if>
+                                <c:if test="${BedFrom !='0' || BedTo !='10'}">
+                                    <span class="listing__param-item">
+                                        <span class="glyphicon glyphicon-filter"></span>
+                                        Bed: ${BedFrom} - ${BedTo}
+                                    </span>
+                                </c:if>
+                                <c:if test="${BathFrom !='0' || BathTo !='10'}">
+                                    <span class="listing__param-item">
+                                        <span class="glyphicon glyphicon-filter"></span>
+                                        Bath: ${BathFrom} - ${BathTo}
+                                    </span>
+                                </c:if>
+                                <c:if test="${AreaFrom !='0' || AreaTo !='2000'}">
+                                    <span class="listing__param-item">
+                                        <span class="glyphicon glyphicon-filter"></span>
+                                        Area: ${AreaFrom} - ${AreaTo}
+                                    </span>
+                                </c:if>
+                                <c:if test="${PriceFrom !='0' || PriceTo !='500000'}">
+                                    <span class="listing__param-item">
+                                        <span class="glyphicon glyphicon-filter"></span>
+                                        Price: ${PriceFrom} - ${PriceTo}
+                                    </span>
+                                </c:if>
+                                <c:if test="${dateFrom !='2019/01/01' && dateTo !='2020/12/12' && dateTo !='dateFrom'}">
+                                    <span class="listing__param-item">
+                                        <span class="glyphicon glyphicon-filter"></span>
+                                        Date: ${dateFrom} - ${dateTo}
+                                    </span>
+                                </c:if>
+                                <span class="listing__param-item">
+                                    <a href="<%=request.getContextPath()%>/EstateList?user=guest&estateStatus=all&estateType=all" class="button__default button__default--medium button__default--reset ui__button ">Clear All</a>
+                                </span>
+                            </div>
                             <!--end of block .listing__param-->
                             <div class="site__main">
                                 <div class="widget js-widget widget--main">
                                     <div class="widget__content">
+                                        <c:if test="${size==0}">
+                                            <div class="listing__empty">
+                                                <img class="listing__empty-headline" src="http://localhost:8080/ProjectRealEstate/assets/media-demo/productempty.jpeg">
+                                                <h4 class="listing__empty-title">
+                                                    Your search did not return any estate.
+                                                </h4>
+                                                <span class="listing__empty-headline">
+                                                    Please make sure all words are spelled correctly
+                                                    or try different keywords.
+                                                </span>
+                                            </div>
+                                        </c:if>
                                         <div class="listing listing--grid js-properties-list">
                                             <c:forEach items="${estateList}" var="estate">
                                                 <div class="listing__item">
-                                                <div class="properties properties--grid">
-                                                    <div class="properties__thumb">
-                                                        <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" class="item-photo">
-                                                            <img src="${estate.image1st}" alt=""/>
-                                                            <figure class="item-photo__hover item-photo__hover--params">
-                                                                <span class="properties__params">Bed Room - ${estate.bedRoom} room</span>
-                                                                <span class="properties__params">Bath Room - ${estate.bathRoom} room</span>
-                                                                <span class="properties__params">Garages - ${estate.garages}M<sup>2</sup></span>
-                                                                <!--
-                                                                <span class="properties__intro">My home is bright and spacious. Very good transport links. Close to the Olympic village, Westfiel...</span>
-                                                                -->
-                                                                <span class="properties__time">Areas - ${estate.areas}M<sup>2</sup></span>
-                                                                <span class="properties__more">View details</span>
-                                                            </figure>
-                                                        </a>
-                                                                <span class="properties__ribon">For ${estate.estateStatusId.estateStatusName}</span>
-                                                                <span class="properties__ribon properties__ribon--status properties__ribon--done">${estate.estateTypeId.typeName}</span>
-                                                    </div>
-                                                    <!-- end of block .properties__thumb-->
-                                                    <div class="properties__details">
-                                                        <div class="properties__info"><a href="property_details.html" class="properties__address">
-                                                                <span class="properties__address-street">${estate.estateName}</span>
-                                                                <span class="properties__address-city">${estate.address2}</span></a>
-                                                            <div class="properties__offer">
-                                                                <div class="properties__offer-column">
-                                                                    <div class="properties__offer-label">Direction</div>
-                                                                    <div class="properties__offer-value">
-                                                                        <strong> ${estate.direction}</strong>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="properties__offer-column">
-                                                                    <div class="properties__offer-label">Price</div>
-                                                                    <div class="properties__offer-value"><strong>${estate.price}</strong>
-                                                                        <c:if test = "${estate.estateStatusId.estateStatusName == 'Rent'}">
-                                                                            <span class="properties__offer-period">/month</span>
-                                                                        </c:if>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="properties__params--mob"><a href="#" class="properties__more">View details</a><span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
+                                                    <div class="properties properties--grid">
+                                                        <div class="properties__thumb">
+                                                            <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" class="item-photo">
+                                                                <img src="${estate.image1st}" alt=""/>
+                                                                <figure class="item-photo__hover item-photo__hover--params">
+                                                                    <span class="properties__params">Bed Room - ${estate.bedRoom} room</span>
+                                                                    <span class="properties__params">Bath Room - ${estate.bathRoom} room</span>
+                                                                    <span class="properties__params">Garages - ${estate.garages}M<sup>2</sup></span>
+                                                                    <!--
+                                                                    <span class="properties__intro">My home is bright and spacious. Very good transport links. Close to the Olympic village, Westfiel...</span>
+                                                                    -->
+                                                                    <span class="properties__time">Areas - ${estate.areas}M<sup>2</sup></span>
+                                                                    <span class="properties__more">View details</span>
+                                                                </figure>
+                                                            </a>
+                                                            <span class="properties__ribon">For ${estate.estateStatusId.estateStatusName}</span>
+                                                            <span class="properties__ribon properties__ribon--status properties__ribon--done">${estate.estateTypeId.typeName}</span>
                                                         </div>
+                                                        <!-- end of block .properties__thumb-->
+                                                        <div class="properties__details">
+                                                            <div class="properties__info"><a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" class="properties__address">
+                                                                    <span class="properties__address-street">${estate.estateName}</span>
+                                                                    <span class="properties__address-city">${estate.address2}</span></a>
+                                                                <div class="properties__offer">
+                                                                    <div class="properties__offer-column">
+                                                                        <div class="properties__offer-label">Direction</div>
+                                                                        <div class="properties__offer-value">
+                                                                            <strong> ${estate.direction}</strong>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="properties__offer-column">
+                                                                        <div class="properties__offer-label">Price</div>
+                                                                        <div class="properties__offer-value"><strong>${estate.price}</strong>
+                                                                                <c:if test = "${estate.estateStatusId.estateStatusName == 'Rent'}">
+                                                                                <span class="properties__offer-period">/month</span>
+                                                                            </c:if>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="properties__params--mob"><a href="#" class="properties__more">View details</a><span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- end of block .properties__info-->
                                                     </div>
-                                                    <!-- end of block .properties__info-->
+                                                    <!-- end of block .properties__item-->
                                                 </div>
-                                                <!-- end of block .properties__item-->
-                                            </div>
                                             </c:forEach>
                                         </div>
                                     </div>
@@ -183,323 +263,98 @@
                             <div class="widget js-widget widget--sidebar">
                                 <div class="widget__header">
                                     <h2 class="widget__title">Filter</h2>
-                                    <h5 class="widget__headline">Find your apartment or house on the exact key parameters.</h5><a class="widget__btn js-widget-btn widget__btn--toggle">Show filter</a>
+                                    <h5 class="widget__headline">Find your estate or house on the exact key parameters.</h5><a class="widget__btn js-widget-btn widget__btn--toggle">Show filter</a>
                                 </div>
                                 <div class="widget__content">
                                     <!-- BEGIN SEARCH-->
-                                    <form action="properties_listing_list.html" class="form form--flex form--search js-search-form form--sidebar">
+                                    <form action="<%=request.getContextPath()%>/EstateList" class="form form--flex form--search js-search-form form--sidebar">
                                         <div class="row">
                                             <div class="form-group">
                                                 <label for="in-keyword" class="control-label">Keyword</label>
-                                                <input type="text" id="in-keyword" placeholder="Text" class="form-control">
+                                                <input name="keywordF" type="text" id="in-keyword" placeholder="Text" class="form-control">
                                             </div>
                                             <div class="form-group">
-                                                <label for="in-contract-type" class="control-label">Listing Type</label>
-                                                <select id="in-contract-type" data-placeholder="---" class="form-control">
-                                                    <option label=" "></option>
-                                                    <option>Sale</option>
-                                                    <option>Rent</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group"><span class="control-label">Property type</span>
-                                                <div class="dropdown dropdown--select">
-                                                    <button type="button" data-toggle="dropdown" data-placeholder="---" class="dropdown-toggle js-select-checkboxes-btn">---</button>
-                                                    <div class="dropdown-menu js-dropdown-menu js-select-checkboxes">
-                                                        <ul>
-                                                            <li>
-                                                                <input id="checkbox_type_1" type="checkbox" name="checkbox_type_1" class="in-checkbox">
-                                                                <label for="checkbox_type_1" data-toggle="tooltip" data-placement="left" title="Tooltip on top" class="in-label">Privat apartment</label>
-                                                            </li>
-                                                            <li>
-                                                                <input id="checkbox_type_2" type="checkbox" name="checkbox_type_2" class="in-checkbox">
-                                                                <label for="checkbox_type_2" data-toggle="tooltip" data-placement="top" title="Tooltip on top" class="in-label">Apartment</label>
-                                                            </li>
-                                                            <li>
-                                                                <input id="checkbox_type_3" type="checkbox" name="checkbox_type_3" class="in-checkbox">
-                                                                <label for="checkbox_type_3" data-toggle="tooltip" data-placement="bottom" title="Tooltip on top" class="in-label">Cottage</label>
-                                                            </li>
-                                                            <li>
-                                                                <input id="checkbox_type_4" type="checkbox" name="checkbox_type_4" class="in-checkbox">
-                                                                <label for="checkbox_type_4" data-toggle="tooltip" data-placement="bottom" title="Tooltip on top" class="in-label">Flat</label>
-                                                            </li>
-                                                            <li>
-                                                                <input id="checkbox_type_5" type="checkbox" name="checkbox_type_5" class="in-checkbox">
-                                                                <label for="checkbox_type_5" data-toggle="tooltip" data-placement="bottom" title="Tooltip on top" class="in-label">House</label>
-                                                            </li>
-                                                            <li>
-                                                                <input id="checkbox_type_6" type="checkbox" name="checkbox_type_6" class="in-checkbox">
-                                                                <label for="checkbox_type_6" data-toggle="tooltip" data-placement="bottom" title="Tooltip on top" class="in-label">Condominium</label>
-                                                            </li>
-                                                            <li>
-                                                                <input id="checkbox_type_7" type="checkbox" name="checkbox_type_7" class="in-checkbox">
-                                                                <label for="checkbox_type_7" data-toggle="tooltip" data-placement="bottom" title="Tooltip on top" class="in-label">Cottage</label>
-                                                            </li>
-                                                            <li>
-                                                                <input id="checkbox_type_8" type="checkbox" name="checkbox_type_8" class="in-checkbox">
-                                                                <label for="checkbox_type_8" data-toggle="tooltip" data-placement="bottom" title="Tooltip on top" class="in-label">Flat</label>
-                                                            </li>
-                                                            <li>
-                                                                <input id="checkbox_type_9" type="checkbox" name="checkbox_type_9" class="in-checkbox">
-                                                                <label for="checkbox_type_9" data-toggle="tooltip" data-placement="bottom" title="Tooltip on top" class="in-label">Cottage</label>
-                                                            </li>
-                                                            <li>
-                                                                <input id="checkbox_type_10" type="checkbox" name="checkbox_type_10" class="in-checkbox">
-                                                                <label for="checkbox_type_10" data-toggle="tooltip" data-placement="bottom" title="Tooltip on top" class="in-label">Condominium</label>
-                                                            </li>
-                                                        </ul>
-                                                        <!-- end of block .dropdown-menu-->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="in-tenure-type" class="control-label">Tenure</label>
-                                                <select id="in-tenure-type" data-placeholder="Any tenure" class="form-control">
-                                                    <option label=" "></option>
-                                                    <option>Tenure</option>
-                                                    <option>Tenure</option>
+                                                <label for="in-keyword" class="control-label">Type</label>
+                                                <select name="estateType" id="in-contract-type" data-placeholder="---" class="form-control">
+                                                    <option value="all">All</option>
+                                                    <c:forEach items="${estateTypeList}" var="item">
+                                                        <option value="${item.id}">${item.typeName}</option>
+                                                    </c:forEach>
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="in-bedrooms-type" class="control-label">Bedrooms</label>
-                                                <select id="in-bedrooms-type" data-placeholder="---" class="form-control">
-                                                    <option label=" "></option>
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group"><span class="control-label">Location level 1</span>
-                                                <div class="dropdown dropdown--select">
-                                                    <button type="button" data-toggle="dropdown" data-placeholder="States" class="dropdown-toggle js-select-checkboxes-btn">States</button>
-                                                    <div class="dropdown-menu js-dropdown-menu js-select-checkboxes">
-                                                        <div class="region-select">
-                                                            <ul class="js-checkboxes-tree bonsai region-select__list">
-                                                                <li>
-                                                                    <input type="checkbox" name="location[]" value="Fresno" id="region-select-states-0" class="in-checkbox">
-                                                                    <label for="region-select-states-0" data-toggle="tooltip" data-placement="top" title="Fresno" class="in-label">Fresno</label>
-                                                                    <ul>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Clovis" id="region-select-states-1" class="in-checkbox">
-                                                                            <label for="region-select-states-1" data-toggle="tooltip" data-placement="top" title="Clovis" class="in-label">Clovis</label>
-                                                                        </li>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Fresno" id="region-select-states-2" class="in-checkbox">
-                                                                            <label for="region-select-states-2" data-toggle="tooltip" data-placement="top" title="Fresno" class="in-label">Fresno</label>
-                                                                        </li>
-                                                                    </ul>
-                                                                </li>
-                                                                <li>
-                                                                    <input type="checkbox" name="location[]" value="Los Angeles" id="region-select-states-3" class="in-checkbox">
-                                                                    <label for="region-select-states-3" data-toggle="tooltip" data-placement="top" title="Los Angeles" class="in-label">Los Angeles</label>
-                                                                    <ul>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Glendale" id="region-select-states-4" class="in-checkbox">
-                                                                            <label for="region-select-states-4" data-toggle="tooltip" data-placement="top" title="Glendale" class="in-label">Glendale</label>
-                                                                        </li>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Long Beach" id="region-select-states-5" class="in-checkbox">
-                                                                            <label for="region-select-states-5" data-toggle="tooltip" data-placement="top" title="Long Beach" class="in-label">Long Beach</label>
-                                                                        </li>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Los Angeles" id="region-select-states-6" class="in-checkbox">
-                                                                            <label for="region-select-states-6" data-toggle="tooltip" data-placement="top" title="Los Angeles" class="in-label">Los Angeles</label>
-                                                                            <ul>
-                                                                                <li>
-                                                                                    <input type="checkbox" name="location[]" value="Bel Air" id="region-select-states-7" class="in-checkbox">
-                                                                                    <label for="region-select-states-7" data-toggle="tooltip" data-placement="top" title="Bel Air" class="in-label">Bel Air</label>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <input type="checkbox" name="location[]" value="Brentwood" id="region-select-states-8" class="in-checkbox">
-                                                                                    <label for="region-select-states-8" data-toggle="tooltip" data-placement="top" title="Brentwood" class="in-label">Brentwood</label>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <input type="checkbox" name="location[]" value="Holywood Hills" id="region-select-states-9" class="in-checkbox">
-                                                                                    <label for="region-select-states-9" data-toggle="tooltip" data-placement="top" title="Holywood Hills" class="in-label">Holywood Hills</label>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <input type="checkbox" name="location[]" value="Mar Vista" id="region-select-states-10" class="in-checkbox">
-                                                                                    <label for="region-select-states-10" data-toggle="tooltip" data-placement="top" title="Mar Vista" class="in-label">Mar Vista</label>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <input type="checkbox" name="location[]" value="Silver Lake" id="region-select-states-11" class="in-checkbox">
-                                                                                    <label for="region-select-states-11" data-toggle="tooltip" data-placement="top" title="Silver Lake" class="in-label">Silver Lake</label>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </li>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Santa Ana" id="region-select-states-12" class="in-checkbox">
-                                                                            <label for="region-select-states-12" data-toggle="tooltip" data-placement="top" title="Santa Ana" class="in-label">Santa Ana</label>
-                                                                        </li>
-                                                                    </ul>
-                                                                </li>
-                                                                <li>
-                                                                    <input type="checkbox" name="location[]" value="Santa Clara" id="region-select-states-13" class="in-checkbox">
-                                                                    <label for="region-select-states-13" data-toggle="tooltip" data-placement="top" title="Santa Clara" class="in-label">Santa Clara</label>
-                                                                    <ul>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Cupertino" id="region-select-states-14" class="in-checkbox">
-                                                                            <label for="region-select-states-14" data-toggle="tooltip" data-placement="top" title="Cupertino" class="in-label">Cupertino</label>
-                                                                        </li>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Mountain View" id="region-select-states-15" class="in-checkbox">
-                                                                            <label for="region-select-states-15" data-toggle="tooltip" data-placement="top" title="Mountain View" class="in-label">Mountain View</label>
-                                                                        </li>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Palo Alto" id="region-select-states-16" class="in-checkbox">
-                                                                            <label for="region-select-states-16" data-toggle="tooltip" data-placement="top" title="Palo Alto" class="in-label">Palo Alto</label>
-                                                                        </li>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="San Jose" id="region-select-states-17" class="in-checkbox">
-                                                                            <label for="region-select-states-17" data-toggle="tooltip" data-placement="top" title="San Jose" class="in-label">San Jose</label>
-                                                                        </li>
-                                                                    </ul>
-                                                                </li>
-                                                            </ul>
-                                                            <div class="region-select__buttons">
-                                                                <button type="button" class="region-select__btn region-select__btn--reset js-select-checkboxes-reset">Clear</button>
-                                                                <button type="button" class="region-select__btn js-select-checkboxes-accept">Accept</button>
-                                                            </div>
-                                                        </div>
-                                                        <!-- end of block .region-select-->
-                                                    </div>
-                                                    <!-- end of block .dropdown-menu-->
-                                                </div>
-                                            </div>
-                                            <div class="form-group"><span class="control-label">Location level 2</span>
-                                                <div class="dropdown dropdown--select">
-                                                    <button type="button" data-toggle="dropdown" data-placeholder="Location" class="dropdown-toggle js-select-checkboxes-btn">Locations</button>
-                                                    <div class="dropdown-menu js-dropdown-menu js-select-checkboxes">
-                                                        <div class="region-select">
-                                                            <ul class="js-checkboxes-tree bonsai region-select__list">
-                                                                <li>
-                                                                    <input type="checkbox" name="location[]" value="Fresno" id="region-select-location-18" class="in-checkbox">
-                                                                    <label for="region-select-location-18" data-toggle="tooltip" data-placement="top" title="Fresno" class="in-label">Fresno</label>
-                                                                    <ul>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Clovis" id="region-select-location-19" class="in-checkbox">
-                                                                            <label for="region-select-location-19" data-toggle="tooltip" data-placement="top" title="Clovis" class="in-label">Clovis</label>
-                                                                        </li>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Fresno" id="region-select-location-20" class="in-checkbox">
-                                                                            <label for="region-select-location-20" data-toggle="tooltip" data-placement="top" title="Fresno" class="in-label">Fresno</label>
-                                                                        </li>
-                                                                    </ul>
-                                                                </li>
-                                                                <li>
-                                                                    <input type="checkbox" name="location[]" value="Los Angeles" id="region-select-location-21" class="in-checkbox">
-                                                                    <label for="region-select-location-21" data-toggle="tooltip" data-placement="top" title="Los Angeles" class="in-label">Los Angeles</label>
-                                                                    <ul>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Glendale" id="region-select-location-22" class="in-checkbox">
-                                                                            <label for="region-select-location-22" data-toggle="tooltip" data-placement="top" title="Glendale" class="in-label">Glendale</label>
-                                                                        </li>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Long Beach" id="region-select-location-23" class="in-checkbox">
-                                                                            <label for="region-select-location-23" data-toggle="tooltip" data-placement="top" title="Long Beach" class="in-label">Long Beach</label>
-                                                                        </li>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Los Angeles" id="region-select-location-24" class="in-checkbox">
-                                                                            <label for="region-select-location-24" data-toggle="tooltip" data-placement="top" title="Los Angeles" class="in-label">Los Angeles</label>
-                                                                            <ul>
-                                                                                <li>
-                                                                                    <input type="checkbox" name="location[]" value="Bel Air" id="region-select-location-25" class="in-checkbox">
-                                                                                    <label for="region-select-location-25" data-toggle="tooltip" data-placement="top" title="Bel Air" class="in-label">Bel Air</label>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <input type="checkbox" name="location[]" value="Brentwood" id="region-select-location-26" class="in-checkbox">
-                                                                                    <label for="region-select-location-26" data-toggle="tooltip" data-placement="top" title="Brentwood" class="in-label">Brentwood</label>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <input type="checkbox" name="location[]" value="Holywood Hills" id="region-select-location-27" class="in-checkbox">
-                                                                                    <label for="region-select-location-27" data-toggle="tooltip" data-placement="top" title="Holywood Hills" class="in-label">Holywood Hills</label>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <input type="checkbox" name="location[]" value="Mar Vista" id="region-select-location-28" class="in-checkbox">
-                                                                                    <label for="region-select-location-28" data-toggle="tooltip" data-placement="top" title="Mar Vista" class="in-label">Mar Vista</label>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <input type="checkbox" name="location[]" value="Silver Lake" id="region-select-location-29" class="in-checkbox">
-                                                                                    <label for="region-select-location-29" data-toggle="tooltip" data-placement="top" title="Silver Lake" class="in-label">Silver Lake</label>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </li>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Santa Ana" id="region-select-location-30" class="in-checkbox">
-                                                                            <label for="region-select-location-30" data-toggle="tooltip" data-placement="top" title="Santa Ana" class="in-label">Santa Ana</label>
-                                                                        </li>
-                                                                    </ul>
-                                                                </li>
-                                                                <li>
-                                                                    <input type="checkbox" name="location[]" value="Santa Clara" id="region-select-location-31" class="in-checkbox">
-                                                                    <label for="region-select-location-31" data-toggle="tooltip" data-placement="top" title="Santa Clara" class="in-label">Santa Clara</label>
-                                                                    <ul>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Cupertino" id="region-select-location-32" class="in-checkbox">
-                                                                            <label for="region-select-location-32" data-toggle="tooltip" data-placement="top" title="Cupertino" class="in-label">Cupertino</label>
-                                                                        </li>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Mountain View" id="region-select-location-33" class="in-checkbox">
-                                                                            <label for="region-select-location-33" data-toggle="tooltip" data-placement="top" title="Mountain View" class="in-label">Mountain View</label>
-                                                                        </li>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="Palo Alto" id="region-select-location-34" class="in-checkbox">
-                                                                            <label for="region-select-location-34" data-toggle="tooltip" data-placement="top" title="Palo Alto" class="in-label">Palo Alto</label>
-                                                                        </li>
-                                                                        <li>
-                                                                            <input type="checkbox" name="location[]" value="San Jose" id="region-select-location-35" class="in-checkbox">
-                                                                            <label for="region-select-location-35" data-toggle="tooltip" data-placement="top" title="San Jose" class="in-label">San Jose</label>
-                                                                        </li>
-                                                                    </ul>
-                                                                </li>
-                                                            </ul>
-                                                            <div class="region-select__buttons">
-                                                                <button type="button" class="region-select__btn region-select__btn--reset js-select-checkboxes-reset">Clear</button>
-                                                                <button type="button" class="region-select__btn js-select-checkboxes-accept">Accept</button>
-                                                            </div>
-                                                        </div>
-                                                        <!-- end of block .region-select-->
-                                                    </div>
-                                                    <!-- end of block .dropdown-menu-->
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="in-favorites-search-type" class="control-label">Favorite searches</label>
-                                                <select id="in-favorites-search-type" data-placeholder="---" class="form-control">
-                                                    <option label=" "></option>
-                                                    <option>Kuala Lumpur - 1 flat</option>
-                                                    <option>2</option>
+                                                <label for="in-keyword" class="control-label">Status</label>
+                                                <select name="estateStatus" id="in-contract-type" class="form-control">
+                                                    <option value="all">All</option>
+                                                    <option value="2">Sale</option>
+                                                    <option value="1">Rent</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="in-favorites-categories-type" class="control-label">Favorite categories</label>
-                                                <select id="in-favorites-categories-type" data-placeholder="---" class="form-control">
+                                                <label for="in-keyword" class="control-label">Direction</label>
+                                                <select name="DirectionF" id="in-contract-type" data-placeholder="---" class="form-control">
                                                     <option label=" "></option>
-                                                    <option>Luxury</option>
-                                                    <option>2</option>
+                                                    <option value="East">East</option>
+                                                    <option value="West">West</option>
+                                                    <option value="South">South</option>
+                                                    <option value="North">North</option>
+                                                    <option value="South">South-East</option>
+                                                    <option value="South">South-West</option>
+                                                    <option value="North-West">North-West</option>
+                                                    <option value="North-West">North-East</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="in-favorites-users-type" class="control-label">Favourite users</label>
-                                                <select id="in-favorites-users-type" data-placeholder="---" class="form-control">
-                                                    <option label=" "></option>
-                                                    <option>Josh Hartnett</option>
-                                                    <option>2</option>
+                                                <label for="in-keyword" class="control-label">District</label>
+                                                <select name="DistrictF" id="in-contract-type" data-placeholder="---" class="form-control">
+                                                    <option value="all">all</option>
+                                                    <option value="1">1</option>
+                                                    <option value="West">West</option>
+                                                    <option value="South">South</option>
+                                                    <option value="North">North</option>
+                                                    <option value="South">South-East</option>
+                                                    <option value="South">South-West</option>
+                                                    <option value="North-West">North-West</option>
+                                                    <option value="North-West">North-East</option>
                                                 </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="in-datetime" class="control-label">Date Range</label>
-                                                <input type="text" id="in-datetime" data-start-date="12/03/2015" data-end-date="12/22/2015" data-time-picker="true" data-single-picker="false" class="js-datetimerange form-control">
                                             </div>
                                             <div class="form-group">
                                                 <div class="form__mode">
                                                     <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
                                                 </div>
-                                                <label for="range_price" class="control-label">Price</label>
+                                                <label for="range_year" class="control-label">Year Build</label>
                                                 <div class="form__ranges">
-                                                    <input id="range_price" class="js-search-range form__ranges-in">
+                                                    <input id="range_year" class="js-search-range form__ranges-in">
                                                 </div>
                                                 <div class="form__inputs js-search-inputs">
-                                                    <input type="text" id="in-price-from" placeholder="From" data-input-type="from" class="form-control js-field-range">
-                                                    <input type="text" id="in-price-to" placeholder="To" data-input-type="to" class="form-control js-field-range">
+                                                    <input name="BuildFrom" type="text" id="in-price-from" placeholder="0" value="1945" data-input-type="from" class="form-control js-field-range">
+                                                    <input name="BuildTo" type="text" id="in-price-to" placeholder="10"  value="2020"  data-input-type="to" class="form-control js-field-range">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="form__mode">
+                                                    <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
+                                                </div>
+                                                <label for="range_bedroom" class="control-label">Bed room</label>
+                                                <div class="form__ranges">
+                                                    <input id="range_bedroom" class="js-search-range form__ranges-in">
+                                                </div>
+                                                <div class="form__inputs js-search-inputs">
+                                                    <input name="BedFrom" type="text" id="in-price-from" placeholder="0"  value="0"  data-input-type="from" class="form-control js-field-range">
+                                                    <input name="BedTo" type="text" id="in-price-to" placeholder="10"  value="10"  data-input-type="to" class="form-control js-field-range">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="form__mode">
+                                                    <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
+                                                </div>
+                                                <label for="range_bathroom" class="control-label">Bath room</label>
+                                                <div class="form__ranges">
+                                                    <input id="range_bathroom" class="js-search-range form__ranges-in">
+                                                </div>
+                                                <div class="form__inputs js-search-inputs">
+                                                    <input name="BathFrom" type="text" id="in-price-from" placeholder="0" value="0" data-input-type="from" class="form-control js-field-range">
+                                                    <input name="BathTo" type="text" id="in-price-to" placeholder="10" value="10" data-input-type="to" class="form-control js-field-range">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -511,28 +366,33 @@
                                                     <input id="range_area" class="js-search-range form__ranges-in">
                                                 </div>
                                                 <div class="form__inputs js-search-inputs">
-                                                    <input type="text" id="in-area-from" placeholder="From" data-input-type="from" class="form-control js-field-range">
-                                                    <input type="text" id="in-area-to" placeholder="To" data-input-type="to" class="form-control js-field-range">
+                                                    <input name="AreaFrom" type="text" id="in-area-from" placeholder="From" value="0" data-input-type="from" class="form-control js-field-range">
+                                                    <input name="AreaTo" type="text" id="in-area-to" placeholder="To" value="2000"  data-input-type="to" class="form-control js-field-range">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="form__mode">
-                                                    <button type="button" data-mode="percent" class="form__mode-btn js-input-commision">Percent</button>
                                                     <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
                                                 </div>
-                                                <label for="range_area" class="control-label">Commision</label>
+                                                <label for="range_price" class="control-label">Price</label>
                                                 <div class="form__ranges">
-                                                    <input id="range_commision" class="js-search-range form__ranges-in">
+                                                    <input id="range_price" class="js-search-range form__ranges-in">
                                                 </div>
                                                 <div class="form__inputs js-search-inputs">
-                                                    <input type="text" id="in-commision-from" placeholder="From" data-input-type="from" class="form-control js-field-range">
-                                                    <input type="text" id="in-commision-to" placeholder="To" data-input-type="to" class="form-control js-field-range">
+                                                    <input name="PriceFrom" type="text" id="in-area-from" placeholder="From" value="0" data-input-type="from" class="form-control js-field-range">
+                                                    <input name="PriceTo" type="text" id="in-area-to" placeholder="To" value="500000"  data-input-type="to" class="form-control js-field-range">
                                                 </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="in-datetime" class="control-label">Date Range</label>
+                                                <input name="dateRange" type="text" id="in-datetime" data-start-date="01/01/2019" data-end-date="12/12/2020" data-time-picker="true" data-single-picker="false" class="js-datetimerange form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <input name="user" type="hidden" id="in-keyword" value="guest" class="form-control">
                                             </div>
                                             <div class="form__buttons form__buttons--double">
                                                 <button type="button" class="form__reset js-form-reset">Reset</button>
-                                                <button type="submit" class="form__submit">Search</button>
-                                                <button type="button" class="form__favorite">Add search to favorites</button>
+                                                <input type="submit" value="filter" name="filter" class="form__submit"/>
                                             </div>
                                         </div>
                                     </form>
@@ -594,5 +454,13 @@
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
     <!-- END SCRIPTS and INCLUDES-->
+    <script type="text/javascript">
+                                                function changeFunc() {
+                                                    var selectBox = document.getElementById("in-listing-sort");
+                                                    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+                                                    window.location = '<%=request.getContextPath()%>/EstateList?user=guest&estateStatus=${estateStatusID}&estateType=${estateTypeID}&sort=' + selectedValue;
+                                                }
+    </script>
+
 </body>
 </html>

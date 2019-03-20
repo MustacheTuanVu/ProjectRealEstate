@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import Entity.EstateStatus;
 import Entity.EstateType;
 import Entity.AssignDetails;
+import Entity.Contract;
 import Entity.ProjectDetails;
 import Entity.ContractDetails;
 import Entity.Estate;
@@ -24,9 +25,13 @@ import Entity.FeatureDetails;
 import java.util.ArrayList;
 import java.util.List;
 import Entity.Schedule;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 
 /**
  *
@@ -45,8 +50,6 @@ public class EstateJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    // function count number Estate indata base
-
     public void create(Estate estate) throws PreexistingEntityException, RollbackFailureException, Exception {
         if (estate.getFeatureDetailsList() == null) {
             estate.setFeatureDetailsList(new ArrayList<FeatureDetails>());
@@ -56,7 +59,6 @@ public class EstateJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
-            //utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
             EstateStatus estateStatusId = estate.getEstateStatusId();
@@ -96,6 +98,19 @@ public class EstateJpaController implements Serializable {
                 attachedScheduleList.add(scheduleListScheduleToAttach);
             }
             estate.setScheduleList(attachedScheduleList);
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            javax.validation.Validator validator = factory.getValidator();
+
+            Set<ConstraintViolation<Estate>> constraintViolations;
+            constraintViolations = validator.validate(estate);
+
+            if (constraintViolations.size() > 0) {
+                System.out.println("Constraint Violations occurred..");
+                for (ConstraintViolation<Estate> estates : constraintViolations) {
+                    System.out.println(estates.getRootBeanClass().getSimpleName()
+                            + "." + estates.getPropertyPath() + " " + estates.getMessage());
+                }
+            }
             em.persist(estate);
             if (estateStatusId != null) {
                 estateStatusId.getEstateList().add(estate);
@@ -150,11 +165,9 @@ public class EstateJpaController implements Serializable {
                     oldEstateIdOfScheduleListSchedule = em.merge(oldEstateIdOfScheduleListSchedule);
                 }
             }
-           // utx.commit();
             em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                //utx.rollback();
                 em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
@@ -173,8 +186,6 @@ public class EstateJpaController implements Serializable {
     public void edit(Estate estate) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            //utx.begin();
-            
             em = getEntityManager();
             em.getTransaction().begin();
             Estate persistentEstate = em.find(Estate.class, estate.getId());
@@ -330,11 +341,9 @@ public class EstateJpaController implements Serializable {
                     }
                 }
             }
-            //utx.commit();
             em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                //utx.rollback();
                 em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
@@ -357,8 +366,8 @@ public class EstateJpaController implements Serializable {
     public void destroy(String id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Estate estate;
             try {
                 estate = em.getReference(Estate.class, id);
@@ -416,10 +425,10 @@ public class EstateJpaController implements Serializable {
                 estateTypeId = em.merge(estateTypeId);
             }
             em.remove(estate);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -477,18 +486,368 @@ public class EstateJpaController implements Serializable {
         }
     }
 
-    public List<Estate> getEstateWaiting() {
-        
-        EntityManager em=getEntityManager();
-        Query q=em.createQuery("SELECT e FROM Estate e WHERE e.estateStatusId = ?1 ");
-        q.setParameter(1, new EstateStatus(1));
-        return q.getResultList();
-    }
-    
-    public List<Estate> getEstateByName(String estateName) {
+    public int getEmployeeByEstateCount(String estateID) {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createNativeQuery("SELECT * FROM estate where estate_name='" + estateName + "'",Estate.class);
+            //Query query = em.createNativeQuery("SELECT employee_id FROM assign_details where estate_id='" + estateID + "'", String.class);
+            Query query = em.createNativeQuery("SELECT COUNT(employee_id) FROM assign_details where estate_id='" + estateID + "'");
+            int ret = (int) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public int getEmployeeByEstate(String estateID) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT employee_id FROM assign_details where estate_id='" + estateID + "'", String.class);
+            Query query = em.createNativeQuery("SELECT employee_id FROM assign_details where estate_id='" + estateID + "'");
+            int ret = (int) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<String> getEstateByEmployee(String employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'");
+            List<String> ret = (List<String>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<String> getEstateByEmployeeFilter(String employeeID, String status) {
+        EntityManager em = getEntityManager();
+        try {
+            List<String> estateIDList = getEstateByEmployee(employeeID);
+            List<String> ret = (List<String>) new ArrayList<String>();
+            for (String string : estateIDList) {
+                Query query = em.createNativeQuery("SELECT id FROM estate where "
+                        + "id = '" + string + "' AND "
+                        + "estate_status LIKE '%" + status + "%'"
+                );
+                if (query.getResultList().size() != 0) {
+                    ret.add((String) query.getSingleResult());
+                }
+            }
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    /*
+    public List<Estate> getEstateByFilter(List<Estate> estateID, String status) {
+        System.out.println("status " + status);
+        EntityManager em = getEntityManager();
+        List<Estate> list1 = new ArrayList<Estate>();
+        for (Estate estate : estateID) {
+            Query query = em.createNativeQuery("SELECT * FROM estate where "
+                    + "id = '" + estate.getId() + "' AND "
+                    + "estate_status LIKE '%" + status + "%'", Estate.class
+            );
+            if (query.getResultList().size()!=0) {
+                list1.add((Estate) query.getSingleResult());
+            } 
+        }
+        return list1;
+    }*/
+    
+    public List<Estate> getEstateByFilter(List<Estate> estateID, String status, String keyword) {
+        System.out.println("status " + status);
+        EntityManager em = getEntityManager();
+        List<Estate> list1 = new ArrayList<Estate>();
+        for (Estate estate : estateID) {
+            Query query = em.createNativeQuery("SELECT * FROM estate where "
+                    + "id = '" + estate.getId() + "' AND "
+                    + "(address1 LIKE '%" + keyword + "%' OR address2 LIKE '%" + keyword + "%') AND "
+                    + "estate_status LIKE '%" + status + "%'", Estate.class
+            );
+            if (query.getResultList().size()!=0) {
+                list1.add((Estate) query.getSingleResult());
+            } 
+        }
+        return list1;
+    }
+
+    public List<String> getEstateByEmployeeSearch(String employeeID, String address) {
+        EntityManager em = getEntityManager();
+        try {
+            List<String> estateIDList = getEstateByEmployee(employeeID);
+            List<String> ret = (List<String>) new ArrayList<String>();
+            for (String string : estateIDList) {
+                Query query = em.createNativeQuery("SELECT id FROM estate where "
+                        + "id = '" + string + "' AND "
+                        + "(address1 LIKE '%" + address + "%' OR address2 LIKE '%" + address + "%')"
+                );
+                System.out.println(query);
+                if (query.getResultList().size() != 0) {
+                    ret.add((String) query.getSingleResult());
+                }
+            }
+            System.out.println(ret.size());
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    
+
+    public List<String> getEstateByProject(String projectID) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT estate_id FROM project_details where prject_id='" + projectID + "'");
+            List<String> ret = (List<String>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public int getEstateByProjectCount(String projectID) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT count(*) FROM project_details where prject_id='" + projectID + "'");
+            int ret = (int) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public Estate getEstateByName(String estateName) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT * FROM estate where estate_name='" + estateName + "'", Estate.class);
+            if (!query.getResultList().isEmpty()) {
+                Estate ret = (Estate) query.getSingleResult();
+                return ret;
+            } else {
+                return null;
+            }
+        } finally {
+            em.close();
+        }
+    }
+
+    public String getEstateIDByContract(String contractID) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT estate_id FROM contract_details where contract_id='" + contractID + "'");
+            if (!query.getResultList().isEmpty()) {
+                String ret = (String) query.getSingleResult();
+                return ret;
+            } else {
+                return null;
+            }
+        } finally {
+            em.close();
+        }
+    }
+
+    public Estate getEstateByAddress(String address1, String address2) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT * FROM estate where "
+                    + "address1='" + address1 + "' AND "
+                    + "address2='" + address2 + "' ", Estate.class
+            );
+            if (!query.getResultList().isEmpty()) {
+                Estate ret = (Estate) query.getSingleResult();
+                return ret;
+            } else {
+                return null;
+            }
+        } finally {
+            em.close();
+        }
+    }
+
+    //REMEMBER 
+    public List<Estate> getEstateInSiderBar(
+            String statusID,//
+            String typeID,//
+            String sortConditions,//
+            String sortTypes,
+            String estateName,
+            String direction,
+            String district,
+            String yearBuildFrom,
+            String yearBuildTo,
+            String bedRoomFrom,
+            String bedRoomTo,
+            String bathRoomFrom,
+            String bathRoomTo,
+            String areasFrom,
+            String areasTo,
+            String dateFrom,
+            String dateTo,
+            String PriceFrom,
+            String Priceto) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = null;
+
+            if (statusID.equals("all")) {
+                if (district.equals("all")) {
+                    System.out.println("query 1 run");
+                    query = em.createNativeQuery(
+                            "SELECT * FROM estate where "
+                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            + "estate_type_id = '" + typeID + "' AND " // warning
+                            + "(estate_status_id = '1' OR estate_status_id = '2') AND " // warning
+                            + "direction LIKE '%" + direction + "%' AND "
+                            //+ "district = '"+district+"' AND "
+                            + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                            + "bed_room > '" + bedRoomFrom + "' AND bed_room < '" + bedRoomTo + "' AND "
+                            + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
+                            + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
+                            + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' AND "
+                            + "estate_status = 'publish' "
+                            + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+                } else {
+                    System.out.println("query 2 run");
+                    query = em.createNativeQuery(
+                            "SELECT * FROM estate where "
+                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            + "estate_type_id = '" + typeID + "' AND " // warning
+                            + "(estate_status_id = '1' OR estate_status_id = '2') AND " // warning
+                            + "direction LIKE '%" + direction + "%' AND "
+                            + "district = '" + district + "' AND "
+                            + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                            + "bed_room > '" + bedRoomFrom + "' AND bed_room < '" + bedRoomTo + "' AND "
+                            + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
+                            + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
+                            + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' AND "
+                            + "estate_status = 'publish' "
+                            + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+                }
+            } else if (typeID.equals("all")) {
+                if (district.equals("all")) {
+                    System.out.println("query 3 run");
+                    query = em.createNativeQuery(
+                            "SELECT * FROM estate where "
+                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            //+ "estate_type_id = '"+typeID+"' AND " // warning
+                            + "estate_status_id = '" + statusID + "' AND " // warning
+                            + "direction LIKE '%" + direction + "%' AND "
+                            //+ "district = '"+district+"' AND "
+                            + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                            + "bed_room > '" + bedRoomFrom + "' AND bed_room < '" + bedRoomTo + "' AND "
+                            + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
+                            + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
+                            + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' AND "
+                            + "estate_status = 'publish' "
+                            + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+                } else {
+                    System.out.println("query 4 run");
+                    query = em.createNativeQuery(
+                            "SELECT * FROM estate where "
+                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            //+ "estate_type_id = '" + typeID + "' AND " // warning
+                            + "estate_status_id = '" + statusID + "' AND " // warning
+                            + "direction LIKE '%" + direction + "%' AND "
+                            + "district = '" + district + "' AND "
+                            + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                            + "bed_room > '" + bedRoomFrom + "' AND bed_room < '" + bedRoomTo + "' AND "
+                            + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
+                            + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
+                            + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' AND "
+                            + "estate_status = 'publish' "
+                            + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+                }
+            } else {
+                if (district.equals("all")) {
+                    System.out.println("query 5 run");
+                    query = em.createNativeQuery(
+                            "SELECT * FROM estate where "
+                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            + "estate_type_id = '" + typeID + "' AND " // warning
+                            + "estate_status_id = '" + statusID + "' AND " // warning
+                            + "direction LIKE '%" + direction + "%' AND "
+                            //+ "district = '"+district+"' AND "
+                            + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                            + "bed_room > '" + bedRoomFrom + "' AND bed_room < '" + bedRoomTo + "' AND "
+                            + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
+                            + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
+                            + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' AND "
+                            + "estate_status = 'publish' "
+                            + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+                } else {
+                    System.out.println("query 6 run");
+                    query = em.createNativeQuery(
+                            "SELECT * FROM estate where "
+                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            + "estate_type_id = '" + typeID + "' AND " // warning
+                            + "estate_status_id = '" + statusID + "' AND " // warning
+                            + "direction LIKE '%" + direction + "%' AND "
+                            + "district = '" + district + "' AND "
+                            + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                            + "bed_room > '" + bedRoomFrom + "' AND bed_room < '" + bedRoomTo + "' AND "
+                            + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
+                            + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
+                            + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' AND "
+                            + "estate_status = 'publish' "
+                            + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+                }
+            }
+            /*------------------*/
+            if (statusID.equals("all") && typeID.equals("all")) {
+                if (district.equals("all")) {
+                    System.out.println("query test 1 run");
+                    query = em.createNativeQuery(
+                            "SELECT * FROM estate where "
+                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            //+ "estate_type_id = '" + typeID + "' AND " // warning
+                            + "(estate_status_id = '1' OR estate_status_id = '2') AND " // warning
+                            + "direction LIKE '%" + direction + "%' AND "
+                            //+ "district = '"+district+"' AND "
+                            + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                            + "bed_room > '" + bedRoomFrom + "' AND bed_room < '" + bedRoomTo + "' AND "
+                            + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
+                            + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
+                            + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' AND "
+                            + "estate_status = 'publish' "
+                            + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+                } else {
+                    System.out.println("query test 2 run");
+                    query = em.createNativeQuery(
+                            "SELECT * FROM estate where "
+                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            //+ "estate_type_id = '" + typeID + "' AND " // warning
+                            + "(estate_status_id = '1' OR estate_status_id = '2') AND " // warning
+                            + "direction LIKE '%" + direction + "%' AND "
+                            + "district = '" + district + "' AND "
+                            + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                            + "bed_room > '" + bedRoomFrom + "' AND bed_room < '" + bedRoomTo + "' AND "
+                            + "bath_room > '" + bathRoomFrom + "' AND bath_room < '" + bathRoomTo + "' AND "
+                            + "areas > '" + areasFrom + "' AND areas < '" + areasTo + "' AND "
+                            + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                            + "price > '" + PriceFrom + "' AND price < '" + Priceto + "' AND "
+                            + "estate_status = 'publish' "
+                            + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
+                }
+            }
+            System.out.println("check: " + query);
             List<Estate> ret = query.getResultList();
             return ret;
         } finally {
@@ -496,71 +855,4 @@ public class EstateJpaController implements Serializable {
         }
     }
 
-    //Count total estate
-    public Object countEstate() {
-        
-        EntityManager em=getEntityManager();
-        Query q=em.createQuery("SELECT COUNT(e) FROM Estate e WHERE e.estateStatusId = ?1 OR e.estateStatusId = ?2");
-        q.setParameter(1, new EstateStatus(1));
-        q.setParameter(2, new EstateStatus(2));
-
-        return q.getSingleResult();
-    }
-    //Count total estate sold
-    public Object countEstateSold() {
-        
-        EntityManager em=getEntityManager();
-        Query q=em.createQuery("SELECT COUNT(e) FROM Estate e WHERE e.estateStatusId = ?4");
-        q.setParameter(4, new EstateStatus(4));
-
-        return q.getSingleResult();
-    }
-    //Count total Employee
-    public Object countEmployee() {
-        
-        EntityManager em=getEntityManager();
-        Query q=em.createQuery("SELECT COUNT(e.id) FROM Employee e,Users u WHERE e.userId = u AND u.status = True");
-        
-
-        return q.getSingleResult();
-    }
-    //Count total Customer
-    public Object countCustomer() {
-        
-        EntityManager em=getEntityManager();
-        Query q=em.createQuery("SELECT COUNT(e.id) FROM Customer e,Users u WHERE e.userId = u AND u.status = True");
-        
-
-        return q.getSingleResult();
-    }
-    //count contract
-    public Object countContract() {
-        
-        EntityManager em=getEntityManager();
-        Query q=em.createQuery("SELECT COUNT(c) FROM Contract c WHERE c.status LIKE 'Public' ");
-        
-
-        return q.getSingleResult();
-    }
-    //count Transaction
-    public Object countTransaction() {
-        
-        EntityManager em=getEntityManager();
-        Query q=em.createQuery("SELECT COUNT(c) FROM Transactions c  ");
-        
-
-        return q.getSingleResult();
-    }
-    //count payment to cus tomer
-    public Object countMoney() {
-        
-        EntityManager em=getEntityManager();
-        Query q=em.createQuery("SELECT SUM(c.money) FROM Transactions c  ");
-        
-
-        return q.getSingleResult();
-    }
-
-    
-    
 }

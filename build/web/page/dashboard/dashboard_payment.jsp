@@ -127,16 +127,22 @@
                                                             <tr>
                                                                 <th class="datatable__head-1">Payment ID</th>
                                                                 <th class="datatable__head-2 datatable__head-sort">Payment Name</th>
-                                                                
+                                                                <th class="datatable__head-3 datatable__head-sort">Contract Count</th>
+                                                                <th class="datatable__head-4">Edit</th>
                                                                 <th class="datatable__head-5">Delete</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <c:forEach items="${list}" var="item">
-                                                                <tr data-toggle="modal" data-target="#${item.id}">
+                                                                <tr>
                                                                     <td class="datatable__cell-1">${item.id}</td>
                                                                     <td class="datatable__cell-2">${item.paymentFrequencyName}</td>
-                                                                    
+                                                                    <td class="datatable__cell-3"></td>
+                                                                    <td class="datatable__cell-4">
+                                                                        <button type="button" class="form__submit" data-toggle="modal" data-target="#${item.id}">
+                                                                            <span class="glyphicon glyphicon-edit"></span>
+                                                                        </button>
+                                                                    </td>
                                                                     <td class="datatable__cell-5">
                                                                         <a href="<%=request.getContextPath()%>/PaymentDelete?id=${item.id}" class="form__submit">
                                                                             <span class="glyphicon glyphicon-trash"></span>
@@ -159,7 +165,7 @@
                                                                                         <input id="in-2" required type="text" name="txtPay" data-placeholder="---" value="${item.paymentFrequencyName}" class="form-control">
 
                                                                                         <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
-                                                                                            <div class="parsley-required">${messageEdit}</div>
+                                                                                            <div class="parsley-required">${message}</div>
 
                                                                                         </div>
                                                                                     </div>

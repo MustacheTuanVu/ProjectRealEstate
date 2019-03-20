@@ -5,18 +5,27 @@
  */
 package Servlet.Estate;
 
+import Controller.AssignDetailsJpaController;
 import Controller.EstateJpaController;
 import Controller.EstateStatusJpaController;
 import Controller.EstateTypeJpaController;
+import Controller.FeatureDetailsJpaController;
+import Controller.FeaturesJpaController;
+import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
+import Entity.AssignDetails;
 import Entity.Estate;
 import Entity.EstateStatus;
 import Entity.EstateType;
+import Entity.FeatureDetails;
+import Entity.Features;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -75,10 +84,19 @@ public class EstateCreate extends HttpServlet {
 
         if (user != null) {
             if (user.getRole().equals("employee")) {
+                request.setAttribute("user", "user");
+                request.setAttribute("displayLogin", "none");
+                request.setAttribute("displayUser", "block");
+                
+                session.setAttribute("name", user.getEmployee().getEmployeeName());
+                request.setAttribute("role", "employee");
+                session.setAttribute("image", user.getEmployee().getEmployeeImg());
+                
                 EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
                 EntityManager em = emf.createEntityManager();
 
                 if (request.getParameter("submit") != null) {
+                    
                     EstateJpaController estateControl = new EstateJpaController(utx, emf);
 
                     String estateName = request.getParameter("estateName");
@@ -122,21 +140,16 @@ public class EstateCreate extends HttpServlet {
                             break;
                         }
                     }
-
-                    String message = "";
-                    String hasError = "";
-                    String display = "none";
-                    List<Estate> estateList = (List<Estate>) estateControl.getEstateByName(estateName);
-                    if (estateList.size() > 0) {
-                        message = "Estate exits !";
-                        hasError = "has-error";
-                        display = "block";
-                        request.setAttribute("message", message);
-                        request.setAttribute("hasError", hasError);
-                        request.setAttribute("display", display);
-
-                        RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/EstateCreate");
-                        dispatcher.forward(request, response);
+                    Estate estateListByAdress = (Estate) estateControl.getEstateByAddress(address1,address2);
+                    if(estateListByAdress != null){
+                        response.sendRedirect(request.getContextPath() + "/EstateList?user=employee&"
+                                + "estateID="+estateListByAdress.getId()+"&"
+                                + "estateName="+estateListByAdress.getEstateName()+"&"
+                                + "address1="+estateListByAdress.getAddress1()+"&"
+                                + "address2="+estateListByAdress.getAddress2()+"&"
+                                + "img="+estateListByAdress.getImage1st()+"&"
+                                + "modal=show"
+                        );
                     } else {
                         Estate estate = new Estate();
                         estate.setId(estateID);
@@ -158,8 +171,9 @@ public class EstateCreate extends HttpServlet {
                         estate.setBlock(block);
                         estate.setAddress1(address1);
                         estate.setAddress2(address2);
-                        //estate.setEstateStatus("Waitting for director");
-
+                        estate.setEstateStatus("waitting for director create");
+                        estate.setDistrict(request.getParameter("district"));
+                        
                         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
                         Date day;
                         try {
@@ -170,9 +184,56 @@ public class EstateCreate extends HttpServlet {
                         }
 
                         estate.setEstateStatusId(estateStatus);
+                        
+                        SimpleDateFormat sdff = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy",Locale.ENGLISH);
+                        Date date = new Date();
+                        try {
+                            estate.setDateAdd(sdff.parse(date.toString()));
+                        } catch (ParseException ex) {
+                            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
                         try {
                             estateControl.create(estate);
                             response.sendRedirect(request.getContextPath() + "/EstateCreate?user=admin&modal=show");
+                        } catch (RollbackFailureException ex) {
+                            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (Exception ex) {
+                            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                        String[] feature = request.getParameterValues("feature");
+                        FeaturesJpaController featuresStatusControl = new FeaturesJpaController(utx, emf);
+                        FeatureDetailsJpaController featureDetailsControl = new FeatureDetailsJpaController(utx, emf);
+                        
+                        if(feature != null){
+                            for (String string : feature) {
+                                FeatureDetails featureDetails = new FeatureDetails();
+                                featureDetails.setEstateId(estate);
+                                featureDetails.setFeatureId(featuresStatusControl.findFeatures(string));
+                                try {
+                                    featureDetailsControl.create(featureDetails);
+                                } catch (RollbackFailureException ex) {
+                                    Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (Exception ex) {
+                                    Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        }
+                        
+                        AssignDetailsJpaController assignDetailsControl = new AssignDetailsJpaController(utx, emf);
+                        AssignDetails assignDetails = new AssignDetails();
+                        assignDetails.setEstateId(estate);
+                        assignDetails.setEmployeeId(user.getEmployee());
+                        try {
+                            assignDetails.setDateTo(sdff.parse(date.toString()));
+                        } catch (ParseException ex) {
+                            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        try {
+                            assignDetailsControl.create(assignDetails);
+                        } catch (PreexistingEntityException ex) {
+                            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (RollbackFailureException ex) {
                             Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (Exception ex) {
@@ -187,12 +248,16 @@ public class EstateCreate extends HttpServlet {
                     EstateStatusJpaController estateStatus = new EstateStatusJpaController(utx, emf);
                     List<EstateStatus> estateStatusList = estateStatus.findEstateStatusEntities();
                     request.setAttribute("estateStatusList", estateStatusList);
-
+                    
+                    FeaturesJpaController featuresStatusControl = new FeaturesJpaController(utx, emf);
+                    List<Features> featuresList = featuresStatusControl.findFeaturesEntities();
+                    request.setAttribute("featuresList", featuresList);
+                    
                     String modal = "hidden";
                     modal = request.getParameter("modal");
                     request.setAttribute("modal", modal);
 
-                    request.getRequestDispatcher("/page/dashboard/dashboard_estate_create.jsp").forward(request, response);
+                    request.getRequestDispatcher("/page/dashboard/employee/dashboard_estate_create.jsp").forward(request, response);
                 }
             } else {
                 response.sendRedirect(request.getContextPath() + "/LoginUser");

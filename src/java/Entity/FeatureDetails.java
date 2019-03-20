@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,25 +21,25 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 @Entity
 @Table(name = "feature_details")
 @NamedQueries({
     @NamedQuery(name = "FeatureDetails.findAll", query = "SELECT f FROM FeatureDetails f")})
 public class FeatureDetails implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "feature_details_id")
+    @Column(name = "feature_details_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer featureDetailsId;
-    @JoinColumn(name = "feature_id", referencedColumnName = "features_id")
-    @ManyToOne(optional = false)
-    private Features featureId;
     @JoinColumn(name = "estate_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Estate estateId;
+    @JoinColumn(name = "feature_id", referencedColumnName = "features_id")
+    @ManyToOne(optional = false)
+    private Features featureId;
 
     public FeatureDetails() {
     }
@@ -54,20 +56,20 @@ public class FeatureDetails implements Serializable {
         this.featureDetailsId = featureDetailsId;
     }
 
-    public Features getFeatureId() {
-        return featureId;
-    }
-
-    public void setFeatureId(Features featureId) {
-        this.featureId = featureId;
-    }
-
     public Estate getEstateId() {
         return estateId;
     }
 
     public void setEstateId(Estate estateId) {
         this.estateId = estateId;
+    }
+
+    public Features getFeatureId() {
+        return featureId;
+    }
+
+    public void setFeatureId(Features featureId) {
+        this.featureId = featureId;
     }
 
     @Override

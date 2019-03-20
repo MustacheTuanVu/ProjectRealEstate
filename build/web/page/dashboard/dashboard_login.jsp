@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
@@ -10,24 +12,24 @@
         <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700%7cSource+Sans+Pro:200,400,600,700,900,400italic,700italic&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
         <!-- Boostrap and other lib styles-->
         <!-- build:cssvendor-->
-        <link rel="stylesheet" href="assets/css/vendor.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/vendor.css">
         <!-- endbuild-->
         <!-- Font-awesome lib-->
         <!-- build:cssfontawesome-->
-        <link rel="stylesheet" href="assets/css/font-awesome.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/font-awesome.css">
         <!-- endbuild-->
         <!-- Theme styles, please replace "default" with other color scheme from the list available in template/css-->
         <!-- build:csstheme-default-->
-        <link rel="stylesheet" href="assets/css/theme-default.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/theme-default.css">
         <!-- endbuild-->
         <!-- Your styles should go in this file-->
-        <link rel="stylesheet" href="assets/css/custom.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/custom.css">
         <!-- Fixes for IE-->
         <!--[if lt IE 11]>
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
-        <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
     </head>
-    <body class="user_login menu-default hover-default ">
+    <body class="user_login menu-default hover-default">
         <!--
         SVG icons from sprite-inline.svg
         They are inlined in order to make them work,
@@ -52,39 +54,19 @@
     <!-- endinject -->
     <div class="box js-box">
         <!-- BEGIN HEADER-->
-        <%
-            if (session.getAttribute("user") == null) {
-        %>
         <header class="header header--brand">
-            <%@ include file="/template/header1.jsp" %>
+            <%@ include file="/template/guest/header.jsp" %>
         </header>
-        <%
-        } else {
-        %>
-        <header class="header header--brand">
-            <%@ include file="/template/header.jsp" %>
-        </header>
-        <%
-            }
-        %>
         <!-- END HEADER-->
+
         <!-- BEGIN NAVBAR-->
         <div id="header-nav-offset"></div>
         <nav id="header-nav" class="navbar navbar--header">
-            <%@ include file="/template/navbar.jsp" %>
+            <%@ include file="/template/guest/navbar.jsp" %>
         </nav>
         <!-- END NAVBAR-->
         <div class="site-wrap js-site-wrap">
-            <!-- BEGIN BREADCRUMBS-->
-            <nav class="breadcrumbs">
-                <div class="container">
-                    <ul>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Login</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <!-- END BREADCRUMBS-->
+            <!-- BEGIN CENTER SECTION-->
             <div class="center">
                 <div class="container">
                     <div class="row">
@@ -100,19 +82,15 @@
                                             <div class="auth__wrap auth__wrap--login">
                                                 <!-- BEGIN AUTH LOGIN-->
                                                 <h5 class="auth__title">Login in your account</h5>
-                                                <form action="LoginUser" onsubmit="return checkValidation()" method="POST" class="form form--flex form--auth js-login-form js-parsley">
+                                                <form action="<%=request.getContextPath()%>/LoginUser" method="POST" class="form form--flex form--auth js-login-form js-parsley">
                                                     <div class="row">
                                                         <div class="form-group">
                                                             <label for="login-username-inline" class="control-label">Username</label>
-                                                            <input  type="text" name="username" id="login-username-inline" required data-parsley-trigger="keyup" data-parsley-minlength="6" data-parsley-validation-threshold="5" data-parsley-minlength-message="Login should be at least 6 chars" class="form-control">
-                                                            <div  id="errUser" class="parsley-required">${message}</div>
-
+                                                            <input type="text" name="username" id="login-username-inline" required class="form-control">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="login-password-inline" class="control-label">Password</label>
                                                             <input type="password" name="password" id="login-password-inline" required class="form-control">
-                                                            <div  id="errPass" class="parsley-required"></div>
-
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -125,7 +103,7 @@
                                                         <label for="remember-in-inline" class="in-label">Remember me</label>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="form__options">Not a user yet?<a href="<%= request.getContextPath()%>/RegisterUser">Get an account</a>
+                                                        <div class="form__options">Not a user yet?<a href="user_register.html">Get an account</a>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -137,6 +115,7 @@
                                 </div>
                             </div>
                         </section>
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
@@ -161,7 +140,7 @@
     versions that are verified to work with our theme. Normally, you should not edit that file.
     -->
     <!-- build:jsvendor-->
-    <script type="text/javascript" src="assets/js/vendor.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/vendor.js"></script>
     <!-- endbuild-->
     <!--
     This file is used for demonstration purposes and contains example property items, that are mostly used to
@@ -169,41 +148,25 @@
     to use your own data.
     -->
     <!-- build:jsdemodata-->
-    <script type="text/javascript" src="assets/js/demodata.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demodata.js"></script>
     <!-- endbuild-->
     <!--
     The library code that Realtyspace theme relies on, in order to function properly.
     Normally, you should not edit this file or add your own code there.
     -->
     <!-- build:jsapp-->
-    <script type="text/javascript" src="assets/js/app.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/app.js"></script>
     <!-- endbuild-->
     <!--
     the main file, that you should modify. It contains lots of examples of
     plugin usage, with detailed comments about specific sections of the code.
     -->
     <!-- build:jsdemo-->
-    <script type="text/javascript" src="assets/js/demo.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demo.js"></script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
-    <!-- END SCRIPTS and INCLUDES-->
-    <script>
-                                                    function  checkValidation()
-                                                    {
-                                                        var user = document.getElementById('login-username-inline').value;
-                                                        var pass = document.getElementById('login-password-inline').value;
 
-                                                        if (user.length > 50) {
-                                                            document.getElementById('errUser').innerHTML = 'Username cannot be longer than 50 characters';
-                                                            document.getElementById('login-username-inline').innerHTML = '';
-                                                        }else
-                                                        if (pass.length > 50) {
-                                                            document.getElementById('errPass').innerHTML = 'Password cannot be longer than 50 characters';
-                                                            document.getElementById('login-password-inline').innerHTML = '';
-                                                        } else
-                                                            return true;
-                                                        return false;
-                                                    }
-    </script>
+
+    <!-- END SCRIPTS and INCLUDES-->
 </body>
 </html>

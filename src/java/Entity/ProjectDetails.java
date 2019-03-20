@@ -20,25 +20,26 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 @Entity
 @Table(name = "project_details")
 @NamedQueries({
     @NamedQuery(name = "ProjectDetails.findAll", query = "SELECT p FROM ProjectDetails p")})
 public class ProjectDetails implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "project_detail_id")
     private Integer projectDetailId;
-    @JoinColumn(name = "prject_id", referencedColumnName = "project_id")
-    @ManyToOne(optional = false)
-    private Project prjectId;
     @JoinColumn(name = "estate_id", referencedColumnName = "id")
     @OneToOne(optional = false)
     private Estate estateId;
+    @JoinColumn(name = "prject_id", referencedColumnName = "project_id")
+    @ManyToOne(optional = false)
+    private Project prjectId;
 
     public ProjectDetails() {
     }
@@ -55,20 +56,20 @@ public class ProjectDetails implements Serializable {
         this.projectDetailId = projectDetailId;
     }
 
-    public Project getPrjectId() {
-        return prjectId;
-    }
-
-    public void setPrjectId(Project prjectId) {
-        this.prjectId = prjectId;
-    }
-
     public Estate getEstateId() {
         return estateId;
     }
 
     public void setEstateId(Estate estateId) {
         this.estateId = estateId;
+    }
+
+    public Project getPrjectId() {
+        return prjectId;
+    }
+
+    public void setPrjectId(Project prjectId) {
+        this.prjectId = prjectId;
     }
 
     @Override

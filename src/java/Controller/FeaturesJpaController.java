@@ -238,4 +238,16 @@ public class FeaturesJpaController implements Serializable {
         }
     }
     
+    public int getFeatureByEstateCount(String featureid) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT count(estate_id) as axs FROM feature_details where feature_id='" + featureid + "'");
+            int ret = (int) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    
 }

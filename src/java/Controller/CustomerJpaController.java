@@ -7,6 +7,7 @@ package Controller;
 
 import Controller.exceptions.IllegalOrphanException;
 import Controller.exceptions.NonexistentEntityException;
+import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -14,19 +15,22 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Entity.Users;
-import Entity.Transactions;
-import java.util.ArrayList;
-import java.util.List;
 import Entity.Contract;
 import Entity.Customer;
+import Entity.Employee;
+import Entity.Estate;
+import java.util.ArrayList;
+import java.util.List;
+import Entity.Transactions;
 import Entity.Schedule;
+import java.math.BigDecimal;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 public class CustomerJpaController implements Serializable {
 
@@ -40,53 +44,38 @@ public class CustomerJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
-    // find id customer from id user
-    public Customer findByIdUser(Users idUser){
-        try{
 
-        EntityManager em=getEntityManager();
-        Query q=em.createQuery("SELECT c FROM Customer c WHERE c.userId = :idUser");
-        q.setParameter("idUser", idUser);
-        
-        return (Customer) q.getSingleResult();
-        }
-        catch(Exception e){
-            return null;
-        }
-    }
-
-    public void create(Customer customer) throws RollbackFailureException, Exception {
-        if (customer.getTransactionsList() == null) {
-            customer.setTransactionsList(new ArrayList<Transactions>());
-        }
+    public void create(Customer customer) throws PreexistingEntityException, RollbackFailureException, Exception {
         if (customer.getContractList() == null) {
             customer.setContractList(new ArrayList<Contract>());
+        }
+        if (customer.getTransactionsList() == null) {
+            customer.setTransactionsList(new ArrayList<Transactions>());
         }
         if (customer.getScheduleList() == null) {
             customer.setScheduleList(new ArrayList<Schedule>());
         }
         EntityManager em = null;
         try {
+            utx.begin();
             em = getEntityManager();
-            em.getTransaction().begin();
             Users userId = customer.getUserId();
             if (userId != null) {
                 userId = em.getReference(userId.getClass(), userId.getId());
                 customer.setUserId(userId);
             }
-            List<Transactions> attachedTransactionsList = new ArrayList<Transactions>();
-            for (Transactions transactionsListTransactionsToAttach : customer.getTransactionsList()) {
-                transactionsListTransactionsToAttach = em.getReference(transactionsListTransactionsToAttach.getClass(), transactionsListTransactionsToAttach.getId());
-                attachedTransactionsList.add(transactionsListTransactionsToAttach);
-            }
-            customer.setTransactionsList(attachedTransactionsList);
             List<Contract> attachedContractList = new ArrayList<Contract>();
             for (Contract contractListContractToAttach : customer.getContractList()) {
                 contractListContractToAttach = em.getReference(contractListContractToAttach.getClass(), contractListContractToAttach.getId());
                 attachedContractList.add(contractListContractToAttach);
             }
             customer.setContractList(attachedContractList);
+            List<Transactions> attachedTransactionsList = new ArrayList<Transactions>();
+            for (Transactions transactionsListTransactionsToAttach : customer.getTransactionsList()) {
+                transactionsListTransactionsToAttach = em.getReference(transactionsListTransactionsToAttach.getClass(), transactionsListTransactionsToAttach.getId());
+                attachedTransactionsList.add(transactionsListTransactionsToAttach);
+            }
+            customer.setTransactionsList(attachedTransactionsList);
             List<Schedule> attachedScheduleList = new ArrayList<Schedule>();
             for (Schedule scheduleListScheduleToAttach : customer.getScheduleList()) {
                 scheduleListScheduleToAttach = em.getReference(scheduleListScheduleToAttach.getClass(), scheduleListScheduleToAttach.getId());
@@ -103,15 +92,6 @@ public class CustomerJpaController implements Serializable {
                 userId.setCustomer(customer);
                 userId = em.merge(userId);
             }
-            for (Transactions transactionsListTransactions : customer.getTransactionsList()) {
-                Customer oldCustomerOfferedOfTransactionsListTransactions = transactionsListTransactions.getCustomerOffered();
-                transactionsListTransactions.setCustomerOffered(customer);
-                transactionsListTransactions = em.merge(transactionsListTransactions);
-                if (oldCustomerOfferedOfTransactionsListTransactions != null) {
-                    oldCustomerOfferedOfTransactionsListTransactions.getTransactionsList().remove(transactionsListTransactions);
-                    oldCustomerOfferedOfTransactionsListTransactions = em.merge(oldCustomerOfferedOfTransactionsListTransactions);
-                }
-            }
             for (Contract contractListContract : customer.getContractList()) {
                 Customer oldCustomerIdOfContractListContract = contractListContract.getCustomerId();
                 contractListContract.setCustomerId(customer);
@@ -119,6 +99,15 @@ public class CustomerJpaController implements Serializable {
                 if (oldCustomerIdOfContractListContract != null) {
                     oldCustomerIdOfContractListContract.getContractList().remove(contractListContract);
                     oldCustomerIdOfContractListContract = em.merge(oldCustomerIdOfContractListContract);
+                }
+            }
+            for (Transactions transactionsListTransactions : customer.getTransactionsList()) {
+                Customer oldCustomerOfferedOfTransactionsListTransactions = transactionsListTransactions.getCustomerOffered();
+                transactionsListTransactions.setCustomerOffered(customer);
+                transactionsListTransactions = em.merge(transactionsListTransactions);
+                if (oldCustomerOfferedOfTransactionsListTransactions != null) {
+                    oldCustomerOfferedOfTransactionsListTransactions.getTransactionsList().remove(transactionsListTransactions);
+                    oldCustomerOfferedOfTransactionsListTransactions = em.merge(oldCustomerOfferedOfTransactionsListTransactions);
                 }
             }
             for (Schedule scheduleListSchedule : customer.getScheduleList()) {
@@ -130,12 +119,15 @@ public class CustomerJpaController implements Serializable {
                     oldCustomerIdOfScheduleListSchedule = em.merge(oldCustomerIdOfScheduleListSchedule);
                 }
             }
-            em.getTransaction().commit();
+            utx.commit();
         } catch (Exception ex) {
             try {
-                em.getTransaction().rollback();
+                utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
+            }
+            if (findCustomer(customer.getId()) != null) {
+                throw new PreexistingEntityException("Customer " + customer + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -148,32 +140,32 @@ public class CustomerJpaController implements Serializable {
     public void edit(Customer customer) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
+            utx.begin();
             em = getEntityManager();
-            em.getTransaction().begin();
             Customer persistentCustomer = em.find(Customer.class, customer.getId());
             Users userIdOld = persistentCustomer.getUserId();
             Users userIdNew = customer.getUserId();
-            List<Transactions> transactionsListOld = persistentCustomer.getTransactionsList();
-            List<Transactions> transactionsListNew = customer.getTransactionsList();
             List<Contract> contractListOld = persistentCustomer.getContractList();
             List<Contract> contractListNew = customer.getContractList();
+            List<Transactions> transactionsListOld = persistentCustomer.getTransactionsList();
+            List<Transactions> transactionsListNew = customer.getTransactionsList();
             List<Schedule> scheduleListOld = persistentCustomer.getScheduleList();
             List<Schedule> scheduleListNew = customer.getScheduleList();
             List<String> illegalOrphanMessages = null;
-            for (Transactions transactionsListOldTransactions : transactionsListOld) {
-                if (!transactionsListNew.contains(transactionsListOldTransactions)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Transactions " + transactionsListOldTransactions + " since its customerOffered field is not nullable.");
-                }
-            }
             for (Contract contractListOldContract : contractListOld) {
                 if (!contractListNew.contains(contractListOldContract)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain Contract " + contractListOldContract + " since its customerId field is not nullable.");
+                }
+            }
+            for (Transactions transactionsListOldTransactions : transactionsListOld) {
+                if (!transactionsListNew.contains(transactionsListOldTransactions)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Transactions " + transactionsListOldTransactions + " since its customerOffered field is not nullable.");
                 }
             }
             for (Schedule scheduleListOldSchedule : scheduleListOld) {
@@ -191,13 +183,6 @@ public class CustomerJpaController implements Serializable {
                 userIdNew = em.getReference(userIdNew.getClass(), userIdNew.getId());
                 customer.setUserId(userIdNew);
             }
-            List<Transactions> attachedTransactionsListNew = new ArrayList<Transactions>();
-            for (Transactions transactionsListNewTransactionsToAttach : transactionsListNew) {
-                transactionsListNewTransactionsToAttach = em.getReference(transactionsListNewTransactionsToAttach.getClass(), transactionsListNewTransactionsToAttach.getId());
-                attachedTransactionsListNew.add(transactionsListNewTransactionsToAttach);
-            }
-            transactionsListNew = attachedTransactionsListNew;
-            customer.setTransactionsList(transactionsListNew);
             List<Contract> attachedContractListNew = new ArrayList<Contract>();
             for (Contract contractListNewContractToAttach : contractListNew) {
                 contractListNewContractToAttach = em.getReference(contractListNewContractToAttach.getClass(), contractListNewContractToAttach.getId());
@@ -205,6 +190,13 @@ public class CustomerJpaController implements Serializable {
             }
             contractListNew = attachedContractListNew;
             customer.setContractList(contractListNew);
+            List<Transactions> attachedTransactionsListNew = new ArrayList<Transactions>();
+            for (Transactions transactionsListNewTransactionsToAttach : transactionsListNew) {
+                transactionsListNewTransactionsToAttach = em.getReference(transactionsListNewTransactionsToAttach.getClass(), transactionsListNewTransactionsToAttach.getId());
+                attachedTransactionsListNew.add(transactionsListNewTransactionsToAttach);
+            }
+            transactionsListNew = attachedTransactionsListNew;
+            customer.setTransactionsList(transactionsListNew);
             List<Schedule> attachedScheduleListNew = new ArrayList<Schedule>();
             for (Schedule scheduleListNewScheduleToAttach : scheduleListNew) {
                 scheduleListNewScheduleToAttach = em.getReference(scheduleListNewScheduleToAttach.getClass(), scheduleListNewScheduleToAttach.getId());
@@ -226,17 +218,6 @@ public class CustomerJpaController implements Serializable {
                 userIdNew.setCustomer(customer);
                 userIdNew = em.merge(userIdNew);
             }
-            for (Transactions transactionsListNewTransactions : transactionsListNew) {
-                if (!transactionsListOld.contains(transactionsListNewTransactions)) {
-                    Customer oldCustomerOfferedOfTransactionsListNewTransactions = transactionsListNewTransactions.getCustomerOffered();
-                    transactionsListNewTransactions.setCustomerOffered(customer);
-                    transactionsListNewTransactions = em.merge(transactionsListNewTransactions);
-                    if (oldCustomerOfferedOfTransactionsListNewTransactions != null && !oldCustomerOfferedOfTransactionsListNewTransactions.equals(customer)) {
-                        oldCustomerOfferedOfTransactionsListNewTransactions.getTransactionsList().remove(transactionsListNewTransactions);
-                        oldCustomerOfferedOfTransactionsListNewTransactions = em.merge(oldCustomerOfferedOfTransactionsListNewTransactions);
-                    }
-                }
-            }
             for (Contract contractListNewContract : contractListNew) {
                 if (!contractListOld.contains(contractListNewContract)) {
                     Customer oldCustomerIdOfContractListNewContract = contractListNewContract.getCustomerId();
@@ -245,6 +226,17 @@ public class CustomerJpaController implements Serializable {
                     if (oldCustomerIdOfContractListNewContract != null && !oldCustomerIdOfContractListNewContract.equals(customer)) {
                         oldCustomerIdOfContractListNewContract.getContractList().remove(contractListNewContract);
                         oldCustomerIdOfContractListNewContract = em.merge(oldCustomerIdOfContractListNewContract);
+                    }
+                }
+            }
+            for (Transactions transactionsListNewTransactions : transactionsListNew) {
+                if (!transactionsListOld.contains(transactionsListNewTransactions)) {
+                    Customer oldCustomerOfferedOfTransactionsListNewTransactions = transactionsListNewTransactions.getCustomerOffered();
+                    transactionsListNewTransactions.setCustomerOffered(customer);
+                    transactionsListNewTransactions = em.merge(transactionsListNewTransactions);
+                    if (oldCustomerOfferedOfTransactionsListNewTransactions != null && !oldCustomerOfferedOfTransactionsListNewTransactions.equals(customer)) {
+                        oldCustomerOfferedOfTransactionsListNewTransactions.getTransactionsList().remove(transactionsListNewTransactions);
+                        oldCustomerOfferedOfTransactionsListNewTransactions = em.merge(oldCustomerOfferedOfTransactionsListNewTransactions);
                     }
                 }
             }
@@ -259,10 +251,10 @@ public class CustomerJpaController implements Serializable {
                     }
                 }
             }
-            em.getTransaction().commit();
+            utx.commit();
         } catch (Exception ex) {
             try {
-                em.getTransaction().rollback();
+                utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -284,8 +276,8 @@ public class CustomerJpaController implements Serializable {
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
+            utx.begin();
             em = getEntityManager();
-            em.getTransaction().begin();
             Customer customer;
             try {
                 customer = em.getReference(Customer.class, id);
@@ -294,19 +286,19 @@ public class CustomerJpaController implements Serializable {
                 throw new NonexistentEntityException("The customer with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<Transactions> transactionsListOrphanCheck = customer.getTransactionsList();
-            for (Transactions transactionsListOrphanCheckTransactions : transactionsListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Customer (" + customer + ") cannot be destroyed since the Transactions " + transactionsListOrphanCheckTransactions + " in its transactionsList field has a non-nullable customerOffered field.");
-            }
             List<Contract> contractListOrphanCheck = customer.getContractList();
             for (Contract contractListOrphanCheckContract : contractListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Customer (" + customer + ") cannot be destroyed since the Contract " + contractListOrphanCheckContract + " in its contractList field has a non-nullable customerId field.");
+            }
+            List<Transactions> transactionsListOrphanCheck = customer.getTransactionsList();
+            for (Transactions transactionsListOrphanCheckTransactions : transactionsListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Customer (" + customer + ") cannot be destroyed since the Transactions " + transactionsListOrphanCheckTransactions + " in its transactionsList field has a non-nullable customerOffered field.");
             }
             List<Schedule> scheduleListOrphanCheck = customer.getScheduleList();
             for (Schedule scheduleListOrphanCheckSchedule : scheduleListOrphanCheck) {
@@ -324,10 +316,10 @@ public class CustomerJpaController implements Serializable {
                 userId = em.merge(userId);
             }
             em.remove(customer);
-            em.getTransaction().commit();
+            utx.commit();
         } catch (Exception ex) {
             try {
-                em.getTransaction().rollback();
+                utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -384,5 +376,32 @@ public class CustomerJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    public Customer getCustomerByUserID(int userID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM customer where user_id='" + userID + "'",Customer.class);
+            Customer ret = (Customer) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Customer> findCustomerByEMployeeID(int employeeID) {
+        EntityManager em = getEntityManager();
+        try { // select * from customer where id = (SELECT DISTINCT customer_id from contract where employee_id = 3)
+            Query query = em.createNativeQuery("SELECT * FROM customer where "
+                    + "id = (SELECT DISTINCT customer_id from contract where employee_id = '"+employeeID+"') "
+                    ,Customer.class);
+            List<Customer> ret = (List<Customer>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public Object findByIdUser(Users users) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

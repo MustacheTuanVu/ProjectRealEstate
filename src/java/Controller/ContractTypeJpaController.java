@@ -7,7 +7,6 @@ package Controller;
 
 import Controller.exceptions.IllegalOrphanException;
 import Controller.exceptions.NonexistentEntityException;
-import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -39,7 +38,7 @@ public class ContractTypeJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(ContractType contractType) throws PreexistingEntityException, RollbackFailureException, Exception {
+    public void create(ContractType contractType) throws RollbackFailureException, Exception {
         if (contractType.getContractList() == null) {
             contractType.setContractList(new ArrayList<Contract>());
         }
@@ -69,9 +68,6 @@ public class ContractTypeJpaController implements Serializable {
                 em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            if (findContractType(contractType.getId()) != null) {
-                throw new PreexistingEntityException("ContractType " + contractType + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -225,14 +221,6 @@ public class ContractTypeJpaController implements Serializable {
         } finally {
             em.close();
         }
-    }
-
-    public List<ContractType> findContractTypeName(String a) {
-        
-        EntityManager em= getEntityManager();
-        Query q=em.createQuery("SELECT t FROM ContractType t WHERE t.contractTypeName like :typeName");
-        q.setParameter("typeName", a);
-        return q.getResultList();
     }
     
 }

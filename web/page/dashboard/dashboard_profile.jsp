@@ -26,36 +26,6 @@
         <!--[if lt IE 11]>
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
         <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-        <script type="text/javascript">
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-
-
-                    reader.onload = function (e) {
-                        $('#yourImage').attr('src', e.target.result);
-                    }
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
-            $("#hiddenimage1st").change(function () {
-                readURL(this);
-            });
-        </script>
-
-        <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
-        <script type="text/javascript">
-            function BrowseServer1() {
-                var finder = new CKFinder();
-                finder.basePath = '../';
-                finder.selectActionFunction = SetFileField1;
-                finder.popup();
-            }
-            function SetFileField1(fileUrl) {
-                document.getElementById('image1st').value = fileUrl;
-            }
-        </script>
     </head>
     <body class="my_profile menu-default hover-default compact my_profile">
         <!--
@@ -82,24 +52,12 @@
     <!-- endinject -->
     <div class="box js-box">
         <!-- BEGIN HEADER-->
-        <%
-            if (session.getAttribute("user") == null) {
-        %>
-        <header class="header header--brand">
-            <%@ include file="/template/header1.jsp" %>
-        </header>
-        <%        
-            } else {
-        %>
         <header class="header header--brand">
             <%@ include file="/template/header.jsp" %>
         </header>
-        <%
-            }
-        %>
         <!-- END HEADER-->
         <!-- BEGIN NAVBAR-->
-        <div id="header-nav-offset"></div>
+         <div id="header-nav-offset"></div>
         <nav id="header-nav" class="navbar navbar--header">
             <%@ include file="/template/navbar.jsp" %>
         </nav>
@@ -127,7 +85,7 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--main">
                                     <div class="widget__content">
-                                        <form method="POST" action="CustomerDetails" class="form form--flex form--profile js-form">
+                                        <form method="POST" action="DetailCustomer" class="form form--flex form--profile js-form">
                                             <header class="form__header">
                                                 <h3 data-rel="#form-block-1" class="form__title js-form-title">My Agency</h3>
                                             </header>
@@ -152,12 +110,6 @@
                                                     <div class="form-group">
                                                         <label for="in-4" class="control-label">Address</label>
                                                         <input id="in-4" value="${list.customerAddress}" required name="txtAddress" data-placeholder="---" value="Lara Group Agency" class="form-control">
-                                                        <!-- end of block .form-property__control-->
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="in-4" class="control-label">Image</label>
-                                                        <input id="image1st" style="display: none" name="image1st" type="text" size="60" class="form-control"/>
-                                                        <input type="button" class="form__submit" value="Browse Server" onclick="BrowseServer1();" />
                                                         <!-- end of block .form-property__control-->
                                                     </div>
                                                 </div>
@@ -186,11 +138,6 @@
                                                         <label for="in-13" class="control-label">Description</label>
                                                         <textarea id="in-13" name="txtContent" required data-parsley-trigger="keyup" data-parsley-minlength="200" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 200 caracters long comment.." class="form-control form-control--description">${list.customerContent}</textarea>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div id="form-block-3" class="form__block js-form-block">
-                                                <div class="row">
-                                                    <input id="hiddenimage1st" name="image1st" type="hidden"  >
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -251,8 +198,13 @@
                                     <div class="worker sidebar-advanced">
                                         <h3 class="worker__name">Jenniffer Hartnet</h3>
                                         <div class="worker__photo">
-                                            <img src="${list.customerImg}" id="yourImage" alt="Your Avatar" height="200" width="200" />
-                                            <input type="button" class="worker__avatar-upload" value="Upload your profile picture" onclick="BrowseServer1();"  />
+
+                                            <div class="worker__avatar">
+                                                <img src="${list.customerImg}"  alt="Your Avatar" height="203" width="231.22" />
+
+                                            </div>
+                                                <input id="xFilePath" type="hidden"  name="txtImg">
+                                                <input type="button" class="worker__avatar-upload" value="Upload your profile picture" onclick="BrowseServer();" />
                                         </div>
                                         <nav class="worker__nav">
                                             <ul>
@@ -353,7 +305,23 @@
     -->
     <!-- build:jsdemo-->
     <script type="text/javascript" src="assets/js/demo.js"></script>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
+
+    <script type="text/javascript">
+
+        function BrowseServer()
+        {
+            // You can use the "CKFinder" class to render CKFinder in a page:
+            var finder = new CKFinder();
+            finder.basePath = '../';	// The path for the installation of CKFinder (default = "/ckfinder/").
+            finder.selectActionFunction = SetFileField;
+            finder.popup();
+        }
+        function SetFileField(fileUrl)
+        {
+            document.getElementById('xFilePath').value = fileUrl;
+        }
+
+    </script>
     <script type="text/javascript">
 
                                                 function checkPass()

@@ -5,11 +5,11 @@
  */
 package Controller;
 
-import Controller.exceptions.IllegalOrphanException;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
-import Entity.EstateStatus;
+import Entity.Contract;
+import Entity.Estate;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -17,16 +17,19 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Entity.Manager;
 import Entity.Project;
-import Entity.ProjectDetails;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 public class ProjectJpaController implements Serializable {
 
@@ -42,9 +45,6 @@ public class ProjectJpaController implements Serializable {
     }
 
     public void create(Project project) throws PreexistingEntityException, RollbackFailureException, Exception {
-        if (project.getProjectDetailsList() == null) {
-            project.setProjectDetailsList(new ArrayList<ProjectDetails>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -54,25 +54,23 @@ public class ProjectJpaController implements Serializable {
                 managerId = em.getReference(managerId.getClass(), managerId.getManagerId());
                 project.setManagerId(managerId);
             }
-            List<ProjectDetails> attachedProjectDetailsList = new ArrayList<ProjectDetails>();
-            for (ProjectDetails projectDetailsListProjectDetailsToAttach : project.getProjectDetailsList()) {
-                projectDetailsListProjectDetailsToAttach = em.getReference(projectDetailsListProjectDetailsToAttach.getClass(), projectDetailsListProjectDetailsToAttach.getProjectDetailId());
-                attachedProjectDetailsList.add(projectDetailsListProjectDetailsToAttach);
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            javax.validation.Validator validator =  factory.getValidator();
+
+            Set<ConstraintViolation<Project>> constraintViolations;
+            constraintViolations = validator.validate(project);
+
+            if (constraintViolations.size() > 0 ) {
+                System.out.println("Constraint Violations occurred..");
+                for (ConstraintViolation<Project> projects : constraintViolations) {
+                    System.out.println(projects.getRootBeanClass().getSimpleName()+
+                    "." + projects.getPropertyPath() + " " + projects.getMessage());
+                }
             }
-            project.setProjectDetailsList(attachedProjectDetailsList);
             em.persist(project);
             if (managerId != null) {
                 managerId.getProjectList().add(project);
                 managerId = em.merge(managerId);
-            }
-            for (ProjectDetails projectDetailsListProjectDetails : project.getProjectDetailsList()) {
-                Project oldPrjectIdOfProjectDetailsListProjectDetails = projectDetailsListProjectDetails.getPrjectId();
-                projectDetailsListProjectDetails.setPrjectId(project);
-                projectDetailsListProjectDetails = em.merge(projectDetailsListProjectDetails);
-                if (oldPrjectIdOfProjectDetailsListProjectDetails != null) {
-                    oldPrjectIdOfProjectDetailsListProjectDetails.getProjectDetailsList().remove(projectDetailsListProjectDetails);
-                    oldPrjectIdOfProjectDetailsListProjectDetails = em.merge(oldPrjectIdOfProjectDetailsListProjectDetails);
-                }
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -92,7 +90,7 @@ public class ProjectJpaController implements Serializable {
         }
     }
 
-    public void edit(Project project) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void edit(Project project) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -100,31 +98,10 @@ public class ProjectJpaController implements Serializable {
             Project persistentProject = em.find(Project.class, project.getProjectId());
             Manager managerIdOld = persistentProject.getManagerId();
             Manager managerIdNew = project.getManagerId();
-            List<ProjectDetails> projectDetailsListOld = persistentProject.getProjectDetailsList();
-            List<ProjectDetails> projectDetailsListNew = project.getProjectDetailsList();
-            List<String> illegalOrphanMessages = null;
-            for (ProjectDetails projectDetailsListOldProjectDetails : projectDetailsListOld) {
-                if (!projectDetailsListNew.contains(projectDetailsListOldProjectDetails)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain ProjectDetails " + projectDetailsListOldProjectDetails + " since its prjectId field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             if (managerIdNew != null) {
                 managerIdNew = em.getReference(managerIdNew.getClass(), managerIdNew.getManagerId());
                 project.setManagerId(managerIdNew);
             }
-            List<ProjectDetails> attachedProjectDetailsListNew = new ArrayList<ProjectDetails>();
-            for (ProjectDetails projectDetailsListNewProjectDetailsToAttach : projectDetailsListNew) {
-                projectDetailsListNewProjectDetailsToAttach = em.getReference(projectDetailsListNewProjectDetailsToAttach.getClass(), projectDetailsListNewProjectDetailsToAttach.getProjectDetailId());
-                attachedProjectDetailsListNew.add(projectDetailsListNewProjectDetailsToAttach);
-            }
-            projectDetailsListNew = attachedProjectDetailsListNew;
-            project.setProjectDetailsList(projectDetailsListNew);
             project = em.merge(project);
             if (managerIdOld != null && !managerIdOld.equals(managerIdNew)) {
                 managerIdOld.getProjectList().remove(project);
@@ -133,17 +110,6 @@ public class ProjectJpaController implements Serializable {
             if (managerIdNew != null && !managerIdNew.equals(managerIdOld)) {
                 managerIdNew.getProjectList().add(project);
                 managerIdNew = em.merge(managerIdNew);
-            }
-            for (ProjectDetails projectDetailsListNewProjectDetails : projectDetailsListNew) {
-                if (!projectDetailsListOld.contains(projectDetailsListNewProjectDetails)) {
-                    Project oldPrjectIdOfProjectDetailsListNewProjectDetails = projectDetailsListNewProjectDetails.getPrjectId();
-                    projectDetailsListNewProjectDetails.setPrjectId(project);
-                    projectDetailsListNewProjectDetails = em.merge(projectDetailsListNewProjectDetails);
-                    if (oldPrjectIdOfProjectDetailsListNewProjectDetails != null && !oldPrjectIdOfProjectDetailsListNewProjectDetails.equals(project)) {
-                        oldPrjectIdOfProjectDetailsListNewProjectDetails.getProjectDetailsList().remove(projectDetailsListNewProjectDetails);
-                        oldPrjectIdOfProjectDetailsListNewProjectDetails = em.merge(oldPrjectIdOfProjectDetailsListNewProjectDetails);
-                    }
-                }
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -167,7 +133,7 @@ public class ProjectJpaController implements Serializable {
         }
     }
 
-    public void destroy(String id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(String id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -178,17 +144,6 @@ public class ProjectJpaController implements Serializable {
                 project.getProjectId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The project with id " + id + " no longer exists.", enfe);
-            }
-            List<String> illegalOrphanMessages = null;
-            List<ProjectDetails> projectDetailsListOrphanCheck = project.getProjectDetailsList();
-            for (ProjectDetails projectDetailsListOrphanCheckProjectDetails : projectDetailsListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Project (" + project + ") cannot be destroyed since the ProjectDetails " + projectDetailsListOrphanCheckProjectDetails + " in its projectDetailsList field has a non-nullable prjectId field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             Manager managerId = project.getManagerId();
             if (managerId != null) {
@@ -257,10 +212,126 @@ public class ProjectJpaController implements Serializable {
         }
     }
 
-    public List<Project> findProjectByStatus() {
-        EntityManager em=getEntityManager();
-        Query q=em.createQuery("SELECT p FROM Project p WHERE p.projectStatus LIKE 'Waiting for Director' ");
-        return q.getResultList();
+    public List<Project> getProjectInSiderBar(
+            String projectName,
+            String district,
+            String yearBuildFrom,
+            String yearBuildTo,
+            String dateFrom,
+            String dateTo) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = null;
+            if (district.equals("all")) {
+                query = em.createNativeQuery(
+                        "SELECT * FROM project where "
+                        + "project_name LIKE '%" + projectName + "%' AND "
+                        //+ "district = '"+district+"' AND "
+                        + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                        + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                        + "project_status = 'publish' "
+                        + "ORDER BY date_add DESC", Project.class);
+            } else {
+                query = em.createNativeQuery(
+                        "SELECT * FROM project where "
+                        + "project_name LIKE '%" + projectName + "%' AND "
+                        + "district = '" + district + "' AND "
+                        + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
+                        + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
+                        + "project_status = 'publish' "
+                        + "ORDER BY date_add DESC", Project.class);
+            }
+            System.out.println(query);
+            List<Project> ret = (List<Project>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
     }
     
+    public int getManagerByProjectCount(int managerID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery(
+                        "SELECT count(*) FROM project where manager_id = '" + managerID + "'");
+            System.out.println(query);
+            int ret = (int) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public int getManagerByProject(int projectID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery(
+                        "SELECT manager_id FROM project where project_id = '" + projectID + "'");
+            System.out.println(query);
+            int ret = (int) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public Project getProjectByAddress(String address) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT * FROM project where "
+                    + "project_address='" + address + "'", Estate.class
+            );
+            if (!query.getResultList().isEmpty()) {
+                Project ret = (Project) query.getSingleResult();
+                return ret;
+            } else {
+                return null;
+            }
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Project> getProjectByManager(String managerID) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT * FROM project where "
+                    + "manager_id='" + managerID + "'", Project.class
+            );
+            System.out.println(query);
+            if (!query.getResultList().isEmpty()) {
+                List<Project> ret = (List<Project>) query.getResultList();
+                return ret;
+            } else {
+                return null;
+            }
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<String> getProjectByManagerSearch(String managerID, String address) {
+        EntityManager em = getEntityManager();
+        try {
+            List<Project> projectList = getProjectByManager(managerID);
+            List<String> ret = (List<String>) new ArrayList<String>();
+            for (Project project : projectList) {
+                Query query = em.createNativeQuery("SELECT project_id FROM project where "
+                        + "project_id = '" + project.getProjectId() + "' AND "
+                        + "project_address LIKE '%" + address + "%'"
+                );
+                System.out.println(query);
+                if (query.getResultList().size()!=0){
+                    ret.add((String) query.getSingleResult());
+                }
+            }
+            System.out.println(ret.size());
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
 }

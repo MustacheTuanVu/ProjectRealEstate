@@ -15,20 +15,20 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Entity.Users;
-import Entity.Post;
+import Entity.Contract;
 import java.util.ArrayList;
 import java.util.List;
 import Entity.AssignDetails;
-import Entity.Contract;
 import Entity.Employee;
 import Entity.Schedule;
+import Entity.Post;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 public class EmployeeJpaController implements Serializable {
 
@@ -44,51 +44,51 @@ public class EmployeeJpaController implements Serializable {
     }
 
     public void create(Employee employee) throws PreexistingEntityException, RollbackFailureException, Exception {
-        if (employee.getPostList() == null) {
-            employee.setPostList(new ArrayList<Post>());
+        if (employee.getContractList() == null) {
+            employee.setContractList(new ArrayList<Contract>());
         }
         if (employee.getAssignDetailsList() == null) {
             employee.setAssignDetailsList(new ArrayList<AssignDetails>());
         }
-        if (employee.getContractList() == null) {
-            employee.setContractList(new ArrayList<Contract>());
-        }
         if (employee.getScheduleList() == null) {
             employee.setScheduleList(new ArrayList<Schedule>());
         }
+        if (employee.getPostList() == null) {
+            employee.setPostList(new ArrayList<Post>());
+        }
         EntityManager em = null;
         try {
+            utx.begin();
             em = getEntityManager();
-            em.getTransaction().begin();
             Users userId = employee.getUserId();
             if (userId != null) {
                 userId = em.getReference(userId.getClass(), userId.getId());
                 employee.setUserId(userId);
             }
-            List<Post> attachedPostList = new ArrayList<Post>();
-            for (Post postListPostToAttach : employee.getPostList()) {
-                postListPostToAttach = em.getReference(postListPostToAttach.getClass(), postListPostToAttach.getPostId());
-                attachedPostList.add(postListPostToAttach);
-            }
-            employee.setPostList(attachedPostList);
-            List<AssignDetails> attachedAssignDetailsList = new ArrayList<AssignDetails>();
-            for (AssignDetails assignDetailsListAssignDetailsToAttach : employee.getAssignDetailsList()) {
-                assignDetailsListAssignDetailsToAttach = em.getReference(assignDetailsListAssignDetailsToAttach.getClass(), assignDetailsListAssignDetailsToAttach.getId());
-                attachedAssignDetailsList.add(assignDetailsListAssignDetailsToAttach);
-            }
-            employee.setAssignDetailsList(attachedAssignDetailsList);
             List<Contract> attachedContractList = new ArrayList<Contract>();
             for (Contract contractListContractToAttach : employee.getContractList()) {
                 contractListContractToAttach = em.getReference(contractListContractToAttach.getClass(), contractListContractToAttach.getId());
                 attachedContractList.add(contractListContractToAttach);
             }
             employee.setContractList(attachedContractList);
+            List<AssignDetails> attachedAssignDetailsList = new ArrayList<AssignDetails>();
+            for (AssignDetails assignDetailsListAssignDetailsToAttach : employee.getAssignDetailsList()) {
+                assignDetailsListAssignDetailsToAttach = em.getReference(assignDetailsListAssignDetailsToAttach.getClass(), assignDetailsListAssignDetailsToAttach.getId());
+                attachedAssignDetailsList.add(assignDetailsListAssignDetailsToAttach);
+            }
+            employee.setAssignDetailsList(attachedAssignDetailsList);
             List<Schedule> attachedScheduleList = new ArrayList<Schedule>();
             for (Schedule scheduleListScheduleToAttach : employee.getScheduleList()) {
                 scheduleListScheduleToAttach = em.getReference(scheduleListScheduleToAttach.getClass(), scheduleListScheduleToAttach.getId());
                 attachedScheduleList.add(scheduleListScheduleToAttach);
             }
             employee.setScheduleList(attachedScheduleList);
+            List<Post> attachedPostList = new ArrayList<Post>();
+            for (Post postListPostToAttach : employee.getPostList()) {
+                postListPostToAttach = em.getReference(postListPostToAttach.getClass(), postListPostToAttach.getPostId());
+                attachedPostList.add(postListPostToAttach);
+            }
+            employee.setPostList(attachedPostList);
             em.persist(employee);
             if (userId != null) {
                 Employee oldEmployeeOfUserId = userId.getEmployee();
@@ -99,13 +99,13 @@ public class EmployeeJpaController implements Serializable {
                 userId.setEmployee(employee);
                 userId = em.merge(userId);
             }
-            for (Post postListPost : employee.getPostList()) {
-                Employee oldEmployeeOfPostListPost = postListPost.getEmployee();
-                postListPost.setEmployee(employee);
-                postListPost = em.merge(postListPost);
-                if (oldEmployeeOfPostListPost != null) {
-                    oldEmployeeOfPostListPost.getPostList().remove(postListPost);
-                    oldEmployeeOfPostListPost = em.merge(oldEmployeeOfPostListPost);
+            for (Contract contractListContract : employee.getContractList()) {
+                Employee oldEmployeeIdOfContractListContract = contractListContract.getEmployeeId();
+                contractListContract.setEmployeeId(employee);
+                contractListContract = em.merge(contractListContract);
+                if (oldEmployeeIdOfContractListContract != null) {
+                    oldEmployeeIdOfContractListContract.getContractList().remove(contractListContract);
+                    oldEmployeeIdOfContractListContract = em.merge(oldEmployeeIdOfContractListContract);
                 }
             }
             for (AssignDetails assignDetailsListAssignDetails : employee.getAssignDetailsList()) {
@@ -117,15 +117,6 @@ public class EmployeeJpaController implements Serializable {
                     oldEmployeeIdOfAssignDetailsListAssignDetails = em.merge(oldEmployeeIdOfAssignDetailsListAssignDetails);
                 }
             }
-            for (Contract contractListContract : employee.getContractList()) {
-                Employee oldEmployeeIdOfContractListContract = contractListContract.getEmployeeId();
-                contractListContract.setEmployeeId(employee);
-                contractListContract = em.merge(contractListContract);
-                if (oldEmployeeIdOfContractListContract != null) {
-                    oldEmployeeIdOfContractListContract.getContractList().remove(contractListContract);
-                    oldEmployeeIdOfContractListContract = em.merge(oldEmployeeIdOfContractListContract);
-                }
-            }
             for (Schedule scheduleListSchedule : employee.getScheduleList()) {
                 Employee oldEmployeeIdOfScheduleListSchedule = scheduleListSchedule.getEmployeeId();
                 scheduleListSchedule.setEmployeeId(employee);
@@ -135,10 +126,19 @@ public class EmployeeJpaController implements Serializable {
                     oldEmployeeIdOfScheduleListSchedule = em.merge(oldEmployeeIdOfScheduleListSchedule);
                 }
             }
-            em.getTransaction().commit();
+            for (Post postListPost : employee.getPostList()) {
+                Employee oldEmployeeOfPostListPost = postListPost.getEmployee();
+                postListPost.setEmployee(employee);
+                postListPost = em.merge(postListPost);
+                if (oldEmployeeOfPostListPost != null) {
+                    oldEmployeeOfPostListPost.getPostList().remove(postListPost);
+                    oldEmployeeOfPostListPost = em.merge(oldEmployeeOfPostListPost);
+                }
+            }
+            utx.commit();
         } catch (Exception ex) {
             try {
-                em.getTransaction().rollback();
+                utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -156,28 +156,20 @@ public class EmployeeJpaController implements Serializable {
     public void edit(Employee employee) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
+            utx.begin();
             em = getEntityManager();
-            em.getTransaction().begin();
             Employee persistentEmployee = em.find(Employee.class, employee.getId());
             Users userIdOld = persistentEmployee.getUserId();
             Users userIdNew = employee.getUserId();
-            List<Post> postListOld = persistentEmployee.getPostList();
-            List<Post> postListNew = employee.getPostList();
-            List<AssignDetails> assignDetailsListOld = persistentEmployee.getAssignDetailsList();
-            List<AssignDetails> assignDetailsListNew = employee.getAssignDetailsList();
             List<Contract> contractListOld = persistentEmployee.getContractList();
             List<Contract> contractListNew = employee.getContractList();
+            List<AssignDetails> assignDetailsListOld = persistentEmployee.getAssignDetailsList();
+            List<AssignDetails> assignDetailsListNew = employee.getAssignDetailsList();
             List<Schedule> scheduleListOld = persistentEmployee.getScheduleList();
             List<Schedule> scheduleListNew = employee.getScheduleList();
+            List<Post> postListOld = persistentEmployee.getPostList();
+            List<Post> postListNew = employee.getPostList();
             List<String> illegalOrphanMessages = null;
-            for (Post postListOldPost : postListOld) {
-                if (!postListNew.contains(postListOldPost)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Post " + postListOldPost + " since its employee field is not nullable.");
-                }
-            }
             for (AssignDetails assignDetailsListOldAssignDetails : assignDetailsListOld) {
                 if (!assignDetailsListNew.contains(assignDetailsListOldAssignDetails)) {
                     if (illegalOrphanMessages == null) {
@@ -194,6 +186,14 @@ public class EmployeeJpaController implements Serializable {
                     illegalOrphanMessages.add("You must retain Schedule " + scheduleListOldSchedule + " since its employeeId field is not nullable.");
                 }
             }
+            for (Post postListOldPost : postListOld) {
+                if (!postListNew.contains(postListOldPost)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Post " + postListOldPost + " since its employee field is not nullable.");
+                }
+            }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
@@ -201,20 +201,6 @@ public class EmployeeJpaController implements Serializable {
                 userIdNew = em.getReference(userIdNew.getClass(), userIdNew.getId());
                 employee.setUserId(userIdNew);
             }
-            List<Post> attachedPostListNew = new ArrayList<Post>();
-            for (Post postListNewPostToAttach : postListNew) {
-                postListNewPostToAttach = em.getReference(postListNewPostToAttach.getClass(), postListNewPostToAttach.getPostId());
-                attachedPostListNew.add(postListNewPostToAttach);
-            }
-            postListNew = attachedPostListNew;
-            employee.setPostList(postListNew);
-            List<AssignDetails> attachedAssignDetailsListNew = new ArrayList<AssignDetails>();
-            for (AssignDetails assignDetailsListNewAssignDetailsToAttach : assignDetailsListNew) {
-                assignDetailsListNewAssignDetailsToAttach = em.getReference(assignDetailsListNewAssignDetailsToAttach.getClass(), assignDetailsListNewAssignDetailsToAttach.getId());
-                attachedAssignDetailsListNew.add(assignDetailsListNewAssignDetailsToAttach);
-            }
-            assignDetailsListNew = attachedAssignDetailsListNew;
-            employee.setAssignDetailsList(assignDetailsListNew);
             List<Contract> attachedContractListNew = new ArrayList<Contract>();
             for (Contract contractListNewContractToAttach : contractListNew) {
                 contractListNewContractToAttach = em.getReference(contractListNewContractToAttach.getClass(), contractListNewContractToAttach.getId());
@@ -222,6 +208,13 @@ public class EmployeeJpaController implements Serializable {
             }
             contractListNew = attachedContractListNew;
             employee.setContractList(contractListNew);
+            List<AssignDetails> attachedAssignDetailsListNew = new ArrayList<AssignDetails>();
+            for (AssignDetails assignDetailsListNewAssignDetailsToAttach : assignDetailsListNew) {
+                assignDetailsListNewAssignDetailsToAttach = em.getReference(assignDetailsListNewAssignDetailsToAttach.getClass(), assignDetailsListNewAssignDetailsToAttach.getId());
+                attachedAssignDetailsListNew.add(assignDetailsListNewAssignDetailsToAttach);
+            }
+            assignDetailsListNew = attachedAssignDetailsListNew;
+            employee.setAssignDetailsList(assignDetailsListNew);
             List<Schedule> attachedScheduleListNew = new ArrayList<Schedule>();
             for (Schedule scheduleListNewScheduleToAttach : scheduleListNew) {
                 scheduleListNewScheduleToAttach = em.getReference(scheduleListNewScheduleToAttach.getClass(), scheduleListNewScheduleToAttach.getId());
@@ -229,6 +222,13 @@ public class EmployeeJpaController implements Serializable {
             }
             scheduleListNew = attachedScheduleListNew;
             employee.setScheduleList(scheduleListNew);
+            List<Post> attachedPostListNew = new ArrayList<Post>();
+            for (Post postListNewPostToAttach : postListNew) {
+                postListNewPostToAttach = em.getReference(postListNewPostToAttach.getClass(), postListNewPostToAttach.getPostId());
+                attachedPostListNew.add(postListNewPostToAttach);
+            }
+            postListNew = attachedPostListNew;
+            employee.setPostList(postListNew);
             employee = em.merge(employee);
             if (userIdOld != null && !userIdOld.equals(userIdNew)) {
                 userIdOld.setEmployee(null);
@@ -242,28 +242,6 @@ public class EmployeeJpaController implements Serializable {
                 }
                 userIdNew.setEmployee(employee);
                 userIdNew = em.merge(userIdNew);
-            }
-            for (Post postListNewPost : postListNew) {
-                if (!postListOld.contains(postListNewPost)) {
-                    Employee oldEmployeeOfPostListNewPost = postListNewPost.getEmployee();
-                    postListNewPost.setEmployee(employee);
-                    postListNewPost = em.merge(postListNewPost);
-                    if (oldEmployeeOfPostListNewPost != null && !oldEmployeeOfPostListNewPost.equals(employee)) {
-                        oldEmployeeOfPostListNewPost.getPostList().remove(postListNewPost);
-                        oldEmployeeOfPostListNewPost = em.merge(oldEmployeeOfPostListNewPost);
-                    }
-                }
-            }
-            for (AssignDetails assignDetailsListNewAssignDetails : assignDetailsListNew) {
-                if (!assignDetailsListOld.contains(assignDetailsListNewAssignDetails)) {
-                    Employee oldEmployeeIdOfAssignDetailsListNewAssignDetails = assignDetailsListNewAssignDetails.getEmployeeId();
-                    assignDetailsListNewAssignDetails.setEmployeeId(employee);
-                    assignDetailsListNewAssignDetails = em.merge(assignDetailsListNewAssignDetails);
-                    if (oldEmployeeIdOfAssignDetailsListNewAssignDetails != null && !oldEmployeeIdOfAssignDetailsListNewAssignDetails.equals(employee)) {
-                        oldEmployeeIdOfAssignDetailsListNewAssignDetails.getAssignDetailsList().remove(assignDetailsListNewAssignDetails);
-                        oldEmployeeIdOfAssignDetailsListNewAssignDetails = em.merge(oldEmployeeIdOfAssignDetailsListNewAssignDetails);
-                    }
-                }
             }
             for (Contract contractListOldContract : contractListOld) {
                 if (!contractListNew.contains(contractListOldContract)) {
@@ -282,6 +260,17 @@ public class EmployeeJpaController implements Serializable {
                     }
                 }
             }
+            for (AssignDetails assignDetailsListNewAssignDetails : assignDetailsListNew) {
+                if (!assignDetailsListOld.contains(assignDetailsListNewAssignDetails)) {
+                    Employee oldEmployeeIdOfAssignDetailsListNewAssignDetails = assignDetailsListNewAssignDetails.getEmployeeId();
+                    assignDetailsListNewAssignDetails.setEmployeeId(employee);
+                    assignDetailsListNewAssignDetails = em.merge(assignDetailsListNewAssignDetails);
+                    if (oldEmployeeIdOfAssignDetailsListNewAssignDetails != null && !oldEmployeeIdOfAssignDetailsListNewAssignDetails.equals(employee)) {
+                        oldEmployeeIdOfAssignDetailsListNewAssignDetails.getAssignDetailsList().remove(assignDetailsListNewAssignDetails);
+                        oldEmployeeIdOfAssignDetailsListNewAssignDetails = em.merge(oldEmployeeIdOfAssignDetailsListNewAssignDetails);
+                    }
+                }
+            }
             for (Schedule scheduleListNewSchedule : scheduleListNew) {
                 if (!scheduleListOld.contains(scheduleListNewSchedule)) {
                     Employee oldEmployeeIdOfScheduleListNewSchedule = scheduleListNewSchedule.getEmployeeId();
@@ -293,10 +282,21 @@ public class EmployeeJpaController implements Serializable {
                     }
                 }
             }
-            em.getTransaction().commit();
+            for (Post postListNewPost : postListNew) {
+                if (!postListOld.contains(postListNewPost)) {
+                    Employee oldEmployeeOfPostListNewPost = postListNewPost.getEmployee();
+                    postListNewPost.setEmployee(employee);
+                    postListNewPost = em.merge(postListNewPost);
+                    if (oldEmployeeOfPostListNewPost != null && !oldEmployeeOfPostListNewPost.equals(employee)) {
+                        oldEmployeeOfPostListNewPost.getPostList().remove(postListNewPost);
+                        oldEmployeeOfPostListNewPost = em.merge(oldEmployeeOfPostListNewPost);
+                    }
+                }
+            }
+            utx.commit();
         } catch (Exception ex) {
             try {
-                em.getTransaction().rollback();
+                utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -318,8 +318,8 @@ public class EmployeeJpaController implements Serializable {
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
+            utx.begin();
             em = getEntityManager();
-            em.getTransaction().begin();
             Employee employee;
             try {
                 employee = em.getReference(Employee.class, id);
@@ -328,13 +328,6 @@ public class EmployeeJpaController implements Serializable {
                 throw new NonexistentEntityException("The employee with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<Post> postListOrphanCheck = employee.getPostList();
-            for (Post postListOrphanCheckPost : postListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Employee (" + employee + ") cannot be destroyed since the Post " + postListOrphanCheckPost + " in its postList field has a non-nullable employee field.");
-            }
             List<AssignDetails> assignDetailsListOrphanCheck = employee.getAssignDetailsList();
             for (AssignDetails assignDetailsListOrphanCheckAssignDetails : assignDetailsListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
@@ -348,6 +341,13 @@ public class EmployeeJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Employee (" + employee + ") cannot be destroyed since the Schedule " + scheduleListOrphanCheckSchedule + " in its scheduleList field has a non-nullable employeeId field.");
+            }
+            List<Post> postListOrphanCheck = employee.getPostList();
+            for (Post postListOrphanCheckPost : postListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Employee (" + employee + ") cannot be destroyed since the Post " + postListOrphanCheckPost + " in its postList field has a non-nullable employee field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -363,10 +363,10 @@ public class EmployeeJpaController implements Serializable {
                 contractListContract = em.merge(contractListContract);
             }
             em.remove(employee);
-            em.getTransaction().commit();
+            utx.commit();
         } catch (Exception ex) {
             try {
-                em.getTransaction().rollback();
+                utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -419,6 +419,28 @@ public class EmployeeJpaController implements Serializable {
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public Employee getCustomerByUserID(int userID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM employee where user_id='" + userID + "'",Employee.class);
+            Employee ret = (Employee) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public int getEstateCountByEmployeeID(int employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT count FROM estate where user_id='" + employeeID + "'",Employee.class);
+            int ret = (int) query.getSingleResult();
+            return ret;
         } finally {
             em.close();
         }

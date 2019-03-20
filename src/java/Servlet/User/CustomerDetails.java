@@ -6,14 +6,9 @@
 package Servlet.User;
 
 import Controller.CustomerJpaController;
-import Controller.exceptions.RollbackFailureException;
 import Entity.Customer;
-import Entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,33 +34,28 @@ public class CustomerDetails extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     UserTransaction utx;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        HttpSession session = request.getSession();
-        Entity.Users user = (Entity.Users) session.getAttribute("user");
-        EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
-                Controller.CustomerJpaController cusCon = new CustomerJpaController(null, em);
-        
-       // if (cusCon.findByIdUser(user)!=null) {
-        if (user != null) {
-            if (user.getRole().equals("Customer")) {
-                if (cusCon.findByIdUser(user)!=null) {
-                    request.setAttribute("list", cusCon.findByIdUser(user));
-                }
-                request.getRequestDispatcher("/page/dashboard/dashboard_profile.jsp").forward(request, response);
-            } else {
-                request.getRequestDispatcher("/page/dashboard/dashboard_login.jsp").include(request, response);
-            }
-        } else {
-            request.getRequestDispatcher("/page/dashboard/dashboard_login.jsp").include(request, response);
-        }
+//        HttpSession session = request.getSession();
+//        Entity.Users user = (Entity.Users) session.getAttribute("user");
+//        EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
+//                Controller.CustomerJpaController cusCon = new CustomerJpaController(null, em);
+//        
+//       // if (cusCon.findByIdUser(user)!=null) {
+//        if (user != null) {
+//            if (user.getRole().equals("Customer")) {
+//                
+//                //request.setAttribute("list", cusCon.findByIdUser(user));
+//                request.getRequestDispatcher("/page/dashboard/dashboard_profile.jsp").forward(request, response);
+//            } else {
+//                request.getRequestDispatcher("/page/dashboard/dashboard_login.jsp").include(request, response);
+//            }
+//        } else {
+//            request.getRequestDispatcher("/page/dashboard/dashboard_login.jsp").include(request, response);
 //        }
-//        else response.sendRedirect(request.getContextPath()+"/CustomerDetails");
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -91,59 +81,24 @@ public class CustomerDetails extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            //processRequest(request, response);
-
-            EntityManagerFactory emf= (EntityManagerFactory) getServletContext().getAttribute("emf");
-            EntityManager em = emf.createEntityManager();
-            Controller.CustomerJpaController cusCon= new CustomerJpaController(utx, emf);  
-            
-            HttpSession session = request.getSession();
-            Users user=(Users) session.getAttribute("user");
-            String id=request.getParameter("txtID");
-            if (!id.equals("")) {
-                
-            Entity.Customer customer = cusCon.findCustomer(Integer.valueOf(request.getParameter("txtID")));
-            
-            customer.setCustomerName(request.getParameter("txtName"));
-            customer.setCustomerAddress(request.getParameter("txtAddress"));
-            customer.setCustomerIndentityCard(request.getParameter("txtCard"));
-            customer.setPhone(request.getParameter("txtPhone"));
-            customer.setMail(request.getParameter("txtMail"));
-            customer.setCustomerContent(request.getParameter("txtContent"));
-            customer.setUserId(user);
-            customer.setCustomerImg(request.getParameter("image1st"));
-            
-            cusCon.edit(customer);
-            request.setAttribute("list", cusCon.findByIdUser(user));
-            request.getRequestDispatcher("/page/dashboard/dashboard_profile.jsp").forward(request, response);
-                System.out.println("Edit Completed !!!");
-            }else{
-                Entity.Customer customer = new Customer();
-            
-            customer.setCustomerName(request.getParameter("txtName"));
-            customer.setCustomerAddress(request.getParameter("txtAddress"));
-            customer.setCustomerIndentityCard(request.getParameter("txtCard"));
-            customer.setPhone(request.getParameter("txtPhone"));
-            customer.setMail(request.getParameter("txtMail"));
-            customer.setCustomerContent(request.getParameter("txtContent"));
-            customer.setUserId(user);
-            customer.setCustomerImg(request.getParameter("image1st"));
-            
-            cusCon.create(customer);
-            request.setAttribute("list", cusCon.findByIdUser(user));
-            request.getRequestDispatcher("/page/dashboard/dashboard_profile.jsp").forward(request, response);
-                System.out.println("Create Completed !!!");
-            }
-            
-        } catch (RollbackFailureException ex) {
-            Logger.getLogger(Add_Infor_User.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(Add_Infor_User.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
+        
+        EntityManagerFactory emf= (EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.CustomerJpaController customerControl= new CustomerJpaController(utx, emf);
+        String id=request.getParameter("txtID");
+        Entity.Customer customer= customerControl.findCustomer(Integer.valueOf(id));
+        
+        customer.setCustomerName(request.getParameter("txtName"));
+        customer.setCustomerIndentityCard(request.getParameter("txtCard"));
+        customer.setCustomerAddress(request.getParameter("txtAddress"));
+        customer.setPhone(request.getParameter("txtPhone"));
+        customer.setMail(request.getParameter("txtMail"));
+        customer.setCustomerContent(request.getParameter("txtContent"));
+        
     }
 
     /**

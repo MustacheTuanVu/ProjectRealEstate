@@ -6,9 +6,8 @@
 package Entity;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,20 +15,41 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 @Entity
 @Table(name = "project")
 @NamedQueries({
     @NamedQuery(name = "Project.findAll", query = "SELECT p FROM Project p")})
 public class Project implements Serializable {
+
+    @Size(max = 2147483647)
+    @Column(name = "project_content")
+    private String projectContent;
+
+    @Column(name = "year_build")
+    @Temporal(TemporalType.DATE)
+    private Date yearBuild;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "floor_number")
+    private double floorNumber;
+    @Column(name = "date_add")
+    @Temporal(TemporalType.DATE)
+    private Date dateAdd;
+    @Size(max = 50)
+    @Column(name = "district")
+    private String district;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -56,10 +76,6 @@ public class Project implements Serializable {
     @NotNull
     @Column(name = "block_number")
     private int blockNumber;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "project_area")
-    private double projectArea;
     @Size(max = 255)
     @Column(name = "image_1st")
     private String image1st;
@@ -75,16 +91,12 @@ public class Project implements Serializable {
     @Size(max = 255)
     @Column(name = "image_5st")
     private String image5st;
+    @Size(max = 50)
+    @Column(name = "status")
+    private String status;
     @Size(max = 255)
     @Column(name = "document_url")
     private String documentUrl;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "status")
-    private String status;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "prjectId")
-    private List<ProjectDetails> projectDetailsList;
     @JoinColumn(name = "manager_id", referencedColumnName = "manager_id")
     @ManyToOne(optional = false)
     private Manager managerId;
@@ -96,14 +108,12 @@ public class Project implements Serializable {
         this.projectId = projectId;
     }
 
-    public Project(String projectId, String projectName, String projectAddress, String projectStatus, int blockNumber, double projectArea, String status) {
+    public Project(String projectId, String projectName, String projectAddress, String projectStatus, int blockNumber) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.projectAddress = projectAddress;
         this.projectStatus = projectStatus;
         this.blockNumber = blockNumber;
-        this.projectArea = projectArea;
-        this.status = status;
     }
 
     public String getProjectId() {
@@ -146,14 +156,6 @@ public class Project implements Serializable {
         this.blockNumber = blockNumber;
     }
 
-    public double getProjectArea() {
-        return projectArea;
-    }
-
-    public void setProjectArea(double projectArea) {
-        this.projectArea = projectArea;
-    }
-
     public String getImage1st() {
         return image1st;
     }
@@ -194,14 +196,6 @@ public class Project implements Serializable {
         this.image5st = image5st;
     }
 
-    public String getDocumentUrl() {
-        return documentUrl;
-    }
-
-    public void setDocumentUrl(String documentUrl) {
-        this.documentUrl = documentUrl;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -210,12 +204,12 @@ public class Project implements Serializable {
         this.status = status;
     }
 
-    public List<ProjectDetails> getProjectDetailsList() {
-        return projectDetailsList;
+    public String getDocumentUrl() {
+        return documentUrl;
     }
 
-    public void setProjectDetailsList(List<ProjectDetails> projectDetailsList) {
-        this.projectDetailsList = projectDetailsList;
+    public void setDocumentUrl(String documentUrl) {
+        this.documentUrl = documentUrl;
     }
 
     public Manager getManagerId() {
@@ -249,6 +243,46 @@ public class Project implements Serializable {
     @Override
     public String toString() {
         return "Entity.Project[ projectId=" + projectId + " ]";
+    }
+
+    public double getFloorNumber() {
+        return floorNumber;
+    }
+
+    public void setFloorNumber(double floorNumber) {
+        this.floorNumber = floorNumber;
+    }
+
+    public Date getDateAdd() {
+        return dateAdd;
+    }
+
+    public void setDateAdd(Date dateAdd) {
+        this.dateAdd = dateAdd;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public Date getYearBuild() {
+        return yearBuild;
+    }
+
+    public void setYearBuild(Date yearBuild) {
+        this.yearBuild = yearBuild;
+    }
+
+    public String getProjectContent() {
+        return projectContent;
+    }
+
+    public void setProjectContent(String projectContent) {
+        this.projectContent = projectContent;
     }
     
 }

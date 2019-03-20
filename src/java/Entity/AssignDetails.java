@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,30 +25,30 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 @Entity
 @Table(name = "assign_details")
 @NamedQueries({
     @NamedQuery(name = "AssignDetails.findAll", query = "SELECT a FROM AssignDetails a")})
 public class AssignDetails implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Column(name = "date_to")
     @Temporal(TemporalType.DATE)
     private Date dateTo;
-    @JoinColumn(name = "estate_id", referencedColumnName = "id")
-    @OneToOne(optional = false)
-    private Estate estateId;
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Employee employeeId;
+    @JoinColumn(name = "estate_id", referencedColumnName = "id")
+    @OneToOne(optional = false)
+    private Estate estateId;
 
     public AssignDetails() {
     }
@@ -76,20 +78,20 @@ public class AssignDetails implements Serializable {
         this.dateTo = dateTo;
     }
 
-    public Estate getEstateId() {
-        return estateId;
-    }
-
-    public void setEstateId(Estate estateId) {
-        this.estateId = estateId;
-    }
-
     public Employee getEmployeeId() {
         return employeeId;
     }
 
     public void setEmployeeId(Employee employeeId) {
         this.employeeId = employeeId;
+    }
+
+    public Estate getEstateId() {
+        return estateId;
+    }
+
+    public void setEstateId(Estate estateId) {
+        this.estateId = estateId;
     }
 
     @Override

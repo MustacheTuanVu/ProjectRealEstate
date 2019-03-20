@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,16 +36,15 @@ public class RegisterUser extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    UserTransaction utx;
-
+     UserTransaction utx;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+ 
+        EntityManagerFactory em= (EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.UsersJpaController user= new UsersJpaController(utx, em);
 
-        EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        Controller.UsersJpaController user = new UsersJpaController(utx, em);
-
-        HttpSession session = request.getSession();
+        HttpSession session= request.getSession();
         session.invalidate();
         request.getRequestDispatcher("/page/dashboard/dashboard_register.jsp").forward(request, response);
     }
@@ -60,13 +58,13 @@ public class RegisterUser extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+   
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-
+                processRequest(request, response);
+    
     }
-
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -79,45 +77,24 @@ public class RegisterUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        processRequest(request, response);
         EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        Controller.UsersJpaController userCon = new UsersJpaController(utx, em);
-        Entity.Users user = new Users();
+                Controller.UsersJpaController userCon = new UsersJpaController(utx, em);
+                Entity.Users user = new Users();
+            try {
+                
+                user.setUsername(request.getParameter("txtUser"));
+                user.setPassword(request.getParameter("txtPass"));
+                user.setStatus(true);
+                user.setRole("Customer");
 
-        String a =request.getParameter("name");
+                userCon.create(user);
+            } catch (RollbackFailureException ex) {
+                Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
+            }
         
-        String message = "";
-        String hasError = "";
-        String display = "none";
-        
-//        if (userCon.checkUser(a).size() > 0) {
-//            message = "UserName exits !!!";
-//            hasError = "has-error";
-//            display = "block";
-//            request.setAttribute("message", message);
-//            request.setAttribute("hasError", hasError);
-//            request.setAttribute("display", display);
-//
-//            request.getRequestDispatcher("/page/dashboard/dashboard_register.jsp").forward(request, response);
-//        }
-//        else{
-//            try {
-//
-//                user.setUsername(request.getParameter("name"));
-//                user.setPassword(request.getParameter("password"));
-//                user.setStatus(true);
-//                user.setRole("Customer");
-//                
-//                userCon.create(user);
-//                //request.getRequestDispatcher("/page/dashboard/dashboard_login.jsp").forward(request, response);
-//                response.sendRedirect(request.getContextPath()+"/LoginUser");
-//                System.out.println("Register completed");
-//            } catch (RollbackFailureException ex) {
-//                Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (Exception ex) {
-//                Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-
     }
 
     /**

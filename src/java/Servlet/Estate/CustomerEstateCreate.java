@@ -163,7 +163,7 @@ public class CustomerEstateCreate extends HttpServlet {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
             Entity.Contract con = new Contract();
-            Entity.Customer cus = customerCon.findByIdUser(idCus); // +++
+            Entity.Customer cus = (Entity.Customer) customerCon.findByIdUser(idCus); // +++
             Entity.ContractDetails del = new ContractDetails();
             cus.setUserId(idCus);
 

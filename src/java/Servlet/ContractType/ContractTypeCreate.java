@@ -21,7 +21,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
 /**
@@ -45,19 +44,7 @@ public class ContractTypeCreate extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        HttpSession session = request.getSession();
-        Entity.Users user = (Entity.Users) session.getAttribute("user");
-        if (user != null) {
-            if (user.getRole().equals("Admin")) {
-                request.getRequestDispatcher("/page/dashboard/dashboard_contract_type.jsp").forward(request, response);
-            } else {
-                response.sendRedirect(request.getContextPath() + "/LoginUser");
-            }
-        } else {
-            response.sendRedirect(request.getContextPath() + "/LoginUser");
-        }
-
+        request.getRequestDispatcher("/page/dashboard/dashboard_contract_type.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -76,40 +63,23 @@ public class ContractTypeCreate extends HttpServlet {
         EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
         Controller.ContractTypeJpaController conType = new ContractTypeJpaController(utx, em);
 
+        Controller.ContractTypeJpaController test = new ContractTypeJpaController(utx, em);
+        List<Entity.ContractType> listCon = test.findContractTypeEntities();
+
         String a = request.getParameter("txtType");
-        String message = "";
-        String hasError = "";
-        String display = "none";
-        List<ContractType> listType = conType.findContractTypeName(a);
 
-        if (listType.size() > 0) {
-            message = "Type exits !";
-            hasError = "has-error";
-            display = "block";
-            request.setAttribute("message", message);
-            request.setAttribute("hasError", hasError);
-            request.setAttribute("display", display);
+        Entity.ContractType type = new ContractType();
+        type.setContractTypeName(a);
+        //type.setContractList(listCon);
+        try {
 
-            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/ContractTypeList");
-            dispatcher.forward(request, response);
-        } else {
-            Entity.ContractType type = new ContractType();
-            type.setContractTypeName(a);
-            try {
-
-                conType.create(type);
-                message = "Create New Completed !";
-                
-                request.setAttribute("message", message);
-                RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/ContractTypeList");
-                dispatcher.forward(request, response);
-            } catch (RollbackFailureException ex) {
-                Logger.getLogger(ContractTypeCreate.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(ContractTypeCreate.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            conType.create(type);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(ContractTypeCreate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ContractTypeCreate.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        response.sendRedirect(request.getContextPath() + "/ContractTypeList");
     }
 
     /**

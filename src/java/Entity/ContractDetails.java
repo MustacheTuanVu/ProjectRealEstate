@@ -21,26 +21,25 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 @Entity
 @Table(name = "contract_details")
 @NamedQueries({
     @NamedQuery(name = "ContractDetails.findAll", query = "SELECT c FROM ContractDetails c")})
 public class ContractDetails implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-//    @Basic(optional = false)
-//    @NotNull
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "estate_id", referencedColumnName = "id")
-    @OneToOne(optional = false)
-    private Estate estateId;
     @JoinColumn(name = "contract_id", referencedColumnName = "id")
     @OneToOne(optional = false)
     private Contract contractId;
+    @JoinColumn(name = "estate_id", referencedColumnName = "id")
+    @OneToOne(optional = false)
+    private Estate estateId;
 
     public ContractDetails() {
     }
@@ -57,20 +56,20 @@ public class ContractDetails implements Serializable {
         this.id = id;
     }
 
-    public Estate getEstateId() {
-        return estateId;
-    }
-
-    public void setEstateId(Estate estateId) {
-        this.estateId = estateId;
-    }
-
     public Contract getContractId() {
         return contractId;
     }
 
     public void setContractId(Contract contractId) {
         this.contractId = contractId;
+    }
+
+    public Estate getEstateId() {
+        return estateId;
+    }
+
+    public void setEstateId(Estate estateId) {
+        this.estateId = estateId;
     }
 
     @Override
