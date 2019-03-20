@@ -9,6 +9,7 @@ import Controller.exceptions.IllegalOrphanException;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
+import Entity.Customer;
 import Entity.Manager;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -39,6 +40,7 @@ public class ManagerJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
+    
 
     public void create(Manager manager) throws PreexistingEntityException, RollbackFailureException, Exception {
         if (manager.getProjectList() == null) {

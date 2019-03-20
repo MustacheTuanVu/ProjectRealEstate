@@ -6,9 +6,14 @@
 package Servlet.User;
 
 import Controller.CustomerJpaController;
+import Controller.EmployeeJpaController;
+import Controller.exceptions.NonexistentEntityException;
+import Controller.exceptions.RollbackFailureException;
 import Entity.Customer;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,6 +40,7 @@ public class CustomerDetails extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -81,24 +87,73 @@ public class CustomerDetails extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         processRequest(request, response);
-        
-        EntityManagerFactory emf= (EntityManagerFactory) getServletContext().getAttribute("emf");
-        Controller.CustomerJpaController customerControl= new CustomerJpaController(utx, emf);
-        String id=request.getParameter("txtID");
-        Entity.Customer customer= customerControl.findCustomer(Integer.valueOf(id));
-        
-        customer.setCustomerName(request.getParameter("txtName"));
-        customer.setCustomerIndentityCard(request.getParameter("txtCard"));
-        customer.setCustomerAddress(request.getParameter("txtAddress"));
-        customer.setPhone(request.getParameter("txtPhone"));
-        customer.setMail(request.getParameter("txtMail"));
-        customer.setCustomerContent(request.getParameter("txtContent"));
-        
+        HttpSession session = request.getSession();
+        Entity.Users user = (Entity.Users) session.getAttribute("user");
+
+        switch (user.getRole()) {
+            case "customer":
+                try {
+                    EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+                    Controller.CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
+                    String id = request.getParameter("txtID");
+                    Entity.Customer customer = customerControl.findCustomer(Integer.valueOf(id));
+
+                    customer.setCustomerName(request.getParameter("txtName"));
+                    customer.setCustomerIndentityCard(request.getParameter("txtCard"));
+                    customer.setCustomerAddress(request.getParameter("txtAddress"));
+                    customer.setPhone(request.getParameter("txtPhone"));
+                    customer.setMail(request.getParameter("txtMail"));
+                    customer.setCustomerContent(request.getParameter("txtContent"));
+                    customer.setCustomerImg(request.getParameter("txtImg"));
+
+                    customerControl.edit(customer);
+
+                    System.out.println("Edit Completed !!!");
+
+                    response.sendRedirect(request.getContextPath() + "/DashboardUser");
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(CustomerDetails.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (RollbackFailureException ex) {
+                    Logger.getLogger(CustomerDetails.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(CustomerDetails.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            case "employee":
+                try {
+                    EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+                    Controller.EmployeeJpaController employeeControl = new EmployeeJpaController(utx, emf);
+                    String id = request.getParameter("txtID");
+                    Entity.Employee employee = employeeControl.findEmployee(Integer.valueOf(id));
+
+                    employee.setEmployeeName(request.getParameter("txtName"));
+                    employee.setEmployeeIndentityCard(request.getParameter("txtCard"));
+                    employee.setEmployeeAddress(request.getParameter("txtAddress"));
+                    employee.setEmployeePhone(request.getParameter("txtPhone"));
+                    employee.setEmployeeMail(request.getParameter("txtMail"));
+                    employee.setEmployeeContent(request.getParameter("txtContent"));
+                    employee.setEmployeeImg(request.getParameter("txtImg"));
+
+                    employeeControl.edit(employee);
+
+                    System.out.println("Edit Completed !!!");
+
+                    response.sendRedirect(request.getContextPath() + "/EditEmployee");
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(CustomerDetails.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (RollbackFailureException ex) {
+                    Logger.getLogger(CustomerDetails.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(CustomerDetails.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+        }
+
     }
 
     /**

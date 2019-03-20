@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
@@ -51,7 +50,7 @@
             }
         </script>
     </head>
-    <body class="my_profile menu-default hover-default compact my_profile">
+    <body class="dashboard_property_new menu-default hover-default sidebar-left">
         <!--
         SVG icons from sprite-inline.svg
         They are inlined in order to make them work,
@@ -88,38 +87,29 @@
         </nav>
         <!-- END NAVBAR-->
         <div class="site-wrap js-site-wrap">
-            <!-- BEGIN BREADCRUMBS-->
-            <nav class="breadcrumbs">
-                <div class="container">
-                    <ul>
-                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Estate Details</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <!-- END BREADCRUMBS-->
+            <!-- BEGIN CENTER SECTION-->
             <div class="center">
                 <div class="container">
                     <div class="row">
-                        <!-- BEGIN site-->
-                        <div class="site site--main">
-                            <header class="site__header">
-                                <h1 class="site__title">My profile</h1>
-                                <h2 class="site__headline">Add and edit listing information</h2>
-                            </header>
-                            <div class="site__panel">
-                                <span class="site__header-text">
+                        <header class="site__header">
+                            <h1 class="site__title site__title--center">Dashboard</h1>
+                        </header>
 
-                                </span>
-                            </div>
+                        <!-- BEGIN LISTING-->
+                        <div class="site site--dashboard">
                             <div class="site__main">
-                                <div class="widget js-widget widget--main">
+                                <div class="widget js-widget widget--dashboard">
+                                    <div class="widget__header">
+                                        <h2 class="widget__title"> Your Information</h2>
+                                    </div>
                                     <div class="widget__content">
                                         <form method="POST" action="CustomerDetails" class="form form--flex form--profile js-form">
-                                            <header class="form__header">
-                                                <h3 data-rel="#form-block-1" class="form__title js-form-title">My Profile</h3>
-                                            </header>
+                                            
                                             <div id="form-block-1" class="form__block js-form-block">
+                                                
+                                                <img src="${customer.employeeImg}" onclick="BrowseServer1()" id="imageup1st" alt="avatar" width="208" height="208">
+                                                
+                                                <input type="hidden" value="${customer.employeeImg}" id="image1st" name="txtImg"/>
                                                 <div class="row">
                                                     <div class="form-group">
                                                         <label for="in-1" class="control-label">ID</label>
@@ -127,15 +117,15 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="in-2" class="control-label">Your Name</label>
-                                                        <input id="in-2" value="${customer.customerName}" required name="txtName" data-placeholder="---" value="Lara Group Agency" class="form-control">
+                                                        <input id="in-2" value="${customer.employeeName}" required name="txtName" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="in-3" class="control-label">Identity Card</label>
-                                                        <input id="in-3" value="${customer.customerIndentityCard}" required name="txtCard" data-placeholder="---" value="Lara Group Agency" class="form-control">
+                                                        <input id="in-3" value="${customer.employeeIndentityCard}" required name="txtCard" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="in-4" class="control-label">Address</label>
-                                                        <input id="in-4" value="${customer.customerAddress}" required name="txtAddress" data-placeholder="---" value="Lara Group Agency" class="form-control">
+                                                        <input id="in-4" value="${customer.employeeAddress}" required name="txtAddress" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                         <!-- end of block .form-property__control-->
                                                     </div>
                                                 </div>
@@ -147,11 +137,11 @@
                                                 <div class="row">
                                                     <div class="form-group">
                                                         <label for="in-11" class="control-label">Phone</label>
-                                                        <input id="in-11" name="txtPhone" value="${customer.phone}" type="text" required value="adam.svenson@realtyspace.com" class="form-control">
+                                                        <input id="in-11" name="txtPhone" value="${customer.employeePhone}" type="text" required value="adam.svenson@realtyspace.com" class="form-control">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="in-12" class="control-label">Email</label>
-                                                        <input id="in-12" name="txtMail" value="${customer.mail}" type="email" placeholder="" required value="adam.svenson@realtyspace.com" class="form-control">
+                                                        <input id="in-12" name="txtMail" value="${customer.employeeMail}" type="email" placeholder="" required value="adam.svenson@realtyspace.com" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -162,17 +152,17 @@
                                                 <div class="row">
                                                     <div class="form-group form-group--description">
                                                         <label for="in-13" class="control-label">Description</label>
-                                                        <textarea id="in-13" name="txtContent" required data-parsley-trigger="keyup" data-parsley-minlength="200" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 200 caracters long comment.." class="form-control form-control--description">${customer.customerContent}</textarea>
+                                                        <textarea id="in-13" name="txtContent" required data-parsley-trigger="keyup" data-parsley-minlength="200" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 200 caracters long comment.." class="form-control form-control--description">${customer.employeeContent}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <input type="hidden" value="${customer.customerImg}" id="image1st" name="txtImg"/>
+                                                <input type="hidden" value="${customer.employeeImg}" id="image1st" name="txtImg"/>
                                                 <button class="form__submit">Save changes</button>
                                             </div>
                                         </form>
                                         <hr>
-                                        <form method="POST" onsubmit="return checkPass()" action="DashboardUser" class="form form--flex">
+                                        <form method="POST" onsubmit="return checkPass()" action="EditEmployee" class="form form--flex">
                                             <header class="form__header">
                                                 <h3 data-rel="#form-block-5" class="form__title js-form-title">Change your password</h3>
                                             </header>
@@ -182,7 +172,7 @@
                                                         <div class="row">
                                                             <div class="form-group ${hasError}">
                                                                 <label for="in-14" class="control-label">Current Password</label>
-                                                                <input id="in-14" type="password" required name="txtOldPass" data-placeholder="---" value="" class="form-control">
+                                                                <input id="in-14" type="password" name="txtOldPass" data-placeholder="---" value="" class="form-control">
                                                                 <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
                                                                     <div class="parsley-required">${message}</div>
                                                                 </div>
@@ -216,46 +206,74 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- END site-->
+                        <!-- END LISTING-->
                         <!-- BEGIN SIDEBAR-->
-                        <div class="sidebar">
-                            <div class="widget js-widget widget--sidebar widget--first-no-head">
-                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Show profile</a>
-                                </div>
-                                <div class="widget__content">
-                                    <!-- BEGIN WORKER PROFILE-->
-                                    <div class="worker sidebar-advanced">
-                                        <h3 class="worker__name">${customer.customerName}</h3>
-                                        <div class="worker__photo">
-                                            <div class="worker__avatar">
-                                                <img src="${customer.customerImg}" id="imageup1st" alt="avatar" width="208" height="208">
-                                            </div>
-                                            <input type="button" onclick="BrowseServer1()" class="worker__avatar-upload" value="Upload your profile picture">
-                                        </div>
-                                        <nav class="worker__nav">
-                                            <ul>
-                                                <li><a href="<%=request.getContextPath()%>/MyListing">My listing</a></li>
-                                                <li><a href="<%=request.getContextPath()%>/DashboardUser">My Profile</a></li>
-                                                <li><a href="<%=request.getContextPath()%>/MyContract">My Contract</a></li>
-                                            </ul>
-                                        </nav>
-                                        <!-- end of block .worker__nav-->
-                                    </div>
-                                    <!-- end of block .worker__item-->
-                                    <!-- END WORKER PROFILE-->
-                                </div>
-                            </div>
+                        <div class="sidebar sidebar--dashboard">
+                            <%@ include file="/template/dashboard/employee/sidebar.jsp" %>
                         </div>
                         <!-- END SIDEBAR-->
                         <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Estate <strong>"${name}"</strong> Exist !</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>This Estate Exits. It appear at <br>
+                                <strong>${add1} - ${add2}</strong></p>
+                            <img src="${img}" alt="error">
+                        </div>
+                        <div class="modal-footer">
+                            <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${id}" class="btn btn-default" >View This Estate</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div id="myModalFail" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 style="text-align: center; color: red" class="modal-title">Transaction Fail</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p style="text-align: center; color: red"><strong>transaction not enough</strong></p>
+                            <img src="<%=request.getContextPath()%>/assets/media-demo/fail.jpg" alt="error" width="225" height="255">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div id="myModalShow" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Transaction Success</h4>
+                        </div>
+                        <div class="modal-body">
+                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" alt="error">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
             <!-- END CENTER SECTION-->
             <!-- BEGIN AFTER CENTER SECTION-->
             <!-- END AFTER CENTER SECTION-->
             <!-- BEGIN FOOTER-->
-
             <footer class="footer">
                 <%@ include file="/template/footer.jsp" %>
             </footer>
@@ -334,5 +352,12 @@
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
     <!-- END SCRIPTS and INCLUDES-->
+    <script type="text/javascript">
+        $(window).on('load', function () {
+            $('#myModalShow').modal('${modalTranOke}');
+            $('#myModalFail').modal('${modalTranFail}');
+            $('#myModal').modal('${modal}');
+        });
+    </script>
 </body>
 </html>

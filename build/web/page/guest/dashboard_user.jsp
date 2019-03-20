@@ -30,6 +30,26 @@
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
         <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
         <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
+        <script type="text/javascript">
+            function BrowseServer1() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField1;
+                finder.popup();
+            }
+            function SetFileField1(fileUrl) {
+                document.getElementById('image1st').value = fileUrl;
+                document.getElementById('imageup1st').src = fileUrl;
+            }
+            function SetFileField(fileUrl) {
+                var countimage = 0;
+                if (document.getElementById('imageup1st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image1st').value = fileUrl;
+                    document.getElementById('imageup1st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 1/5 photo";
+                }
+            }
+        </script>
     </head>
     <body class="my_profile menu-default hover-default compact my_profile">
         <!--
@@ -147,6 +167,7 @@
                                                 </div>
                                             </div>
                                             <div class="row">
+                                                <input type="hidden" value="${customer.customerImg}" id="image1st" name="txtImg"/>
                                                 <button class="form__submit">Save changes</button>
                                             </div>
                                         </form>
@@ -207,9 +228,9 @@
                                         <h3 class="worker__name">${customer.customerName}</h3>
                                         <div class="worker__photo">
                                             <div class="worker__avatar">
-                                                <img src="${customer.customerImg}" alt="avatar" width="208" height="208">
+                                                <img src="${customer.customerImg}" id="imageup1st" alt="avatar" width="208" height="208">
                                             </div>
-                                            <button class="worker__avatar-upload">Upload your profile picture</button>
+                                            <input type="button" onclick="BrowseServer1()" class="worker__avatar-upload" value="Upload your profile picture">
                                         </div>
                                         <nav class="worker__nav">
                                             <ul>

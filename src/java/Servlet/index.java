@@ -47,6 +47,7 @@ public class index extends HttpServlet {
             request.setAttribute("user", "user");
             request.setAttribute("displayLogin", "none");
             request.setAttribute("displayUser", "block");
+            System.out.println(user.getRole());
             switch (user.getRole()) {
                 case "employee":
                     session.setAttribute("name", user.getEmployee().getEmployeeName());
@@ -75,7 +76,7 @@ public class index extends HttpServlet {
         }
         // END SESSION HEADER FONTEND //
         
-        // BEGIN NAVBAR HEADER FONTEND //
+        // BEGIN NAVBAR HEADER FONTEND //   
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
         List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();

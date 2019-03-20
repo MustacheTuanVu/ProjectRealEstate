@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet.Customer;
+package Servlet.Employee;
 
-import Controller.CustomerJpaController;
-import Controller.EstateTypeJpaController;
+import Controller.EmployeeJpaController;
+import Controller.ManagerJpaController;
 import Controller.UsersJpaController;
 import Controller.exceptions.RollbackFailureException;
 import Entity.Customer;
+import Entity.Employee;
 import Entity.Users;
 import Servlet.User.RegisterUser;
 import java.io.IOException;
@@ -27,10 +28,10 @@ import javax.transaction.UserTransaction;
 
 /**
  *
- * @author kiems
+ * @author Cuong
  */
-@WebServlet(name = "DashboardUser", urlPatterns = {"/DashboardUser"})
-public class DashboardUser extends HttpServlet {
+@WebServlet(name = "EditEmployee", urlPatterns = {"/EditEmployee"})
+public class EditEmployee extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,85 +43,73 @@ public class DashboardUser extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        // BEGIN SESSION HEADER FONTEND //
+
         HttpSession session = request.getSession();
-        Users users = (Users) session.getAttribute("user");
-        if (users != null) {
+        Entity.Users user = (Entity.Users) session.getAttribute("user");
+        String message = (request.getParameter("message") != null) ? request.getParameter("message") : "";
+        String display = (request.getParameter("display") != null) ? request.getParameter("display") : "none";
+        String hasError = (request.getParameter("hasError") != null) ? request.getParameter("hasError") : "";
+        request.setAttribute("message", message);
+        request.setAttribute("display", display);
+        request.setAttribute("hasError", hasError);
+        if (user != null) {
             request.setAttribute("users", "user");
             request.setAttribute("displayLogin", "none");
             request.setAttribute("displayUser", "block");
-            session.setAttribute("name", users.getCustomer().getCustomerName());
-                    request.setAttribute("role", "customer");
-            session.setAttribute("image", users.getCustomer().getCustomerImg());
-            
+            session.setAttribute("name", user.getEmployee().getEmployeeName());
+            request.setAttribute("role", "employee");
+            session.setAttribute("image", user.getEmployee().getEmployeeImg());
+
             /*-----------------------------------------------------------*/
-            
-            String message = (request.getParameter("message") != null) ? request.getParameter("message") : "";
-            String display = (request.getParameter("display") != null) ? request.getParameter("display") : "none";
-            String hasError = (request.getParameter("hasError") != null) ? request.getParameter("hasError") : "";
-            request.setAttribute("message", message);
-            request.setAttribute("display", display);
-            request.setAttribute("hasError", hasError);
-            
-            
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-            CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
-            EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
-            Customer customer = customerControl.findCustomer(users.getId());
-            
+            Controller.EmployeeJpaController managerController = new EmployeeJpaController(utx, emf);
+
+            //request.getParameter("employeeID");
+            Employee customer = managerController.findEmployee(user.getEmployee().getId());
             request.setAttribute("customer", customer);
-            request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
-            
-            switch(users.getRole()){
-                case "customer":
-                    request.getRequestDispatcher("/page/guest/dashboard_user.jsp").forward(request, response);
-                    break;
-                case "employee":
-                    request.getRequestDispatcher("/page/guest/dashboard_infor_employee.jsp").forward(request, response);
-                    break;
-            }
- 
-        } else {
+            request.getRequestDispatcher("/page/dashboard/employee/dashboard_infor_employee.jsp").forward(request, response);
+        }
+        else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
             response.sendRedirect(request.getContextPath()+"/LoginUser");
         }
-        // END SESSION HEADER FONTEND //
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+        /**
+         * Handles the HTTP <code>GET</code> method.
+         *
+         * @param request servlet request
+         * @param response servlet response
+         * @throws ServletException if a servlet-specific error occurs
+         * @throws IOException if an I/O error occurs
+         */
+        @Override
+        protected void doGet
+        (HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
+            processRequest(request, response);
+        }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        /**
+         * Handles the HTTP <code>POST</code> method.
+         *
+         * @param request servlet request
+         * @param response servlet response
+         * @throws ServletException if a servlet-specific error occurs
+         * @throws IOException if an I/O error occurs
+         */
+        @Override
+        protected void doPost
+        (HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-        HttpSession session = request.getSession();
+      
+            
+            HttpSession session = request.getSession();
         Users user = (Users) session.getAttribute("user");
         System.out.println("User ID " + user.getId());
         EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
@@ -142,7 +131,7 @@ public class DashboardUser extends HttpServlet {
             hasError = "has-error";
             request.setAttribute("message", message);
             request.setAttribute("display", display);
-            response.sendRedirect(request.getContextPath() + "/DashboardUser?"
+            response.sendRedirect(request.getContextPath() + "/EditEmployee?"
                                 + "message="+message+"&"
                                 + "display="+display+"&"
                                 + "hasError="+hasError+""
@@ -151,7 +140,7 @@ public class DashboardUser extends HttpServlet {
             try {
                 user.setPassword(request.getParameter("txtNewPass"));
                 user.setStatus(true);
-                user.setRole(("customer"));
+                user.setRole(("employee"));
                 userCon.edit(user);
 
                 session.invalidate();
@@ -163,16 +152,18 @@ public class DashboardUser extends HttpServlet {
                 Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }
+        }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
+        /**
+         * Returns a short description of the servlet.
+         *
+         * @return a String containing servlet description
+         */
+        @Override
+        public String getServletInfo
+        
+            () {
         return "Short description";
-    }// </editor-fold>
+        }// </editor-fold>
 
-}
+    }

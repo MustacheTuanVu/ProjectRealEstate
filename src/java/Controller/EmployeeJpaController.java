@@ -58,8 +58,9 @@ public class EmployeeJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
-            utx.begin();
+            //utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Users userId = employee.getUserId();
             if (userId != null) {
                 userId = em.getReference(userId.getClass(), userId.getId());
@@ -135,10 +136,10 @@ public class EmployeeJpaController implements Serializable {
                     oldEmployeeOfPostListPost = em.merge(oldEmployeeOfPostListPost);
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -156,8 +157,9 @@ public class EmployeeJpaController implements Serializable {
     public void edit(Employee employee) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
+            //utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Employee persistentEmployee = em.find(Employee.class, employee.getId());
             Users userIdOld = persistentEmployee.getUserId();
             Users userIdNew = employee.getUserId();
@@ -293,10 +295,10 @@ public class EmployeeJpaController implements Serializable {
                     }
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -318,8 +320,9 @@ public class EmployeeJpaController implements Serializable {
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
+            //utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Employee employee;
             try {
                 employee = em.getReference(Employee.class, id);
@@ -363,10 +366,10 @@ public class EmployeeJpaController implements Serializable {
                 contractListContract = em.merge(contractListContract);
             }
             em.remove(employee);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
