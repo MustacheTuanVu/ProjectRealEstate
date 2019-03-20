@@ -309,4 +309,20 @@ public class ContractJpaController implements Serializable {
             em.close();
         }
     }
+	public List<Integer> getContractIDBy_CustomerID_EmployeeID(int cusID,int empID) {
+       EntityManager em = getEntityManager();
+        
+       
+       //q.setParameter("cusID", cusID);
+       try {
+            Query q=em.createNativeQuery("SELECT * FROM Contract WHERE "
+                    + "customer_id = '"+cusID+"' AND "
+                    + "employee_id = '"+empID+"'"
+            );
+            List<Integer> ret = (List<Integer>) q.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
 }

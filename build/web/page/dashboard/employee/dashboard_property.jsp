@@ -139,7 +139,7 @@
                                                                 </c:when>
                                                             </c:choose>
                                                             <div class="properties__actions">
-                                                                <c:if test="${estate.estateStatus == 'publish'}">
+                                                                <c:if test="${estate.estateStatus == 'publish' || estate.estateStatus == 'waitting for employee'}">
                                                                     <a href="<%=request.getContextPath()%>/EstateEdit?estateID=${estate.id}" class="properties__link">Edit</a>
                                                                     <div class="dropdown properties__actions-dropdown">
                                                                         <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>

@@ -7,10 +7,14 @@ package Servlet.Customer;
 
 import Controller.CustomerJpaController;
 import Controller.EstateTypeJpaController;
+import Controller.UsersJpaController;
+import Controller.exceptions.RollbackFailureException;
 import Entity.Customer;
 import Entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -54,6 +58,12 @@ public class DashboardUser extends HttpServlet {
             
             /*-----------------------------------------------------------*/
             
+			String message = (request.getParameter("message") != null) ? request.getParameter("message") : "";
+            String display = (request.getParameter("display") != null) ? request.getParameter("display") : "none";
+            String hasError = (request.getParameter("hasError") != null) ? request.getParameter("hasError") : "";
+            request.setAttribute("message", message);
+            request.setAttribute("display", display);
+            request.setAttribute("hasError", hasError);
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
             EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
@@ -61,7 +71,14 @@ public class DashboardUser extends HttpServlet {
             
             request.setAttribute("customer", customer);
             request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
-            request.getRequestDispatcher("/page/guest/dashboard_user.jsp").forward(request, response);
+switch(users.getRole()){
+                case "customer":
+                    request.getRequestDispatcher("/page/guest/dashboard_user.jsp").forward(request, response);
+                    break;
+                case "employee":
+                    request.getRequestDispatcher("/page/guest/dashboard_infor_employee.jsp").forward(request, response);
+                    break;
+            }
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
@@ -96,7 +113,49 @@ public class DashboardUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+		HttpSession session = request.getSession();
+        Users user = (Users) session.getAttribute("user");
+        System.out.println("User ID " + user.getId());
+        EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.UsersJpaController userCon = new UsersJpaController(utx, em);
+
+        String txtOldPass=request.getParameter("txtOldPass");
+        String oldPass=(user.getPassword());
+        
+        String message = (request.getParameter("message") != null) ? request.getParameter("message") : "";
+        String display = (request.getParameter("display") != null) ? request.getParameter("display") : "none";
+        String hasError = (request.getParameter("hasError") != null) ? request.getParameter("hasError") : "";
+        request.setAttribute("message", message);
+        request.setAttribute("display", display);
+        if (!txtOldPass.equals(oldPass)) {
+            System.out.println("new Pass "+txtOldPass);
+            System.out.println("old pass "+oldPass);
+            message = "Old Password Incorrect !!!";
+            display = "block";
+            hasError = "has-error";
+            request.setAttribute("message", message);
+            request.setAttribute("display", display);
+            response.sendRedirect(request.getContextPath() + "/DashboardUser?"
+                                + "message="+message+"&"
+                                + "display="+display+"&"
+                                + "hasError="+hasError+""
+                        );
+        } else {
+            try {
+                user.setPassword(request.getParameter("txtNewPass"));
+                user.setStatus(true);
+                user.setRole(("customer"));
+                userCon.edit(user);
+                 session.invalidate();
+                System.out.println("Edit Completed");
+                response.sendRedirect(request.getContextPath()+"/LoginUser");
+            } catch (RollbackFailureException ex) {
+                Logger.getLogger(DashboardUser.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(DashboardUser.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     /**

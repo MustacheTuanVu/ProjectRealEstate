@@ -128,6 +128,25 @@ public class ProjectList extends HttpServlet {
             request.getRequestDispatcher("/page/guest/project_list.jsp").forward(request, response);
         }else if(user.equals("manager")){
             users.getManager().getManagerId();
+            
+            List<Project> projectsList = new ArrayList<>();
+            
+            String search = (request.getParameter("search") != null) ? request.getParameter("search") : "";
+            
+            if(search.equals("search")){
+                String searchInput = (request.getParameter("searchInput") != null) ? request.getParameter("searchInput") : "";
+                List<String> projectIDListSearch = projectControl.getProjectByManagerSearch(
+                    String.valueOf(users.getManager().getManagerId()),
+                    searchInput
+                );
+                for (String string : projectIDListSearch) {
+                    projectsList.add(projectControl.findProject(string));
+                }
+            }else{
+                projectsList = projectControl.getProjectByManager(users.getManager().getManagerId().toString());
+            }
+            
+            request.setAttribute("projectList", projectsList);
             request.getRequestDispatcher("/page/dashboard/manager/dashboard_project.jsp").forward(request, response);
         }
     }

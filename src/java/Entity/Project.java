@@ -31,6 +31,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Project.findAll", query = "SELECT p FROM Project p")})
 public class Project implements Serializable {
 
+    @Size(max = 2147483647)
+    @Column(name = "project_content")
+    private String projectContent;
+
     @Column(name = "year_build")
     @Temporal(TemporalType.DATE)
     private Date yearBuild;
@@ -271,6 +275,14 @@ public class Project implements Serializable {
 
     public void setYearBuild(Date yearBuild) {
         this.yearBuild = yearBuild;
+    }
+
+    public String getProjectContent() {
+        return projectContent;
+    }
+
+    public void setProjectContent(String projectContent) {
+        this.projectContent = projectContent;
     }
     
 }

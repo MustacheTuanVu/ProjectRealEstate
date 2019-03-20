@@ -88,8 +88,8 @@
                                             <!-- BEGIN Favorites-->
                                             <div class="listing--items">
                                                 <div class="listing__actions">
-                                                    <form action="<%=request.getContextPath()%>/EstateList">
-                                                        <input type="hidden" name="user" value="employee">
+                                                    <form action="<%=request.getContextPath()%>/ProjectList">
+                                                        <input type="hidden" name="user" value="manager">
                                                         <input type="text" name="searchInput" placeholder="Input Address" style="width: 500px;">
                                                         <button type="submit" name="search" value="search" class="btn--link js-tags-rename">Search</button>
                                                     </form>

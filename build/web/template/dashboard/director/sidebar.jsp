@@ -12,16 +12,33 @@
     <div class="widget__content">
         <nav class="nav nav--sidebar">
             <ul class="nav__list">
-                <li class="nav__item"><a href="dashboard.html" class="nav__link">
+                <li class="nav__item"><a href="<%=request.getContextPath()%>/DashboardDirector" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-dashboard"></use>
                         </svg>Dashboard</a>
                 </li>
                 <li class="nav__item">
-                    <a href="<%=request.getContextPath()%>/EstateTypeList" class="nav__link">
+                    <hr class="nav__separator">
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/CreateUser" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Estate Type
+                        </svg>Create Staff
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/StaffList" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-add-listing"></use>
+                        </svg>Staff List
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/ContractOfEmployee1" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-add-listing"></use>
+                        </svg>Request Sale List
                     </a>
                 </li>
             </ul>

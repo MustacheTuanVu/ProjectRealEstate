@@ -25,3 +25,4 @@ hs_err_pid*
 /src/conf/
 /web/WEB-INF/
 /nbproject/
+/dist/

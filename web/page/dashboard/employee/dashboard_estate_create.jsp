@@ -190,14 +190,17 @@
                                                 <div class="tab-content form-property__content">
                                                     <div id="basic" role="tabpanel" class="tab-pane active">
                                                         <div class="row">
-                                                            <div class="form-group form-group--description ${hasError}">
+                                                            <div class="form-group form-group--description ${hasError}" id="estateNameForm">
                                                                 <label for="in-1" class="control-label">Estate Name</label>
-                                                                <input id="in-1" required type="text" name="estateName" data-placeholder="---" value="Text" class="form-control">
+                                                                <input onchange="validateFormCreateEstate()" id="estateName" required type="text" name="estateName" data-placeholder="---" value="Text" class="form-control">
                                                                 <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
                                                                     <div class="parsley-required">${message}</div>
                                                                 </div>
+                                                                <div class="help-block filled" id="estateNameMessage">
+                                                                    <div class="parsley-required"></div>
+                                                                </div>
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group" >
                                                                 <label for="in-15" class="control-label">Estate Type</label>
                                                                 <select id="in-15" required name="estateTypeId" data-placeholder="---" class="form-control">
                                                                     <option label=" "></option>
@@ -206,25 +209,58 @@
                                                                     </c:forEach>
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="bedRoomForm">
                                                                 <label for="in-10" class="control-label">Bed room</label>
-                                                                <input id="in-10" type="number" name="bedRoom" placeholder="" required class="form-control">
+                                                                <select id="in-5" name="bedRoom" data-placeholder="Choose number..." required class="form-control js-in-select">
+                                                                    <option value="0">0</option>
+                                                                    <option value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                                </select>
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="bathRoomForm">
                                                                 <label for="in-10" class="control-label">Bath room</label>
-                                                                <input id="in-10" type="number" name="bathRoom" placeholder="" required class="form-control">
+                                                                <select id="in-5" name="bathRoom" data-placeholder="Choose number..." required class="form-control js-in-select">
+                                                                    <option value="0">0</option>
+                                                                    <option value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                                </select>
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="garagesForm">
                                                                 <label for="in-10" class="control-label">Garages</label>
-                                                                <input id="in-10" type="number" name="garages" placeholder="" required class="form-control">
+                                                                <input onchange="validateFormCreateEstate()" id="garages" type="number" name="garages" placeholder="" required class="form-control">
+                                                                <div class="help-block filled" id="parsley-id-11">
+                                                                    <div class="parsley-required" id="garagesMessage"></div>
+                                                                </div>
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="priceForm">
                                                                 <label for="in-10" class="control-label">Price</label>
-                                                                <input id="in-10" type="number" name="price" placeholder="" required class="form-control">
+                                                                <input onchange="validateFormCreateEstate()" id="price" type="number" name="price" placeholder="" required class="form-control">
+                                                                <div class="help-block filled" id="parsley-id-11">
+                                                                    <div class="parsley-required" id="priceMessage"></div>
+                                                                </div>
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="areasForm">
                                                                 <label for="in-10" class="control-label">Areas</label>
-                                                                <input id="in-10" type="number" name="areas" placeholder="" required class="form-control">
+                                                                <input onchange="validateFormCreateEstate()" id="areas" type="number" name="areas" placeholder="" required class="form-control">
+                                                                <div class="help-block filled" id="parsley-id-11">
+                                                                    <div class="parsley-required" id="areasMessage"></div>
+                                                                </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-5" class="control-label">Direction</label>
@@ -254,13 +290,19 @@
                                                                 <input name="yearBuild" type="text" id="in-datetime" value="01/01/2019" data-time-picker="false" data-single-picker="true" class="js-datetimerange form-control">
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="address1Form">
                                                                 <label for="in-6" class="control-label">Address 1</label>
-                                                                <input id="in-6" type="text" name="address1" required class="form-control">
+                                                                <input onchange="validateFormCreateEstate()" id="address1" type="text" name="address1" required class="form-control">
+                                                                <div class="help-block filled" id="parsley-id-11">
+                                                                    <div class="parsley-required" id="address1Message"></div>
+                                                                </div>
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="address2Form">
                                                                 <label for="in-6" class="control-label">Address 2</label>
-                                                                <input id="in-6" type="text" name="address2" required class="form-control">
+                                                                <input onchange="validateFormCreateEstate()" id="address2" type="text" name="address2" required class="form-control">
+                                                                <div class="help-block filled" id="parsley-id-11">
+                                                                    <div class="parsley-required" id="address2Message"></div>
+                                                                </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-6" class="control-label">District</label>
@@ -284,9 +326,12 @@
                                                                     <option value="Hoc Mon">Hoc Mon</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group form-group--description">
+                                                            <div class="form-group form-group--description" id="contentForm">
                                                                 <label for="in-6" class="control-label">Content</label>
-                                                                <textarea id="in-6" name="estateDescription" rows="4" cols="50" class="form-control"></textarea>
+                                                                <textarea onchange="validateFormCreateEstate()" id="content" name="estateDescription" rows="4" cols="50" class="form-control"></textarea>
+                                                                <div class="help-block filled" id="parsley-id-11">
+                                                                    <div class="parsley-required" id="contentMessage"></div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -451,6 +496,7 @@
     <button type="button" class="scrollup js-scrollup"></button>
     <!-- end of block .scrollup-->
     <!-- BEGIN SCRIPTS and INCLUDES-->
+    <%@include file="/page/validate/validate_create_estate.jsp" %>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=places,drawing,geometry"></script>
     <script type="text/javascript" src="http://cdn.ckeditor.com/4.5.6/standard/ckeditor.js"></script>
     <!--

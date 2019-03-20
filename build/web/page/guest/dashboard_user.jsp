@@ -30,6 +30,26 @@
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
         <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
         <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
+        <script type="text/javascript">
+            function BrowseServer1() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField1;
+                finder.popup();
+            }
+            function SetFileField1(fileUrl) {
+                document.getElementById('image1st').value = fileUrl;
+                document.getElementById('imageup1st').src = fileUrl;
+            }
+            function SetFileField(fileUrl) {
+                var countimage = 0;
+                if (document.getElementById('imageup1st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image1st').value = fileUrl;
+                    document.getElementById('imageup1st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 1/5 photo";
+                }
+            }
+        </script>
     </head>
     <body class="my_profile menu-default hover-default compact my_profile">
         <!--
@@ -95,7 +115,7 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--main">
                                     <div class="widget__content">
-                                        <form method="POST" action="DetailCustomer" class="form form--flex form--profile js-form">
+                                        <form method="POST" action="CustomerDetails" class="form form--flex form--profile js-form">
                                             <header class="form__header">
                                                 <h3 data-rel="#form-block-1" class="form__title js-form-title">My Profile</h3>
                                             </header>
@@ -147,11 +167,12 @@
                                                 </div>
                                             </div>
                                             <div class="row">
+                                                <input type="hidden" value="${customer.customerImg}" id="image1st" name="txtImg"/>
                                                 <button class="form__submit">Save changes</button>
                                             </div>
                                         </form>
                                         <hr>
-                                        <form method="POST" action="EditUser" class="form form--flex js-form">
+                                        <form method="POST" onsubmit="return checkPass()" action="DashboardUser" class="form form--flex">
                                             <header class="form__header">
                                                 <h3 data-rel="#form-block-5" class="form__title js-form-title">Change your password</h3>
                                             </header>
@@ -159,21 +180,27 @@
                                                 <div class="row">
                                                     <div class="col-sm-12 col-md-6 col-lg-4">
                                                         <div class="row">
-                                                            <div class="form-group">
+
+                                                            <div class="form-group ${hasError}">
                                                                 <label for="in-14" class="control-label">Current Password</label>
-                                                                <input id="in-14" required name="txtOldPass" data-placeholder="---" value="" class="form-control">
+                                                                <input id="in-14" type="password" required name="txtOldPass" data-placeholder="---" value="" class="form-control">
+                                                                <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
+                                                                    <div class="parsley-required">${message}</div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="form-group">
-                                                                <label for="in-15" class="control-label">New Password</label>
-                                                                <input id="in-15" required name="txtNewPass" data-placeholder="---" value="" class="form-control">
+
+                                                            <div class="form-group" id="txtNewPass">
+                                                                <label for="in-15"  class="control-label">New Password</label>
+                                                                <input id="in-15" type="password" required name="txtNewPass" data-placeholder="---" value="" class="form-control">
+                                                                <div id="errPass" class="parsley-required"></div>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="form-group">
                                                                 <label for="in-16" class="control-label">Confirm New Password</label>
-                                                                <input id="in-16" required name="txtConfirm" data-placeholder="---" value="" class="form-control">
+                                                                <input id="in-16" type="password" required name="txtConfirm" data-placeholder="---" value="" class="form-control">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -184,7 +211,7 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <button class="form__submit">Save password</button>
+                                                <button type="submit" value="Save password" class="form__submit">Save change</button>
                                             </div>
                                         </form>
                                     </div>
@@ -203,9 +230,9 @@
                                         <h3 class="worker__name">${customer.customerName}</h3>
                                         <div class="worker__photo">
                                             <div class="worker__avatar">
-                                                <img src="${customer.customerImg}" alt="avatar" width="208" height="208">
+                                                <img src="${customer.customerImg}" id="imageup1st" alt="avatar" width="208" height="208">
                                             </div>
-                                            <button class="worker__avatar-upload">Upload your profile picture</button>
+                                            <input type="button" onclick="BrowseServer1()" class="worker__avatar-upload" value="Upload your profile picture">
                                         </div>
                                         <nav class="worker__nav">
                                             <ul>
@@ -249,6 +276,41 @@
     -->
     <!-- build:jsvendor-->
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/vendor.js"></script>
+    <script type="text/javascript">
+
+                                                function checkPass()
+                                                {
+
+                                                    var newPass = document.getElementById('in-15').value;
+                                                    var confirmPass = document.getElementById('in-16').value;
+                                                    if (newPass !== confirmPass) {
+                                                        document.getElementById('txtNewPass').classList.add("has-error");
+                                                        document.getElementById('txtNewPass').classList.remove("has-success");
+                                                        document.getElementById('txtNewPass').classList.add("has-error");
+                                                        document.getElementById('errPass').innerHTML = 'NEW PASSWORD and CONFIRM NEW PASSWORD does not match !!! ';
+                                                        console.log(document.getElementById('txtNewPass').classList);
+                                                        return false;
+                                                    } else {
+                                                        console.log("true");
+                                                        return true;
+                                                    }
+                                                    return false;
+                                                }
+
+                                                function BrowseServer()
+                                                {
+                                                    // You can use the "CKFinder" class to render CKFinder in a page:
+                                                    var finder = new CKFinder();
+                                                    finder.basePath = '../';	// The path for the installation of CKFinder (default = "/ckfinder/").
+                                                    finder.selectActionFunction = SetFileField;
+                                                    finder.popup();
+                                                }
+                                                function SetFileField(fileUrl)
+                                                {
+                                                    document.getElementById('xFilePath').value = fileUrl;
+                                                }
+
+    </script>
     <!-- endbuild-->
     <!--
     This file is used for demonstration purposes and contains example property items, that are mostly used to

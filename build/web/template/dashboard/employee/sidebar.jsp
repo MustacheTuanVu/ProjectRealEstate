@@ -17,6 +17,11 @@
                         <use xlink:href="#icon-dashboard"></use>
                         </svg>Dashboard</a>
                 </li>
+				<li class="nav__item"><a href="<%=request.getContextPath()%>/EditEmployee" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-dashboard"></use>
+                        </svg>My Profile</a>
+                </li>
                 <li class="nav__item">
                     <hr class="nav__separator">
                 </li>
@@ -39,6 +44,23 @@
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
                         </svg>Feature List
+                    </a>
+                </li>
+                <li class="nav__item">
+<hr class="nav__separator">
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/ContractOfEmployee" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-add-listing"></use>
+                        </svg>Contract
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/CustomerOfEmployee" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-add-listing"></use>
+                        </svg>Customer
                     </a>
                 </li>
                 <li class="nav__item">

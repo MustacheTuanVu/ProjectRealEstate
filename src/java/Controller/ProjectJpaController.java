@@ -8,6 +8,7 @@ package Controller;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
+import Entity.Contract;
 import Entity.Estate;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -16,10 +17,15 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Entity.Manager;
 import Entity.Project;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 
 /**
  *
@@ -41,22 +47,35 @@ public class ProjectJpaController implements Serializable {
     public void create(Project project) throws PreexistingEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Manager managerId = project.getManagerId();
             if (managerId != null) {
                 managerId = em.getReference(managerId.getClass(), managerId.getManagerId());
                 project.setManagerId(managerId);
+            }
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            javax.validation.Validator validator =  factory.getValidator();
+
+            Set<ConstraintViolation<Project>> constraintViolations;
+            constraintViolations = validator.validate(project);
+
+            if (constraintViolations.size() > 0 ) {
+                System.out.println("Constraint Violations occurred..");
+                for (ConstraintViolation<Project> projects : constraintViolations) {
+                    System.out.println(projects.getRootBeanClass().getSimpleName()+
+                    "." + projects.getPropertyPath() + " " + projects.getMessage());
+                }
             }
             em.persist(project);
             if (managerId != null) {
                 managerId.getProjectList().add(project);
                 managerId = em.merge(managerId);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -74,8 +93,8 @@ public class ProjectJpaController implements Serializable {
     public void edit(Project project) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Project persistentProject = em.find(Project.class, project.getProjectId());
             Manager managerIdOld = persistentProject.getManagerId();
             Manager managerIdNew = project.getManagerId();
@@ -92,10 +111,10 @@ public class ProjectJpaController implements Serializable {
                 managerIdNew.getProjectList().add(project);
                 managerIdNew = em.merge(managerIdNew);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -117,8 +136,8 @@ public class ProjectJpaController implements Serializable {
     public void destroy(String id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Project project;
             try {
                 project = em.getReference(Project.class, id);
@@ -132,10 +151,10 @@ public class ProjectJpaController implements Serializable {
                 managerId = em.merge(managerId);
             }
             em.remove(project);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -269,6 +288,47 @@ public class ProjectJpaController implements Serializable {
             } else {
                 return null;
             }
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Project> getProjectByManager(String managerID) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT * FROM project where "
+                    + "manager_id='" + managerID + "'", Project.class
+            );
+            System.out.println(query);
+            if (!query.getResultList().isEmpty()) {
+                List<Project> ret = (List<Project>) query.getResultList();
+                return ret;
+            } else {
+                return null;
+            }
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<String> getProjectByManagerSearch(String managerID, String address) {
+        EntityManager em = getEntityManager();
+        try {
+            List<Project> projectList = getProjectByManager(managerID);
+            List<String> ret = (List<String>) new ArrayList<String>();
+            for (Project project : projectList) {
+                Query query = em.createNativeQuery("SELECT project_id FROM project where "
+                        + "project_id = '" + project.getProjectId() + "' AND "
+                        + "project_address LIKE '%" + address + "%'"
+                );
+                System.out.println(query);
+                if (query.getResultList().size()!=0){
+                    ret.add((String) query.getSingleResult());
+                }
+            }
+            System.out.println(ret.size());
+            return ret;
         } finally {
             em.close();
         }

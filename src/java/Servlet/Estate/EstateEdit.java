@@ -5,12 +5,15 @@
  */
 package Servlet.Estate;
 
+import Controller.ContractDetailsJpaController;
+import Controller.ContractJpaController;
 import Controller.EstateJpaController;
 import Controller.EstateStatusJpaController;
 import Controller.EstateTypeJpaController;
 import Controller.FeatureDetailsJpaController;
 import Controller.FeaturesJpaController;
 import Controller.exceptions.RollbackFailureException;
+import Entity.Contract;
 import Entity.Estate;
 import Entity.EstateStatus;
 import Entity.EstateType;
@@ -106,6 +109,8 @@ public class EstateEdit extends HttpServlet {
                     String modal = "hidden";
                     modal = request.getParameter("modal");
                     request.setAttribute("modal", modal);
+                    
+                    
 
                     request.getRequestDispatcher("/page/dashboard/employee/dashboard_estate_edit.jsp").forward(request, response);
                 }
@@ -146,6 +151,9 @@ public class EstateEdit extends HttpServlet {
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         EntityManager em = emf.createEntityManager();
         EstateJpaController estateControl = new EstateJpaController(utx, emf);
+        ContractDetailsJpaController contractDetailsJpaController = new ContractDetailsJpaController(utx, emf);
+        ContractJpaController contractJpaController = new ContractJpaController(utx, emf);
+        
         String estateName = request.getParameter("estateName");
         String estateTypeId = request.getParameter("estateTypeId");
         EstateType estateType = em.getReference(EstateType.class, estateTypeId);
@@ -188,13 +196,22 @@ public class EstateEdit extends HttpServlet {
         estate.setImage4st(image4st);
         estate.setImage5st(image5st);
         estate.setDirection(direction);
-        estate.setEstateStatus("waitting for director edit");
+        estate.setDistrict(request.getParameter("district"));
+        estate.setEstateStatus("publish");
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         Date day;
         try {
             day = sdf.parse(yearBuild);
             estate.setYearBuild(day);
+        } catch (ParseException ex) {
+            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        SimpleDateFormat sdff = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        Date date = new Date();
+        try {
+            estate.setDateAdd(sdff.parse(date.toString()));
         } catch (ParseException ex) {
             Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -235,6 +252,15 @@ public class EstateEdit extends HttpServlet {
             } catch (Exception ex) {
                 Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        Contract contract = contractJpaController.findContract(estate.getContractDetails().getContractId().getId());
+        contract.setStatus("done");
+        try {
+            contractJpaController.edit(contract);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

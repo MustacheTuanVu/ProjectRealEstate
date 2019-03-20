@@ -118,7 +118,7 @@ public class ProjectCreate extends HttpServlet {
                         project.setProjectName(projectName);
                         project.setBlockNumber(blockNumber);
                         project.setFloorNumber(floorNumber);
-                        //project.set(projectContent);
+                        project.setProjectContent(projectContent);
                         project.setImage1st(image1st);
                         project.setImage2st(image2st);
                         project.setImage3st(image3st);
@@ -126,6 +126,7 @@ public class ProjectCreate extends HttpServlet {
                         project.setImage5st(image5st);
                         project.setProjectAddress(addresss);
                         project.setStatus("waitting for director create");
+                        project.setProjectStatus("waitting for director create");
                         project.setDistrict(request.getParameter("district"));
                         project.setManagerId(user.getManager());
                         

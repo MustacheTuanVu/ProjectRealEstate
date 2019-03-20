@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import Entity.EstateStatus;
 import Entity.EstateType;
 import Entity.AssignDetails;
+import Entity.Contract;
 import Entity.ProjectDetails;
 import Entity.ContractDetails;
 import Entity.Estate;
@@ -540,6 +541,40 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
+	/*
+    public List<Estate> getEstateByFilter(List<Estate> estateID, String status) {
+        System.out.println("status " + status);
+        EntityManager em = getEntityManager();
+        List<Estate> list1 = new ArrayList<Estate>();
+        for (Estate estate : estateID) {
+            Query query = em.createNativeQuery("SELECT * FROM estate where "
+                    + "id = '" + estate.getId() + "' AND "
+                    + "estate_status LIKE '%" + status + "%'", Estate.class
+            );
+            if (query.getResultList().size()!=0) {
+                list1.add((Estate) query.getSingleResult());
+            } 
+        }
+        return list1;
+    }*/
+    
+    public List<Estate> getEstateByFilter(List<Estate> estateID, String status, String keyword) {
+        System.out.println("status " + status);
+        EntityManager em = getEntityManager();
+        List<Estate> list1 = new ArrayList<Estate>();
+        for (Estate estate : estateID) {
+            Query query = em.createNativeQuery("SELECT * FROM estate where "
+                    + "id = '" + estate.getId() + "' AND "
+                    + "(address1 LIKE '%" + keyword + "%' OR address2 LIKE '%" + keyword + "%') AND "
+                    + "estate_status LIKE '%" + status + "%'", Estate.class
+            );
+            if (query.getResultList().size()!=0) {
+                list1.add((Estate) query.getSingleResult());
+            } 
+        }
+        return list1;
+    }
+	
     
     public List<String> getEstateByEmployeeSearch(String employeeID, String address) {
         EntityManager em = getEntityManager();

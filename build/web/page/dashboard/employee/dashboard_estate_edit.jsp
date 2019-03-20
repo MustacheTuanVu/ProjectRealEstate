@@ -192,9 +192,12 @@
                                                     <div id="basic" role="tabpanel" class="tab-pane active">
                                                         <div class="row">
                                                             <input type="hidden" name="estateID" value="${find.id}">
-                                                            <div class="form-group form-group--description">
+                                                            <div class="form-group form-group--description" id="estateNameForm">
                                                                 <label for="in-1" class="control-label">Estate Name</label>
-                                                                <input id="in-1" required type="text" name="estateName" data-placeholder="---" value="${find.estateName}" class="form-control">
+                                                                <input onchange="validateFormEditEstate()" id="estateName" required type="text" name="estateName" data-placeholder="---" value="${find.estateName}" class="form-control">
+                                                                <div class="help-block filled" id="estateNameMessage">
+                                                                    <div class="parsley-required"></div>
+                                                                </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-15" class="control-label">Estate Type</label>
@@ -203,31 +206,64 @@
                                                                     <c:forEach items="${estateTypeList}" var="estateTypeList">
                                                                         <option value="${estateTypeList.id}"
                                                                                 <c:if test="${estateTypeList.id == find.estateTypeId.id}">selected</c:if>
-                                                                                >
-                                                                            ${estateTypeList.typeName}
+                                                                                    >
+                                                                                ${estateTypeList.typeName}
                                                                         </option>
                                                                     </c:forEach>
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="bedRoomForm">
                                                                 <label for="in-10" class="control-label">Bed room</label>
-                                                                <input id="in-10" type="number" name="bedRoom" value="${find.bedRoom}" required class="form-control">
+                                                                <select id="in-5" name="bedRoom" data-placeholder="Choose number..." required class="form-control js-in-select">
+                                                                    <option value="0">0</option>
+                                                                    <option value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                                </select>
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="bathRoomForm">
                                                                 <label for="in-10" class="control-label">Bath room</label>
-                                                                <input id="in-10" type="number" name="bathRoom" value="${find.bathRoom}" required class="form-control">
+                                                                <select id="in-5" name="bathRoom" data-placeholder="Choose number..." required class="form-control js-in-select">
+                                                                    <option value="0">0</option>
+                                                                    <option value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                                </select>
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="garagesForm">
                                                                 <label for="in-10" class="control-label">Garages</label>
-                                                                <input id="in-10" type="number" name="garages" value="${find.garages}" required class="form-control">
+                                                                <input onchange="validateFormEditEstate()" id="garages" type="number" name="garages" value="${find.garages}" required class="form-control">
+                                                                <div class="help-block filled" id="parsley-id-11">
+                                                                    <div class="parsley-required" id="garagesMessage"></div>
+                                                                </div>
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="priceForm">
                                                                 <label for="in-10" class="control-label">Price</label>
-                                                                <input id="in-10" type="number" name="price" value="${find.price}" required class="form-control">
+                                                                <input onchange="validateFormEditEstate()" id="price" type="number" name="price" value="${find.price}" required class="form-control">
+                                                                <div class="help-block filled" id="parsley-id-11">
+                                                                    <div class="parsley-required" id="priceMessage"></div>
+                                                                </div>
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="areasForm">
                                                                 <label for="in-10" class="control-label">Areas</label>
-                                                                <input id="in-10" type="number" name="areas" value="${find.areas}" required class="form-control">
+                                                                <input onchange="validateFormEditEstate()" id="areas" type="number" name="areas" value="${find.areas}" required class="form-control">
+                                                                <div class="help-block filled" id="parsley-id-11">
+                                                                    <div class="parsley-required" id="garagesMessage"></div>
+                                                                </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-5" class="control-label">Direction</label>
@@ -241,17 +277,17 @@
                                                                     <option value="South-West" <c:if test="${find.direction == 'South-West'}">selected</c:if>>South-West</option>
                                                                     <option value="North-West" <c:if test="${find.direction == 'North-West'}">selected</c:if>>North-West</option>
                                                                     <option value="North-East" <c:if test="${find.direction == 'North-East'}">selected</c:if>>North-East</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="in-2" class="control-label">Estate Status</label>
-                                                                <select id="in-2" required name="estateStatusId" data-placeholder="---" class="form-control">
-                                                                    <option label=" "></option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="in-2" class="control-label">Estate Status</label>
+                                                                    <select id="in-2" required name="estateStatusId" data-placeholder="---" class="form-control">
+                                                                        <option label=" "></option>
                                                                     <c:forEach items="${estateStatusList}" var="estateStatusList">
                                                                         <option value="${estateStatusList.id}"
                                                                                 <c:if test="${find.estateStatusId.id == estateStatusList.id}">selected</c:if>
-                                                                                >
-                                                                            ${estateStatusList.estateStatusName}
+                                                                                    >
+                                                                                ${estateStatusList.estateStatusName}
                                                                         </option>
                                                                     </c:forEach>
                                                                 </select>
@@ -261,13 +297,19 @@
                                                                 <input name="yearBuild" type="text" id="in-datetime" value="<fmt:formatDate value="${find.yearBuild}" pattern="MM/dd/yyyy" />" data-time-picker="false" data-single-picker="true" class="js-datetimerange form-control">
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="address1Form">
                                                                 <label for="in-6" class="control-label">Address 1</label>
-                                                                <input id="in-6" type="text" name="address1" value="${find.address1}" readonly required class="form-control">
+                                                                <input onchange="validateFormEditEstate()" id="address1" type="text" name="address1" value="${find.address1}" readonly required class="form-control">
+                                                                <div class="help-block filled" id="parsley-id-11">
+                                                                    <div class="parsley-required" id="address1Message"></div>
+                                                                </div>
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="address2Form">
                                                                 <label for="in-6" class="control-label">Address 2</label>
-                                                                <input id="in-6" type="text" name="address2" value="${find.address2}" readonly required class="form-control">
+                                                                <input onchange="validateFormEditEstate()" id="address2" type="text" name="address2" value="${find.address2}" readonly required class="form-control">
+                                                                <div class="help-block filled" id="parsley-id-11">
+                                                                    <div class="parsley-required" id="address2Message"></div>
+                                                                </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-6" class="control-label">District</label>
@@ -276,9 +318,12 @@
                                                                     <option value="${find.district}" selected>${find.district}</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group form-group--description">
+                                                            <div class="form-group form-group--description" id="contentForm">
                                                                 <label for="in-6" class="control-label">Content</label>
-                                                                <textarea id="in-6" name="estateDescription" rows="4" cols="50" class="form-control">${find.estateContent}</textarea>
+                                                                <textarea onchange="validateFormEditEstate()" id="estateDescription" name="estateDescription" rows="4" cols="50" class="form-control">${find.estateContent}</textarea>
+                                                                <div class="help-block filled" id="parsley-id-11">
+                                                                    <div class="parsley-required" id="contentMessage"></div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -449,6 +494,8 @@
     <button type="button" class="scrollup js-scrollup"></button>
     <!-- end of block .scrollup-->
     <!-- BEGIN SCRIPTS and INCLUDES-->
+    
+    <%@ include file="/page/validate/validate_edit_estate.jsp" %>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=places,drawing,geometry"></script>
     <script type="text/javascript" src="http://cdn.ckeditor.com/4.5.6/standard/ckeditor.js"></script>
     <!--

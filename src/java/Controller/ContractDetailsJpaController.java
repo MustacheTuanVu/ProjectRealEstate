@@ -9,6 +9,7 @@ import Controller.exceptions.IllegalOrphanException;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
+import Entity.Contract;
 import Entity.ContractDetails;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -21,6 +22,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
+
+import Entity.Contract;
 
 /**
  *
@@ -232,4 +235,86 @@ public class ContractDetailsJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public List<Contract>  getContractByEmployee(int employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM contract where employee_id='" + employeeID + "'",Contract.class);
+            List<Contract> ret = (List<Contract>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+	public List<Contract>  getContractByEmployeeAndCustomer(int employeeID, int customerID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM contract where "
+                    + "employee_id='" + employeeID + "' AND "
+                    + "customer_id='" + customerID + "'"
+                    ,Contract.class);
+            List<Contract> ret = (List<Contract>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    public List<ContractDetails>  getContractDetailsByContractID(int employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            List<Contract> contractList = getContractByEmployee(employeeID);
+            List<ContractDetails> ret = (List<ContractDetails>) new ArrayList<ContractDetails>();
+            
+            for (Contract contract : contractList) {
+                Query query = em.createNativeQuery("SELECT * FROM contract_details where contract_id='" + contract.getId() + "'",ContractDetails.class);
+                List<ContractDetails> ret2 = (List<ContractDetails>) query.getResultList();
+                ret.addAll(ret2);
+            }
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+   
+    
+    // CAI NAY NHE
+    public List<ContractDetails>  getContractDetailsByContractIDCustomerID(int employeeID, int customerID) {
+        EntityManager em = getEntityManager();
+        try {
+            List<Contract> contractList = getContractByEmployeeAndCustomer(employeeID, customerID);
+            List<ContractDetails> ret = (List<ContractDetails>) new ArrayList<ContractDetails>();
+            
+            for (Contract contract : contractList) {
+                Query query = em.createNativeQuery("SELECT * FROM contract_details where "
+                        + "contract_id='" + contract.getId() + "'"
+                        ,ContractDetails.class);
+                List<ContractDetails> ret2 = (List<ContractDetails>) query.getResultList();
+                ret.addAll(ret2);
+            }
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public Object getContractDetailsByContractIDandKeyword(int employeeID, String keyword) {
+        EntityManager em = getEntityManager();
+        try {
+            List<Contract> contractList = getContractByEmployee(employeeID);
+            List<ContractDetails> ret = (List<ContractDetails>) new ArrayList<ContractDetails>();
+            
+            for (Contract contract : contractList) {
+                Query query = em.createNativeQuery("SELECT * FROM contract_details where contract_id='" + contract.getId() + "'"+
+                        " AND "
+                        ,ContractDetails.class);
+                List<ContractDetails> ret2 = (List<ContractDetails>) query.getResultList();
+                ret.addAll(ret2);
+            }
+            return ret;
+        } finally {
+            em.close();
+        }
+     }
 }

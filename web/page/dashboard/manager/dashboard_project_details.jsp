@@ -84,7 +84,7 @@
                                         <h2 class="property__title">${find.projectName}
                                             <span class="property__city">${find.projectAddress}</span>
                                         </h2>
-                                        <a href="<%=request.getContextPath()%>/EstateCreate" class="widget__btn js-widget-btn widget__btn--action">Add new property</a>
+                                        <a href="<%=request.getContextPath()%>/EstateAutoCreate1?projectID=${find.projectId}" class="widget__btn js-widget-btn widget__btn--action">Add new property</a>
                                     </div>
                                     <div class="widget js-widget widget--details">
                                         <div class="widget__header">
