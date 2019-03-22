@@ -205,6 +205,7 @@ public class CreateContract extends HttpServlet {
                 
                 Contract contract = contractJpaController.findContract(contractID);
                 contract.setStatus("done");
+                contract.setContractDetails("request sale success");
                 try {
                     contractJpaController.edit(contract);
                 } catch (RollbackFailureException ex) {

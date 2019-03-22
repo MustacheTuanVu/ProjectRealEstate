@@ -38,7 +38,6 @@ public class StaffList extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");

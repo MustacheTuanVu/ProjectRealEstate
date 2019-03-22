@@ -179,7 +179,7 @@ public class EstateList extends HttpServlet {
         String user = request.getParameter("user");
         if(user.equals("guest")){
             request.getRequestDispatcher("/page/guest/properties_listing_grid.jsp").forward(request, response);
-        }else{
+        }else if(user.equals("employee")){
             String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "";
             String id = (request.getParameter("estateID") != null) ? request.getParameter("estateID") : "";
             String name = (request.getParameter("estateName") != null) ? request.getParameter("estateName") : "";
@@ -222,8 +222,38 @@ public class EstateList extends HttpServlet {
                     estateList.add(estateControl.findEstate(string));
                 }
             }
+            
+            
+            
             request.setAttribute("estateList", estateList);
             request.getRequestDispatcher("/page/dashboard/employee/dashboard_property.jsp").forward(request, response);
+        }else if(user.equals("director")){
+            String statusFilter = (request.getParameter("filter") != null) ? request.getParameter("filter") : "";
+            
+            List<String> estateIDList = estateControl.getEstateByEmployeeFilter(
+                    "all",
+                    statusFilter
+            );
+            List<Estate> estateList = new ArrayList<>();
+            
+            String search2 = (request.getParameter("search2") != null) ? request.getParameter("search2") : "";
+            
+            if(search2.equals("search2")){
+                String searchInput = (request.getParameter("searchInput") != null) ? request.getParameter("searchInput") : "";
+                List<String> estateIDListSearch = estateControl.getEstateByEmployeeSearch(
+                    "all",
+                    searchInput
+                );
+                for (String string : estateIDListSearch) {
+                    estateList.add(estateControl.findEstate(string));
+                }
+            }else{
+                for (String string : estateIDList) {
+                    estateList.add(estateControl.findEstate(string));
+                }
+            }
+            request.setAttribute("estateList", estateList);
+            request.getRequestDispatcher("/page/dashboard/director/dashboard_property.jsp").forward(request, response);
         }
         
     }

@@ -134,14 +134,14 @@
                                                     <div class="listing__item">
                                                         <div class="properties__item-header">
                                                             <c:choose>
-                                                                <c:when test="${item.contractId.status == 'waitting to transaction'}">
-                                                                    <span class="properties__state properties__state--highlight">${item.contractId.status}</span>
+                                                                <c:when test="${item.contractId.contractDetails == 'my request sale'  && item.contractId.status != 'done'}">
+                                                                    <span class="properties__state properties__state--highlight">waitting to sale success</span>
                                                                 </c:when>
-                                                                <c:when test="${item.contractId.status == 'waitting for employee'}">
-                                                                   <span class="properties__state properties__state--highlight">${item.contractId.status}</span>
+                                                                <c:when test="${item.contractId.contractDetails == 'my request sale' && item.contractId.status == 'done'}">
+                                                                    <span class="properties__state properties__state--hidden">Sale Sucess</span>
                                                                 </c:when>
-                                                                <c:when test="${item.contractId.status != 'waitting to transaction'}">
-                                                                   <span class="properties__state properties__state--default">${item.contractId.status}</span>
+                                                                <c:when test="${item.contractId.status == 'done'}">
+                                                                    <span class="properties__state properties__state--default">${item.contractId.status}</span>
                                                                 </c:when>
                                                             </c:choose>
                                                             

@@ -215,33 +215,33 @@
                                                             <div class="form-group" id="bedRoomForm">
                                                                 <label for="in-10" class="control-label">Bed room</label>
                                                                 <select id="in-5" name="bedRoom" data-placeholder="Choose number..." required class="form-control js-in-select">
-                                                                    <option value="0">0</option>
-                                                                    <option value="1">1</option>
-                                                                    <option value="2">2</option>
-                                                                    <option value="3">3</option>
-                                                                    <option value="4">4</option>
-                                                                    <option value="5">5</option>
-                                                                    <option value="6">6</option>
-                                                                    <option value="7">7</option>
-                                                                    <option value="8">8</option>
-                                                                    <option value="9">9</option>
-                                                                    <option value="10">10</option>
+                                                                    <option value="0" <c:if test="${find.bedRoom == '0'}">selected</c:if>>0</option>
+                                                                    <option value="1" <c:if test="${find.bedRoom == '1'}">selected</c:if>>1</option>
+                                                                    <option value="2" <c:if test="${find.bedRoom == '2'}">selected</c:if>>2</option>
+                                                                    <option value="3" <c:if test="${find.bedRoom == '3'}">selected</c:if>>3</option>
+                                                                    <option value="4" <c:if test="${find.bedRoom == '4'}">selected</c:if>>4</option>
+                                                                    <option value="5" <c:if test="${find.bedRoom == '5'}">selected</c:if>>5</option>
+                                                                    <option value="6" <c:if test="${find.bedRoom == '6'}">selected</c:if>>6</option>
+                                                                    <option value="7" <c:if test="${find.bedRoom == '7'}">selected</c:if>>7</option>
+                                                                    <option value="8" <c:if test="${find.bedRoom == '8'}">selected</c:if>>8</option>
+                                                                    <option value="9" <c:if test="${find.bedRoom == '9'}">selected</c:if>>9</option>
+                                                                    <option value="10" <c:if test="${find.bedRoom == '10'}">selected</c:if>>10</option>
                                                                 </select>
                                                             </div>
                                                             <div class="form-group" id="bathRoomForm">
                                                                 <label for="in-10" class="control-label">Bath room</label>
                                                                 <select id="in-5" name="bathRoom" data-placeholder="Choose number..." required class="form-control js-in-select">
-                                                                    <option value="0">0</option>
-                                                                    <option value="1">1</option>
-                                                                    <option value="2">2</option>
-                                                                    <option value="3">3</option>
-                                                                    <option value="4">4</option>
-                                                                    <option value="5">5</option>
-                                                                    <option value="6">6</option>
-                                                                    <option value="7">7</option>
-                                                                    <option value="8">8</option>
-                                                                    <option value="9">9</option>
-                                                                    <option value="10">10</option>
+                                                                    <option value="0" <c:if test="${find.bathRoom == '0'}">selected</c:if>>0</option>
+                                                                    <option value="1" <c:if test="${find.bathRoom == '1'}">selected</c:if>>1</option>
+                                                                    <option value="2" <c:if test="${find.bathRoom == '2'}">selected</c:if>>2</option>
+                                                                    <option value="3" <c:if test="${find.bathRoom == '3'}">selected</c:if>>3</option>
+                                                                    <option value="4" <c:if test="${find.bathRoom == '4'}">selected</c:if>>4</option>
+                                                                    <option value="5" <c:if test="${find.bathRoom == '5'}">selected</c:if>>5</option>
+                                                                    <option value="6" <c:if test="${find.bathRoom == '6'}">selected</c:if>>6</option>
+                                                                    <option value="7" <c:if test="${find.bathRoom == '7'}">selected</c:if>>7</option>
+                                                                    <option value="8" <c:if test="${find.bathRoom == '8'}">selected</c:if>>8</option>
+                                                                    <option value="9" <c:if test="${find.bathRoom == '9'}">selected</c:if>>9</option>
+                                                                    <option value="10" <c:if test="${find.bathRoom == '10'}">selected</c:if>>10</option>
                                                                 </select>
                                                             </div>
                                                             <div class="form-group" id="garagesForm">
@@ -314,8 +314,27 @@
                                                             <div class="form-group">
                                                                 <label for="in-6" class="control-label">District</label>
                                                                 <select id="in-5" name="district" re data-placeholder="Choose a District..." required class="form-control js-in-select">
-                                                                    <option label=" "></option>
-                                                                    <option value="${find.district}" selected>${find.district}</option>
+                                                                    <c:if test="${find.district != null}">
+                                                                        <option value="${find.district}" selected>${find.district}</option>
+                                                                    </c:if>
+                                                                    <c:if test="${find.district == null}">
+                                                                        <option value="1" selected>1</option>
+                                                                        <option value="2">2</option>
+                                                                        <option value="3">3</option>
+                                                                        <option value="4">4</option>
+                                                                        <option value="5">5</option>
+                                                                        <option value="6">6</option>
+                                                                        <option value="7">7</option>
+                                                                        <option value="8">8</option>
+                                                                        <option value="9">9</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="Binh Thanh">Binh Thanh</option>
+                                                                        <option value="Thu Duc">Thu Duc</option>
+                                                                        <option value="Go Vap">Go Vap</option>
+                                                                        <option value="Hoc Mon">Hoc Mon</option>
+                                                                    </c:if>
                                                                 </select>
                                                             </div>
                                                             <div class="form-group form-group--description" id="contentForm">

@@ -309,7 +309,8 @@ public class ContractJpaController implements Serializable {
             em.close();
         }
     }
-	public List<Integer> getContractIDBy_CustomerID_EmployeeID(int cusID,int empID) {
+    
+    public List<Integer> getContractIDBy_CustomerID_EmployeeID(int cusID,int empID) {
        EntityManager em = getEntityManager();
         
        
@@ -325,4 +326,6 @@ public class ContractJpaController implements Serializable {
             em.close();
         }
     }
+    
+    
 }

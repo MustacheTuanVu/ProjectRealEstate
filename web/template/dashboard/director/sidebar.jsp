@@ -35,10 +35,30 @@
                     </a>
                 </li>
                 <li class="nav__item">
+                    <hr class="nav__separator">
+                </li>
+                <li class="nav__item">
                     <a href="<%=request.getContextPath()%>/ContractOfEmployee1" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
                         </svg>Request Sale List
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/EstateList?user=director&filter=waitting%20for%20director" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-add-listing"></use>
+                        </svg>Estate Waitting List
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <hr class="nav__separator">
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/ProjectList?user=director" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-add-listing"></use>
+                        </svg>Project Waitting List
                     </a>
                 </li>
             </ul>

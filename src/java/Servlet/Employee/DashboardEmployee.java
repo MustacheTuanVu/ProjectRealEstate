@@ -5,7 +5,11 @@
  */
 package Servlet.Employee;
 
+import Controller.ContractDetailsJpaController;
 import Controller.EstateTypeJpaController;
+import Controller.TransactionsJpaController;
+import Entity.Contract;
+import Entity.Employee;
 import Entity.EstateType;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,6 +46,10 @@ public class DashboardEmployee extends HttpServlet {
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
         Entity.Users user = (Entity.Users) session.getAttribute("user");
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
+        TransactionsJpaController transactionsJpaController = new TransactionsJpaController(utx, emf);
+        ContractDetailsJpaController contractDetailsJpaController = new ContractDetailsJpaController(utx, emf);
         if (user != null) {
             request.setAttribute("user", "user");
             request.setAttribute("displayLogin", "none");
@@ -66,6 +74,21 @@ public class DashboardEmployee extends HttpServlet {
                     session.setAttribute("image", user.getCustomer().getCustomerImg());
                     break;
             }
+            
+            // DASHBOARD
+            List<Contract> contractList = contractDetailsJpaController.getContractByEmployee(user.getEmployee().getId());
+            Double sumMoney = 0.0;
+            Double sumMoneyCompany = 0.0;
+            int estateTransaction = 0;
+            boolean checkMoneyCompany = true;
+            for (Contract contract : contractList) {
+                sumMoney = sumMoney + transactionsJpaController.getMoneyByContractIDWithEmployee(contract.getId());
+                sumMoneyCompany = sumMoneyCompany + transactionsJpaController.getMoneyByContractIDWithCompany(contract.getId());
+                estateTransaction = estateTransaction + transactionsJpaController.getEstateCountByContractIDWithEmployee(contract.getId());
+            }
+            request.setAttribute("sumMoney", sumMoney);
+            request.setAttribute("sumMoneyCompany", sumMoneyCompany);
+            request.setAttribute("estateTransaction", estateTransaction);
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
@@ -73,8 +96,7 @@ public class DashboardEmployee extends HttpServlet {
         // END SESSION HEADER FONTEND //
         
         // BEGIN NAVBAR HEADER FONTEND //
-        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
+        
         List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();
         request.setAttribute("estateTypeList", estateTypeList);
         request.getRequestDispatcher("/page/dashboard/employee/index.jsp").forward(request, response);

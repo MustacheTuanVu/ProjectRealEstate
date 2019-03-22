@@ -6,11 +6,14 @@
 package Servlet.Director;
 
 import Controller.AssignDetailsJpaController;
+import Controller.ContractJpaController;
 import Controller.EmployeeJpaController;
 import Controller.EstateJpaController;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
 import Entity.AssignDetails;
+import Entity.Contract;
+import Entity.Estate;
 import Servlet.Estate.EstateCreate;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -56,6 +59,7 @@ public class AgreeSaleRequest extends HttpServlet {
         AssignDetailsJpaController assignDetailsJpaController = new AssignDetailsJpaController(utx, emf);
         EmployeeJpaController employeeJpaController = new EmployeeJpaController(utx, emf);
         EstateJpaController estateJpaController = new EstateJpaController(utx, emf);
+        ContractJpaController contractJpaController = new ContractJpaController(utx, emf);
         AssignDetails assignDetails = new AssignDetails();
         assignDetails.setEstateId(estateJpaController.findEstate(estateID));
         assignDetails.setEmployeeId(employeeJpaController.findEmployee(employeeID));
@@ -71,9 +75,22 @@ public class AgreeSaleRequest extends HttpServlet {
         
         try {
             assignDetailsJpaController.create(assignDetails);
-            
         } catch (PreexistingEntityException ex) {
             Logger.getLogger(AgreeSaleRequest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(AgreeSaleRequest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(AgreeSaleRequest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // ESTATE
+        // EMPLOYEE
+        Contract contract = contractJpaController.findContract(
+            estateJpaController.findEstate(estateID).getContractDetails().getContractId().getId()
+        );
+        contract.setEmployeeId(employeeJpaController.findEmployee(employeeID));
+        
+        try {
+            contractJpaController.edit(contract);
         } catch (RollbackFailureException ex) {
             Logger.getLogger(AgreeSaleRequest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

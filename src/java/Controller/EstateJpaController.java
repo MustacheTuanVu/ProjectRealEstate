@@ -525,15 +525,25 @@ public class EstateJpaController implements Serializable {
     public List<String> getEstateByEmployeeFilter(String employeeID, String status) {
         EntityManager em = getEntityManager();
         try {
-            List<String> estateIDList = getEstateByEmployee(employeeID);
+            Query query = null;
             List<String> ret = (List<String>) new ArrayList<String>();
-            for (String string : estateIDList) {
-                Query query = em.createNativeQuery("SELECT id FROM estate where "
-                        + "id = '" + string + "' AND "
+            if (employeeID.equals("all")) {
+                query = em.createNativeQuery("SELECT id FROM estate where "
                         + "estate_status LIKE '%" + status + "%'"
                 );
-                if (query.getResultList().size()!=0){
-                    ret.add((String) query.getSingleResult());
+                if (query.getResultList().size() != 0) {
+                    ret.addAll((List<String>) query.getResultList());
+                }
+            } else {
+                List<String> estateIDList = getEstateByEmployee(employeeID);
+                for (String string : estateIDList) {
+                    query = em.createNativeQuery("SELECT id FROM estate where "
+                            + "id = '" + string + "' AND "
+                            + "estate_status LIKE '%" + status + "%'"
+                    );
+                    if (query.getResultList().size() != 0) {
+                        ret.add((String) query.getSingleResult());
+                    }
                 }
             }
             return ret;
@@ -541,7 +551,8 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
-	/*
+
+    /*
     public List<Estate> getEstateByFilter(List<Estate> estateID, String status) {
         System.out.println("status " + status);
         EntityManager em = getEntityManager();
@@ -557,7 +568,7 @@ public class EstateJpaController implements Serializable {
         }
         return list1;
     }*/
-    
+
     public List<Estate> getEstateByFilter(List<Estate> estateID, String status, String keyword) {
         System.out.println("status " + status);
         EntityManager em = getEntityManager();
@@ -568,27 +579,37 @@ public class EstateJpaController implements Serializable {
                     + "(address1 LIKE '%" + keyword + "%' OR address2 LIKE '%" + keyword + "%') AND "
                     + "estate_status LIKE '%" + status + "%'", Estate.class
             );
-            if (query.getResultList().size()!=0) {
+            if (query.getResultList().size() != 0) {
                 list1.add((Estate) query.getSingleResult());
-            } 
+            }
         }
         return list1;
     }
-	
-    
+
     public List<String> getEstateByEmployeeSearch(String employeeID, String address) {
         EntityManager em = getEntityManager();
         try {
-            List<String> estateIDList = getEstateByEmployee(employeeID);
+            Query query = null;
             List<String> ret = (List<String>) new ArrayList<String>();
-            for (String string : estateIDList) {
-                Query query = em.createNativeQuery("SELECT id FROM estate where "
-                        + "id = '" + string + "' AND "
-                        + "(address1 LIKE '%" + address + "%' OR address2 LIKE '%" + address + "%')"
+            if (employeeID.equals("all")) {
+                query = em.createNativeQuery("SELECT id FROM estate where "
+                        + "(address1 LIKE '%" + address + "%' OR address2 LIKE '%" + address + "%') AND "
+                        + "estate_status LIKE '%waitting for director%'"
                 );
-                System.out.println(query);
-                if (query.getResultList().size()!=0){
+                if (query.getResultList().size() != 0) {
                     ret.add((String) query.getSingleResult());
+                }
+            } else {
+                List<String> estateIDList = getEstateByEmployee(employeeID);
+                for (String string : estateIDList) {
+                    query = em.createNativeQuery("SELECT id FROM estate where "
+                            + "id = '" + string + "' AND "
+                            + "(address1 LIKE '%" + address + "%' OR address2 LIKE '%" + address + "%')"
+                    );
+                    System.out.println(query);
+                    if (query.getResultList().size() != 0) {
+                        ret.add((String) query.getSingleResult());
+                    }
                 }
             }
             System.out.println(ret.size());
@@ -637,7 +658,7 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public String getEstateIDByContract(String contractID) {
         EntityManager em = getEntityManager();
         try {

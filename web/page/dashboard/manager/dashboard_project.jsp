@@ -81,7 +81,7 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Property Management</h2><a href="<%=request.getContextPath()%>/EstateCreate" class="widget__btn js-widget-btn widget__btn--action">Add new property</a>
+                                        <h2 class="widget__title">Property Management</h2><a href="<%=request.getContextPath()%>/ProjectCreate" class="widget__btn js-widget-btn widget__btn--action">Add new property</a>
                                     </div>
                                     <div class="widget__content">
                                         <div class="widget__content">
@@ -101,6 +101,23 @@
                                             <c:forEach items="${projectList}" var="item">
                                                 <div class="listing__item">
                                                     <div class="properties properties--grid">
+                                                        <div class="properties__item-header">
+                                                            <div class="properties__actions">
+                                                                <c:if test="${item.projectStatus == 'publish'}">
+                                                                    <a href="<%=request.getContextPath()%>/ProjectEdit?projectID=${item.projectId}" class="properties__link">Edit</a>
+                                                                    <div class="dropdown properties__actions-dropdown">
+                                                                        <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>
+                                                                        <div class="dropdown__menu properties__dropdown-menu">
+                                                                            <a href="<%=request.getContextPath()%>/ProjectDelete?projectID=${item.projectId}" class="properties__link">Delete</a>
+                                                                            <button type="button" class="properties__link">Change status</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </c:if>
+                                                                <c:if test="${item.projectStatus != 'publish'}">
+                                                                    <a style="color: white">123</a>
+                                                                </c:if>
+                                                            </div>
+                                                        </div>
                                                         <div class="properties__thumb">
                                                             <a href="<%=request.getContextPath()%>/ProjectDashboard?projectId=${item.projectId}" class="item-photo">
                                                                 <img src="${item.image1st}" alt=""/>

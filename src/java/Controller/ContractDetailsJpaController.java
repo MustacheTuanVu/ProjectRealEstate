@@ -223,11 +223,11 @@ public class ContractDetailsJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public ContractDetails getContractDetailsByContract(int contractID) {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createNativeQuery("SELECT * FROM contract_details where contract_id='" + contractID + "'",ContractDetails.class);
+            Query query = em.createNativeQuery("SELECT * FROM contract_details where contract_id='" + contractID + "'", ContractDetails.class);
             System.out.println(query);
             ContractDetails ret = (ContractDetails) query.getSingleResult();
             return ret;
@@ -235,39 +235,40 @@ public class ContractDetailsJpaController implements Serializable {
             em.close();
         }
     }
-    
-    public List<Contract>  getContractByEmployee(int employeeID) {
+
+    public List<Contract> getContractByEmployee(int employeeID) {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createNativeQuery("SELECT * FROM contract where employee_id='" + employeeID + "'",Contract.class);
+            Query query = em.createNativeQuery("SELECT * FROM contract where employee_id='" + employeeID + "'", Contract.class);
             List<Contract> ret = (List<Contract>) query.getResultList();
             return ret;
         } finally {
             em.close();
         }
     }
-    
-	public List<Contract>  getContractByEmployeeAndCustomer(int employeeID, int customerID) {
+
+    public List<Contract> getContractByEmployeeAndCustomer(int employeeID, int customerID) {
         EntityManager em = getEntityManager();
         try {
             Query query = em.createNativeQuery("SELECT * FROM contract where "
                     + "employee_id='" + employeeID + "' AND "
-                    + "customer_id='" + customerID + "'"
-                    ,Contract.class);
+                    + "customer_id='" + customerID + "'",
+                     Contract.class);
             List<Contract> ret = (List<Contract>) query.getResultList();
             return ret;
         } finally {
             em.close();
         }
     }
-    public List<ContractDetails>  getContractDetailsByContractID(int employeeID) {
+
+    public List<ContractDetails> getContractDetailsByContractID(int employeeID) {
         EntityManager em = getEntityManager();
         try {
             List<Contract> contractList = getContractByEmployee(employeeID);
             List<ContractDetails> ret = (List<ContractDetails>) new ArrayList<ContractDetails>();
-            
+
             for (Contract contract : contractList) {
-                Query query = em.createNativeQuery("SELECT * FROM contract_details where contract_id='" + contract.getId() + "'",ContractDetails.class);
+                Query query = em.createNativeQuery("SELECT * FROM contract_details where contract_id='" + contract.getId() + "'", ContractDetails.class);
                 List<ContractDetails> ret2 = (List<ContractDetails>) query.getResultList();
                 ret.addAll(ret2);
             }
@@ -276,20 +277,18 @@ public class ContractDetailsJpaController implements Serializable {
             em.close();
         }
     }
-    
-   
-    
+
     // CAI NAY NHE
-    public List<ContractDetails>  getContractDetailsByContractIDCustomerID(int employeeID, int customerID) {
+    public List<ContractDetails> getContractDetailsByContractIDCustomerID(int employeeID, int customerID) {
         EntityManager em = getEntityManager();
         try {
             List<Contract> contractList = getContractByEmployeeAndCustomer(employeeID, customerID);
             List<ContractDetails> ret = (List<ContractDetails>) new ArrayList<ContractDetails>();
-            
+
             for (Contract contract : contractList) {
                 Query query = em.createNativeQuery("SELECT * FROM contract_details where "
-                        + "contract_id='" + contract.getId() + "'"
-                        ,ContractDetails.class);
+                        + "contract_id='" + contract.getId() + "'",
+                         ContractDetails.class);
                 List<ContractDetails> ret2 = (List<ContractDetails>) query.getResultList();
                 ret.addAll(ret2);
             }
@@ -304,11 +303,11 @@ public class ContractDetailsJpaController implements Serializable {
         try {
             List<Contract> contractList = getContractByEmployee(employeeID);
             List<ContractDetails> ret = (List<ContractDetails>) new ArrayList<ContractDetails>();
-            
+
             for (Contract contract : contractList) {
-                Query query = em.createNativeQuery("SELECT * FROM contract_details where contract_id='" + contract.getId() + "'"+
-                        " AND "
-                        ,ContractDetails.class);
+                Query query = em.createNativeQuery("SELECT * FROM contract_details where contract_id='" + contract.getId() + "'"
+                        + " AND ",
+                         ContractDetails.class);
                 List<ContractDetails> ret2 = (List<ContractDetails>) query.getResultList();
                 ret.addAll(ret2);
             }
@@ -316,5 +315,5 @@ public class ContractDetailsJpaController implements Serializable {
         } finally {
             em.close();
         }
-     }
+    }
 }

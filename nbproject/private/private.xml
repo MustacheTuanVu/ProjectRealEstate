@@ -3,10 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/abc/ProjectRealEstate/web/page/dashboard/manager/dashboard_project_estate_new.jsp</file>
-            <file>file:/D:/abc/ProjectRealEstate/src/java/Servlet/Estate/EstateAutoCreate1.java</file>
-            <file>file:/D:/abc/ProjectRealEstate/src/java/Servlet/Estate/EstateAutoCreate.java</file>
-            <file>file:/D:/abc/ProjectRealEstate/web/page/guest/properties_employee_list.jsp</file>
+            <file>file:/D:/abc/ProjectRealEstate/src/java/Servlet/Employee/DashboardEmployee.java</file>
+            <file>file:/D:/abc/ProjectRealEstate/src/java/Servlet/EstateType/EstateTypeCreate.java</file>
+            <file>file:/D:/abc/ProjectRealEstate/src/java/Controller/TransactionsJpaController.java</file>
+            <file>file:/D:/abc/ProjectRealEstate/src/java/Servlet/Estate/EstateCreate.java</file>
+            <file>file:/D:/abc/ProjectRealEstate/src/java/Servlet/Estate/EstateList.java</file>
+            <file>file:/D:/abc/ProjectRealEstate/web/page/dashboard/employee/dashboard_estate_type_new.jsp</file>
+            <file>file:/D:/abc/ProjectRealEstate/web/page/dashboard/employee/index.jsp</file>
+            <file>file:/D:/abc/ProjectRealEstate/src/java/Servlet/Estate/EstateEdit.java</file>
+            <file>file:/D:/abc/ProjectRealEstate/src/java/Controller/ContractJpaController.java</file>
         </group>
     </open-files>
 </project-private>

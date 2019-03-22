@@ -9,6 +9,7 @@ import Controller.ContractDetailsJpaController;
 import Controller.ContractJpaController;
 import Controller.CustomerJpaController;
 import Controller.EstateTypeJpaController;
+import Entity.Contract;
 import Entity.ContractDetails;
 import Entity.Customer;
 import Entity.Users;
@@ -61,8 +62,6 @@ public class MyContract extends HttpServlet {
             EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
             ContractDetailsJpaController contractDetailsControl = new ContractDetailsJpaController(utx, emf);
             Customer customer = customerControl.findCustomer(users.getId());
-            
-            
             
             request.setAttribute("customer", customer);
             request.setAttribute("contractDetails", contractDetailsControl.findContractDetailsEntities());
