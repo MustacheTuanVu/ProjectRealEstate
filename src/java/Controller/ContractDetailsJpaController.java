@@ -226,7 +226,6 @@ public class ContractDetailsJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             Query query = em.createNativeQuery("SELECT * FROM contract_details where contract_id='" + contractID + "'",ContractDetails.class);
-            System.out.println(query);
             ContractDetails ret = (ContractDetails) query.getSingleResult();
             return ret;
         } finally {
@@ -258,6 +257,7 @@ public class ContractDetailsJpaController implements Serializable {
             em.close();
         }
     }
+    
     
     public List<ContractDetails>  getContractDetailsByContractID(int employeeID) {
         EntityManager em = getEntityManager();
@@ -315,5 +315,76 @@ public class ContractDetailsJpaController implements Serializable {
             em.close();
         }
      }
+
+
+    /* cuong add */
+    ///// 0000000000000000000000000000
+    // Request Buy
+    // Cuong get list id contract from empID and status 'waitting to transaction'
+       public List<Contract>  getContractByEmployeeAndStatus(int employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM contract where employee_id='" + employeeID + "' And status like 'waitting to transaction'",Contract.class);
+            List<Contract> ret = (List<Contract>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+     /* cuong add */
+    public List<ContractDetails> getContractDetailsByEmployeeID(int empID) {
+            EntityManager em = getEntityManager();
+        try {
+            List<Contract> contractList = getContractByEmployeeAndStatus(empID);
+            List<ContractDetails> ret = (List<ContractDetails>) new ArrayList<ContractDetails>();
+            
+            for (Contract contract : contractList) {
+                Query query = em.createNativeQuery("SELECT * FROM contract_details where "
+                        + "contract_id='" + contract.getId() + "'"
+                        ,ContractDetails.class);
+                List<ContractDetails> ret2 = (List<ContractDetails>) query.getResultList();
+                ret.addAll(ret2);
+            }
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    
+    //---------------------------
+    // request Sale
+     /* cuong add */
+       public List<Contract>  getContractByEmployeeAndStatusSale(int employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM contract where employee_id='" + employeeID + "' And status like 'waitting for employee'",Contract.class);
+            List<Contract> ret = (List<Contract>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+     /* cuong add */
+    public List<ContractDetails> getContractDetailsByEmployeeIDSale(int empID) {
+            EntityManager em = getEntityManager();
+        try {
+            List<Contract> contractList = getContractByEmployeeAndStatusSale(empID);
+            List<ContractDetails> ret = (List<ContractDetails>) new ArrayList<ContractDetails>();
+            
+            for (Contract contract : contractList) {
+                Query query = em.createNativeQuery("SELECT * FROM contract_details where "
+                        + "contract_id='" + contract.getId() + "'"
+                        ,ContractDetails.class);
+                List<ContractDetails> ret2 = (List<ContractDetails>) query.getResultList();
+                ret.addAll(ret2);
+            }
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
     
 }

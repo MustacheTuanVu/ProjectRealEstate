@@ -15,7 +15,7 @@
                 <use xlink:href="#icon-logo--mob"></use>
                 </svg>
             </a>
-            
+
             <div class="auth auth--header">
                 <ul class="auth__nav">
                     <li class="dropdown auth__nav-item" style="display: ${displayLogin};">
@@ -89,32 +89,29 @@
                         <div class="dropdown__menu auth__dropdown--register">
                             <!-- BEGIN AUTH REGISTER-->
                             <h5 class="auth__title">Sign up a new account</h5>
-                            <form action="#" class="form form--flex form--auth js-register-form js-parsley">
+                            <form action="<%=request.getContextPath()%>/RegisterUser" method="POST" class="form form--flex form--auth js-register-form js-parsley">
                                 <div class="row">
                                     <div class="form-group form-group--col-6">
                                         <label for="register-name-dropdown" class="control-label">Username</label>
                                         <input type="text" name="username" id="register-name-dropdown" required class="form-control">
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="form-group form-group--col-6">
                                         <label for="register-lastname-dropdown" class="control-label">Password</label>
-                                        <input type="password" name="name" id="register-lastname-dropdown" required class="form-control">
+                                        <input type="password" name="pass" id="register-lastname-dropdown" required class="form-control">
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group form-group--col-6">
-                                        <label for="register-email-dropdown" class="control-label">E-mail</label>
-                                        <input type="email" name="email" id="register-email-dropdown" required class="form-control">
-                                    </div>
                                     <div class="form-group form-group--col-6">
                                         <label for="register-password-dropdown" class="control-label">RePassword</label>
-                                        <input type="password" name="password" id="register-password-dropdown" required class="form-control">
+                                        <input type="password" name="rePass" id="register-password-dropdown" required class="form-control">
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form__options">Back to
-                                        <button type="button" class="js-user-login">Log In</button>
+                                    <div class="form-group form-group--col-6">
+                                        <button type="submit" class="form__submit">Sign up</button>
                                     </div>
-                                    <button type="submit" class="form__submit">Sign up</button>
                                 </div>
                             </form>
                             <!-- end of block .auth__form-->

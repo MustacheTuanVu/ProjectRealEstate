@@ -234,7 +234,7 @@
                                         </div>
                                         <nav class="worker__nav">
                                             <ul>
-                                                <li><a href="<%=request.getContextPath()%>/MyListing">My listing</a></li>
+                                                <li><a href="<%=request.getContextPath()%>/MyListing?user=guest&estateStatus=all">My listing</a></li>
                                                 <li><a href="<%=request.getContextPath()%>/DashboardUser">My Profile</a></li>
                                                 <li><a href="<%=request.getContextPath()%>/MyContract">My Contract</a></li>
                                             </ul>

@@ -84,10 +84,17 @@
                     <hr class="nav__separator">
                 </li>
                 <li class="nav__item">
-                    <a href="<%=request.getContextPath()%>/BlogList" class="nav__link">
+                    <a href="<%=request.getContextPath()%>/BlogList?user=employee" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
                         </svg>Blog Manager
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/CategoryList?user=employee" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-add-listing"></use>
+                        </svg>Blog Category
                     </a>
                 </li>
             </ul>

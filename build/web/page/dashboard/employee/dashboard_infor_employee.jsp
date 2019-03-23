@@ -107,25 +107,26 @@
                                             
                                             <div id="form-block-1" class="form__block js-form-block">
                                                 
-                                                <img src="${customer.employeeImg}" onclick="BrowseServer1()" id="imageup1st" alt="avatar" width="208" height="208">
+                                                <!--<img src="${customer.employeeImg}" onclick="BrowseServer1()" id="imageup1st" alt="avatar" width="208" height="208">-->
+                                                <img src="${customer.employeeImg}" id="imageup1st" alt="avatar" width="208" height="208">
                                                 
                                                 <input type="hidden" value="${customer.employeeImg}" id="image1st" name="txtImg"/>
                                                 <div class="row">
                                                     <div class="form-group">
                                                         <label for="in-1" class="control-label">ID</label>
-                                                        <input id="in-1" value="${customer.id}" readonly name="txtID" data-placeholder="---" value="Lara Group Agency" class="form-control">
+                                                        <input id="in-1" value="${customer.id}" readonly name="txtID" data-placeholder="---"  class="form-control">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="in-2" class="control-label">Your Name</label>
-                                                        <input id="in-2" value="${customer.employeeName}" required name="txtName" data-placeholder="---" value="Lara Group Agency" class="form-control">
+                                                        <input id="in-2" readonly value="${customer.employeeName}" required name="txtName" data-placeholder="---"  class="form-control">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="in-3" class="control-label">Identity Card</label>
-                                                        <input id="in-3" value="${customer.employeeIndentityCard}" required name="txtCard" data-placeholder="---" value="Lara Group Agency" class="form-control">
+                                                        <input id="in-3" readonly value="${customer.employeeIndentityCard}" required name="txtCard" data-placeholder="---" class="form-control">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="in-4" class="control-label">Address</label>
-                                                        <input id="in-4" value="${customer.employeeAddress}" required name="txtAddress" data-placeholder="---" value="Lara Group Agency" class="form-control">
+                                                        <input id="in-4" readonly value="${customer.employeeAddress}" required name="txtAddress" data-placeholder="---"  class="form-control">
                                                         <!-- end of block .form-property__control-->
                                                     </div>
                                                 </div>
@@ -137,11 +138,11 @@
                                                 <div class="row">
                                                     <div class="form-group">
                                                         <label for="in-11" class="control-label">Phone</label>
-                                                        <input id="in-11" name="txtPhone" value="${customer.employeePhone}" type="text" required value="adam.svenson@realtyspace.com" class="form-control">
+                                                        <input id="in-11" name="txtPhone" value="${customer.employeePhone}" type="text" required  class="form-control">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="in-12" class="control-label">Email</label>
-                                                        <input id="in-12" name="txtMail" value="${customer.employeeMail}" type="email" placeholder="" required value="adam.svenson@realtyspace.com" class="form-control">
+                                                        <input id="in-12" name="txtMail" value="${customer.employeeMail}" type="email" placeholder="" required  class="form-control">
                                                     </div>
                                                 </div>
                                             </div>

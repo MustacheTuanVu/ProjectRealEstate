@@ -302,5 +302,12 @@ public class UsersJpaController implements Serializable {
         }
  
     }
+
+    public List<Entity.Users> checkUser(String userName) {
+        EntityManager em= getEntityManager();
+        Query q=em.createNativeQuery("Select * From Users where username like '"+userName+"'");
+        
+        return q.getResultList();
+    }
     
 }

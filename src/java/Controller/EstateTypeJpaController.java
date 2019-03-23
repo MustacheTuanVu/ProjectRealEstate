@@ -250,4 +250,11 @@ public class EstateTypeJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public List<String> getStatusEstate(){
+        EntityManager em=getEntityManager();
+        Query query=em.createNativeQuery("SELECT DISTINCT estate_status FROM estate");
+        
+        return query.getResultList();
+    }
 }

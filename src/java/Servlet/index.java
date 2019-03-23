@@ -70,6 +70,13 @@ public class index extends HttpServlet {
                     session.setAttribute("image", user.getCustomer().getCustomerImg());
                     break;
             }
+            
+            /*cuong add*/
+            String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "";
+            String nameLogin = (request.getParameter("nameLogin") != null) ? request.getParameter("nameLogin") : "";
+            request.setAttribute("modal", modal);
+            request.setAttribute("nameLogin", nameLogin);
+            
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");

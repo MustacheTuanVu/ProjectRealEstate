@@ -238,6 +238,25 @@
                     </div>
                 </div>
             </div>
+                                            
+            <!-- cuong add -->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-sm">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title text-center text-success">Login Success</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h4 class="modal-title text-center text-success" style="text-align: center">Hello ${nameLogin}</h4>
+                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150px" height="150px" alt="error">
+                        </div>
+                    </div>
+
+                </div>
+            </div>                                     
             <!-- END CENTER SECTION-->
             <!-- BEGIN AFTER CENTER SECTION-->
             <!-- END AFTER CENTER SECTION-->
@@ -284,7 +303,13 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demo.js"></script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
-
+    
+    <!-- cuong add -->
+    <script type="text/javascript">
+        $(window).on('load', function () {
+            $('#myModal').modal('${modal}');
+        });
+    </script>
 
     <!-- END SCRIPTS and INCLUDES-->
 </body>

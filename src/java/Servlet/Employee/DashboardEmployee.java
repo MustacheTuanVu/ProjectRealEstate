@@ -79,6 +79,10 @@ public class DashboardEmployee extends HttpServlet {
         request.setAttribute("estateTypeList", estateTypeList);
         request.getRequestDispatcher("/page/dashboard/employee/index.jsp").forward(request, response);
         // END NAVBAR HEADER FONTEND //
+        
+        /*
+            
+        */
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -44,6 +44,7 @@ public class MyListing extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -55,35 +56,47 @@ public class MyListing extends HttpServlet {
             request.setAttribute("displayLogin", "none");
             request.setAttribute("displayUser", "block");
             session.setAttribute("name", users.getCustomer().getCustomerName());
-                    request.setAttribute("role", "customer");
+            request.setAttribute("role", "customer");
             session.setAttribute("image", users.getCustomer().getCustomerImg());
-            
+
             /*-----------------------------------------------------------*/
-            
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
             EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
             Customer customer = customerControl.findCustomer(users.getId());
-            
+
             /*-----------------------------------------------------------*/
-            
             ContractJpaController contractControl = new ContractJpaController(utx, emf);
             ContractDetailsJpaController contractDetailsControl = new ContractDetailsJpaController(utx, emf);
             List<Integer> contractIDList = contractControl.getContractByCustomer(users.getId());
+
             List<ContractDetails> contractDetailsList = (List<ContractDetails>) new ArrayList<ContractDetails>();
             for (Integer contractID : contractIDList) {
                 contractDetailsList.add(contractDetailsControl.getContractDetailsByContract(contractID));
             }
-            
+            List<ContractDetails> contractDetailsesByStatus = new ArrayList<>();
+
+            String status = request.getParameter("estateStatus");
+            if (status.equals("all")) {
+                request.setAttribute("contractDetailsList", contractDetailsList);
+            } else {
+                for (ContractDetails contractDetailsesByStatu : contractDetailsList) {
+                    if (contractDetailsesByStatu.getEstateId().getEstateStatus().equals(status)) {
+                        contractDetailsesByStatus.add(contractDetailsesByStatu);
+                    }
+                }
+                request.setAttribute("contractDetailsList", contractDetailsesByStatus);
+            }
             /*-----------------------------------------------------------*/
             request.setAttribute("customer", customer);
+            request.setAttribute("listStatus", estateTypeControl.getStatusEstate());
             request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
-            request.setAttribute("contractDetailsList", contractDetailsList);
-            request.getRequestDispatcher("/page/guest/my_listing.jsp").forward(request, response);
+
+            request.getRequestDispatcher("/page/dashboard/guest/my_listing.jsp").forward(request, response);
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
-            response.sendRedirect(request.getContextPath()+"/LoginUser");
+            response.sendRedirect(request.getContextPath() + "/LoginUser");
         }
         // END SESSION HEADER FONTEND //
     }

@@ -45,8 +45,9 @@ public class CategoryJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
-            utx.begin();
+            //utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             List<Post> attachedPostList = new ArrayList<Post>();
             for (Post postListPostToAttach : category.getPostList()) {
                 postListPostToAttach = em.getReference(postListPostToAttach.getClass(), postListPostToAttach.getPostId());
@@ -63,10 +64,10 @@ public class CategoryJpaController implements Serializable {
                     oldPostCategoryOfPostListPost = em.merge(oldPostCategoryOfPostListPost);
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -84,8 +85,9 @@ public class CategoryJpaController implements Serializable {
     public void edit(Category category) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
+            
             em = getEntityManager();
+            em.getTransaction().begin();
             Category persistentCategory = em.find(Category.class, category.getCategoryId());
             List<Post> postListOld = persistentCategory.getPostList();
             List<Post> postListNew = category.getPostList();
@@ -120,10 +122,10 @@ public class CategoryJpaController implements Serializable {
                     }
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -145,8 +147,9 @@ public class CategoryJpaController implements Serializable {
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
+            
             em = getEntityManager();
+            em.getTransaction().begin();
             Category category;
             try {
                 category = em.getReference(Category.class, id);
@@ -166,10 +169,10 @@ public class CategoryJpaController implements Serializable {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(category);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -181,6 +184,17 @@ public class CategoryJpaController implements Serializable {
         }
     }
 
+    /* cuong add */
+       public List<Entity.Category> getCategoryByName(String featureName) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM category where category_name='" + featureName + "'",Category.class);
+            List<Category> ret = query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
     public List<Category> findCategoryEntities() {
         return findCategoryEntities(true, -1, -1);
     }
@@ -222,6 +236,32 @@ public class CategoryJpaController implements Serializable {
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
+        } finally {
+            em.close();
+        }
+    }
+    
+    /* cuong add */
+      public Integer getPostByCategoryCount(int categoryID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT COUNT(post_id) FROM post WHERE post_category='"+categoryID+"'");
+
+            Integer ret = (Integer) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+      /* cuong add */
+      public int getEstateTypeByEstateCount(String estateTypeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT count(post_id) as axs FROM post where post_category='" + estateTypeID + "'");
+            int ret = (int) query.getSingleResult();
+            System.out.println(query);
+            System.out.println(ret);
+            return ret;
         } finally {
             em.close();
         }

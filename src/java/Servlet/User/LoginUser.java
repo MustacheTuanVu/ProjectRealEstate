@@ -70,6 +70,7 @@ public class LoginUser extends HttpServlet {
                     session.setAttribute("image", user.getCustomer().getCustomerImg());
                     break;
             }
+    
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
@@ -124,29 +125,49 @@ public class LoginUser extends HttpServlet {
 
         if (idUser == null) {
             // Login fail*******
-            System.out.println("sdfsd null");
         } else {
             switch (idUser.getRole()) {
                 case "employee":
                     session.setAttribute("user", idUser);
                     session.setAttribute("employeePanel", "employeePanel");
-                    response.sendRedirect(request.getContextPath() + "/index");
+                    response.sendRedirect(request.getContextPath() + "/index?"
+                        + "modal=show&"
+                        + "nameLogin="+idUser.getEmployee().getEmployeeName()+""
+                    );
                     break;
                 case "manager":
                     session.setAttribute("user", idUser);
                     session.setAttribute("ManagePanel", "ManagePanel");
-                    response.sendRedirect(request.getContextPath() + "/index");
+                    response.sendRedirect(request.getContextPath() + "/index?"
+                        + "modal=show&"
+                        + "nameLogin="+idUser.getManager().getManagerName()+""
+                    );
                     break; 
                 case "director":
                     session.setAttribute("user", idUser);
                     session.setAttribute("DirectorPanel", "DirectorPanel");
-                    response.sendRedirect(request.getContextPath() + "/index");
+                    response.sendRedirect(request.getContextPath() + "/index?"
+                        + "modal=show&"
+                        + "nameLogin=Boss"
+                    );
                     break; 
                 case "customer":
                     session.setAttribute("user", idUser);
-                    response.sendRedirect(request.getContextPath() + "/index");
+                    response.sendRedirect(request.getContextPath() + "/index?"
+                        + "modal=show&"
+                        + "nameLogin="+idUser.getCustomer().getCustomerName()+""
+                    );
                     break;
             }
+            
+            /*cuong add*/
+            /*
+                response.sendRedirect(request.getContextPath() + "/index?"
+                    + "modal=show&"
+                    + "nameLogin="+idUser.getEmployee().getEmployeeName()+""
+                );
+            */
+            
         }
     }
 

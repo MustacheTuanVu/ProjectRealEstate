@@ -108,7 +108,7 @@
                                             <div class="widget__footer"><hr></div>
                                         </div>
                                         <div class="listing listing--grid">
-                                            <c:forEach items="${estateList}" var="estate">
+                                        <c:forEach items="${estateList}" var="estate">
                                                 <div class="listing__item">
                                                     <div class="properties properties--management">
                                                         <div class="properties__item-header">

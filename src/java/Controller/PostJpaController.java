@@ -41,8 +41,9 @@ public class PostJpaController implements Serializable {
     public void create(Post post) throws PreexistingEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
+            //utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Category postCategory = post.getPostCategory();
             if (postCategory != null) {
                 postCategory = em.getReference(postCategory.getClass(), postCategory.getCategoryId());
@@ -62,10 +63,10 @@ public class PostJpaController implements Serializable {
                 employee.getPostList().add(post);
                 employee = em.merge(employee);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -83,8 +84,9 @@ public class PostJpaController implements Serializable {
     public void edit(Post post) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
+            ///utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Post persistentPost = em.find(Post.class, post.getPostId());
             Category postCategoryOld = persistentPost.getPostCategory();
             Category postCategoryNew = post.getPostCategory();
@@ -115,10 +117,10 @@ public class PostJpaController implements Serializable {
                 employeeNew.getPostList().add(post);
                 employeeNew = em.merge(employeeNew);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -140,8 +142,9 @@ public class PostJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
+            //utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Post post;
             try {
                 post = em.getReference(Post.class, id);
@@ -160,10 +163,10 @@ public class PostJpaController implements Serializable {
                 employee = em.merge(employee);
             }
             em.remove(post);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -220,17 +223,81 @@ public class PostJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public List<Post> getPostByEmployee(String employeeID) {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createNativeQuery("SELECT * FROM post where employee='" + employeeID + "'", Post.class);
-            
+            Query query = em.createNativeQuery("SELECT * FROM post where employee='" + employeeID + "' order by post_date Desc", Post.class);
+
             List<Post> ret = (List<Post>) query.getResultList();
             return ret;
         } finally {
             em.close();
         }
     }
-    
+    /* cuong add */
+    public List<Post> getAllPost() {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM post order By post_date Desc   ", Post.class);
+
+            List<Post> ret = (List<Post>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    /* cuong add */
+
+    public List<Post> getPostBySort() {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM post order by post_date DESC ", Post.class);
+
+            List<Post> ret = (List<Post>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    /* cuong add */
+
+    public List<Category> getPostByCategory() {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT x.category_id, c.category_name\n"
+                    + "FROM category c ,(select post_category ,count(*) as category_id from post group by post_category) x\n"
+                    + "where c.category_id=x.post_category", Category.class);
+
+            List<Category> ret = (List<Category>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    /* cuong add */
+    public List<Category> getPostByCategory1() {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM category c \n"
+                    , Category.class);
+
+            List<Category> ret = (List<Category>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    /* cuong add */
+    public List<Post> getPostByCategoryName(int catName) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q=em.createNativeQuery("select * from post where post_category ='"+catName+"'",Post.class);
+            List<Post> ret = (List<Post>) q.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
 }
