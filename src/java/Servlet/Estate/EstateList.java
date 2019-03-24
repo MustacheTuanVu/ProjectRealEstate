@@ -223,8 +223,6 @@ public class EstateList extends HttpServlet {
                 }
             }
             
-            
-            
             request.setAttribute("estateList", estateList);
             request.getRequestDispatcher("/page/dashboard/employee/dashboard_property.jsp").forward(request, response);
         }else if(user.equals("director")){

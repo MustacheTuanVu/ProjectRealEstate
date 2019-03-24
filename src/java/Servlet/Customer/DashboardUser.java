@@ -41,10 +41,11 @@ public class DashboardUser extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
         Users users = (Users) session.getAttribute("user");
@@ -53,12 +54,11 @@ public class DashboardUser extends HttpServlet {
             request.setAttribute("displayLogin", "none");
             request.setAttribute("displayUser", "block");
             session.setAttribute("name", users.getCustomer().getCustomerName());
-                    request.setAttribute("role", "customer");
+            request.setAttribute("role", "customer");
             session.setAttribute("image", users.getCustomer().getCustomerImg());
-            
+
             /*-----------------------------------------------------------*/
-            
-			String message = (request.getParameter("message") != null) ? request.getParameter("message") : "";
+            String message = (request.getParameter("message") != null) ? request.getParameter("message") : "";
             String display = (request.getParameter("display") != null) ? request.getParameter("display") : "none";
             String hasError = (request.getParameter("hasError") != null) ? request.getParameter("hasError") : "";
             request.setAttribute("message", message);
@@ -68,10 +68,10 @@ public class DashboardUser extends HttpServlet {
             CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
             EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
             Customer customer = customerControl.findCustomer(users.getId());
-            
+
             request.setAttribute("customer", customer);
             request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
-switch(users.getRole()){
+            switch (users.getRole()) {
                 case "customer":
                     request.getRequestDispatcher("/page/guest/dashboard_user.jsp").forward(request, response);
                     break;
@@ -82,7 +82,7 @@ switch(users.getRole()){
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
-            response.sendRedirect(request.getContextPath()+"/LoginUser");
+            response.sendRedirect(request.getContextPath() + "/LoginUser");
         }
         // END SESSION HEADER FONTEND //
     }
@@ -114,42 +114,42 @@ switch(users.getRole()){
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-		HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
         Users user = (Users) session.getAttribute("user");
         System.out.println("User ID " + user.getId());
         EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
         Controller.UsersJpaController userCon = new UsersJpaController(utx, em);
 
-        String txtOldPass=request.getParameter("txtOldPass");
-        String oldPass=(user.getPassword());
-        
+        String txtOldPass = request.getParameter("txtOldPass");
+        String oldPass = (user.getPassword());
+
         String message = (request.getParameter("message") != null) ? request.getParameter("message") : "";
         String display = (request.getParameter("display") != null) ? request.getParameter("display") : "none";
         String hasError = (request.getParameter("hasError") != null) ? request.getParameter("hasError") : "";
         request.setAttribute("message", message);
         request.setAttribute("display", display);
         if (!txtOldPass.equals(oldPass)) {
-            System.out.println("new Pass "+txtOldPass);
-            System.out.println("old pass "+oldPass);
+            System.out.println("new Pass " + txtOldPass);
+            System.out.println("old pass " + oldPass);
             message = "Old Password Incorrect !!!";
             display = "block";
             hasError = "has-error";
             request.setAttribute("message", message);
             request.setAttribute("display", display);
             response.sendRedirect(request.getContextPath() + "/DashboardUser?"
-                                + "message="+message+"&"
-                                + "display="+display+"&"
-                                + "hasError="+hasError+""
-                        );
+                    + "message=" + message + "&"
+                    + "display=" + display + "&"
+                    + "hasError=" + hasError + ""
+            );
         } else {
             try {
                 user.setPassword(request.getParameter("txtNewPass"));
                 user.setStatus(true);
                 user.setRole(("customer"));
                 userCon.edit(user);
-                 session.invalidate();
+                session.invalidate();
                 System.out.println("Edit Completed");
-                response.sendRedirect(request.getContextPath()+"/LoginUser");
+                response.sendRedirect(request.getContextPath() + "/LoginUser");
             } catch (RollbackFailureException ex) {
                 Logger.getLogger(DashboardUser.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {

@@ -110,21 +110,21 @@
                                                             <div class="row">
                                                                 <div class="form-group form-group ${hasError}">
                                                                     <label for="in-1" class="control-label">Estate Number Type 1</label>
-                                                                    <input id="typeNumberFloorF${item}Type1" required type="number" name="typeNumberFloorF${item}Type1" data-placeholder="---" class="form-control">
+                                                                    <input onchange="changetypeNumberFloorF${item}Type1()" id="typeNumberFloorF${item}Type1" required type="number" name="typeNumberFloorF${item}Type1" value="${estateNumbers}" class="form-control">
                                                                     <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
                                                                         <div class="parsley-required">${message}</div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group form-group ${hasError}">
                                                                     <label for="in-1" class="control-label">Estate Number Type 2</label>
-                                                                    <input id="typeNumberFloorF${item}Type2" required type="number" name="typeNumberFloorF${item}Type2" data-placeholder="---"  class="form-control">
+                                                                    <input onchange="changetypeNumberFloorF${item}Type2()" id="typeNumberFloorF${item}Type2" required type="number" name="typeNumberFloorF${item}Type2" value="0"  class="form-control">
                                                                     <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
                                                                         <div class="parsley-required">${message}</div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group form-group ${hasError}">
                                                                     <label for="in-1" class="control-label">Estate Number Type 3</label>
-                                                                    <input id="typeNumberFloorF${item}Type3" required type="number" name="typeNumberFloorF${item}Type3" data-placeholder="---"  class="form-control">
+                                                                    <input onchange="changetypeNumberFloorF${item}Type3()" id="typeNumberFloorF${item}Type3" required type="number" name="typeNumberFloorF${item}Type3" value="0"  class="form-control">
                                                                     <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
                                                                         <div class="parsley-required">${message}</div>
                                                                     </div>
@@ -241,7 +241,7 @@
                                                                                         <div class="listing__item">
                                                                                             <div data-sr="enter bottom move 80px, scale(0), over 0.3s" data-animate-end="animate-end" class="worker js-unhide-block vcard worker--grid">
                                                                                                 <div class="worker__photo">
-                                                                                                    <a onclick="getEmployeeID${item}(${employee.id},'${employee.employeeName}','${employee.employeeImg}')" data-dismiss="modal" class="item-photo item-photo--static">
+                                                                                                    <a onclick="getEmployeeID${item}(${employee.id}, '${employee.employeeName}', '${employee.employeeImg}')" data-dismiss="modal" class="item-photo item-photo--static">
                                                                                                         <img src="${employee.employeeImg}" alt="Lisa Wemert" class="photo"/>
                                                                                                         <figure class="item-photo__hover">
                                                                                                             <span class="item-photo__more">Choice</span>
@@ -285,17 +285,27 @@
                                                             </div>
 
                                                         </div>
-                                                                <script>
-                                                                    function getEmployeeID${item}(employeeID, employeeName, employeeImg) {
-                                                                        console.log(employeeID);
-                                                                        console.log(employeeName);
-                                                                        console.log(employeeImg);
-                                                                        document.getElementById("employeeB${blocks}F${item}ID").value = employeeID;
-                                                                        document.getElementById("employeeB${blocks}F${item}Name").innerHTML = employeeName;
-                                                                        document.getElementById("employeeB${blocks}F${item}Image").src = employeeImg;
-                                                                        console.log(document.getElementById("employeeBAF1ID").value);
-                                                                    }
-                                                                </script>
+                                                        <script>
+                                                            function getEmployeeID${item}(employeeID, employeeName, employeeImg) {
+                                                                console.log(employeeID);
+                                                                console.log(employeeName);
+                                                                console.log(employeeImg);
+                                                                document.getElementById("employeeB${blocks}F${item}ID").value = employeeID;
+                                                                document.getElementById("employeeB${blocks}F${item}Name").innerHTML = employeeName;
+                                                                document.getElementById("employeeB${blocks}F${item}Image").src = employeeImg;
+                                                                console.log(document.getElementById("employeeBAF1ID").value);
+                                                            };
+                                                            
+                                                            function changetypeNumberFloorF${item}Type1(){
+                                                                var typeNumberFloorF${item}Type1 = parseInt(document.getElementById("typeNumberFloorF${item}Type1").value);
+                                                                document.getElementById("typeNumberFloorF${item}Type2").value = parseInt(${estateNumbers}) - typeNumberFloorF${item}Type1;
+                                                            };
+                                                            function changetypeNumberFloorF${item}Type2(){
+                                                                var typeNumberFloorF${item}Type1 = parseInt(document.getElementById("typeNumberFloorF${item}Type1").value);
+                                                                var typeNumberFloorF${item}Type2 = parseInt(document.getElementById("typeNumberFloorF${item}Type2").value);
+                                                                document.getElementById("typeNumberFloorF${item}Type3").value = parseInt(${estateNumbers}) - typeNumberFloorF${item}Type1 - typeNumberFloorF${item}Type2;
+                                                            }
+                                                        </script>
                                                     </c:forEach>
                                                 </div>
                                             </form>
@@ -363,6 +373,9 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demo.js"></script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
+    <script>
+
+    </script>
     <!-- END SCRIPTS and INCLUDES-->
 </body>
 </html>

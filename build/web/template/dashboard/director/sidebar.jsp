@@ -17,6 +17,11 @@
                         <use xlink:href="#icon-dashboard"></use>
                         </svg>Dashboard</a>
                 </li>
+                <li class="nav__item"><a href="<%=request.getContextPath()%>/DashboardStatistics" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-dashboard"></use>
+                        </svg>Statistics</a>
+                </li>
                 <li class="nav__item">
                     <hr class="nav__separator">
                 </li>

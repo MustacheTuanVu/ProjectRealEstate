@@ -267,6 +267,69 @@ public class TransactionsJpaController implements Serializable {
         }
     }
     
+    public int getCountByContractIDWithCompany(int contractID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query1 = em.createNativeQuery("SELECT COUNT(id) FROM transactions where "
+                    + "contract_id='" + contractID + "' AND "
+                    + "transactions_note LIKE '%request sale%'"
+            );
+            int sumSale1 = 0;
+            if(query1.getSingleResult() !=null){
+                sumSale1 = (int) query1.getSingleResult();
+            }else{
+                sumSale1 = 0;
+            }
+            
+            Query query2 = em.createNativeQuery("SELECT COUNT(id) FROM transactions where "
+                    + "contract_id='" + contractID + "' AND "
+                    + "transactions_note IS NULL"
+            );
+            int sumSale2 = 0;
+            if(query2.getSingleResult() !=null){
+                sumSale2 = (int) query2.getSingleResult();
+            }else{
+                sumSale2 = 0;
+            }
+            return sumSale1 + sumSale2;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public Double getMoneyByContractIDWithCompanyMonth(int contractID, String month) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query1 = em.createNativeQuery("SELECT SUM(money) FROM transactions where "
+                    + "contract_id='" + contractID + "' AND "
+                    + "transactions_note LIKE '%request sale%' AND "
+                    + "transactions_date LIKE '%"+month+"%'"
+            );
+            Double sumSale1 = 0.0;
+            if(query1.getSingleResult() !=null){
+                sumSale1 = (Double) query1.getSingleResult();
+            }else{
+                sumSale1 = 0.0;
+            }
+            
+            Query query2 = em.createNativeQuery("SELECT SUM(money)/(SELECT fee_estate FROM fee where id=1)/100 FROM transactions where "
+                    + "contract_id='" + contractID + "' AND "
+                    + "transactions_note IS NULL AND "
+                    + "transactions_date LIKE '%"+month+"%'"
+            );
+            Double sumSale2 = 0.0;
+            if(query2.getSingleResult() !=null){
+                sumSale2 = (Double) query2.getSingleResult();
+            }else{
+                sumSale2 = 0.0;
+            }
+            return sumSale1 + sumSale2;
+        } finally {
+            em.close();
+        }
+    }
+    
+    
     public Boolean checkMoneyByContractIDWithCompany(int contractID){
         EntityManager em = getEntityManager();
         try {
@@ -274,13 +337,22 @@ public class TransactionsJpaController implements Serializable {
                     + "transactions_date LIKE '%-03-%' AND "
                     + "contract_id='" + contractID + "'"
             );
-            double count1 = (double) query1.getSingleResult();
+            double count1 = 0.0;
+            if(query1.getSingleResult() != null){
+                count1 = (double) query1.getSingleResult();
+            }else{
+                count1 = 0.0;
+            }
             Query query2 = em.createNativeQuery("SELECT SUM(money) FROM transactions where "
                     + "transactions_date LIKE '%-02-%' AND "
                     + "contract_id='" + contractID + "'"
             );
-            double count2 = (double) query2.getSingleResult();
-            
+            double count2 = 0.0;
+            if(query2.getSingleResult() != null){
+                count2 = (double) query2.getSingleResult();
+            }else{
+                count2 = 0.0;
+            }
             return (count1 > count2);
         } finally {
             em.close();

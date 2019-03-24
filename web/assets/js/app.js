@@ -1244,8 +1244,24 @@ webpackJsonpapp([0],[
 	"use strict";
 	module.exports = function () {
 	  var Chart = __webpack_require__(/*! chart.js */ 151);
+          
+          var getJanRealEstate24hIncome = document.getElementById("getJanRealEstate24hIncome");
+          if(getJanRealEstate24hIncome){
+              var getJanRealEstate24hIncome = getJanRealEstate24hIncome.innerHTML;
+          }
+          
+          var getFebRealEstate24hIncome = document.getElementById("getFebRealEstate24hIncome");
+          if(getFebRealEstate24hIncome){
+              var getFebRealEstate24hIncome = getFebRealEstate24hIncome.innerHTML;
+          }
+          
+          var getMarRealEstate24hIncome = document.getElementById("getMarRealEstate24hIncome");
+          if(getMarRealEstate24hIncome){
+              var getMarRealEstate24hIncome = getMarRealEstate24hIncome.innerHTML;
+          }
+          
 	  var data = {
-	    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+	    labels: ["Jan", "Feb", "Mar"],
 	    datasets: [
 	      {
 	        label: "My First dataset",
@@ -1255,7 +1271,7 @@ webpackJsonpapp([0],[
 	        //pointStrokeColor: "#fff",
 	        //pointHighlightFill: "#fff",
 	        //pointHighlightStroke: "rgba(220,220,220,1)",
-	        data: [65, 59, 80, 81, 56, 55]
+	        data: [getJanRealEstate24hIncome, getFebRealEstate24hIncome, getMarRealEstate24hIncome]
 	      }
 	    ]
 	  };

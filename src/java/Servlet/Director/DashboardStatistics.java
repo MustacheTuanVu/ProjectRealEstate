@@ -3,17 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet.Employee;
+package Servlet.Director;
 
 import Controller.ContractDetailsJpaController;
+import Controller.CustomerJpaController;
+import Controller.EmployeeJpaController;
+import Controller.EstateJpaController;
 import Controller.EstateTypeJpaController;
+import Controller.ManagerJpaController;
+import Controller.PostJpaController;
+import Controller.ProjectJpaController;
 import Controller.TransactionsJpaController;
+import Entity.Category;
 import Entity.Contract;
-import Entity.Employee;
+import Entity.Estate;
 import Entity.EstateType;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,8 +37,8 @@ import javax.transaction.UserTransaction;
  *
  * @author kiems
  */
-@WebServlet(name = "DashboardEmployee", urlPatterns = {"/DashboardEmployee"})
-public class DashboardEmployee extends HttpServlet {
+@WebServlet(name = "DashboardStatistics", urlPatterns = {"/DashboardStatistics"})
+public class DashboardStatistics extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,10 +56,6 @@ public class DashboardEmployee extends HttpServlet {
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
         Entity.Users user = (Entity.Users) session.getAttribute("user");
-        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
-        TransactionsJpaController transactionsJpaController = new TransactionsJpaController(utx, emf);
-        ContractDetailsJpaController contractDetailsJpaController = new ContractDetailsJpaController(utx, emf);
         if (user != null) {
             request.setAttribute("user", "user");
             request.setAttribute("displayLogin", "none");
@@ -76,13 +82,20 @@ public class DashboardEmployee extends HttpServlet {
             }
             
             // DASHBOARD
-            List<Contract> contractList = contractDetailsJpaController.getContractByEmployee(user.getEmployee().getId());
+            
+            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+            TransactionsJpaController transactionsJpaController = new TransactionsJpaController(utx, emf);
+            ContractDetailsJpaController contractDetailsJpaController = new ContractDetailsJpaController(utx, emf);
+            EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
+            EstateJpaController estateJpaController = new EstateJpaController(utx, emf);
+            List<Contract> contractList = contractDetailsJpaController.getContractByEmployee(-1);
             Double sumMoney = 0.0;
             Double sumMoneyCompany = 0.0;
             int estateTransaction = 0;
             Double sumMoneyCompanyByJan = 0.0;
             Double sumMoneyCompanyByFeb = 0.0;
             Double sumMoneyCompanyByMar = 0.0;
+            int contractCountCompany = 0;
             boolean checkMoneyCompany = true;
             for (Contract contract : contractList) {
                 sumMoney = sumMoney + transactionsJpaController.getMoneyByContractIDWithEmployee(contract.getId());
@@ -95,6 +108,7 @@ public class DashboardEmployee extends HttpServlet {
                 sumMoneyCompanyByMar = sumMoneyCompanyByMar + transactionsJpaController.getMoneyByContractIDWithCompanyMonth(
                         contract.getId(), "-03-");
                 checkMoneyCompany = transactionsJpaController.checkMoneyByContractIDWithCompany(estateTransaction);
+                contractCountCompany = contractCountCompany + transactionsJpaController.getCountByContractIDWithCompany(contract.getId());
             }
             request.setAttribute("sumMoney", sumMoney);
             request.setAttribute("sumMoneyCompany", sumMoneyCompany);
@@ -103,6 +117,67 @@ public class DashboardEmployee extends HttpServlet {
             request.setAttribute("sumMoneyCompanyByFeb", sumMoneyCompanyByFeb);
             request.setAttribute("sumMoneyCompanyByMar", sumMoneyCompanyByMar);
             request.setAttribute("checkMoneyCompany", checkMoneyCompany);
+            request.setAttribute("contractCountCompany", contractCountCompany);
+            
+            List<EstateType> estateTypeListPublish = estateTypeControl.findEstateTypeEntities();
+            request.setAttribute("estateTypeListPublish", estateTypeListPublish);
+            request.setAttribute("estateTypeListPublishSize", estateTypeListPublish.size());
+            
+            /*
+            EstateType estateType1 = new EstateType("1");
+            estateType1.getEstateList().get(1).getContractDetails().getContractId().getStatus();
+            */
+            
+            Map<String,Integer> countEstateSaleList = new HashMap<>();
+            Map<String,Double> countMoneyEstateSaleList = new HashMap<>();
+            int countUnitEstateSaleList = 0;
+            Double countMoneyEstaetSaleList = 0.0;
+            for (EstateType estateType : estateTypeListPublish) {
+                List<Estate> estatesList = estateType.getEstateList();
+                double money = 0.0;
+                for (Estate estate : estatesList) {
+                    if(estate.getEstateStatus().equals("publish")){
+                        countMoneyEstaetSaleList = countMoneyEstaetSaleList + estate.getPrice();
+                        money = money + estate.getPrice();
+                    }
+                }
+                countUnitEstateSaleList = countUnitEstateSaleList + estateTypeControl.getEstateTypeByEstateCountStaticPublic(estateType.getId());
+                countEstateSaleList.put(estateType.getId(), estateTypeControl.getEstateTypeByEstateCountStaticPublic(estateType.getId()));
+                countMoneyEstateSaleList.put(estateType.getId(), money);
+                
+            }
+            request.setAttribute("countMoneyEstateSaleList", countMoneyEstateSaleList);
+            request.setAttribute("countMoneyEstateSaleListSize", countMoneyEstateSaleList.size());
+            request.setAttribute("countMoneyEstaetSaleList", countMoneyEstaetSaleList);
+            request.setAttribute("countUnitEstateSaleList", countUnitEstateSaleList);
+            request.setAttribute("countEstateSaleList", countEstateSaleList);
+            request.setAttribute("countEstateSaleListSize", countEstateSaleList.size());
+            
+            
+            Map<String,Integer> countEstateSoldList = new HashMap<>();
+            Map<String,Double> countMoneyEstateSoldList = new HashMap<>();
+            int countUnitEstateSoldList = 0;
+            Double countMoneyEstaetSoldList = 0.0;
+            for (EstateType estateType : estateTypeListPublish) {
+                List<Estate> estatesList = estateType.getEstateList();
+                double money = 0.0;
+                for (Estate estate : estatesList) {
+                    if(estate.getEstateStatus().equals("sold")){
+                        countMoneyEstaetSoldList = countMoneyEstaetSoldList + estate.getPrice();
+                        money = money + estate.getPrice();
+                    }
+                }
+                countUnitEstateSoldList = countUnitEstateSoldList + estateTypeControl.getEstateTypeByEstateCountStaticSold(estateType.getId());
+                countEstateSoldList.put(estateType.getId(), estateTypeControl.getEstateTypeByEstateCountStaticSold(estateType.getId()));
+                countMoneyEstateSoldList.put(estateType.getId(), money);
+            }
+            request.setAttribute("countMoneyEstateSoldList", countMoneyEstateSoldList);
+            request.setAttribute("countMoneyEstateSoldListSize", countMoneyEstateSoldList.size());
+            request.setAttribute("countMoneyEstaetSoldList", countMoneyEstaetSoldList);
+            request.setAttribute("countUnitEstateSoldList", countUnitEstateSoldList);
+            request.setAttribute("countEstateSoldList", countEstateSoldList);
+            request.setAttribute("countEstateSoldListSize", countEstateSaleList.size());
+            
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
@@ -110,10 +185,8 @@ public class DashboardEmployee extends HttpServlet {
         // END SESSION HEADER FONTEND //
         
         // BEGIN NAVBAR HEADER FONTEND //
-        
-        List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();
-        request.setAttribute("estateTypeList", estateTypeList);
-        request.getRequestDispatcher("/page/dashboard/employee/index.jsp").forward(request, response);
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        request.getRequestDispatcher("/page/dashboard/director/dashboard_statistics.jsp").forward(request, response);
         // END NAVBAR HEADER FONTEND //
     }
 

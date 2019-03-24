@@ -531,6 +531,7 @@ public class EstateJpaController implements Serializable {
                 query = em.createNativeQuery("SELECT id FROM estate where "
                         + "estate_status LIKE '%" + status + "%'"
                 );
+                System.out.println(query);
                 if (query.getResultList().size() != 0) {
                     ret.addAll((List<String>) query.getResultList());
                 }
@@ -541,6 +542,7 @@ public class EstateJpaController implements Serializable {
                             + "id = '" + string + "' AND "
                             + "estate_status LIKE '%" + status + "%'"
                     );
+                    System.out.println(query);
                     if (query.getResultList().size() != 0) {
                         ret.add((String) query.getSingleResult());
                     }

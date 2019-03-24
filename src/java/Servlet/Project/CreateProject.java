@@ -118,7 +118,7 @@ public class CreateProject extends HttpServlet {
                 pro.setDocumentUrl("123");
                 pro.setManagerId(mana);
                 pro.setProjectAddress(request.getParameter("addressProject"));
-                pro.setProjectArea(Double.valueOf(request.getParameter("projectArea")));
+                //pro.setProjectArea(Double.valueOf(request.getParameter("projectArea")));
                 pro.setProjectName(request.getParameter("projectName"));
                 pro.setProjectStatus("Waiting for Director");
                 pro.setStatus("Waiting for Director");

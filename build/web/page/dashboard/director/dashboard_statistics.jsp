@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
@@ -79,14 +80,14 @@
                                 <div class="site__main">
                                     <div class="widget js-widget widget--dashboard">
                                         <div class="widget__header">
-                                            <h2 class="widget__title">Credit</h2>
+                                            <h2 class="widget__title">Financials</h2>
                                         </div>
                                         <div class="widget__content">
                                             <section class="info info--financials">
                                                 <div class="info__list">
                                                     <div class="info__column">
                                                         <div class="info__item">
-                                                            <div class="info__title">My Income</div>
+                                                            <div class="info__title">Employee Income</div>
                                                             <div class="info__value info__value--succes"><span class="info__value-label"></span> ${sumMoney}</div>
                                                             <!--
                                                             <div class="info__actions"><a href="dashboard_payment.html" class="info__more">Add credits</a>
@@ -101,8 +102,8 @@
                                                             <div class="info__value info__value--small"><span class="info__value-label"></span> ${estateTransaction}</div>
                                                         </div>
                                                         <div class="info__item">
-                                                            <div class="info__title">Expenses</div>
-                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 15,330</div>
+                                                            <div class="info__title">Transaction Success</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label"></span> ${contractCountCompany}</div>
                                                         </div>
                                                     </div>
                                                     <div class="info__column">
@@ -110,10 +111,10 @@
                                                             <div class="info__title">RealEstate24h' Income By Me</div>
                                                             <div class="info__value info__value--info">
                                                                 <span class="info__value-label"></span> ${sumMoneyCompany}
-                                                                <c:if test="${checkMoneyCompany == true}">
+                                                                <c:if test="${checkMoneyCompany == false}">
                                                                     <i class="fa fa-arrow-up info__value--positive"></i>
                                                                 </c:if>
-                                                                <c:if test="${checkMoneyCompany == false}">
+                                                                <c:if test="${checkMoneyCompany == true}">
                                                                     <i class="fa fa-arrow-down info__value--positive"></i>
                                                                 </c:if>
                                                             </div>
@@ -131,62 +132,86 @@
                                     </div>
                                     <div class="widget js-widget widget--dashboard">
                                         <div class="widget__header">
-                                            <h2 class="widget__title">Commission</h2>
+                                            <h2 class="widget__title">Sale Unit: ${countUnitEstateSaleList}<br>
+                                                Total of Selling Price: ${countMoneyEstaetSaleList}</h2>
                                         </div>
                                         <div class="widget__content">
                                             <section class="info info--commission">
-                                                <h5 class="info__group-name">Cash receipts from:</h5>
-                                                <div class="info__list">
-                                                    <div class="info__column">
-                                                        <div class="info__item">
-                                                            <div class="info__title">Sales</div>
-                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 17,505</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="info__column">
-                                                        <div class="info__item">
-                                                            <div class="info__title">Commission & Fees</div>
-                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 8,050</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="info__column">
-                                                        <div class="info__item">
-                                                            <div class="info__title">Interest received</div>
-                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 2,310</div>
-                                                        </div>
+                                                <div class="info__about">
+                                                    <div class="info__table-wrap">
+                                                        <table class="table table--stripped info__table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Category</th>
+                                                                    <th>No. of Listing</th>
+                                                                    <th>Total of Selling Price</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <c:forEach begin="0" end="${estateTypeListPublishSize}" items="${estateTypeListPublish}" var="item"><tr>
+                                                                        <td>${item.typeName}</td>   
+                                                                        <td>
+                                                                            <c:forEach begin="0" end="${countEstateSaleListSize}" items="${countEstateSaleList}" var="item2">
+                                                                                <c:if test="${item.id == item2.key}">
+                                                                                    ${item2.value}
+                                                                                </c:if>
+                                                                            </c:forEach>
+                                                                        </td>
+                                                                        <td>
+                                                                            <c:forEach begin="0" end="${countMoneyEstateSaleListSize}" items="${countMoneyEstateSaleList}" var="item2">
+                                                                                <c:if test="${item.id == item2.key}">
+                                                                                    ${item2.value}
+                                                                                </c:if>
+                                                                            </c:forEach>
+                                                                        </td>
+                                                                    </tr>
+                                                                </c:forEach>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
-                                                <h5 class="info__group-name">Cash payment for:</h5>
-                                                <div class="info__list">
-                                                    <div class="info__column">
-                                                        <div class="info__item">
-                                                            <div class="info__title">Purchases</div>
-                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 2,825</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="info__column">
-                                                        <div class="info__item">
-                                                            <div class="info__title">Payment to employees</div>
-                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 9,000</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="info__column">
-                                                        <div class="info__item">
-                                                            <div class="info__title">Operating Expenses</div>
-                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 660</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="info__column">
-                                                        <div class="info__item">
-                                                            <div class="info__title">Interest Payments</div>
-                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 1,700</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="info__column">
-                                                        <div class="info__item">
-                                                            <div class="info__title">Direct Taxes Paid</div>
-                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 720</div>
-                                                        </div>
+                                            </section>
+                                        </div>
+                                    </div>
+
+                                    <div class="widget js-widget widget--dashboard">
+                                        <div class="widget__header">
+                                            <h2 class="widget__title">Sold Unit: ${countUnitEstateSoldList}<br>
+                                                Total of Selling Price: ${countMoneyEstaetSoldList}</h2>
+                                        </div>
+                                        <div class="widget__content">
+                                            <section class="info info--commission">
+                                                <div class="info__about">
+                                                    <div class="info__table-wrap">
+                                                        <table class="table table--stripped info__table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Category</th>
+                                                                    <th>No. of Listing</th>
+                                                                    <th>Total of Selling Price</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <c:forEach begin="0" end="${estateTypeListPublishSize}" items="${estateTypeListPublish}" var="item"><tr>
+                                                                        <td>${item.typeName}</td>   
+                                                                        <td>
+                                                                            <c:forEach begin="0" end="${countEstateSoldListSize}" items="${countEstateSoldList}" var="item2">
+                                                                                <c:if test="${item.id == item2.key}">
+                                                                                    ${item2.value}
+                                                                                </c:if>
+                                                                            </c:forEach>
+                                                                        </td>
+                                                                        <td>
+                                                                            <c:forEach begin="0" end="${countMoneyEstateSoldListSize}" items="${countMoneyEstateSoldList}" var="item2">
+                                                                                <c:if test="${item.id == item2.key}">
+                                                                                    ${item2.value}
+                                                                                </c:if>
+                                                                            </c:forEach>
+                                                                        </td>
+                                                                    </tr>
+                                                                </c:forEach>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </section>
@@ -199,7 +224,7 @@
                         <!-- BEGIN SIDEBAR-->
 
                         <div class="sidebar sidebar--dashboard">
-                            <%@ include file="/template/dashboard/employee/sidebar.jsp" %>
+                            <%@ include file="/template/dashboard/director/sidebar.jsp" %>
                         </div>
 
                         <!-- END SIDEBAR-->

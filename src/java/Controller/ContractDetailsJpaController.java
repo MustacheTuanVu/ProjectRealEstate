@@ -239,8 +239,15 @@ public class ContractDetailsJpaController implements Serializable {
     public List<Contract> getContractByEmployee(int employeeID) {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createNativeQuery("SELECT * FROM contract where employee_id='" + employeeID + "'", Contract.class);
-            List<Contract> ret = (List<Contract>) query.getResultList();
+            Query query = null;
+            List<Contract> ret = null;
+            if(employeeID == -1){
+                query = em.createNativeQuery("SELECT * FROM contract", Contract.class);
+                ret = (List<Contract>) query.getResultList();
+            }else{
+                query = em.createNativeQuery("SELECT * FROM contract where employee_id='" + employeeID + "'", Contract.class);
+                ret = (List<Contract>) query.getResultList();
+            }
             return ret;
         } finally {
             em.close();

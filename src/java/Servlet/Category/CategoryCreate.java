@@ -52,27 +52,8 @@ public class CategoryCreate extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-        EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        Controller.CategoryJpaController conType = new CategoryJpaController(utx, em);
-
-        Controller.ContractTypeJpaController test = new ContractTypeJpaController(utx, em);
-        List<Entity.ContractType> listCon = test.findContractTypeEntities();
-
-        String a = request.getParameter("txtType");
-
-        Entity.ContractType type = new ContractType();
-        type.setContractTypeName(a);
-        //type.setContractList(listCon);
-        try {
-
-            conType.create(type);
-        } catch (RollbackFailureException ex) {
-            Logger.getLogger(CategoryCreate.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(CategoryCreate.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        response.sendRedirect(request.getContextPath() + "/CategoryList");
+        processRequest(request, response);
+        
     }
 
     /**

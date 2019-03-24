@@ -109,11 +109,19 @@
                                                         <div class="info__item">
                                                             <div class="info__title">RealEstate24h' Income By Me</div>
                                                             <div class="info__value info__value--info">
-                                                                <span class="info__value-label"></span> ${sumMoneyCompany} 
-                                                                <i class="fa fa-arrow-up info__value--positive"></i>
+                                                                <span class="info__value-label"></span> ${sumMoneyCompany}
+                                                                <c:if test="${checkMoneyCompany == true}">
+                                                                    <i class="fa fa-arrow-up info__value--positive"></i>
+                                                                </c:if>
+                                                                <c:if test="${checkMoneyCompany == false}">
+                                                                    <i class="fa fa-arrow-down info__value--positive"></i>
+                                                                </c:if>
                                                             </div>
                                                             <div class="info__chart info__chart--balance">
                                                                 <canvas id="current-balance" class="info__chart-balance"></canvas>
+                                                                <p id="getJanRealEstate24hIncome" style="display: none">${sumMoneyCompanyByJan}</p>
+                                                                <p id="getFebRealEstate24hIncome" style="display: none">${sumMoneyCompanyByFeb}</p>
+                                                                <p id="getMarRealEstate24hIncome" style="display: none">${sumMoneyCompanyByMar}</p>
                                                             </div>
                                                         </div>
                                                     </div>

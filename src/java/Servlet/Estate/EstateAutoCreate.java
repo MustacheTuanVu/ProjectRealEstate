@@ -117,7 +117,15 @@ public class EstateAutoCreate extends HttpServlet {
                 if (request.getParameter("getEstate") != null) {
                     for (int i = 1; i <= floorNumber; i++) {
                         int index = 0;
-                        for (int j = 1; j <= 3; j++) {
+                        int choice = 3;
+                        if(Integer.parseInt(request.getParameter("typeNumberFloorF" + i + "Type2")) ==0){
+                            choice = 2;
+                        }
+                        if(Integer.parseInt(request.getParameter("typeNumberFloorF" + i + "Type3")) ==0){
+                            choice = 1;
+                        }
+                        for (int j = 1; j <= choice; j++) {
+                            
                             for (int y = 1; y <= Integer.parseInt(request.getParameter("typeNumberFloorF" + i + "Type" + j)); y++) {
                                 index = index + 1;
                                 Estate estate = new Estate();
