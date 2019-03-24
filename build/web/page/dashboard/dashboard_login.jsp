@@ -119,19 +119,19 @@
                     </div>
                 </div>
             </div>
+                                                    
             <!-- cuong add -->
             <div id="myModal" class="modal fade" role="dialog">
                 <div class="modal-dialog modal-sm">
-
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title text-center text-success">Change Password</h4>
+                            <h4 class="modal-title text-center text-success"></h4>
                         </div>
                         <div class="modal-body">
-                            <h4 class="modal-title text-center text-success" style="text-align: center">${nameLogin}</h4>
-                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150px" height="150px" alt="error">
+                            <h4 class="modal-title text-center text-success" style="text-align: center">${err}</h4>
+                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
                         </div>
                     </div>
 

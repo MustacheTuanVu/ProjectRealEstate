@@ -23,7 +23,7 @@ import javax.transaction.UserTransaction;
  *
  * @author Cuong
  */
-@WebServlet(name = "BlogListCategory", urlPatterns = {"/BlogListCategory"})
+@WebServlet(name = "BlogListCategory1", urlPatterns = {"/BlogListCategory1"})
 public class BlogListCategory extends HttpServlet {
 
     /**

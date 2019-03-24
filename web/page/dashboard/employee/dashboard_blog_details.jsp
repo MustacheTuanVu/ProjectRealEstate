@@ -1,4 +1,4 @@
-
+    
 
 <!-- cuong add -->
 <!DOCTYPE html>
@@ -140,8 +140,9 @@
                                     <div class="article-categories">
                                         <div class="article-categories__list js-categories-article">
                                             <ul>
+                                                <li class="article-categories__item"><a href="<%= request.getContextPath()%>/BlogListAllUser?cat=all" class="article-categories__name">All<span class="article-categories__count"></span></a></li>
                                                 <c:forEach var="element" items="${listCount}">
-                                                    <li class="article-categories__item"><a href="#" class="article-categories__name">${element.categoryName}<span class="article-categories__count">${element.categoryId}</span></a></li>
+                                                    <li class="article-categories__item"><a href="<%= request.getContextPath() %>/BlogListAllUser?cat=${element.categoryId}" class="article-categories__name">${element.categoryName}<span class="article-categories__count"></span></a></li>
                                                     </c:forEach>
                                             </ul>
                                         </div>
@@ -151,24 +152,7 @@
                                 </div>
                             </div>
 
-                            <div class="widget js-widget widget--sidebar">
-                                <div class="widget__header">
-                                    <h2 class="widget__title">News & Blog</h2>
-                                    <h5 class="widget__headline">Find your apartment or house on the exact key parameters.</h5><a class="widget__btn js-widget-btn widget__btn--toggle">Show articles</a>
-                                </div>
-                                <div class="widget__content">
-                                    <!-- BEGIN SECTION ARTICLE-->
-                                    <article class="article article--sidebar">
-                                        <div class="article__details"><a href="blog_details.html" class="article__item-title">You've been approved for a rental home. Now what?</a>
-                                            <time datetime="2009-08-29" class="article__time">Mon - 3 Sep - 3:17 PM</time>
-                                            <div class="article__intro">
-                                                <p>Congratulations! You've found the perfect rental property and your application has been approved. Now there's just a few things you'll need ...</p>
-                                            </div><a href="blog_details.html" class="article__more">Read more</a>
-                                        </div>
-                                        <!-- END SECTION ARTICLE-->
-                                    </article>
-                                </div>
-                            </div>
+                            
                         </div>
                         <!-- END SIDEBAR-->
                         <div class="clearfix"></div>

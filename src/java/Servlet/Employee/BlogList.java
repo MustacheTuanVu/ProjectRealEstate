@@ -7,9 +7,7 @@ package Servlet.Employee;
 
 import Controller.CategoryJpaController;
 import Controller.PostJpaController;
-import Entity.Post;
 import java.io.IOException;
-import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -57,7 +55,9 @@ public class BlogList extends HttpServlet {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             Controller.PostJpaController postController = new PostJpaController(utx, emf);
             Controller.CategoryJpaController catController= new CategoryJpaController(utx, emf);
-            
+            if(request.getParameter("modal")!=null){
+                request.setAttribute("modal", request.getParameter("modal"));
+            }
             request.setAttribute("listCat", catController.findCategoryEntities());
             //System.out.println("list 123 "+ postController.getPostByEmployee(user.getEmployee().getId().toString()));
             request.setAttribute("listPost", postController.getPostByEmployee(user.getEmployee().getId().toString()));

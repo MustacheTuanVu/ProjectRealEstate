@@ -47,7 +47,6 @@ public class BlogListAllUser extends HttpServlet {
             request.setAttribute("listPost", postController.getAllPost());
             request.setAttribute("listCat", catController.findCategoryEntities());
             request.getRequestDispatcher("/page/dashboard/guest/blog.jsp").forward(request, response);
-
         }
         else{
             int cat=Integer.valueOf(request.getParameter("cat"));

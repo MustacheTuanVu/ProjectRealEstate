@@ -91,24 +91,23 @@
                                                 <form  action="RegisterUser" method="post" onsubmit="return checkPass()" class="form form--flex form--auth js-register-form js-parsley">
                                                     <div class="row">
                                                         <div class="form-group ${hasError}">
-                                                            <label for="register-lastname-inline" class="control-label">User Name</label>
-                                                            <input type="text"  name="name" id="register-lastname-inline" required class="form-control">
-                                                            <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
-                                                                <div class="parsley-required">${message}</div>
-                                                            </div>
+                                                            <label for="register-lastname-inline1" class="control-label">User Name</label>
+                                                            <input type="text"  name="name" id="register-lastname-inline1" required class="form-control">
+                                                            <span id="errNameRegister"></span>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="form-group ">
-                                                            <label for="register-pass-inline" class="control-label">Password</label>
-                                                            <input type="password"  name="password" id="register-pass-inline" required class="form-control">
-                                                            <div id="errPassRegister" class="parsley-required"></div>
+                                                            <label class="control-label">Password</label>
+                                                            <input type="password"  name="password" id="register-pass-inline1" required class="form-control">
+                                                            
+                                                            <div id="errPassRegister" ></div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="form-group ">
-                                                            <label for="register-confirm-inline" class="control-label">Confirm</label>
-                                                            <input type="password" name="confirm" id="register-confirm-inline" required class="form-control">
+                                                            <label for="register-confirm-inline1" class="control-label">Confirm</label>
+                                                            <input type="password" name="confirm" id="register-confirm-inline1" required class="form-control">
                                                         </div>
                                                         <div class="form__options">Back to<a href="<%=request.getContextPath()%>/LoginUser">Log In</a>
                                                         </div>
@@ -129,6 +128,23 @@
                     </div>
                 </div>
             </div>
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-sm">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title text-center text-success"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <h4 class="modal-title text-center text-success" style="text-align: center">User Name Exsit !!!</h4>
+                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
+                        </div>
+                    </div>
+
+                </div>
+            </div> 
             <!-- END CENTER SECTION-->
             <!-- BEGIN AFTER CENTER SECTION-->
             <!-- END AFTER CENTER SECTION-->
@@ -180,24 +196,30 @@
 
                                                     function checkPass()
                                                     {
-                                                        var newPass = document.getElementById('register-pass-inline').value;
-                                                        var confirmPass = document.getElementById('register-confirm-inline').value;
-                                                        var username = document.getElementById('register-lastname-inline').value;
+                                                        var newPass = document.getElementById('register-pass-inline1').value;
+                                                        var confirmPass = document.getElementById('register-confirm-inline1').value;
+                                                        var username = document.getElementById('register-lastname-inline1').value;
 
-                                                        if (username.length > 50) {
-                                                            document.getElementById('errNameRegister').innerHTML = 'Username cannot be longer than 50 characters ';
-                                                        } else
-                                                        if (newPass.length > 50) {
+                                                        if (username.length < 6 ) {
+                                                            document.getElementById("errNameRegister").innerHTML = "Username cannot be longer than 50 characters ";
+                                                        }else
+                                                        if (newPass.length < 6) {
                                                             document.getElementById('errPassRegister').innerHTML = 'Username cannot be longer than 50 characters ';
-                                                        } else
+                                                        }else
                                                         if (newPass !== confirmPass) {
                                                             document.getElementById('errPassRegister').innerHTML = 'NEW PASSWORD and CONFIRM NEW PASSWORD not the same ';
-
-                                                        } else
-                                                            document.getElementById('errNameRegister').innerHTML = ' ';
-                                                        return true;
+                                                        }else {
+                                                            return true;
+                                                        }
                                                         return false;
+
+
                                                     }
+    </script>
+    <script type="text/javascript">
+        $(window).on('load', function () {
+            $('#myModal').modal('${modal}');
+        });
     </script>
 
     <!-- END SCRIPTS and INCLUDES-->

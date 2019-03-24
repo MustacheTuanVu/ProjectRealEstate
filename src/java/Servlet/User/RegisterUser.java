@@ -44,6 +44,9 @@ public class RegisterUser extends HttpServlet {
 
         HttpSession session = request.getSession();
         session.invalidate();
+
+        String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "";
+        request.setAttribute("modal", modal);
         request.getRequestDispatcher("/page/guest/dashboard_register.jsp").forward(request, response);
     }
 
@@ -74,56 +77,37 @@ public class RegisterUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         //processRequest(request, response);
-
         EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
         Controller.UsersJpaController userCon = new UsersJpaController(utx, em);
         Entity.Users user = new Users();
-
         String a = request.getParameter("name");
-        String returnPage="/page/guest/dashboard_register.jsp";
-
         String message = (request.getParameter("message") != null) ? request.getParameter("message") : "";
-        String display = (request.getParameter("display") != null) ? request.getParameter("display") : "none";
-        String hasError = (request.getParameter("hasError") != null) ? request.getParameter("hasError") : "";
         request.setAttribute("message", message);
-        request.setAttribute("display", display);
-        
         if (userCon.checkUser(a).size() > 0) {
-            System.out.println("Username exsit !!!");
             message = "Username exsit !!!";
-            display = "block";
-            hasError = "has-error";
             request.setAttribute("message", message);
-            request.setAttribute("display", display);
             response.sendRedirect(request.getContextPath() + "/RegisterUser?"
-                                + "message="+message+"&"
-                                + "display="+display+"&"
-                                + "hasError="+hasError+""
-                        );
-           // request.getRequestDispatcher("/page/guest/dashboard_register.jsp").forward(request, response);
+                    + "message=" + message + "&"
+                    + "modal=show"
+            );
         } else {
             try {
                 user.setUsername(request.getParameter("name"));
                 user.setPassword(request.getParameter("password"));
                 user.setStatus(true);
                 user.setRole("customer");
-
                 userCon.create(user);
                 System.out.println("Register completed !!!");
-                //response.sendRedirect(request.getContextPath()+"/LoginUser");
-               // request.getRequestDispatcher("/page/dashboard_login.jsp").forward(request, response);
-                returnPage="/page/dashboard_login.jsp";
+                response.sendRedirect(request.getContextPath()+"/LoginUser?modal=show&err=Register completed !!!");
             } catch (RollbackFailureException ex) {
                 Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        request.getRequestDispatcher(returnPage).forward(request, response);
-        
     }
-
     /**
      * Returns a short description of the servlet.
      *

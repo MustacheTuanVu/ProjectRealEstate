@@ -7,8 +7,12 @@ package Servlet.Employee;
 
 import Controller.CategoryJpaController;
 import Controller.PostJpaController;
+import Entity.Category;
+import Entity.Post;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,8 +26,8 @@ import javax.transaction.UserTransaction;
  *
  * @author Cuong
  */
-@WebServlet(name = "BlogDetails", urlPatterns = {"/BlogDetails"})
-public class BlogDetails extends HttpServlet {
+@WebServlet(name = "BlogListCategoryEmployee", urlPatterns = {"/BlogListCategoryEmployee"})
+public class BlogListCategoryEmployee extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,45 +43,37 @@ public class BlogDetails extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
         HttpSession session = request.getSession();
         Entity.Users user = (Entity.Users) session.getAttribute("user");
 
         if (user != null) {
-            if (user.getRole().equals("employee")) {
-
             request.setAttribute("users", "user");
             request.setAttribute("displayLogin", "none");
             request.setAttribute("displayUser", "block");
             session.setAttribute("name", user.getEmployee().getEmployeeName());
             request.setAttribute("role", "employee");
             session.setAttribute("image", user.getEmployee().getEmployeeImg());
-            }else
-            if (user.getRole().equals("customer")) {
+            /*-------------------------------------------*/
 
-            request.setAttribute("users", "user");
-            request.setAttribute("displayLogin", "none");
-            request.setAttribute("displayUser", "block");
-            session.setAttribute("name", user.getCustomer().getCustomerName());
-            request.setAttribute("role", "customer");
-            session.setAttribute("image", user.getCustomer().getCustomerImg());
+            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+            Controller.PostJpaController postController = new PostJpaController(utx, emf);
+            Controller.CategoryJpaController catController = new CategoryJpaController(utx, emf);
+            List<Category> listCat = catController.findCategoryEntities();
+            List<Post> listPost = new ArrayList<>();
+            for (Category listCat1 : listCat) {
+                listPost = postController.getPostByCategoryID(listCat1.getCategoryId());
             }
-            /*-----------------------------------------------------------*/
+            
+            //request.setAttribute("listCat", listCat);
+            request.setAttribute("listPost", listPost);
+            request.getRequestDispatcher("/page/dashboard/employee/dashboard_bloglist_catid_employee.jsp").forward(request, response);
+            
+            
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
-            //response.sendRedirect(request.getContextPath() + "/LoginUser");
+            response.sendRedirect(request.getContextPath() + "/LoginUser");
         }
-        
-         int idPost=Integer.valueOf(request.getParameter("id"));
-            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-            Controller.PostJpaController postController = new PostJpaController(utx, emf);
-            Controller.CategoryJpaController catControler= new CategoryJpaController(utx, emf);
-
-            request.setAttribute("listCount", postController.getPostByCategory1());
-            request.setAttribute("listCat", catControler.findCategoryEntities());
-            request.setAttribute("post", postController.findPost(idPost));
-            request.getRequestDispatcher("/page/dashboard/employee/dashboard_blog_details.jsp").forward(request, response);
 
     }
 
@@ -107,7 +103,7 @@ public class BlogDetails extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       // processRequest(request, response);
+        processRequest(request, response);
     }
 
     /**

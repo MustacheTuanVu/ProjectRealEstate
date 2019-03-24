@@ -300,4 +300,28 @@ public class PostJpaController implements Serializable {
         }
     }
 
+    /* cuong add */
+    public List<Post> getPostByCategoryID(int catID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q=em.createNativeQuery("SELECT TOP 3 p.* FROM post p where p.post_category='"+catID+"' ORDER BY p.post_date DESC",Post.class);
+            List<Post> ret = (List<Post>) q.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    /* cuong add */
+    public Object getCountPostByEmployeeID(int empId){
+        EntityManager em = getEntityManager();
+        Query q=em.createNativeQuery("select count(post_id) from post where employee ='"+empId+"'");
+        return   q.getSingleResult();
+    }
+    /* cuong add */
+    public Object getCountCustomerByEmployeeID(int empId){
+        EntityManager em = getEntityManager();
+        Query q=em.createNativeQuery("select count(x.customer_id) from (select distinct(customer_id) from contract where employee_id='"+empId+"') x");
+        return   q.getSingleResult();
+    }
 }

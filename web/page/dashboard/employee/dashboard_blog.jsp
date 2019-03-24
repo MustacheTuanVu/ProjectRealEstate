@@ -90,7 +90,7 @@
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
                                         <h2 class="widget__title">Blog List</h2> 
-                                        
+
                                         <%
                                             Entity.Users user = (Entity.Users) session.getAttribute("user");
                                             if (user.getRole().equals("employee")) {
@@ -101,7 +101,7 @@
                                         %>
                                     </div>
                                     <br>
-                                    
+
                                     <div class="widget__content">
                                         <!-- BEGIN SECTION ARTICLE-->
                                         <div class="listing listing--grid">
@@ -110,7 +110,6 @@
                                                     <article class="article article--grid article--management">
                                                         <div class="article__item-header">
                                                             <div></div>
-
                                                             <%
                                                                 if (user.getRole().equals("employee")) {
                                                             %>    
@@ -185,20 +184,11 @@
             </div>
             <div id="myModal" class="modal fade" role="dialog">
                 <div class="modal-dialog">
-
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Estate <strong>"${name}"</strong> Exist !</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>This Estate Exits. It appear at <br>
-                                <strong>${add1} - ${add2}</strong></p>
-                            <img src="${img}" alt="error">
-                        </div>
-                        <div class="modal-footer">
-                            <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${id}" class="btn btn-default" >View This Estate</a>
+                            <h4 class="modal-title"> <strong>Edit Post Completed !!!</strong></h4>
                         </div>
                     </div>
 
@@ -286,10 +276,9 @@
     <!-- END SCRIPTS and INCLUDES-->
     <script type="text/javascript">
                                                                     $(window).on('load', function () {
-                                                                        $('#myModalShow').modal('${modalTranOke}');
-                                                                        $('#myModalFail').modal('${modalTranFail}');
                                                                         $('#myModal').modal('${modal}');
                                                                     });
     </script>
+ 
 </body>
 </html>

@@ -27,7 +27,7 @@
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
         <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
     </head>
-    <body class="user_register menu-default hover-default ">
+    <body class="dashboard_financials menu-default hover-default sidebar-left">
         <!--
         SVG icons from sprite-inline.svg
         They are inlined in order to make them work,
@@ -52,101 +52,89 @@
     <!-- endinject -->
     <div class="box js-box">
         <!-- BEGIN HEADER-->
- 
         <header class="header header--brand">
-            <%@ include file="/template/header1.jsp" %>
+            <%@ include file="/template/guest/header.jsp" %>
         </header>
-      
         <!-- END HEADER-->
         <!-- BEGIN NAVBAR-->
         <div id="header-nav-offset"></div>
         <nav id="header-nav" class="navbar navbar--header">
-            <%@ include file="/template/navbar.jsp" %>
+            <%@ include file="/template/guest/navbar.jsp" %>
         </nav>
         <!-- END NAVBAR-->
         <div class="site-wrap js-site-wrap">
-            <!-- BEGIN BREADCRUMBS-->
-            <nav class="breadcrumbs">
-                <div class="container">
-                    <ul>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Register</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <!-- END BREADCRUMBS-->
+            <!-- BEGIN CENTER SECTION-->
             <div class="center">
                 <div class="container">
                     <div class="row">
-                        <section class="site">
-                            <header class="site__header">
-                                <h1 class="site__title">Register</h1>
-                                <h2 class="site__headline">Create an account</h2>
-                            </header>
+                        <header class="site__header">
+                            <h1 class="site__title site__title--center">Dashboard</h1>
+                        </header>
+                        <!-- BEGIN LISTING-->
+                        <div class="site site--dashboard">
                             <div class="site__main">
-                                <div class="widget js-widget widget--main widget--no-border">
+                                
+                                <div class="widget js-widget widget--dashboard">
+                                    <div class="widget__header">
+                                        <h2 class="widget__title">Commission</h2>
+                                    </div>
                                     <div class="widget__content">
-                                        <div class="auth auth--inline">
-                                            <div class="auth__wrap auth__wrap--register">
-                                                <!-- BEGIN AUTH REGISTER-->
-                                                <h5 class="auth__title">Sign up a new account</h5>
-                                                <form action="" class="form form--flex form--auth js-register-form js-parsley">
-                                                    <div class="row">
-                                                        <div class="form-group form-group--col-6">
-                                                            <label for="register-name-inline" class="control-label">First name</label>
-                                                            <input type="text" name="username" id="register-name-inline" required class="form-control">
-                                                        </div>
-                                                        <div class="form-group form-group--col-6">
-                                                            <label for="register-lastname-inline" class="control-label">Last name</label>
-                                                            <input type="text" name="name" id="register-lastname-inline" required class="form-control">
-                                                        </div>
+                                        <section class="info info--commission">
+                                            <h5 class="info__group-name">Post</h5>
+                                            <div class="info__list">
+                                                <div class="info__column">
+                                                    <div class="info__item">
+                                                        <div class="info__title">Total Post</div>
+                                                        <div class="info__value info__value--small"><span class="info__value-label">RM</span> ${countPost}</div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="form-group form-group--col-6">
-                                                            <label for="register-email-inline" class="control-label">E-mail</label>
-                                                            <input type="email" name="email" id="register-email-inline" required class="form-control">
-                                                        </div>
-                                                        <div class="form-group form-group--col-6">
-                                                            <label for="register-password-inline" class="control-label">Password</label>
-                                                            <input type="password" name="password" id="register-password-inline" required class="form-control">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="form__options">Back to<a href="user_login.html">Log In</a>
-                                                        </div>
-                                                        <button type="submit" class="form__submit">Sign up</button>
-                                                    </div>
-                                                </form>
-                                                <!-- end of block .auth__form-->
-                                                <!-- END AUTH REGISTER-->
+                                                </div>
                                             </div>
-                                        </div>
+                                                    <h5 class="info__group-name">Customer</h5>
+                                            <div class="info__list">
+                                                <div class="info__column">
+                                                    <div class="info__item">
+                                                        <div class="info__title">Total Customer</div>
+                                                        <div class="info__value info__value--small"><span class="info__value-label">RM</span> ${countCustomer}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h5 class="info__group-name">Estate</h5>
+                                            <div class="info__list">
+                                                <div class="info__column">
+                                                    <div class="info__item">
+                                                        <div class="info__title">Estate</div>
+                                                        <div class="info__value info__value--small"><span class="info__value-label">RM</span> ${countContract}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="info__column">
+                                                    <div class="info__item">
+                                                        <div class="info__title">Transaction</div>
+                                                        <div class="info__value info__value--small"><span class="info__value-label">RM</span> ${countTransaction}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="info__column">
+                                                    <div class="info__item">
+                                                        <div class="info__title">Payment to Customer</div>
+                                                        <div class="info__value info__value--small"><span class="info__value-label">RM</span>${countMoney} </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </section>
                                     </div>
                                 </div>
                             </div>
-                        </section>
+                        </div>
+                        <!-- END LISTING-->
+                        <!-- BEGIN SIDEBAR-->
+                        <div class="sidebar sidebar--dashboard">
+                            <%@ include file="/template/dashboard/employee/sidebar.jsp" %>
+                        </div>
+                        <!-- END SIDEBAR-->
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
-            
-            <div id="myModal" class="modal fade" role="dialog">
-                <div class="modal-dialog modal-sm">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title text-center text-success"></h4>
-                        </div>
-                        <div class="modal-body">
-                            <h4 class="modal-title text-center text-success" style="text-align: center">User Name Exsit !!!</h4>
-                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
-                        </div>
-                    </div>
-
-                </div>
-            </div> 
-        
             <!-- END CENTER SECTION-->
             <!-- BEGIN AFTER CENTER SECTION-->
             <!-- END AFTER CENTER SECTION-->
@@ -191,11 +179,6 @@
     -->
     <!-- build:jsdemo-->
     <script type="text/javascript" src="assets/js/demo.js"></script>
-    <script type="text/javascript">
-        $(window).on('load', function () {
-            $('#myModal').modal('${modal}');
-        });
-    </script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
     <!-- END SCRIPTS and INCLUDES-->

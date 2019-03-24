@@ -52,22 +52,11 @@
     <!-- endinject -->
     <div class="box js-box">
         <!-- BEGIN HEADER-->
-        <%
-            if (session.getAttribute("user") == null) {
-        %>
+ 
         <header class="header header--brand">
             <%@ include file="/template/header1.jsp" %>
         </header>
-        <%        
-            } else {
-        %>
-        <header class="header header--brand">
-            <%@ include file="/template/header.jsp" %>
-        </header>
-        <%
-            }
-        %>
-
+      
         <!-- END HEADER-->
         <!-- BEGIN NAVBAR-->
         <div id="header-nav-offset"></div>
@@ -139,6 +128,25 @@
                     </div>
                 </div>
             </div>
+            
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-sm">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title text-center text-success"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <h4 class="modal-title text-center text-success" style="text-align: center">User Name Exsit !!!</h4>
+                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
+                        </div>
+                    </div>
+
+                </div>
+            </div> 
+        
             <!-- END CENTER SECTION-->
             <!-- BEGIN AFTER CENTER SECTION-->
             <!-- END AFTER CENTER SECTION-->
@@ -183,6 +191,11 @@
     -->
     <!-- build:jsdemo-->
     <script type="text/javascript" src="assets/js/demo.js"></script>
+    <script type="text/javascript">
+        $(window).on('load', function () {
+            $('#myModal').modal('${modal}');
+        });
+    </script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
     <!-- END SCRIPTS and INCLUDES-->

@@ -1,4 +1,15 @@
+<%-- 
+    Document   : dashboard_bloglist_catid_employee
+    Created on : Mar 24, 2019, 10:46:52 AM
+    Author     : Cuong
+--%>
+
+<!-- cuong add -->
 <!DOCTYPE html>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <html>
     <head lang="en">
         <meta charset="UTF-8">
@@ -10,24 +21,25 @@
         <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700%7cSource+Sans+Pro:200,400,600,700,900,400italic,700italic&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
         <!-- Boostrap and other lib styles-->
         <!-- build:cssvendor-->
-        <link rel="stylesheet" href="assets/css/vendor.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/vendor.css">
         <!-- endbuild-->
         <!-- Font-awesome lib-->
         <!-- build:cssfontawesome-->
-        <link rel="stylesheet" href="assets/css/font-awesome.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/font-awesome.css">
         <!-- endbuild-->
         <!-- Theme styles, please replace "default" with other color scheme from the list available in template/css-->
         <!-- build:csstheme-default-->
-        <link rel="stylesheet" href="assets/css/theme-default.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/theme-default.css">
         <!-- endbuild-->
         <!-- Your styles should go in this file-->
-        <link rel="stylesheet" href="assets/css/custom.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/custom.css">
         <!-- Fixes for IE-->
         <!--[if lt IE 11]>
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
-        <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
+        <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
     </head>
-    <body class="user_register menu-default hover-default ">
+    <body class="dashboard_property_new menu-default hover-default sidebar-left">
         <!--
         SVG icons from sprite-inline.svg
         They are inlined in order to make them work,
@@ -52,83 +64,180 @@
     <!-- endinject -->
     <div class="box js-box">
         <!-- BEGIN HEADER-->
- 
         <header class="header header--brand">
-            <%@ include file="/template/header1.jsp" %>
+            <%@ include file="/template/guest/header.jsp" %>
         </header>
-      
         <!-- END HEADER-->
+
         <!-- BEGIN NAVBAR-->
         <div id="header-nav-offset"></div>
         <nav id="header-nav" class="navbar navbar--header">
-            <%@ include file="/template/navbar.jsp" %>
+            <%@ include file="/template/guest/navbar.jsp" %>
         </nav>
         <!-- END NAVBAR-->
         <div class="site-wrap js-site-wrap">
-            <!-- BEGIN BREADCRUMBS-->
-            <nav class="breadcrumbs">
-                <div class="container">
-                    <ul>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Register</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <!-- END BREADCRUMBS-->
+            <!-- BEGIN CENTER SECTION-->
             <div class="center">
                 <div class="container">
                     <div class="row">
-                        <section class="site">
-                            <header class="site__header">
-                                <h1 class="site__title">Register</h1>
-                                <h2 class="site__headline">Create an account</h2>
-                            </header>
+                        <header class="site__header">
+                            <h1 class="site__title site__title--center">Dashboard</h1>
+                        </header>
+
+                        <!-- BEGIN LISTING-->
+                        <div class="site site--dashboard">
                             <div class="site__main">
-                                <div class="widget js-widget widget--main widget--no-border">
+                                <div class="widget js-widget widget--dashboard">
+                                    <div class="widget__header">
+                                        <h2 class="widget__title">Blog List</h2> 
+
+                                        <%
+                                            Entity.Users user = (Entity.Users) session.getAttribute("user");
+                                            if (user.getRole().equals("employee")) {
+                                        %>     
+                                        <a href="<%=request.getContextPath()%>/CreateBlog" class="widget__btn js-widget-btn widget__btn--action">Add New Blog</a>
+                                        <%
+                                            }
+                                        %>
+                                    </div>
+                                    <br>
+
                                     <div class="widget__content">
-                                        <div class="auth auth--inline">
-                                            <div class="auth__wrap auth__wrap--register">
-                                                <!-- BEGIN AUTH REGISTER-->
-                                                <h5 class="auth__title">Sign up a new account</h5>
-                                                <form action="" class="form form--flex form--auth js-register-form js-parsley">
-                                                    <div class="row">
-                                                        <div class="form-group form-group--col-6">
-                                                            <label for="register-name-inline" class="control-label">First name</label>
-                                                            <input type="text" name="username" id="register-name-inline" required class="form-control">
+                                        <!-- BEGIN SECTION ARTICLE-->
+                                        <div class="listing listing--grid">
+                                            <c:forEach  items="${listPost}" var="item" >
+                                                <div class="listing__item">
+                                                    <article class="article article--grid article--management">
+                                                        <div class="article__item-header">
+                                                            <div></div>
+
+                                                            <%
+                                                                if (user.getRole().equals("employee")) {
+                                                            %>    
+                                                            <div class="article__actions">
+                                                                <a href="<%= request.getContextPath()%>/EditBlog?id=${item.postId}&action=edit" class="article__link"  >Edit</a>
+                                                                <a onclick="return (confirm('Are You Sure !!!'))" href="<%= request.getContextPath()%>/EditBlog?id=${item.postId}&action=delete" class="article__link">Delete</a>
+                                                            </div>
+                                                            <%
+                                                                }
+                                                            %>
+                                                        </div><a href="BlogDetails?id=${item.postId}" class="article__photo"><img src="${item.postImage}" alt="News title" class="article__photo-img">
+                                                            <time datetime="2009-08-29" class="article__time"><fmt:formatDate value="${item.postDate}" pattern="MMM" /><strong><fmt:formatDate value="${item.postDate}" pattern="dd" /></strong></time></a>
+                                                        <div class="article__details"><a href="blog_details.html" class="article__item-title">${item.postTilte}</a>
+                                                            <c:set var="string1" value="${item.postContent}" />
+                                                            <div class="article__intro">
+                                                                ${fn:substring(string1,0, 100)}...</strong></p>
+                                                            </div><a href="<%=request.getContextPath()%>/BlogDetails?id=${item.postId}" class="article__more">Read more</a>
                                                         </div>
-                                                        <div class="form-group form-group--col-6">
-                                                            <label for="register-lastname-inline" class="control-label">Last name</label>
-                                                            <input type="text" name="name" id="register-lastname-inline" required class="form-control">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="form-group form-group--col-6">
-                                                            <label for="register-email-inline" class="control-label">E-mail</label>
-                                                            <input type="email" name="email" id="register-email-inline" required class="form-control">
-                                                        </div>
-                                                        <div class="form-group form-group--col-6">
-                                                            <label for="register-password-inline" class="control-label">Password</label>
-                                                            <input type="password" name="password" id="register-password-inline" required class="form-control">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="form__options">Back to<a href="user_login.html">Log In</a>
-                                                        </div>
-                                                        <button type="submit" class="form__submit">Sign up</button>
-                                                    </div>
-                                                </form>
-                                                <!-- end of block .auth__form-->
-                                                <!-- END AUTH REGISTER-->
-                                            </div>
+                                                    </article>
+                                                    <!-- end of block .article__item-->
+
+                                                </div>
+                                            </c:forEach>
                                         </div>
+                                        <!-- END SECTION ARTICLE-->
                                     </div>
                                 </div>
                             </div>
-                        </section>
+                        </div>
+                        <!-- END LISTING-->
+                        <!-- BEGIN SIDEBAR-->
+                        <%
+                            if (user.getRole().equals("employee")) {
+                        %>
+                        <div class="sidebar sidebar--dashboard">
+                            <%@ include file="/template/dashboard/employee/sidebar.jsp" %>
+                        </div>
+                        <% }%>
+
+                        <%
+                            if ((request.getParameter("user").equals("guest")) || (user.getRole() == null)) {
+                        %>
+                        <div class="sidebar sidebar--dashboard">
+
+                            <div class="widget__header">
+                                <h2 class="widget__title">Categories</h2>
+                                <h5 class="widget__headline">Find your apartment or house on the exact key parameters.</h5><a class="widget__btn js-widget-btn widget__btn--toggle">Show blog categories</a>
+                            </div>
+                            <div class="widget__content">
+                                <div class="article-categories">
+                                    <div class="article-categories__list js-categories-article">
+                                        <ul>
+                                            <c:forEach var="element" items="${listCount}">
+                                                <li class="article-categories__item">
+                                                    <a href="<%= request.getContextPath()%>/BlogList?user=guest&cat=${element.categoryId}" class="article-categories__name">${element.categoryName}
+                                                        <span class="article-categories__count"> </span>
+                                                    </a>
+                                                </li>
+                                            </c:forEach>
+                                        </ul>
+                                    </div>
+                                    <!-- end of block .article-categories__list-->
+                                </div>
+                            </div>
+                        </div>
+
+                        <% }%>
+                        <!-- END SIDEBAR-->
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
-            
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Estate <strong>"${name}"</strong> Exist !</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>This Estate Exits. It appear at <br>
+                                <strong>${add1} - ${add2}</strong></p>
+                            <img src="${img}" alt="error">
+                        </div>
+                        <div class="modal-footer">
+                            <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${id}" class="btn btn-default" >View This Estate</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div id="myModalFail" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 style="text-align: center; color: red" class="modal-title">Transaction Fail</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p style="text-align: center; color: red"><strong>transaction not enough</strong></p>
+                            <img src="<%=request.getContextPath()%>/assets/media-demo/fail.jpg" alt="error" width="225" height="255">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div id="myModalShow" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Transaction Success</h4>
+                        </div>
+                        <div class="modal-body">
+                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" alt="error">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
             <div id="myModal" class="modal fade" role="dialog">
                 <div class="modal-dialog modal-sm">
 
@@ -136,17 +245,14 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title text-center text-success"></h4>
+                            <h4 class="modal-title text-center text-success">Change Password</h4>
                         </div>
                         <div class="modal-body">
-                            <h4 class="modal-title text-center text-success" style="text-align: center">User Name Exsit !!!</h4>
-                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
                         </div>
                     </div>
 
                 </div>
             </div> 
-        
             <!-- END CENTER SECTION-->
             <!-- BEGIN AFTER CENTER SECTION-->
             <!-- END AFTER CENTER SECTION-->
@@ -168,7 +274,7 @@
     versions that are verified to work with our theme. Normally, you should not edit that file.
     -->
     <!-- build:jsvendor-->
-    <script type="text/javascript" src="assets/js/vendor.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/vendor.js"></script>
     <!-- endbuild-->
     <!--
     This file is used for demonstration purposes and contains example property items, that are mostly used to
@@ -176,28 +282,36 @@
     to use your own data.
     -->
     <!-- build:jsdemodata-->
-    <script type="text/javascript" src="assets/js/demodata.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demodata.js"></script>
     <!-- endbuild-->
     <!--
     The library code that Realtyspace theme relies on, in order to function properly.
     Normally, you should not edit this file or add your own code there.
     -->
     <!-- build:jsapp-->
-    <script type="text/javascript" src="assets/js/app.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/app.js"></script>
     <!-- endbuild-->
     <!--
     the main file, that you should modify. It contains lots of examples of
     plugin usage, with detailed comments about specific sections of the code.
     -->
     <!-- build:jsdemo-->
-    <script type="text/javascript" src="assets/js/demo.js"></script>
-    <script type="text/javascript">
-        $(window).on('load', function () {
-            $('#myModal').modal('${modal}');
-        });
-    </script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demo.js"></script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
     <!-- END SCRIPTS and INCLUDES-->
+    <script type="text/javascript">
+                                                                    $(window).on('load', function () {
+                                                                        $('#myModalShow').modal('${modalTranOke}');
+                                                                        $('#myModalFail').modal('${modalTranFail}');
+                                                                        $('#myModal').modal('${modal}');
+                                                                    });
+    </script>
+    <script type="text/javascript">
+        $(window).on('load', function () {
+            $('#myModal').modal('${modal}');
+            console.log("assd");
+        });
+    </script>
 </body>
 </html>

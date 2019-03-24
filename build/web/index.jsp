@@ -242,7 +242,6 @@
             <!-- cuong add -->
             <div id="myModal" class="modal fade" role="dialog">
                 <div class="modal-dialog modal-sm">
-
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
@@ -254,7 +253,6 @@
                             <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150px" height="150px" alt="error">
                         </div>
                     </div>
-
                 </div>
             </div>                                     
             <!-- END CENTER SECTION-->

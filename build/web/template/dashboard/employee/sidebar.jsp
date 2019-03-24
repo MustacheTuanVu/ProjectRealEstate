@@ -12,7 +12,7 @@
     <div class="widget__content">
         <nav class="nav nav--sidebar">
             <ul class="nav__list">
-                <li class="nav__item"><a href="<%=request.getContextPath()%>/DashboardEmployee" class="nav__link">
+                <li class="nav__item"><a href="<%=request.getContextPath()%>/Financials?user=employee" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-dashboard"></use>
                         </svg>Dashboard</a>

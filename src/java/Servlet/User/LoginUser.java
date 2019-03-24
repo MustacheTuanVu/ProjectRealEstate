@@ -44,6 +44,10 @@ public class LoginUser extends HttpServlet {
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
         Entity.Users user = (Entity.Users) session.getAttribute("user");
+        String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "";
+        String mess = (request.getParameter("err") != null) ? request.getParameter("err") : "";
+        request.setAttribute("modal", modal);
+        request.setAttribute("err", mess);
         if (user != null) {
             request.setAttribute("user", "user");
             request.setAttribute("displayLogin", "none");
@@ -124,7 +128,11 @@ public class LoginUser extends HttpServlet {
         Users idUser = userCon.checkLogin(username, pass);
 
         if (idUser == null) {
-            // Login fail*******
+            /* cuong add */
+            //response.sendRedirect(request.getContextPath()+"/Login?modal=show&err=Login");
+            request.setAttribute("modal", "show");
+            request.setAttribute("err", "Login Fail !!!");
+            request.getRequestDispatcher("/page/dashboard/dashboard_login.jsp").forward(request, response);
         } else {
             switch (idUser.getRole()) {
                 case "employee":

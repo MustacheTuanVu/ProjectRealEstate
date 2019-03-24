@@ -542,23 +542,6 @@ public class EstateJpaController implements Serializable {
         }
     }
 
-    /*
-    public List<Estate> getEstateByFilter(List<Estate> estateID, String status) {
-        System.out.println("status " + status);
-        EntityManager em = getEntityManager();
-        List<Estate> list1 = new ArrayList<Estate>();
-        for (Estate estate : estateID) {
-            Query query = em.createNativeQuery("SELECT * FROM estate where "
-                    + "id = '" + estate.getId() + "' AND "
-                    + "estate_status LIKE '%" + status + "%'", Estate.class
-            );
-            if (query.getResultList().size()!=0) {
-                list1.add((Estate) query.getSingleResult());
-            } 
-        }
-        return list1;
-    }*/
-    
     public List<Estate> getEstateByFilter(List<Estate> estateID, String status, String keyword) {
         System.out.println("status " + status);
         EntityManager em = getEntityManager();
@@ -855,4 +838,68 @@ public class EstateJpaController implements Serializable {
         }
     }
 
+    
+    /* cuong add */
+     //Count total estate
+    public Object countEstate() {
+        
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT COUNT(e) FROM Estate e WHERE e.estateStatusId = ?1 OR e.estateStatusId = ?2");
+        q.setParameter(1, new EstateStatus(1));
+        q.setParameter(2, new EstateStatus(2));
+
+        return q.getSingleResult();
+    }
+    //Count total estate sold
+    public Object countEstateSold() {
+        
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT COUNT(e) FROM Estate e WHERE e.estateStatusId = ?4");
+        q.setParameter(4, new EstateStatus(4));
+
+        return q.getSingleResult();
+    }
+    //Count total Employee
+    public Object countEmployee() {
+        
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT COUNT(e.id) FROM Employee e,Users u WHERE e.userId = u AND u.status = True");
+        
+
+        return q.getSingleResult();
+    }
+    //Count total Customer
+    public Object countCustomer() {
+        
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT COUNT(e.id) FROM Customer e,Users u WHERE e.userId = u AND u.status = True");
+        
+
+        return q.getSingleResult();
+    }
+    //count contract
+    public Object countContract(int empID) {
+        
+        EntityManager em=getEntityManager();
+        Query q=em.createNativeQuery("SELECT COUNT(id) FROM contract  WHERE employee_id=' "+empID+"'");
+        return q.getSingleResult();
+    }
+    //count Transaction
+    public Object countTransaction() {
+        
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT COUNT(c) FROM Transactions c  ");
+        
+
+        return q.getSingleResult();
+    }
+    //count payment to cus tomer
+    public Object countMoney() {
+        
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT SUM(c.money) FROM Transactions c  ");
+        
+
+        return q.getSingleResult();
+    }
 }
