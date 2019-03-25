@@ -141,42 +141,11 @@
                         </div>
                         <!-- END LISTING-->
                         <!-- BEGIN SIDEBAR-->
-                        <%
-                            if (user.getRole().equals("employee")) {
-                        %>
+                        
                         <div class="sidebar sidebar--dashboard">
                             <%@ include file="/template/dashboard/employee/sidebar.jsp" %>
                         </div>
-                        <% }%>
-
-                        <%
-                            if ((request.getParameter("user").equals("guest")) || (user.getRole() == null)) {
-                        %>
-                        <div class="sidebar sidebar--dashboard">
-
-                            <div class="widget__header">
-                                <h2 class="widget__title">Categories</h2>
-                                <h5 class="widget__headline">Find your apartment or house on the exact key parameters.</h5><a class="widget__btn js-widget-btn widget__btn--toggle">Show blog categories</a>
-                            </div>
-                            <div class="widget__content">
-                                <div class="article-categories">
-                                    <div class="article-categories__list js-categories-article">
-                                        <ul>
-                                            <c:forEach var="element" items="${listCount}">
-                                                <li class="article-categories__item">
-                                                    <a href="<%= request.getContextPath()%>/BlogList?user=guest&cat=${element.categoryId}" class="article-categories__name">${element.categoryName}
-                                                        <span class="article-categories__count"> </span>
-                                                    </a>
-                                                </li>
-                                            </c:forEach>
-                                        </ul>
-                                    </div>
-                                    <!-- end of block .article-categories__list-->
-                                </div>
-                            </div>
-                        </div>
-
-                        <% }%>
+                   
                         <!-- END SIDEBAR-->
                         <div class="clearfix"></div>
                     </div>
@@ -188,7 +157,8 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title"> <strong>Edit Post Completed !!!</strong></h4>
+                            <h4 class="modal-title"> <strong>${action} Blog Completed !!!</strong></h4>
+                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
                         </div>
                     </div>
 

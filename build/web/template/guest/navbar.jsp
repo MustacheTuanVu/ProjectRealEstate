@@ -60,7 +60,7 @@
                 <!-- cuong add -->
                
                 <li class="navbar__item">
-                    <a href="<%=request.getContextPath()%>/BlogListAllUser?cat=all" class="navbar__link">Blog</a>
+                    <a href="<%=request.getContextPath()%>/BlogListAllUser?cat=all&user=guest" class="navbar__link">Blog</a>
                 </li>
                 
                 <li class="navbar__item">

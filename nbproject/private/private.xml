@@ -12,11 +12,11 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/src/java/Servlet/User/RegisterUser.java</file>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/src/java/Servlet/User/LoginUser.java</file>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/page/dashboard/dashboard_login.jsp</file>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/page/guest/dashboard_register.jsp</file>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/user_login.html</file>
+            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/src/java/Servlet/Employee/EditEmployee.java</file>
+            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/page/dashboard/employee/dashboard_property.jsp</file>
+            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/page/dashboard/employee/dashboard_blog_edit.jsp</file>
+            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/page/dashboard/employee/dashboard_infor_employee.jsp</file>
+            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/template/dashboard/sidebar.jsp</file>
         </group>
     </open-files>
 </project-private>

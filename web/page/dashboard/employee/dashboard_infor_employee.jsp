@@ -300,6 +300,8 @@
 
                                                     var newPass = document.getElementById('in-15').value;
                                                     var confirmPass = document.getElementById('in-16').value;
+                                                    newPass=newPass.trim();
+                                                    console.log(newPass);
                                                     if (newPass !== confirmPass) {
                                                         document.getElementById('txtNewPass').classList.add("has-error");
                                                         document.getElementById('txtNewPass').classList.remove("has-success");

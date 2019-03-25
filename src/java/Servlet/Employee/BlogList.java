@@ -52,22 +52,27 @@ public class BlogList extends HttpServlet {
             session.setAttribute("image", user.getEmployee().getEmployeeImg());
 
             /*-----------------------------------------------------------*/
-            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-            Controller.PostJpaController postController = new PostJpaController(utx, emf);
-            Controller.CategoryJpaController catController= new CategoryJpaController(utx, emf);
-            if(request.getParameter("modal")!=null){
-                request.setAttribute("modal", request.getParameter("modal"));
-            }
-            request.setAttribute("listCat", catController.findCategoryEntities());
-            //System.out.println("list 123 "+ postController.getPostByEmployee(user.getEmployee().getId().toString()));
-            request.setAttribute("listPost", postController.getPostByEmployee(user.getEmployee().getId().toString()));
-            request.getRequestDispatcher("/page/dashboard/employee/dashboard_blog.jsp").forward(request, response);
-
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
             response.sendRedirect(request.getContextPath() + "/LoginUser");
         }
+
+        String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "";
+        request.setAttribute("modal", modal);
+        String action = (request.getParameter("action") != null) ? request.getParameter("action") : "";
+        request.setAttribute("action", action);
+
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.PostJpaController postController = new PostJpaController(utx, emf);
+        Controller.CategoryJpaController catController = new CategoryJpaController(utx, emf);
+//            if(request.getParameter("modal")!=null){
+//                request.setAttribute("modal", request.getParameter("modal"));
+//            }
+        request.setAttribute("listCat", catController.findCategoryEntities());
+        request.setAttribute("listPost", postController.getPostByEmployee(user.getEmployee().getId().toString()));
+        request.getRequestDispatcher("/page/dashboard/employee/dashboard_blog.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

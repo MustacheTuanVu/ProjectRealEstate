@@ -82,10 +82,11 @@ public class CategoryCreate extends HttpServlet {
                 } else {
                     Category features = new Category();
                     features.setCategoryName(featureName);
-
+                    
                     try {
                         featuresControl.create(features);
-                        response.sendRedirect(request.getContextPath() + "/CategoryList");
+                        
+                        response.sendRedirect(request.getContextPath() + "/CategoryList?modalCreate=show");
                     } catch (RollbackFailureException ex) {
                         Logger.getLogger(FeatureCreate.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (Exception ex) {

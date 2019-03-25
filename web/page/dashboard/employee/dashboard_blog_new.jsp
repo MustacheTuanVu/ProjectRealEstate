@@ -27,10 +27,10 @@
         <!--[if lt IE 11]>
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
         <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
-        
+
         <link href="<%=request.getContextPath()%>/ckfinder/sample.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
-         <script type="text/javascript">
+        <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
+        <script type="text/javascript">
             function BrowseServer1() {
                 var finder = new CKFinder();
                 finder.basePath = '../';
@@ -50,7 +50,7 @@
                 }
             }
         </script>
-        
+
     </head>
     <body class="dashboard_blog_new menu-default hover-default sidebar-left">
         <!--
@@ -104,16 +104,22 @@
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN SECTION ARTICLE-->
-                                        <form method="POST" action="<%=request.getContextPath()%>/CreateBlog" class="form form--flex form--article js-parsley">
+                                        <form method="POST" onsubmit="return checkForm()" action="<%=request.getContextPath()%>/CreateBlog" class="form form--flex form--article js-parsley">
                                             <div class="row">
                                                 <div class="form-group">
-                                                     <input type="hidden"  name="txtID" />
-                                                        <img src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" onclick="BrowseServer1()" id="imageup1st" alt="avatar" width="208" height="208">
-                                                        <input type="hidden"  id="image1st" name="txtImg"/>
-                                                    </div>
+                                                    <input type="hidden"  name="txtID" />
+                                                    <label for="in-article-title" class="control-label">Your blog image <span id="errImg1" style="color: red; padding-left: 10px"></span> </label>
+
+                                                    <br/>
+
+                                                    <img src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" onclick="BrowseServer1()" id="imageup1st" alt="avatar" width="208" height="208">
+                                                    <input type="hidden"  id="image1st" name="txtImg"/>
+
+                                                </div>
                                                 <div class="form-group">
-                                                    <label for="in-article-title" class="control-label">Title</label>
+                                                    <label for="in-article-title" class="control-label">Title <span  style="color: red; padding-left: 10px" id="errTitle1"></span></label>
                                                     <input type="text" name="title" id="in-article-title" required class="form-control">
+
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="in-article-title" class="control-label">Category</label>
@@ -124,9 +130,9 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="in-article-title" class="control-label">Description</label>
-                                                    <textarea required="true" name="editor1" class="form-control js-ckeditor"></textarea>
-                                               
+                                                    <label for="in-article-title" class="control-label">Description <span style="color: red ; padding-left: 10px" id="errDes1"></span></label>
+                                                    <textarea id="txtDes" name="editor1" class="form-control js-ckeditor"></textarea>
+
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -137,6 +143,39 @@
                                 </div>
                             </div>
                         </div>
+                                            
+                                            <div id="myModalFail" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"> <strong>Same Name Blog Completed !!!</strong></h4>
+                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+                                            
+                               <!--             
+                        <div id="myModalFail" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+
+                                 Modal content
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 style="text-align: center; color: red" class="modal-title">Create Blog Fail</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p style="text-align: center; color: red"><strong>Choose a new Title or choose Category another !!!</strong></p>
+                                        <img src="<%=request.getContextPath()%>/assets/media-demo/fail.jpg" alt="error" width="225" height="255">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div> -->
                         <!-- END LISTING-->
                         <!-- BEGIN SIDEBAR-->
                         <div class="sidebar sidebar--dashboard">
@@ -161,34 +200,58 @@
     <button type="button" class="scrollup js-scrollup"></button>
     <!-- end of block .scrollup-->
     <!-- BEGIN SCRIPTS and INCLUDES-->
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=places,drawing,geometry"></script>
-    
+
+    <!-- cuong add -->
+    <script >
+        function checkForm() {
+
+            var txtImg = document.getElementById('image1st').value;
+            var txtTitle = document.getElementById('in-article-title').value;
+            var txtDes = document.getElementById('txtDes').value;
+
+            txtTitle = txtTitle.replace(/^\s+|\s+$/g, "");
+            txtDes = txtDes.replace(/^\s+|\s+$/g, "");
+
+            if (txtImg.length === 0) {
+                document.getElementById('errImg1').innerHTML = 'Please select a picture !!!';
+            }
+            if (txtTitle.length > 51 || txtTitle.length < 5) {
+                document.getElementById('errTitle1').innerHTML = 'Title from 6 to 50 characters !!!';
+            }
+            if (txtDes.length < 100) {
+                document.getElementById('errDes1').innerHTML = 'Descript must be more than 200 characters !!!';
+            }
+            else
+                return true;
+            return false;
+        }
+    </script>
     <script src="//cdn.ckeditor.com/4.5.6/standard-all/ckeditor.js"></script>
-	<script>
-		// Note: in this sample we use CKEditor with two extra plugins:
-		// - uploadimage to support pasting and dragging images,
-		// - image2 (instead of image) to provide images with captions.
-		// Additionally, the CSS style for the editing area has been slightly modified to provide responsive images during editing.
-		// All these modifications are not required by CKFinder, they just provide better user experience.
-		if ( typeof CKEDITOR !== 'undefined' ) {
-			CKEDITOR.addCss( 'img {max-width:100%; height: auto;}' );
-			var editor = CKEDITOR.replace( 'editor1', {
-				extraPlugins: 'uploadimage,image2',
-				removePlugins: 'image',
-				height:350
-			} );
+    <script>
+        // Note: in this sample we use CKEditor with two extra plugins:
+        // - uploadimage to support pasting and dragging images,
+        // - image2 (instead of image) to provide images with captions.
+        // Additionally, the CSS style for the editing area has been slightly modified to provide responsive images during editing.
+        // All these modifications are not required by CKFinder, they just provide better user experience.
+        if (typeof CKEDITOR !== 'undefined') {
+            CKEDITOR.addCss('img {max-width:100%; height: auto;}');
+            var editor = CKEDITOR.replace('editor1', {
+                extraPlugins: 'uploadimage,image2',
+                removePlugins: 'image',
+                height: 350
+            });
 
-			// Just call CKFinder.setupCKEditor and pass the CKEditor instance as the first argument.
-			// The second parameter (optional), is the path for the CKFinder installation (default = "/ckfinder/").
-			// NOTE POINT
-                        CKFinder.setupCKEditor( editor, { basePath : '<%=request.getContextPath()%>/ckfinder/'} ) ;
+            // Just call CKFinder.setupCKEditor and pass the CKEditor instance as the first argument.
+            // The second parameter (optional), is the path for the CKFinder installation (default = "/ckfinder/").
+            // NOTE POINT
+            CKFinder.setupCKEditor(editor, {basePath: '<%=request.getContextPath()%>/ckfinder/'});
 
-			// It is also possible to pass an object with selected CKFinder properties as a second argument.
-			// CKFinder.setupCKEditor( editor, { basePath : '../', skin : 'v1' } ) ;
-		} else {
-			document.getElementById( 'description' ).innerHTML = '<div class="tip-a tip-a-alert">This sample requires working Internet connection to load CKEditor from CDN.</div>'
-		}
-	</script>
+            // It is also possible to pass an object with selected CKFinder properties as a second argument.
+            // CKFinder.setupCKEditor( editor, { basePath : '../', skin : 'v1' } ) ;
+        } else {
+            document.getElementById('description').innerHTML = '<div class="tip-a tip-a-alert">This sample requires working Internet connection to load CKEditor from CDN.</div>'
+        }
+    </script>
     <!--
     Contains vendor libraries (Bootstrap3, Jquery, Chosen, etc) already compiled into a single file, with
     versions that are verified to work with our theme. Normally, you should not edit that file.
@@ -219,18 +282,23 @@
     <!-- build:jsdemo-->
     <script type="text/javascript" src="assets/js/demo.js"></script>
     <script type="text/javascript" >
-         function BrowseServer()
-                                                {
-                                                    // You can use the "CKFinder" class to render CKFinder in a page:
-                                                    var finder = new CKFinder();
-                                                    finder.basePath = '../';	// The path for the installation of CKFinder (default = "/ckfinder/").
-                                                    finder.selectActionFunction = SetFileField;
-                                                    finder.popup();
-                                                }
-                                                function SetFileField(fileUrl)
-                                                {
-                                                    document.getElementById('xFilePath').value = fileUrl;
-                                                }
+        function BrowseServer()
+        {
+            // You can use the "CKFinder" class to render CKFinder in a page:
+            var finder = new CKFinder();
+            finder.basePath = '../';	// The path for the installation of CKFinder (default = "/ckfinder/").
+            finder.selectActionFunction = SetFileField;
+            finder.popup();
+        }
+        function SetFileField(fileUrl)
+        {
+            document.getElementById('xFilePath').value = fileUrl;
+        }
+    </script>
+    <script type="text/javascript">
+        $(window).on('load', function () {
+            $('#myModalFail').modal('${myModalFail}');
+        });
     </script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->

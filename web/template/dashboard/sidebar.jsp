@@ -106,7 +106,16 @@
                 <li class="nav__item"><a href="dashboard_blog.html" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-blog-edit"></use>
-                        </svg>Blog Management</a></li>
+                        </svg>Blog Management</a>
+                </li>
+                <li class="nav__item">
+                    <hr class="nav__separator">
+                </li>
+                <li class="nav__item"><a href="dashboard_blog.html" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-blog-edit"></use>
+                        </svg>Report Customer</a>
+                </li>
             </ul>
         </nav>
     </div>

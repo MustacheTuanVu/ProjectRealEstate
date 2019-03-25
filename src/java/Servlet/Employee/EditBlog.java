@@ -135,7 +135,7 @@ public class EditBlog extends HttpServlet {
             postController.edit(post);
             System.out.println("Edit Completed !!!");
             
-            response.sendRedirect(request.getContextPath()+"/BlogList?user=employee&modal=show");
+            response.sendRedirect(request.getContextPath()+"/BlogList?action=Edit&modal=show");
         } catch (RollbackFailureException ex) {
             Logger.getLogger(EditBlog.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

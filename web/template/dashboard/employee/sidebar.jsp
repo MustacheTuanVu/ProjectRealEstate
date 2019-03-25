@@ -33,7 +33,7 @@
                     </a>
                 </li>
                 <li class="nav__item">
-                    <a href="<%=request.getContextPath()%>/EstateTypeList" class="nav__link">
+                    <a href="<%=request.getContextPath()%>/EstateTypeList?user=employee" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
                         </svg>Estate Type List

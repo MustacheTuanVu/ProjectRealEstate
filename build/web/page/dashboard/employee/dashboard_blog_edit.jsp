@@ -77,26 +77,14 @@
     <!-- endinject -->
     <div class="box js-box">
         <!-- BEGIN HEADER-->
-        <%
-            if (session.getAttribute("user") == null) {
-        %>
         <header class="header header--brand">
-            <%@ include file="/template/header1.jsp" %>
+            <%@ include file="/template/guest/header.jsp" %>
         </header>
-        <%
-        } else {
-        %>
-        <header class="header header--brand">
-            <%@ include file="/template/header.jsp" %>
-        </header>
-        <%
-            }
-        %>
         <!-- END HEADER-->
         <!-- BEGIN NAVBAR-->
         <div id="header-nav-offset"></div>
         <nav id="header-nav" class="navbar navbar--header">
-            <%@ include file="/template/navbar.jsp" %>
+            <%@ include file="/template/guest/navbar.jsp" %>
         </nav>
         <!-- END NAVBAR-->
         <div class="site-wrap js-site-wrap">
@@ -116,16 +104,19 @@
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN SECTION ARTICLE-->
-                                        <form method="POST" action="<%=request.getContextPath()%>/EditBlog" class="form form--flex form--article js-parsley">
+                                        <form method="POST" onsubmit="return checkForm()" action="<%=request.getContextPath()%>/EditBlog" class="form form--flex form--article js-parsley">
                                             <div class="row">
                                                 <div class="form-group">
                                                     <input type="hidden" value="${post.postId}" name="txtID" />
-                                                    <img src="${post.postImage}" onclick="BrowseServer1()" id="imageup1st" alt="avatar" width="208" height="208">
+                                                        <label for="in-article-title" class="control-label">Your blog image <span id="errImg1" style="color: red; padding-left: 10px"></span> </label>
+                                                        <img src="${post.postImage}" onclick="BrowseServer1()" id="imageup1st" alt="avatar" width="208" height="208">
                                                     <input type="hidden" value="${post.postImage}" id="image1st" name="txtImg"/>
+                                                    <br/>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="in-article-title" class="control-label">Title</label>
+                                                    <label for="in-article-title" class="control-label">Title <span  style="color: red; padding-left: 10px" id="errTitle1"></span></label>
                                                     <input type="text" value="${post.postTilte}" name="title" id="in-article-title" required class="form-control">
+                                                    
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="in-article-title" class="control-label">Category</label>
@@ -136,13 +127,13 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="in-article-title" class="control-label">Description</label>
-                                                    <textarea required="true" name="editor1" class="form-control js-ckeditor">${post.postContent}</textarea>
-
+                                                    <label for="in-article-title" class="control-label">Description <span style="color: red ; padding-left: 10px" id="errDes1"></span></label>
+                                                    <textarea id="txtDes" name="editor1" class="form-control js-ckeditor">${post.postContent}</textarea>
+                                                    
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <button onclick="return (confirm('Are You Sure !!!'))" type="submit" class="form__submit">Save</button>
+                                                <button type="submit" class="form__submit">Save</button>
                                             </div>
                                         </form>
                                     </div>
@@ -151,8 +142,8 @@
                         </div>
                         <!-- END LISTING-->
                         <!-- BEGIN SIDEBAR-->
-                        <div class="sidebar sidebar--dashboard">
-                            <%@ include file="/template/dashboard/sidebar.jsp" %>
+                         <div class="sidebar sidebar--dashboard">
+                            <%@ include file="/template/dashboard/employee/sidebar.jsp" %>
                         </div>
                         <!-- END SIDEBAR-->
                         <div class="clearfix"></div>
@@ -192,8 +183,31 @@
     <button type="button" class="scrollup js-scrollup"></button>
     <!-- end of block .scrollup-->
     <!-- BEGIN SCRIPTS and INCLUDES-->
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=places,drawing,geometry"></script>
 
+    <!-- cuong add -->
+    <script >
+        function checkForm() {
+
+            var txtImg = document.getElementById('image1st').value;
+            var txtTitle = document.getElementById('in-article-title').value;
+            var txtDes = document.getElementById('txtDes').value;
+            
+            txtTitle=txtTitle.replace(/^\s+|\s+$/g, "");
+            txtDes=txtDes.replace(/^\s+|\s+$/g, "");
+            if (txtImg.length === 0) {
+                document.getElementById('errImg1').innerHTML='Please select a picture !!!';
+            } else
+            if (txtTitle.length > 51 || txtTitle.length <5) {
+                document.getElementById('errTitle1').innerHTML='Title from 6 to 50 characters !!!';
+            }else
+            if (txtDes.length < 100 ) {
+                document.getElementById('errDes1').innerHTML='Descript must be more than 200 characters !!!';
+            }
+            else
+                return true;
+            return false;
+        }
+    </script>
     <script src="//cdn.ckeditor.com/4.5.6/standard-all/ckeditor.js"></script>
     <script>
                                                         // Note: in this sample we use CKEditor with two extra plugins:

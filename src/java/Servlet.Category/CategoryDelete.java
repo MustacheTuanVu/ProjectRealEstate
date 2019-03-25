@@ -67,7 +67,8 @@ public class CategoryDelete extends HttpServlet {
                     } else {
                         try {
                             featuresControl.destroy(Integer.valueOf(id));
-                            response.sendRedirect(request.getContextPath() + "/CategoryList");
+                            //response.sendRedirect(request.getContextPath() + "/CategoryList?modalDel=show");
+                            response.sendRedirect(request.getContextPath() + "/CategoryList?modalDel=show");
                         } catch (NonexistentEntityException ex) {
                             Logger.getLogger(CategoryDelete.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (RollbackFailureException ex) {

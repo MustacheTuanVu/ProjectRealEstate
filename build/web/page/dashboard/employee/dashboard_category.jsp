@@ -248,6 +248,17 @@
                     </div>
                 </div>
             </div>
+            <div id="modalCreate" tabindex="-1" role="dialog" class="modal fade">
+                <div role="document" class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <h3>Create Completed !!!</h3>
+                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150px" height="150" alt="error">
+                            </div>
+                    </div>
+                </div>
+            </div>
+            
             <!-- END CENTER SECTION-->
             <!-- BEGIN AFTER CENTER SECTION-->
             <!-- END AFTER CENTER SECTION-->
@@ -298,7 +309,8 @@
     <script type="text/javascript">
         $(window).on('load', function () {
             $('#myModalDelete').modal('${modalDelete}');
-            $('#myModal').modal('${modal}');
+            $('#modalCreate').modal('${modalCreate}');
+            
         });
     </script>
 

@@ -301,6 +301,16 @@ public class PostJpaController implements Serializable {
     }
 
     /* cuong add */
+    public Integer checkPostByNameAndCat(int catID,String postName) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q=em.createNativeQuery("select count(post_id) from post p where p.post_tilte = '"+postName+"' and p.post_category ="+catID+"");
+            return (Integer) q.getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
+    /* cuong add */
     public List<Post> getPostByCategoryID(int catID) {
         EntityManager em = getEntityManager();
         try {

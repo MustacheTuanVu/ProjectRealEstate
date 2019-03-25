@@ -46,6 +46,7 @@ public class CategoryList extends HttpServlet {
        HttpSession session = request.getSession();
         Entity.Users user = (Entity.Users) session.getAttribute("user");
 
+        
         if (user != null) {
             if (user.getRole().equals("employee")) {
                 request.setAttribute("user", "user");
@@ -58,6 +59,11 @@ public class CategoryList extends HttpServlet {
                 
                 String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "hide";
                 request.setAttribute("modalDelete", modal);
+                String modalCreate = (request.getParameter("modalCreate") != null) ? request.getParameter("modalCreate") : "";
+                request.setAttribute("modalCreate", modalCreate);
+//                
+//                String action = (request.getParameter("action") != null) ? request.getParameter("action") : "";
+//                request.setAttribute("action", action);
 
                 EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
                 Controller.CategoryJpaController featuresControl = new CategoryJpaController(utx, emf);

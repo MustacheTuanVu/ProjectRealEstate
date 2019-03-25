@@ -62,16 +62,19 @@ public class CreateBlog extends HttpServlet {
             session.setAttribute("image", user.getEmployee().getEmployeeImg());
             /*-----------------------------------------------------------*/
 
-            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-            Controller.CategoryJpaController catController = new CategoryJpaController(utx, emf);
-            request.setAttribute("list", catController.findCategoryEntities());
             
-            request.getRequestDispatcher("/page/dashboard/employee/dashboard_blog_new.jsp").forward(request, response);
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
             response.sendRedirect(request.getContextPath() + "/LoginUser");
         }
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+            Controller.CategoryJpaController catController = new CategoryJpaController(utx, emf);
+
+            String myModalFail = (request.getParameter("myModalFail") != null) ? request.getParameter("myModalFail") : "";
+            request.setAttribute("myModalFail", myModalFail);
+            request.setAttribute("list", catController.findCategoryEntities());
+            request.getRequestDispatcher("/page/dashboard/employee/dashboard_blog_new.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -102,35 +105,37 @@ public class CreateBlog extends HttpServlet {
             throws ServletException, IOException {
         try {
             //processRequest(request, response);
-            
-            HttpSession session= request.getSession();
-            Entity.Users user= (Entity.Users) session.getAttribute("user");
-            
-            EntityManagerFactory emf=(EntityManagerFactory) getServletContext().getAttribute("emf");
-            Controller.PostJpaController postController= new PostJpaController(utx, emf);
-            
-            Entity.Post post= new Post();
-            SimpleDateFormat format= new SimpleDateFormat("yyyy-MM-dd");
-            Date date= new Date();
-            
+
+            HttpSession session = request.getSession();
+            Entity.Users user = (Entity.Users) session.getAttribute("user");
+
+            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+            Controller.PostJpaController postController = new PostJpaController(utx, emf);
+
+            Entity.Post post = new Post();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+
             post.setEmployee(new Employee(user.getEmployee().getId()));
             post.setPostCategory(new Category(Integer.valueOf(request.getParameter("cat"))));
             post.setPostContent(request.getParameter("editor1"));
             post.setPostImage(request.getParameter("txtImg"));
             post.setPostTilte(request.getParameter("title"));
             post.setPostDate(format.parse(format.format(date)));
-            
-            postController.create(post);
-            System.out.println("Create Completed !!!");
-            
-            response.sendRedirect(request.getContextPath()+"/BlogList");
+
+            if (postController.checkPostByNameAndCat(Integer.valueOf(request.getParameter("cat")), request.getParameter("title")) == 0) {
+                postController.create(post);
+                System.out.println("Create Completed !!!");
+                response.sendRedirect(request.getContextPath() + "/BlogList?action=Create&modal=show");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/CreateBlog?myModalFail=show");
+            }
         } catch (RollbackFailureException ex) {
             Logger.getLogger(CreateBlog.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(CreateBlog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 
     /**
      * Returns a short description of the servlet.
