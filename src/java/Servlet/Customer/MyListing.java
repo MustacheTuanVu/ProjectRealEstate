@@ -69,7 +69,7 @@ public class MyListing extends HttpServlet {
             
             ContractJpaController contractControl = new ContractJpaController(utx, emf);
             ContractDetailsJpaController contractDetailsControl = new ContractDetailsJpaController(utx, emf);
-            List<Integer> contractIDList = contractControl.getContractByCustomer(users.getId());
+            List<Integer> contractIDList = contractControl.getContractByCustomer(users.getCustomer().getId());
             List<ContractDetails> contractDetailsList = (List<ContractDetails>) new ArrayList<ContractDetails>();
             for (Integer contractID : contractIDList) {
                 contractDetailsList.add(contractDetailsControl.getContractDetailsByContract(contractID));

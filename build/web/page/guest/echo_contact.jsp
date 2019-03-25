@@ -160,7 +160,7 @@
                                                     </table>
                                                 </div>
                                                 <h4 class="info__about-title">Estate Detail 
-                                                    <br> Price: ${estate.price} VND</h4>
+                                                    <br> Price: ${estate.price}</h4>
                                                 <div class="info__table-wrap">
                                                     <table class="table info__table">
                                                         <thead>

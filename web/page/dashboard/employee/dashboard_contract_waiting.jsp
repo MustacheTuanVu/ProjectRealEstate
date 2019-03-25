@@ -117,7 +117,7 @@
                                                                 </td>
                                                                 <td class="datatable__cell-1"><strong> ${item.contractId.customerId.customerName} </strong>
                                                                 </td>
-                                                                <td class="datatable__cell-2"><strong> ${item.estateId.price} </strong>VND</td>
+                                                                <td class="datatable__cell-2"><strong> ${item.estateId.price} </strong></td>
                                                                 <td class="datatable__cell-2"><strong>${item.contractId.status}</strong></td>
                                                                 <td class="datatable__cell-5">
                                                                     <c:if test="${item.contractId.status != 'waitting for employee'}">

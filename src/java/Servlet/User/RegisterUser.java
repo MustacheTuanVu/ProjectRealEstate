@@ -5,8 +5,10 @@
  */
 package Servlet.User;
 
+import Controller.CustomerJpaController;
 import Controller.UsersJpaController;
 import Controller.exceptions.RollbackFailureException;
+import Entity.Customer;
 import Entity.Users;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -36,15 +38,16 @@ public class RegisterUser extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     UserTransaction utx;
+    UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
- 
-        EntityManagerFactory em= (EntityManagerFactory) getServletContext().getAttribute("emf");
-        Controller.UsersJpaController user= new UsersJpaController(utx, em);
 
-        HttpSession session= request.getSession();
+        EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.UsersJpaController user = new UsersJpaController(utx, em);
+
+        HttpSession session = request.getSession();
         session.invalidate();
         request.getRequestDispatcher("/page/dashboard/dashboard_register.jsp").forward(request, response);
     }
@@ -58,13 +61,13 @@ public class RegisterUser extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-   
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                processRequest(request, response);
-    
+        processRequest(request, response);
+
     }
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -79,22 +82,35 @@ public class RegisterUser extends HttpServlet {
 
         processRequest(request, response);
         EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
-                Controller.UsersJpaController userCon = new UsersJpaController(utx, em);
-                Entity.Users user = new Users();
-            try {
-                
-                user.setUsername(request.getParameter("txtUser"));
-                user.setPassword(request.getParameter("txtPass"));
-                user.setStatus(true);
-                user.setRole("Customer");
+        CustomerJpaController customerJpaController = new CustomerJpaController(utx, em);
+        Controller.UsersJpaController userCon = new UsersJpaController(utx, em);
+        Entity.Users user = new Users();
+        try {
 
-                userCon.create(user);
-            } catch (RollbackFailureException ex) {
-                Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        
+            user.setUsername(request.getParameter("txtUser"));
+            user.setPassword(request.getParameter("txtPass"));
+            user.setStatus(true);
+            user.setRole("customer");
+
+            userCon.create(user);
+            
+            Customer customer = new Customer();
+            customer.setCustomerName("wait");
+            customer.setCustomerAddress("wait");
+            customer.setCustomerIndentityCard("wait");
+            customer.setPhone("wait");
+            customer.setMail("wait");
+            customer.setCustomerImg("wait");
+            customer.setCustomerContent("wait");
+            customer.setUserId(user);
+            
+            customerJpaController.create(customer);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**

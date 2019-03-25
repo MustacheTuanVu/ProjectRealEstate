@@ -5,7 +5,7 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>FINANCIALS REPORT</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -139,7 +139,7 @@
                                             <section class="info info--commission">
                                                 <div class="info__about">
                                                     <div class="info__table-wrap">
-                                                        <table class="table table--stripped info__table">
+                                                        <table id="example1" class="table table-bordered table-striped">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Category</th>
@@ -183,7 +183,7 @@
                                             <section class="info info--commission">
                                                 <div class="info__about">
                                                     <div class="info__table-wrap">
-                                                        <table class="table table--stripped info__table">
+                                                        <table id="example2" class="table table-bordered table-striped">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Category</th>
@@ -278,7 +278,38 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demo.js"></script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
-
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/buttons.bootstrap.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/jszip.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/pdfmake.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/vfs_fonts.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#example1').DataTable({
+                "order": [[0, "desc"]],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('#example2').DataTable({
+                "order": [[0, "desc"]],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+    </script>
     <!-- END SCRIPTS and INCLUDES-->
 </body>
 </html>

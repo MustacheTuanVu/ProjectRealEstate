@@ -91,7 +91,7 @@
                                                                 <span class="info__value-label">
                                                                     
                                                                 </span> ${countContractWaitSale}</div>
-                                                            <div class="info__actions"><a href="/ContractOfEmployee1" class="info__more">View Request</a>
+                                                            <div class="info__actions"><a href="<%=request.getContextPath()%>/ContractOfEmployee1" class="info__more">View Request</a>
                                                                 
                                                             </div>
                                                         </div>
@@ -103,7 +103,7 @@
                                                                 <span class="info__value-label">
                                                                     
                                                                 </span> ${countEstateWait}</div>
-                                                            <div class="info__actions"><a href="/EstateList?user=director&filter=waitting%20for%20director" class="info__more">
+                                                            <div class="info__actions"><a href="<%=request.getContextPath()%>/EstateList?user=director&filter=waitting%20for%20director" class="info__more">
                                                                     View Request</a>
                                                             </div>
                                                         </div>
@@ -115,7 +115,7 @@
                                                                 <span class="info__value-label">
                                                                     
                                                                 </span> ${countProjectWait}</div>
-                                                            <div class="info__actions"><a href="/ProjectList?user=director" class="info__more">
+                                                            <div class="info__actions"><a href="<%=request.getContextPath()%>/ProjectList?user=director" class="info__more">
                                                                     View Request</a>
                                                             </div>
                                                         </div>

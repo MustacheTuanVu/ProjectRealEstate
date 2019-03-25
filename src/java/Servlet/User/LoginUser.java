@@ -124,7 +124,7 @@ public class LoginUser extends HttpServlet {
 
         if (idUser == null) {
             // Login fail*******
-            System.out.println("sdfsd null");
+            response.sendRedirect(request.getContextPath() + "/LoginUser");
         } else {
             switch (idUser.getRole()) {
                 case "employee":

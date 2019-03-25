@@ -14,32 +14,14 @@
                     <h2 class="widget__title">Menu</h2>
                 </div>
                 <div class="widget__content">
-                    <nav class="nav nav--footer"><a href="index.html">Home</a><a href="properties_listing_grid.html">Realty</a><a href="agents_listing_grid.html">Agents</a><a href="gallery.html">Gallery</a><a href="blog.html">Blog</a><a href="pricing.html">Pricing</a><a href="contacts.html">Contacts</a><a href="feature_ui.html">UI</a></nav>
+                    <nav class="nav nav--footer">
+                        <a href="<%=request.getContextPath()%>/index">Home</a>
+                        <a href="<%=request.getContextPath()%>/EstateList?user=guest&estateStatus=all&estateType=all">Estate</a>
+                        <a href="<%=request.getContextPath()%>/EmployeeList?user=guest">Agent</a>
+                        <a href="<%=request.getContextPath()%>/ProjectList?user=guest">Project</a>
+                        <a href="<%=request.getContextPath()%>/BlogListAllUser?cat=all&user=guest">Blog</a>
+                    </nav>
                     <!-- end of block .nav-footer-->
-                </div>
-            </div>
-            <div class="widget js-widget widget--footer">
-                <div class="widget__header">
-                    <h2 class="widget__title">About</h2>
-                </div>
-                <div class="widget__content">
-                    <aside class="widget_text">
-                        <div class="textwidget">
-                            RealtySpace is the leader in online real estate and operator of the WK of real estate web site for consumers and real estate professionals. Real Estate of websites captures more than 20 million monthly visitors
-                            <p>RealtySpace is the leader in online real estate and operator of the WK of real</p>
-                            <p><a>Read more</a></p>
-                        </div>
-
-                    </aside>
-                </div>
-            </div>
-            <div class="widget js-widget widget--footer">
-                <div class="widget__header">
-                    <h2 class="widget__title">Social</h2>
-                </div>
-                <div class="widget__content">
-                    <div class="social social--footer"><a href="#" class="social__item"><i class="fa fa-facebook"></i></a><a href="#" class="social__item"><i class="fa fa-twitter"></i></a><a href="#" class="social__item"><i class="fa fa-google-plus"></i></a></div>
-                    <!-- end of block .social-footer-->
                 </div>
             </div>
         </div>
@@ -52,81 +34,30 @@
                 <div class="widget__content">
                     <section class="address address--footer">
                         <h4 class="address__headline">Our office</h4>
-                        <address class="address__main"><span>1950 New York, NY, Ave NW, California, DC 3000600, USA</span><span>08 - 17 mon-fr</span><a href="tel:+442240052225">+1 202 555 0135</a><a href="tel:+442240052225">+1 202 555 0135</a><span>Fax: +1 202 555 0135</span><a href="mailto:hello@example.com">hello@example.com</a></address>
+                        <address class="address__main"><span>17/5 CMT8, Phuong 3, Quan 10, Ho Chi Minh City</span><span>08 - 17 mon-fr</span><a href="tel:+442240052225">+1 202 555 0135</a><a href="tel:+442240052225">+1 202 555 0135</a><span>Fax: +1 202 555 0135</span><a href="mailto:hello@example.com">hello@example.com</a></address>
                     </section>
                     <!-- end of block .address-->
                 </div>
             </div>
-            <div class="widget js-widget widget--footer">
-                <div class="widget__header">
-                    <h2 class="widget__title">Feedback</h2>
-                </div>
-                <div class="widget__content">
-                    <!-- BEGIN SECTION FEEDBACK-->
-                    <form action="#" class="form form--flex form--footer js-parsley">
-                        <div class="row">
-                            <div class="form-group">
-                                <label for="in-email" class="sr-only control-label">E-mail</label>
-                                <input id="in-email" type="email" name="email" placeholder="E-mail" required data-parsley-trigger="change" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="in-message" class="sr-only control-label">Message for Us</label>
-                                <textarea id="in-message" name="message" placeholder="Message for Us" required data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 20 caracters long comment.." class="form-control"></textarea>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <button type="submit" class="form__submit">Send</button>
-                        </div>
-                    </form>
-                    <!-- end of block .form__wrap-->
-                    <!-- END SECTION FEEDBACK-->
-                </div>
-            </div>
         </div>
-        <!--end of block .footer__col-second-->
         <div class="footer__col footer__col--third">
             <div class="widget js-widget widget--footer">
                 <div class="widget__header">
-                    <h2 class="widget__title">Latest Articles</h2>
+                    <h2 class="widget__title">About</h2>
                 </div>
                 <div class="widget__content">
-                    <div class="listing listing--footer">
-                        <div class="listing__item">
-                            <!-- BEGIN SECTION ARTICLE-->
-                            <div class="article article--footer">
-                                <div class="article__details"><a href="blog_details.html" class="article__item-title">Sustainable architecture &amp; design.</a>
-                                    <time datetime="2009-08-29" class="article__time">Mon - 3 Sep - 3:17 PM</time>
-                                </div>
-                                <!-- end of block .article-->
-                            </div>
-                            <!-- END SECTION ARTICLE-->
+                    <aside class="widget_text">
+                        <div class="textwidget">
+                            RealEstate24H is the leader in online real estate and operator of the HCM of real estate web site for consumers and real estate professionals. Real Estate of websites captures more than 20 million monthly visitors
+                            <p>RealEstate24H is the leader in online real estate and operator of the HCM of real</p>
+                            <p></p>
                         </div>
-                        <div class="listing__item">
-                            <!-- BEGIN SECTION ARTICLE-->
-                            <div class="article article--footer">
-                                <div class="article__details"><a href="blog_details.html" class="article__item-title">You?ve been approved for a rental home.</a>
-                                    <time datetime="2009-08-29" class="article__time">Mon - 3 Sep - 3:17 PM</time>
-                                </div>
-                                <!-- end of block .article-->
-                            </div>
-                            <!-- END SECTION ARTICLE-->
-                        </div>
-                        <div class="listing__item">
-                            <!-- BEGIN SECTION ARTICLE-->
-                            <div class="article article--footer">
-                                <div class="article__details"><a href="blog_details.html" class="article__item-title">The Block Glasshouse winners.</a>
-                                    <time datetime="2009-08-29" class="article__time">Mon - 3 Sep - 3:17 PM</time>
-                                </div>
-                                <!-- end of block .article-->
-                            </div>
-                            <!-- END SECTION ARTICLE-->
-                        </div>
-                    </div><a href="blog.html" class="widget__more"> More articles</a>
+
+                    </aside>
                 </div>
             </div>
         </div>
-        <!-- end of block .footer__col-third-->
-        <div class="clearfix"></div><span class="footer__copyright">&copy; 2016 RealtySpace. All rights reserved</span>
+        <div class="clearfix"></div><span class="footer__copyright">&copy; 2019 RealEstate24H. All rights reserved</span>
         <!-- end of block .footer__copyright-->
     </div>
 </div>

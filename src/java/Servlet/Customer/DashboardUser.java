@@ -67,7 +67,7 @@ public class DashboardUser extends HttpServlet {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
             EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
-            Customer customer = customerControl.findCustomer(users.getId());
+            Customer customer = customerControl.findCustomer(users.getCustomer().getId());
 
             request.setAttribute("customer", customer);
             request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());

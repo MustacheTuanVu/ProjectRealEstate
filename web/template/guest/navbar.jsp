@@ -60,6 +60,11 @@
                 <li class="navbar__item">
                     <a href="<%=request.getContextPath()%>/RequestSale" class="navbar__link">Request Sale</a>
                 </li>
+                <!-- cuong add -->
+               
+                <li class="navbar__item">
+                    <a href="<%=request.getContextPath()%>/BlogListAllUser?cat=all&user=guest" class="navbar__link">Blog</a>
+                </li>
                 
                 <!--
                 <li class="navbar__item js-dropdown">

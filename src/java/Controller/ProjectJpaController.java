@@ -266,7 +266,7 @@ public class ProjectJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             Query query = em.createNativeQuery(
-                    "SELECT count(*) FROM project where manager_id = '" + managerID + "'");
+                    "SELECT count(*) FROM project where manager_id = '" + managerID + "' ");
             System.out.println(query);
             int ret = (int) query.getSingleResult();
             return ret;
@@ -314,13 +314,15 @@ public class ProjectJpaController implements Serializable {
             if (managerID.equals("all")) {
                 query = em.createNativeQuery("SELECT * FROM project where "
                         + "project_status LIKE '%waitting for director%' AND "
-                        + "status LIKE '%waitting for director%'",
+                        + "status LIKE '%waitting for director%' "
+                        + "ORDER BY date_add DESC",
                          Project.class);
                 ret = (List<Project>) query.getResultList();
                 return ret;
             } else {
                 query = em.createNativeQuery("SELECT * FROM project where "
-                        + "manager_id='" + managerID + "'", Project.class
+                        + "manager_id='" + managerID + "' "
+                        + "ORDER BY date_add DESC", Project.class
                 );
                 if (!query.getResultList().isEmpty()) {
                     ret = (List<Project>) query.getResultList();

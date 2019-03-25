@@ -117,11 +117,11 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="in-2" class="control-label">Your Name</label>
-                                                        <input id="in-2" value="${customer.employeeName}" required name="txtName" data-placeholder="---" value="Lara Group Agency" class="form-control">
+                                                        <input  id="in-2" value="${customer.employeeName}" readonly required name="txtName" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="in-3" class="control-label">Identity Card</label>
-                                                        <input id="in-3" value="${customer.employeeIndentityCard}" required name="txtCard" data-placeholder="---" value="Lara Group Agency" class="form-control">
+                                                        <input <c:if test="${customer.employeeIndentityCard != 'wait'}"> readonly </c:if> id="in-3" value="${customer.employeeIndentityCard}" required name="txtCard" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="in-4" class="control-label">Address</label>

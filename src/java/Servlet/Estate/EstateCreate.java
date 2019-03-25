@@ -195,7 +195,7 @@ public class EstateCreate extends HttpServlet {
                         
                         try {
                             estateControl.create(estate);
-                            response.sendRedirect(request.getContextPath() + "/EstateCreate?user=admin&modal=show");
+                            response.sendRedirect(request.getContextPath() + "/EstateCreate?user=employee&modal=show");
                         } catch (RollbackFailureException ex) {
                             Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (Exception ex) {

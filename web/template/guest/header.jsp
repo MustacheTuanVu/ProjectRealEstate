@@ -65,19 +65,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form__options form__options--forgot">
-                                        <button type="button" class="js-user-restore">Forgot password ?</button>
-                                    </div>
                                     <button type="submit" class="form__submit">Sign in</button>
-                                </div>
-                                <div class="form__remember">
-                                    <input type="checkbox" id="remember-in-dropdown" class="in-checkbox">
-                                    <label for="remember-in-dropdown" class="in-label">Remember me</label>
-                                </div>
-                                <div class="row">
-                                    <div class="form__options">Not a user yet?
-                                        <button type="button" class="js-user-register">Get an account</button>
-                                    </div>
                                 </div>
                             </form>
                             <!-- end of block .auth__form-->
@@ -85,41 +73,9 @@
                         </div>
                     </li>
                     <li class="dropdown auth__nav-item" style="display: ${displayLogin};">
-                        <button data-toggle="dropdown" type="button" class="dropdown-toggle auth__nav-btn"><span class="header__span">  Sign up</span></button>
-                        <div class="dropdown__menu auth__dropdown--register">
-                            <!-- BEGIN AUTH REGISTER-->
-                            <h5 class="auth__title">Sign up a new account</h5>
-                            <form action="#" class="form form--flex form--auth js-register-form js-parsley">
-                                <div class="row">
-                                    <div class="form-group form-group--col-6">
-                                        <label for="register-name-dropdown" class="control-label">Username</label>
-                                        <input type="text" name="username" id="register-name-dropdown" required class="form-control">
-                                    </div>
-                                    <div class="form-group form-group--col-6">
-                                        <label for="register-lastname-dropdown" class="control-label">Password</label>
-                                        <input type="password" name="name" id="register-lastname-dropdown" required class="form-control">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group form-group--col-6">
-                                        <label for="register-email-dropdown" class="control-label">E-mail</label>
-                                        <input type="email" name="email" id="register-email-dropdown" required class="form-control">
-                                    </div>
-                                    <div class="form-group form-group--col-6">
-                                        <label for="register-password-dropdown" class="control-label">RePassword</label>
-                                        <input type="password" name="password" id="register-password-dropdown" required class="form-control">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form__options">Back to
-                                        <button type="button" class="js-user-login">Log In</button>
-                                    </div>
-                                    <button type="submit" class="form__submit">Sign up</button>
-                                </div>
-                            </form>
-                            <!-- end of block .auth__form-->
-                            <!-- END AUTH REGISTER-->
-                        </div>
+                        <a href="<%=request.getContextPath()%>/RegisterUser" class="dropdown-toggle auth__nav-btn">
+                            <span class="header__span" style="color: white">  Sign up</span>
+                        </a>
                     </li>
                     <li class="dropdown auth__nav-item" style="display: ${displayUser};">
                         <button data-toggle="dropdown" type="button" class="dropdown-toggle js-auth-nav-btn auth__nav-btn">

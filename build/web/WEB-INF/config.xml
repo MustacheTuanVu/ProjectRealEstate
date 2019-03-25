@@ -94,12 +94,12 @@
 			<folder>/</folder>
 			<folderView>true</folderView>
 			<folderCreate>true</folderCreate>
-			<folderRename>true</folderRename>
-			<folderDelete>true</folderDelete>
+			<folderRename>false</folderRename>
+			<folderDelete>false</folderDelete>
 			<fileView>true</fileView>
 			<fileUpload>true</fileUpload>
-			<fileRename>true</fileRename>
-			<fileDelete>true</fileDelete>
+			<fileRename>false</fileRename>
+			<fileDelete>false</fileDelete>
 		</accessControl>
 	</accessControls>
 	<thumbs>

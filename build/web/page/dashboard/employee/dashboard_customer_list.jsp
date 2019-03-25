@@ -4,7 +4,7 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>Customer List Report</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -101,26 +101,26 @@
                                     <div class="widget__content">
                                         <div class="datatable datatable--properties">
                                             <div class="datatable__wrap">
-                                                <table class="js-properties-table datatable__table">
+                                                <table id="example1" class="table table-bordered table-striped">
                                                     <thead>
                                                         <tr>
-                                                            <th class="datatable__head-1">Name</th>
-                                                            <th class="datatable__head-2 datatable__head-sort">Mail</th>
-                                                            <th class="datatable__head-3 datatable__head-sort">Address</th>
-                                                            <th class="datatable__head-4 datatable__head-sort">Phone</th>
-                                                            <th class="datatable__head-5">Details</th>
+                                                            <th>Name</th>
+                                                            <th>Mail</th>
+                                                            <th>Address</th>
+                                                            <th>Phone</th>
+                                                            <th>Details</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <c:forEach items="${customerList}" var="item">
                                                         <tr>
-                                                            <td class="datatable__cell-1">${item.customerName} <br>
+                                                            <td>${item.customerName} <br>
                                                             </td>
-                                                            <td class="datatable__cell-2">${item.mail}
+                                                            <td>${item.mail}
                                                             </td>
-                                                            <td class="datatable__cell-3"> ${item.customerAddress}</td>
-                                                            <td class="datatable__cell-4">${item.phone}</td>
-                                                            <td class="datatable__cell-5">
+                                                            <td> ${item.customerAddress}</td>
+                                                            <td>${item.phone}</td>
+                                                            <td>
                                                                 <a href="<%=request.getContextPath()%>/EstateListOfCustomer_Employee?customerID=${item.id}" class="datatable__more">
                                                                         View Details
                                                                     </a>
@@ -261,6 +261,29 @@
             $('#myModalShow').modal('${modalTranOke}');
             $('#myModalFail').modal('${modalTranFail}');
             $('#myModal').modal('${modal}');
+        });
+    </script>
+    
+    <!-- DATA TABES SCRIPT -->
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/buttons.bootstrap.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/jszip.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/pdfmake.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/vfs_fonts.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#example1').DataTable({
+                "order": [[0, "desc"]],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
+            });
         });
     </script>
 </body>

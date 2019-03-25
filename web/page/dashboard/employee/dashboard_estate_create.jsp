@@ -280,9 +280,8 @@
                                                                 <label for="in-2" class="control-label">Estate Status</label>
                                                                 <select id="in-2" required name="estateStatusId" data-placeholder="---" class="form-control">
                                                                     <option label=" "></option>
-                                                                    <c:forEach items="${estateStatusList}" var="estateStatusList">
-                                                                        <option value="${estateStatusList.id}">${estateStatusList.estateStatusName}</option>
-                                                                    </c:forEach>
+                                                                    <option value="1">Rent</option>
+                                                                    <option value="2">Sale</option>
                                                                 </select>
                                                             </div>
                                                             <div class="form-group">
@@ -335,7 +334,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <a href="#Photo" aria-controls="Photo" class="form__submit" role="tab" data-toggle="tab">Next</a>
+                                                            <a href="#Photo" onclick="validateFormCreateEstate()" id="tabPhotos" aria-controls="Photo" class="form__submit" role="tab" data-toggle="tab">Next</a>
                                                         </div>
                                                     </div>
                                                     <div id="Photo" role="tabpanel" class="tab-pane">

@@ -184,9 +184,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--
-                                <div class="widget__footer"><a href="" class="widget__more js-properties-more">More listings</a></div>
-                                -->
                             </div>
                         </div>
                         <!-- END site-->

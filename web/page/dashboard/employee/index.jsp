@@ -129,6 +129,7 @@
                                             </section>
                                         </div>
                                     </div>
+                                    <!--
                                     <div class="widget js-widget widget--dashboard">
                                         <div class="widget__header">
                                             <h2 class="widget__title">Commission</h2>
@@ -192,6 +193,7 @@
                                             </section>
                                         </div>
                                     </div>
+                                    -->
                                 </div>
                             </div>
                         </div>
@@ -201,7 +203,6 @@
                         <div class="sidebar sidebar--dashboard">
                             <%@ include file="/template/dashboard/employee/sidebar.jsp" %>
                         </div>
-
                         <!-- END SIDEBAR-->
                         <div class="clearfix"></div>
                     </div>
