@@ -97,12 +97,15 @@ public class CreateContract extends HttpServlet {
                 request.setAttribute("displayTransaction", "none");
             }
             Employee employee = employeeControl.findEmployee(Integer.parseInt(request.getParameter("employeeID")));
-            Contract contract = contractJpaController.findContract(estate.getContractDetails().getContractId().getId());
+            Contract contract = new Contract();
+            if(estate.getContractDetails()!=null){
+                contract = contractJpaController.findContract(estate.getContractDetails().getContractId().getId());
+                request.setAttribute("contract", contract);
+            }
 
             request.setAttribute("estate", estate);
             request.setAttribute("employee", employee);
             request.setAttribute("customer", customer);
-            request.setAttribute("contract", contract);
             request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
             request.getRequestDispatcher("/page/guest/echo_contact.jsp").forward(request, response);
         } else {
@@ -202,6 +205,7 @@ public class CreateContract extends HttpServlet {
                 
                 Contract contract = contractJpaController.findContract(contractID);
                 contract.setStatus("done");
+                contract.setContractDetails("request sale success");
                 try {
                     contractJpaController.edit(contract);
                 } catch (RollbackFailureException ex) {

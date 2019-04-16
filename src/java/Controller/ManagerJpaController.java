@@ -9,7 +9,6 @@ import Controller.exceptions.IllegalOrphanException;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
-import Entity.Customer;
 import Entity.Manager;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -40,7 +39,6 @@ public class ManagerJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
 
     public void create(Manager manager) throws PreexistingEntityException, RollbackFailureException, Exception {
         if (manager.getProjectList() == null) {
@@ -48,8 +46,8 @@ public class ManagerJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Users userId = manager.getUserId();
             if (userId != null) {
                 userId = em.getReference(userId.getClass(), userId.getId());
@@ -80,10 +78,10 @@ public class ManagerJpaController implements Serializable {
                     oldManagerIdOfProjectListProject = em.merge(oldManagerIdOfProjectListProject);
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -101,8 +99,8 @@ public class ManagerJpaController implements Serializable {
     public void edit(Manager manager) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Manager persistentManager = em.find(Manager.class, manager.getManagerId());
             Users userIdOld = persistentManager.getUserId();
             Users userIdNew = manager.getUserId();
@@ -156,10 +154,10 @@ public class ManagerJpaController implements Serializable {
                     }
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -181,8 +179,8 @@ public class ManagerJpaController implements Serializable {
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Manager manager;
             try {
                 manager = em.getReference(Manager.class, id);
@@ -207,10 +205,10 @@ public class ManagerJpaController implements Serializable {
                 userId = em.merge(userId);
             }
             em.remove(manager);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }

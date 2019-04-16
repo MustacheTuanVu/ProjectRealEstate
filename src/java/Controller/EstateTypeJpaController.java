@@ -251,10 +251,33 @@ public class EstateTypeJpaController implements Serializable {
         }
     }
     
-    public List<String> getStatusEstate(){
-        EntityManager em=getEntityManager();
-        Query query=em.createNativeQuery("SELECT DISTINCT estate_status FROM estate");
-        
-        return query.getResultList();
+    public int getEstateTypeByEstateCountStaticPublic(String estateTypeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT count(id) as axs FROM estate where "
+                    + "estate_type_id='" + estateTypeID + "' AND "
+                    + "estate_status='publish'");
+            int ret = (int) query.getSingleResult();
+            System.out.println(query);
+            System.out.println(ret);
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public int getEstateTypeByEstateCountStaticSold(String estateTypeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT count(id) as axs FROM estate where "
+                    + "estate_type_id='" + estateTypeID + "' AND "
+                    + "estate_status='sold'");
+            int ret = (int) query.getSingleResult();
+            System.out.println(query);
+            System.out.println(ret);
+            return ret;
+        } finally {
+            em.close();
+        }
     }
 }

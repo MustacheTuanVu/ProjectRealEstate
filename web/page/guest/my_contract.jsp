@@ -101,10 +101,11 @@
                                                     <thead>
                                                         <tr>
                                                             <th class="datatable__head-1">Location Address</th>
-                                                            <th class="datatable__head-2 datatable__head-sort">Customer</th>
+                                                            <th class="datatable__head-2 datatable__head-sort">Employee</th>
                                                             <th class="datatable__head-3 datatable__head-sort">Price</th>
-                                                            <th class="datatable__head-4 datatable__head-sort">Status</th>
-                                                            <th class="datatable__head-5">Details</th>
+                                                            <th class="datatable__head-5 datatable__head-sort">Note</th>
+                                                            <th class="datatable__head-6 datatable__head-sort">Status</th>
+                                                            <th class="datatable__head-7">Details</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -113,9 +114,20 @@
                                                             <td class="datatable__cell-1">${item.estateId.address1} <br>
                                                                                             ${item.estateId.address2}
                                                             </td>
-                                                            <td class="datatable__cell-1"><strong> ${item.contractId.employeeId.employeeName} </strong>
+                                                            <td class="datatable__cell-1"><strong>${item.contractId.employeeId.employeeName}</strong>
                                                             </td>
-                                                            <td class="datatable__cell-2"><strong> ${item.estateId.price} </strong>VND</td>
+                                                            <td class="datatable__cell-2"><strong>${item.contractId.paymentAmount}</strong></td>
+                                                            <td class="datatable__cell-2">
+                                                                <c:if test="${item.contractId.contractDetails == 'my request sale'  && item.contractId.status != 'done'}">
+                                                                    <strong>${item.contractId.contractDetails}</strong>
+                                                                </c:if>
+                                                                <c:if test="${item.contractId.contractDetails == 'my request sale'  && item.contractId.status == 'done'}">
+                                                                    <strong>sale success</strong>
+                                                                </c:if>
+                                                                <c:if test="${item.contractId.contractDetails != 'my request sale'}">
+                                                                    <strong>${item.contractId.status}</strong>
+                                                                </c:if>
+                                                            </td>
                                                             <td class="datatable__cell-2"><strong>${item.contractId.status}</strong></td>
                                                             <td class="datatable__cell-5">
                                                                 <c:if test="${item.contractId.status != 'waitting for employee'}">
@@ -130,6 +142,7 @@
                                                             </td>
                                                         </tr>    
                                                         </c:forEach>
+                                                        
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -157,9 +170,20 @@
                                 <div class="widget__content">
                                     <!-- BEGIN WORKER PROFILE-->
                                     <div class="worker sidebar-advanced">
-                                        
-                                        <h3>DASHBOARD</h3>
-                                        <%@include file="/template/dashboard/employee/sidebar.jsp" %>
+                                        <h3 class="worker__name">${customer.customerName}</h3>
+                                        <div class="worker__photo">
+                                            <div class="worker__avatar">
+                                                <img src="${customer.customerImg}" alt="avatar" width="208" height="208">
+                                            </div>
+                                            <button class="worker__avatar-upload">Upload your profile picture</button>
+                                        </div>
+                                        <nav class="worker__nav">
+                                            <ul>
+                                                <li><a href="<%=request.getContextPath()%>/MyListing">My listing</a></li>
+                                                <li><a href="<%=request.getContextPath()%>/DashboardUser">My Profile</a></li>
+                                                <li><a href="<%=request.getContextPath()%>/MyContract">My Contract</a></li>
+                                            </ul>
+                                        </nav>
                                         <!-- end of block .worker__nav-->
                                     </div>
                                     <!-- end of block .worker__item-->

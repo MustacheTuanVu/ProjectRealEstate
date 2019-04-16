@@ -148,6 +148,43 @@ public class ProjectList extends HttpServlet {
             
             request.setAttribute("projectList", projectsList);
             request.getRequestDispatcher("/page/dashboard/manager/dashboard_project.jsp").forward(request, response);
+        }else if(user.equals("director")){
+            if(!users.getRole().equals("director")){
+                users.getManager().getManagerId();
+            }
+            List<Project> projectsList = new ArrayList<>();
+            
+            String search = (request.getParameter("search") != null) ? request.getParameter("search") : "";
+            
+            if(search.equals("search")){
+                String searchInput = (request.getParameter("searchInput") != null) ? request.getParameter("searchInput") : "";
+                List<String> projectIDListSearch = projectControl.getProjectByManagerSearch(
+                    "all",
+                    searchInput
+                );
+                for (String string : projectIDListSearch) {
+                    projectsList.add(projectControl.findProject(string));
+                }
+            }else{
+                projectsList = projectControl.getProjectByManager("all");
+            }
+            
+            EstateJpaController estateJpaController = new EstateJpaController(utx, emf);
+            for (Project project : projectsList) {
+                List<String> estateIDList = estateJpaController.getEstateByProject(project.getProjectId());
+                int count = 0;
+                for (String estateID : estateIDList) {
+                    if(estateJpaController.findEstate(estateID).getContractDetails()!=null){
+                        count = count + 1;
+                    }
+                }
+                if(count!=0){
+                    projectsList.remove(project);
+                }
+            }
+            
+            request.setAttribute("projectList", projectsList);
+            request.getRequestDispatcher("/page/dashboard/director/dashboard_project.jsp").forward(request, response);
         }
     }
 

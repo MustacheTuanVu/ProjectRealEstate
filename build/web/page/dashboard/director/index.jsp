@@ -58,7 +58,7 @@
             <%@ include file="/template/guest/header.jsp" %>
         </header>
         <!-- END HEADER-->
-        
+
         <!-- BEGIN NAVBAR-->
         <div id="header-nav-offset"></div>
         <nav id="header-nav" class="navbar navbar--header">
@@ -76,16 +76,115 @@
                         <!-- BEGIN LISTING-->
                         <div class="site site--dashboard">
                             <div class="site__main">
-                                <h1 class="site__title site__title--center">DIRECTOR PANEL</h1>
+                                <div class="site__main">
+                                    <div class="widget js-widget widget--dashboard">
+                                        <div class="widget__header">
+                                            <h2 class="widget__title">YOU HAVE: </h2>
+                                        </div>
+                                        <div class="widget__content">
+                                            <section class="info info--financials">
+                                                <div class="info__list">
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Total Request sale</div>
+                                                            <div class="info__value info__value--succes">
+                                                                <span class="info__value-label">
+                                                                    
+                                                                </span> ${countContractWaitSale}</div>
+                                                            <div class="info__actions"><a href="/ContractOfEmployee1" class="info__more">View Request</a>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Total Estate Wait</div>
+                                                            <div class="info__value info__value--succes">
+                                                                <span class="info__value-label">
+                                                                    
+                                                                </span> ${countEstateWait}</div>
+                                                            <div class="info__actions"><a href="/EstateList?user=director&filter=waitting%20for%20director" class="info__more">
+                                                                    View Request</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Total Project Wait</div>
+                                                            <div class="info__value info__value--succes">
+                                                                <span class="info__value-label">
+                                                                    
+                                                                </span> ${countProjectWait}</div>
+                                                            <div class="info__actions"><a href="/ProjectList?user=director" class="info__more">
+                                                                    View Request</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+                                    <div class="widget js-widget widget--dashboard">
+                                        <div class="widget__header">
+                                            <h2 class="widget__title">Commission</h2>
+                                        </div>
+                                        <div class="widget__content">
+                                            <section class="info info--commission">
+                                                <h5 class="info__group-name">User Number:</h5>
+                                                <div class="info__list">
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Manager</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label"></span> ${countManager}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Employee</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label"></span> ${countEmployee}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Customer</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label"></span> ${countCustomer}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h5 class="info__group-name">Unit Number:</h5>
+                                                <div class="info__list">
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Project</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label"></span> ${countProject}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Estate</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label"></span> ${countEstate}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Blog</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label"></span> ${countBlog}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- END LISTING-->
                         <!-- BEGIN SIDEBAR-->
-                        
+
                         <div class="sidebar sidebar--dashboard">
                             <%@ include file="/template/dashboard/director/sidebar.jsp" %>
                         </div>
-                            
+
                         <!-- END SIDEBAR-->
                         <div class="clearfix"></div>
                     </div>

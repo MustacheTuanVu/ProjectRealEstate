@@ -58,7 +58,7 @@
             <%@ include file="/template/guest/header.jsp" %>
         </header>
         <!-- END HEADER-->
-        
+
         <!-- BEGIN NAVBAR-->
         <div id="header-nav-offset"></div>
         <nav id="header-nav" class="navbar navbar--header">
@@ -76,16 +76,133 @@
                         <!-- BEGIN LISTING-->
                         <div class="site site--dashboard">
                             <div class="site__main">
-                                <h1 class="site__title site__title--center">DIRECTOR PANEL</h1>
+                                <div class="site__main">
+                                    <div class="widget js-widget widget--dashboard">
+                                        <div class="widget__header">
+                                            <h2 class="widget__title">Credit</h2>
+                                        </div>
+                                        <div class="widget__content">
+                                            <section class="info info--financials">
+                                                <div class="info__list">
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">My Income</div>
+                                                            <div class="info__value info__value--succes"><span class="info__value-label"></span> ${sumMoney}</div>
+                                                            <!--
+                                                            <div class="info__actions"><a href="dashboard_payment.html" class="info__more">Add credits</a>
+                                                                <button class="info__link">Top-up history</button>
+                                                            </div>
+                                                            -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Estate Transaction</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label"></span> ${estateTransaction}</div>
+                                                        </div>
+                                                        <div class="info__item">
+                                                            <div class="info__title">Expenses</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 15,330</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">RealEstate24h' Income By Me</div>
+                                                            <div class="info__value info__value--info">
+                                                                <span class="info__value-label"></span> ${sumMoneyCompany}
+                                                                <c:if test="${checkMoneyCompany == true}">
+                                                                    <i class="fa fa-arrow-up info__value--positive"></i>
+                                                                </c:if>
+                                                                <c:if test="${checkMoneyCompany == false}">
+                                                                    <i class="fa fa-arrow-down info__value--positive"></i>
+                                                                </c:if>
+                                                            </div>
+                                                            <div class="info__chart info__chart--balance">
+                                                                <canvas id="current-balance" class="info__chart-balance"></canvas>
+                                                                <p id="getJanRealEstate24hIncome" style="display: none">${sumMoneyCompanyByJan}</p>
+                                                                <p id="getFebRealEstate24hIncome" style="display: none">${sumMoneyCompanyByFeb}</p>
+                                                                <p id="getMarRealEstate24hIncome" style="display: none">${sumMoneyCompanyByMar}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+                                    <!--
+                                    <div class="widget js-widget widget--dashboard">
+                                        <div class="widget__header">
+                                            <h2 class="widget__title">Commission</h2>
+                                        </div>
+                                        <div class="widget__content">
+                                            <section class="info info--commission">
+                                                <h5 class="info__group-name">Cash receipts from:</h5>
+                                                <div class="info__list">
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Sales</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 17,505</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Commission & Fees</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 8,050</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Interest received</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 2,310</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h5 class="info__group-name">Cash payment for:</h5>
+                                                <div class="info__list">
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Purchases</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 2,825</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Payment to employees</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 9,000</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Operating Expenses</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 660</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Interest Payments</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 1,700</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info__column">
+                                                        <div class="info__item">
+                                                            <div class="info__title">Direct Taxes Paid</div>
+                                                            <div class="info__value info__value--small"><span class="info__value-label">RM</span> 720</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+                                    -->
+                                </div>
                             </div>
                         </div>
                         <!-- END LISTING-->
                         <!-- BEGIN SIDEBAR-->
-                        
+
                         <div class="sidebar sidebar--dashboard">
                             <%@ include file="/template/dashboard/employee/sidebar.jsp" %>
                         </div>
-                            
                         <!-- END SIDEBAR-->
                         <div class="clearfix"></div>
                     </div>

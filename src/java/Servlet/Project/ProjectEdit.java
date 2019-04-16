@@ -5,11 +5,15 @@
  */
 package Servlet.Project;
 
+import Controller.EstateJpaController;
+import Controller.EstateTypeJpaController;
+import Controller.ManagerJpaController;
 import Controller.ProjectJpaController;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.RollbackFailureException;
 import Entity.Manager;
 import Entity.Project;
+import Entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -21,6 +25,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
 /**
@@ -43,18 +48,50 @@ public class ProjectEdit extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ProjectEdit</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ProjectEdit at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        // BEGIN SESSION HEADER FONTEND //
+        HttpSession session = request.getSession();
+        Users users = (Users) session.getAttribute("user");
+        
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
+        ProjectJpaController projectJpaController = new ProjectJpaController(utx, emf);
+        if (users != null) {
+            request.setAttribute("user", "user");
+            request.setAttribute("displayLogin", "none");
+            request.setAttribute("displayUser", "block");
+            switch (users.getRole()) {
+                case "employee":
+                    session.setAttribute("name", users.getEmployee().getEmployeeName());
+                    session.setAttribute("employeeID", users.getEmployee().getId());
+                    request.setAttribute("role", "employee");
+                    session.setAttribute("image", users.getEmployee().getEmployeeImg());
+                    break;
+                case "manager":
+                    session.setAttribute("name", users.getManager().getManagerName());
+                    request.setAttribute("role", "manager");
+                    session.setAttribute("image", users.getManager().getManagerImg());
+                    break;
+                case "director":
+                    session.setAttribute("name", "Boss");
+                    request.setAttribute("role", "director");
+                    session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
+                    break;
+                case "customer":
+                    session.setAttribute("name", users.getCustomer().getCustomerName());
+                    request.setAttribute("role", "customer");
+                    session.setAttribute("image", users.getCustomer().getCustomerImg());
+                    break;
+            }
+            Project project = projectJpaController.findProject(request.getParameter("projectID"));
+            request.setAttribute("project", project);
+        } else {
+            request.setAttribute("displayLogin", "block");
+            request.setAttribute("displayUser", "none");
         }
+        // END SESSION HEADER FONTEND //
+        
+        request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
+        request.getRequestDispatcher("/page/dashboard/manager/dashboard_project_edit.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -70,6 +107,7 @@ public class ProjectEdit extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
     }
 
     /**
@@ -85,9 +123,12 @@ public class ProjectEdit extends HttpServlet {
             throws ServletException, IOException {
         try {
             //processRequest(request, response);
+            HttpSession session = request.getSession();
+            Users users = (Users) session.getAttribute("user");
             
             EntityManagerFactory emf= (EntityManagerFactory) getServletContext().getAttribute("emf");
             Controller.ProjectJpaController proCon= new ProjectJpaController(utx, emf);
+            ManagerJpaController managerJpaController = new ManagerJpaController(utx, emf);
             
             Entity.Project pro=proCon.findProject(request.getParameter("id"));
             //Entity.Project pro= new Project();
@@ -95,7 +136,7 @@ public class ProjectEdit extends HttpServlet {
             //mana.setManagerId(Integer.valueOf(request.getParameter("manager")));
             
             EntityManager em = emf.createEntityManager();
-            Manager mana = em.getReference(Manager.class, Integer.valueOf(request.getParameter("manager")));
+            Manager manager = managerJpaController.findManager(users.getManager().getManagerId() );
             
             //pro.setProjectId(request.getParameter("projectId"));
             pro.setBlockNumber(Integer.valueOf(request.getParameter("blockNumber")));
@@ -105,19 +146,15 @@ public class ProjectEdit extends HttpServlet {
             pro.setImage3st(request.getParameter("image3st"));
             pro.setImage4st(request.getParameter("image4st"));
             pro.setImage5st(request.getParameter("image5st"));
-            pro.setManagerId(mana);
-            pro.setProjectAddress(request.getParameter("addressProject"));
-            pro.setProjectArea(Double.valueOf(request.getParameter("projectArea")));
+            pro.setManagerId(manager);
+            pro.setProjectAddress(request.getParameter("address"));
+            pro.setFloorNumber(Double.valueOf(request.getParameter("floorNumber")));
+            pro.setBlockNumber(Integer.valueOf(request.getParameter("blockNumber")));
             pro.setProjectName(request.getParameter("projectName"));
-            pro.setProjectStatus(request.getParameter("Waiting"));
-            pro.setStatus(request.getParameter("Waiting"));
-            
-            System.out.println("id "+mana.getManagerId());
-            System.out.println("number "+request.getParameter("blockNumber"));
-            
+            pro.setProjectStatus("waitting for director edit");
+            pro.setStatus("waitting for director edit");
             proCon.edit(pro);
-            
-            System.out.println("Edit Completed !!!");
+            response.sendRedirect(request.getContextPath()+"/ProjectList?user=manager");
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(ProjectEdit.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RollbackFailureException ex) {

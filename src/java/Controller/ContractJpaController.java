@@ -326,4 +326,6 @@ public class ContractJpaController implements Serializable {
             em.close();
         }
     }
+    
+    
 }

@@ -42,13 +42,12 @@ public class EditBlog extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
         HttpSession session = request.getSession();
         Entity.Users user = (Entity.Users) session.getAttribute("user");
-        
 
         if (user != null) {
             try {
@@ -59,23 +58,22 @@ public class EditBlog extends HttpServlet {
                 request.setAttribute("role", "employee");
                 session.setAttribute("image", user.getEmployee().getEmployeeImg());
                 /*-----------------------------------------------------------*/
-                
+
                 String action = request.getParameter("action");
-                int idPost=Integer.valueOf(request.getParameter("id"));
-                EntityManagerFactory emf=(EntityManagerFactory) getServletContext().getAttribute("emf");
-                Controller.PostJpaController postController= new PostJpaController(utx, emf);
-                
-                
-                switch(action){
+                int idPost = Integer.valueOf(request.getParameter("id"));
+                EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+                Controller.PostJpaController postController = new PostJpaController(utx, emf);
+
+                switch (action) {
                     case "edit":
-                        Controller.CategoryJpaController catController= new CategoryJpaController(utx, emf);
+                        Controller.CategoryJpaController catController = new CategoryJpaController(utx, emf);
                         request.setAttribute("list", catController.findCategoryEntities());
                         request.setAttribute("post", postController.findPost(idPost));
                         request.getRequestDispatcher("/page/dashboard/employee/dashboard_blog_edit.jsp").forward(request, response);
                         break;
                     case "delete":
                         postController.destroy(idPost);
-                        response.sendRedirect(request.getContextPath()+"/BlogList");
+                        response.sendRedirect(request.getContextPath() + "/BlogList");
                         break;
                 }
             } catch (RollbackFailureException ex) {
@@ -83,7 +81,7 @@ public class EditBlog extends HttpServlet {
             } catch (Exception ex) {
                 Logger.getLogger(EditBlog.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
@@ -119,29 +117,28 @@ public class EditBlog extends HttpServlet {
             throws ServletException, IOException {
         try {
 //            processRequest(request, response);
-            HttpSession session= request.getSession();
-            Entity.Users user= (Entity.Users) session.getAttribute("user");
-            EntityManagerFactory emf=(EntityManagerFactory) getServletContext().getAttribute("emf");
-            Controller.PostJpaController postController= new PostJpaController(utx, emf);
-            Entity.Post post= postController.findPost(Integer.valueOf(request.getParameter("txtID")));
-            
-            
+            HttpSession session = request.getSession();
+            Entity.Users user = (Entity.Users) session.getAttribute("user");
+            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+            Controller.PostJpaController postController = new PostJpaController(utx, emf);
+            Entity.Post post = postController.findPost(Integer.valueOf(request.getParameter("txtID")));
+
             //post.setEmployee(new Employee(user.getEmployee().getId()));
             post.setPostCategory(new Category(Integer.valueOf(request.getParameter("cat"))));
             post.setPostContent(request.getParameter("editor1"));
             post.setPostImage(request.getParameter("txtImg"));
             post.setPostTilte(request.getParameter("title"));
-            
+
             postController.edit(post);
             System.out.println("Edit Completed !!!");
-            
-            response.sendRedirect(request.getContextPath()+"/BlogList?action=Edit&modal=show");
+
+            response.sendRedirect(request.getContextPath() + "/BlogList?action=Edit&modal=show");
         } catch (RollbackFailureException ex) {
             Logger.getLogger(EditBlog.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(EditBlog.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     /**

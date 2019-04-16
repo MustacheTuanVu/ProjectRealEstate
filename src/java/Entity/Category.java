@@ -33,10 +33,8 @@ public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-//    @Basic(optional = false)
-//    @NotNull
+    @Column(name = "category_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
     private Integer categoryId;
     @Basic(optional = false)
     @NotNull

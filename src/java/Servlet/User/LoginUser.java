@@ -44,10 +44,6 @@ public class LoginUser extends HttpServlet {
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
         Entity.Users user = (Entity.Users) session.getAttribute("user");
-        String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "";
-        String mess = (request.getParameter("err") != null) ? request.getParameter("err") : "";
-        request.setAttribute("modal", modal);
-        request.setAttribute("err", mess);
         if (user != null) {
             request.setAttribute("user", "user");
             request.setAttribute("displayLogin", "none");
@@ -74,7 +70,6 @@ public class LoginUser extends HttpServlet {
                     session.setAttribute("image", user.getCustomer().getCustomerImg());
                     break;
             }
-    
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
@@ -128,54 +123,30 @@ public class LoginUser extends HttpServlet {
         Users idUser = userCon.checkLogin(username, pass);
 
         if (idUser == null) {
-            /* cuong add */
-            //response.sendRedirect(request.getContextPath()+"/Login?modal=show&err=Login");
-            request.setAttribute("modal", "show");
-            request.setAttribute("err", "Login Fail !!!");
-            request.getRequestDispatcher("/page/dashboard/dashboard_login.jsp").forward(request, response);
+            // Login fail*******
+            System.out.println("sdfsd null");
         } else {
             switch (idUser.getRole()) {
                 case "employee":
                     session.setAttribute("user", idUser);
                     session.setAttribute("employeePanel", "employeePanel");
-                    response.sendRedirect(request.getContextPath() + "/index?"
-                        + "modal=show&"
-                        + "nameLogin="+idUser.getEmployee().getEmployeeName()+""
-                    );
+                    response.sendRedirect(request.getContextPath() + "/index");
                     break;
                 case "manager":
                     session.setAttribute("user", idUser);
                     session.setAttribute("ManagePanel", "ManagePanel");
-                    response.sendRedirect(request.getContextPath() + "/index?"
-                        + "modal=show&"
-                        + "nameLogin="+idUser.getManager().getManagerName()+""
-                    );
+                    response.sendRedirect(request.getContextPath() + "/index");
                     break; 
                 case "director":
                     session.setAttribute("user", idUser);
                     session.setAttribute("DirectorPanel", "DirectorPanel");
-                    response.sendRedirect(request.getContextPath() + "/index?"
-                        + "modal=show&"
-                        + "nameLogin=Boss"
-                    );
+                    response.sendRedirect(request.getContextPath() + "/index");
                     break; 
                 case "customer":
                     session.setAttribute("user", idUser);
-                    response.sendRedirect(request.getContextPath() + "/index?"
-                        + "modal=show&"
-                        + "nameLogin="+idUser.getCustomer().getCustomerName()+""
-                    );
+                    response.sendRedirect(request.getContextPath() + "/index");
                     break;
             }
-            
-            /*cuong add*/
-            /*
-                response.sendRedirect(request.getContextPath() + "/index?"
-                    + "modal=show&"
-                    + "nameLogin="+idUser.getEmployee().getEmployeeName()+""
-                );
-            */
-            
         }
     }
 

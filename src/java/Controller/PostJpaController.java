@@ -41,7 +41,6 @@ public class PostJpaController implements Serializable {
     public void create(Post post) throws PreexistingEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            //utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
             Category postCategory = post.getPostCategory();
@@ -64,6 +63,7 @@ public class PostJpaController implements Serializable {
                 employee = em.merge(employee);
             }
             em.getTransaction().commit();
+            System.out.println("this : " +post.getPostId());
         } catch (Exception ex) {
             try {
                 em.getTransaction().rollback();
@@ -84,7 +84,6 @@ public class PostJpaController implements Serializable {
     public void edit(Post post) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            ///utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
             Post persistentPost = em.find(Post.class, post.getPostId());
@@ -142,7 +141,6 @@ public class PostJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            //utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
             Post post;
@@ -223,18 +221,19 @@ public class PostJpaController implements Serializable {
             em.close();
         }
     }
-
+    
     public List<Post> getPostByEmployee(String employeeID) {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createNativeQuery("SELECT * FROM post where employee='" + employeeID + "' order by post_date Desc", Post.class);
-
+            Query query = em.createNativeQuery("SELECT * FROM post where employee='" + employeeID + "'", Post.class);
+            
             List<Post> ret = (List<Post>) query.getResultList();
             return ret;
         } finally {
             em.close();
         }
     }
+    
     /* cuong add */
     public List<Post> getAllPost() {
         EntityManager em = getEntityManager();
@@ -334,4 +333,5 @@ public class PostJpaController implements Serializable {
         Query q=em.createNativeQuery("select count(x.customer_id) from (select distinct(customer_id) from contract where employee_id='"+empId+"') x");
         return   q.getSingleResult();
     }
+    
 }

@@ -20,11 +20,16 @@ import java.util.ArrayList;
 import java.util.List;
 import Entity.AssignDetails;
 import Entity.Employee;
+import Entity.Estate;
 import Entity.Schedule;
 import Entity.Post;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 
 /**
  *
@@ -58,7 +63,6 @@ public class EmployeeJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
-            //utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
             Users userId = employee.getUserId();
@@ -90,6 +94,20 @@ public class EmployeeJpaController implements Serializable {
                 attachedPostList.add(postListPostToAttach);
             }
             employee.setPostList(attachedPostList);
+            
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            javax.validation.Validator validator = factory.getValidator();
+            Set<ConstraintViolation<Employee>> constraintViolations;
+            constraintViolations = validator.validate(employee);
+
+            if (constraintViolations.size() > 0) {
+                System.out.println("Constraint Violations occurred..");
+                for (ConstraintViolation<Employee> employees : constraintViolations) {
+                    System.out.println(employees.getRootBeanClass().getSimpleName()
+                            + "." + employees.getPropertyPath() + " " + employees.getMessage());
+                }
+            }
+            
             em.persist(employee);
             if (userId != null) {
                 Employee oldEmployeeOfUserId = userId.getEmployee();
@@ -157,7 +175,6 @@ public class EmployeeJpaController implements Serializable {
     public void edit(Employee employee) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            //utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
             Employee persistentEmployee = em.find(Employee.class, employee.getId());
@@ -320,7 +337,6 @@ public class EmployeeJpaController implements Serializable {
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            //utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
             Employee employee;

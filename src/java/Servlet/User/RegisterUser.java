@@ -5,8 +5,10 @@
  */
 package Servlet.User;
 
+import Controller.CustomerJpaController;
 import Controller.UsersJpaController;
 import Controller.exceptions.RollbackFailureException;
+import Entity.Customer;
 import Entity.Users;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -42,12 +44,12 @@ public class RegisterUser extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
+        EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.UsersJpaController user = new UsersJpaController(utx, em);
+
         HttpSession session = request.getSession();
         session.invalidate();
-
-        String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "";
-        request.setAttribute("modal", modal);
-        request.getRequestDispatcher("/page/guest/dashboard_register.jsp").forward(request, response);
+        request.getRequestDispatcher("/page/dashboard/dashboard_register.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -77,37 +79,40 @@ public class RegisterUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        //processRequest(request, response);
+
+        processRequest(request, response);
         EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        CustomerJpaController customerJpaController = new CustomerJpaController(utx, em);
         Controller.UsersJpaController userCon = new UsersJpaController(utx, em);
         Entity.Users user = new Users();
-        String a = request.getParameter("name");
-        String message = (request.getParameter("message") != null) ? request.getParameter("message") : "";
-        request.setAttribute("message", message);
-        if (userCon.checkUser(a).size() > 0) {
-            message = "Username exsit !!!";
-            request.setAttribute("message", message);
-            response.sendRedirect(request.getContextPath() + "/RegisterUser?"
-                    + "message=" + message + "&"
-                    + "modal=show"
-            );
-        } else {
-            try {
-                user.setUsername(request.getParameter("name"));
-                user.setPassword(request.getParameter("password"));
-                user.setStatus(true);
-                user.setRole("customer");
-                userCon.create(user);
-                System.out.println("Register completed !!!");
-                response.sendRedirect(request.getContextPath()+"/LoginUser?modal=show&err=Register completed !!!");
-            } catch (RollbackFailureException ex) {
-                Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+
+            user.setUsername(request.getParameter("txtUser"));
+            user.setPassword(request.getParameter("txtPass"));
+            user.setStatus(true);
+            user.setRole("customer");
+
+            userCon.create(user);
+            
+            Customer customer = new Customer();
+            customer.setCustomerName("wait");
+            customer.setCustomerAddress("wait");
+            customer.setCustomerIndentityCard("wait");
+            customer.setPhone("wait");
+            customer.setMail("wait");
+            customer.setCustomerImg("wait");
+            customer.setCustomerContent("wait");
+            customer.setUserId(user);
+            
+            customerJpaController.create(customer);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
+
     /**
      * Returns a short description of the servlet.
      *

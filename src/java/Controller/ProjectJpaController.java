@@ -55,16 +55,16 @@ public class ProjectJpaController implements Serializable {
                 project.setManagerId(managerId);
             }
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-            javax.validation.Validator validator =  factory.getValidator();
+            javax.validation.Validator validator = factory.getValidator();
 
             Set<ConstraintViolation<Project>> constraintViolations;
             constraintViolations = validator.validate(project);
 
-            if (constraintViolations.size() > 0 ) {
+            if (constraintViolations.size() > 0) {
                 System.out.println("Constraint Violations occurred..");
                 for (ConstraintViolation<Project> projects : constraintViolations) {
-                    System.out.println(projects.getRootBeanClass().getSimpleName()+
-                    "." + projects.getPropertyPath() + " " + projects.getMessage());
+                    System.out.println(projects.getRootBeanClass().getSimpleName()
+                            + "." + projects.getPropertyPath() + " " + projects.getMessage());
                 }
             }
             em.persist(project);
@@ -101,6 +101,19 @@ public class ProjectJpaController implements Serializable {
             if (managerIdNew != null) {
                 managerIdNew = em.getReference(managerIdNew.getClass(), managerIdNew.getManagerId());
                 project.setManagerId(managerIdNew);
+            }
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            javax.validation.Validator validator = factory.getValidator();
+
+            Set<ConstraintViolation<Project>> constraintViolations;
+            constraintViolations = validator.validate(project);
+
+            if (constraintViolations.size() > 0) {
+                System.out.println("Constraint Violations occurred..");
+                for (ConstraintViolation<Project> projects : constraintViolations) {
+                    System.out.println(projects.getRootBeanClass().getSimpleName()
+                            + "." + projects.getPropertyPath() + " " + projects.getMessage());
+                }
             }
             project = em.merge(project);
             if (managerIdOld != null && !managerIdOld.equals(managerIdNew)) {
@@ -248,12 +261,12 @@ public class ProjectJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public int getManagerByProjectCount(int managerID) {
         EntityManager em = getEntityManager();
         try {
             Query query = em.createNativeQuery(
-                        "SELECT count(*) FROM project where manager_id = '" + managerID + "'");
+                    "SELECT count(*) FROM project where manager_id = '" + managerID + "'");
             System.out.println(query);
             int ret = (int) query.getSingleResult();
             return ret;
@@ -261,12 +274,12 @@ public class ProjectJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public int getManagerByProject(int projectID) {
         EntityManager em = getEntityManager();
         try {
             Query query = em.createNativeQuery(
-                        "SELECT manager_id FROM project where project_id = '" + projectID + "'");
+                    "SELECT manager_id FROM project where project_id = '" + projectID + "'");
             System.out.println(query);
             int ret = (int) query.getSingleResult();
             return ret;
@@ -274,7 +287,7 @@ public class ProjectJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public Project getProjectByAddress(String address) {
         EntityManager em = getEntityManager();
         try {
@@ -292,41 +305,64 @@ public class ProjectJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public List<Project> getProjectByManager(String managerID) {
         EntityManager em = getEntityManager();
         try {
-            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
-            Query query = em.createNativeQuery("SELECT * FROM project where "
-                    + "manager_id='" + managerID + "'", Project.class
-            );
-            System.out.println(query);
-            if (!query.getResultList().isEmpty()) {
-                List<Project> ret = (List<Project>) query.getResultList();
+            Query query = null;
+            List<Project> ret = (List<Project>) new ArrayList<Project>();
+            if (managerID.equals("all")) {
+                query = em.createNativeQuery("SELECT * FROM project where "
+                        + "project_status LIKE '%waitting for director%' AND "
+                        + "status LIKE '%waitting for director%'",
+                         Project.class);
+                ret = (List<Project>) query.getResultList();
                 return ret;
             } else {
-                return null;
+                query = em.createNativeQuery("SELECT * FROM project where "
+                        + "manager_id='" + managerID + "'", Project.class
+                );
+                if (!query.getResultList().isEmpty()) {
+                    ret = (List<Project>) query.getResultList();
+                    return ret;
+                } else {
+                    return null;
+                }
             }
         } finally {
             em.close();
         }
     }
-    
+
     public List<String> getProjectByManagerSearch(String managerID, String address) {
         EntityManager em = getEntityManager();
         try {
-            List<Project> projectList = getProjectByManager(managerID);
+            Query query = null;
             List<String> ret = (List<String>) new ArrayList<String>();
-            for (Project project : projectList) {
-                Query query = em.createNativeQuery("SELECT project_id FROM project where "
-                        + "project_id = '" + project.getProjectId() + "' AND "
-                        + "project_address LIKE '%" + address + "%'"
+            if (managerID.equals("all")) {
+                query = em.createNativeQuery("SELECT project_id FROM project where "
+                        + "project_address LIKE '%" + address + "%' AND "
+                        + "project_status LIKE '%waitting for director%' AND "
+                        + "status LIKE '%waitting for director%'"
                 );
-                System.out.println(query);
-                if (query.getResultList().size()!=0){
+                if (query.getResultList().size() != 0) {
                     ret.add((String) query.getSingleResult());
                 }
+            } else {
+                List<Project> projectList = getProjectByManager(managerID);
+                for (Project project : projectList) {
+                    query = em.createNativeQuery("SELECT project_id FROM project where "
+                            + "project_id = '" + project.getProjectId() + "' AND "
+                            + "project_address LIKE '%" + address + "%'"
+                    );
+                    System.out.println(query);
+                    if (query.getResultList().size() != 0) {
+                        ret.add((String) query.getSingleResult());
+                    }
+                }
+
             }
+
             System.out.println(ret.size());
             return ret;
         } finally {

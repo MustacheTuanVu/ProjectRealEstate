@@ -35,8 +35,8 @@ public class Manager implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @Column(name = "manager_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "manager_id")
     private Integer managerId;
     @Basic(optional = false)
     @NotNull

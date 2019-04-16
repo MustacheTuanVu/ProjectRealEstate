@@ -45,7 +45,6 @@ public class CategoryJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
-            //utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
             List<Post> attachedPostList = new ArrayList<Post>();
@@ -85,7 +84,6 @@ public class CategoryJpaController implements Serializable {
     public void edit(Category category) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            
             em = getEntityManager();
             em.getTransaction().begin();
             Category persistentCategory = em.find(Category.class, category.getCategoryId());
@@ -147,7 +145,6 @@ public class CategoryJpaController implements Serializable {
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            
             em = getEntityManager();
             em.getTransaction().begin();
             Category category;
@@ -184,17 +181,6 @@ public class CategoryJpaController implements Serializable {
         }
     }
 
-    /* cuong add */
-       public List<Entity.Category> getCategoryByName(String featureName) {
-        EntityManager em = getEntityManager();
-        try {
-            Query query = em.createNativeQuery("SELECT * FROM category where category_name='" + featureName + "'",Category.class);
-            List<Category> ret = query.getResultList();
-            return ret;
-        } finally {
-            em.close();
-        }
-    }
     public List<Category> findCategoryEntities() {
         return findCategoryEntities(true, -1, -1);
     }
@@ -242,6 +228,18 @@ public class CategoryJpaController implements Serializable {
     }
     
     /* cuong add */
+       public List<Entity.Category> getCategoryByName(String featureName) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM category where category_name='" + featureName + "'",Category.class);
+            List<Category> ret = query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+       /* cuong add */
       public Integer getPostByCategoryCount(int categoryID) {
         EntityManager em = getEntityManager();
         try {
@@ -266,5 +264,4 @@ public class CategoryJpaController implements Serializable {
             em.close();
         }
     }
-    
 }

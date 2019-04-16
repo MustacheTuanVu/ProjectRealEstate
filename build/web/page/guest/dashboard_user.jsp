@@ -180,6 +180,7 @@
                                                 <div class="row">
                                                     <div class="col-sm-12 col-md-6 col-lg-4">
                                                         <div class="row">
+
                                                             <div class="form-group ${hasError}">
                                                                 <label for="in-14" class="control-label">Current Password</label>
                                                                 <input id="in-14" type="password" required name="txtOldPass" data-placeholder="---" value="" class="form-control">
@@ -189,6 +190,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
+
                                                             <div class="form-group" id="txtNewPass">
                                                                 <label for="in-15"  class="control-label">New Password</label>
                                                                 <input id="in-15" type="password" required name="txtNewPass" data-placeholder="---" value="" class="form-control">
@@ -234,7 +236,7 @@
                                         </div>
                                         <nav class="worker__nav">
                                             <ul>
-                                                <li><a href="<%=request.getContextPath()%>/MyListing?user=guest&estateStatus=all">My listing</a></li>
+                                                <li><a href="<%=request.getContextPath()%>/MyListing">My listing</a></li>
                                                 <li><a href="<%=request.getContextPath()%>/DashboardUser">My Profile</a></li>
                                                 <li><a href="<%=request.getContextPath()%>/MyContract">My Contract</a></li>
                                             </ul>

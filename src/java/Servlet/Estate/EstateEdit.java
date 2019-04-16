@@ -5,17 +5,23 @@
  */
 package Servlet.Estate;
 
+import Controller.ContractDetailsJpaController;
+import Controller.ContractJpaController;
 import Controller.EstateJpaController;
 import Controller.EstateStatusJpaController;
 import Controller.EstateTypeJpaController;
 import Controller.FeatureDetailsJpaController;
 import Controller.FeaturesJpaController;
+import Controller.FeeJpaController;
+import Controller.TransactionsJpaController;
 import Controller.exceptions.RollbackFailureException;
+import Entity.Contract;
 import Entity.Estate;
 import Entity.EstateStatus;
 import Entity.EstateType;
 import Entity.FeatureDetails;
 import Entity.Features;
+import Entity.Transactions;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
@@ -35,6 +41,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transaction;
 import javax.transaction.UserTransaction;
 
 /**
@@ -146,6 +153,11 @@ public class EstateEdit extends HttpServlet {
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         EntityManager em = emf.createEntityManager();
         EstateJpaController estateControl = new EstateJpaController(utx, emf);
+        ContractDetailsJpaController contractDetailsJpaController = new ContractDetailsJpaController(utx, emf);
+        ContractJpaController contractJpaController = new ContractJpaController(utx, emf);
+        TransactionsJpaController transactionsJpaController = new TransactionsJpaController(utx, emf);
+        FeeJpaController feeJpaController = new FeeJpaController(utx, emf);
+
         String estateName = request.getParameter("estateName");
         String estateTypeId = request.getParameter("estateTypeId");
         EstateType estateType = em.getReference(EstateType.class, estateTypeId);
@@ -188,13 +200,27 @@ public class EstateEdit extends HttpServlet {
         estate.setImage4st(image4st);
         estate.setImage5st(image5st);
         estate.setDirection(direction);
-        estate.setEstateStatus("waitting for director edit");
+        estate.setDistrict(request.getParameter("district"));
+        if (estate.getContractDetails() != null) {
+            estate.setEstateStatus("publish");
+        }else{
+            estate.setEstateStatus("waitting for director edit");
+        }
+        
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         Date day;
         try {
             day = sdf.parse(yearBuild);
             estate.setYearBuild(day);
+        } catch (ParseException ex) {
+            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        SimpleDateFormat sdff = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        Date date = new Date();
+        try {
+            estate.setDateAdd(sdff.parse(date.toString()));
         } catch (ParseException ex) {
             Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -224,17 +250,53 @@ public class EstateEdit extends HttpServlet {
             }
         }
 
-        for (String string : feature) {
-            FeatureDetails featureDetails = new FeatureDetails();
-            featureDetails.setEstateId(estate);
-            featureDetails.setFeatureId(featuresStatusControl.findFeatures(string));
-            try {
-                featureDetailsControl.create(featureDetails);
-            } catch (RollbackFailureException ex) {
-                Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+        if (request.getParameterValues("feature") != null) {
+            for (String string : feature) {
+                FeatureDetails featureDetails = new FeatureDetails();
+                featureDetails.setEstateId(estate);
+                featureDetails.setFeatureId(featuresStatusControl.findFeatures(string));
+                try {
+                    featureDetailsControl.create(featureDetails);
+                } catch (RollbackFailureException ex) {
+                    Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+        }
+
+        if (estate.getContractDetails() != null) {
+            if (transactionsJpaController.getTransactionByContractIDSale(estate.getContractDetails().getContractId().getId()) == 0) {
+                Contract contract = contractJpaController.findContract(estate.getContractDetails().getContractId().getId());
+                contract.setStatus("done");
+                contract.setContractDetails("my request sale");
+                try {
+                    contractJpaController.edit(contract);
+                } catch (RollbackFailureException ex) {
+                    Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                Transactions transactions = new Transactions();
+                transactions.setCustomerOffered(contract.getCustomerId());
+                transactions.setContractId(contract);
+                try {
+                    transactions.setTransactionsDate((sdff.parse(date.toString())));
+                } catch (ParseException ex) {
+                    Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                transactions.setMoney(contract.getPaymentAmount() * feeJpaController.findFee(1).getFeeEstate() / 100);
+                transactions.setTransactionsNote("request sale");
+                try {
+                    transactionsJpaController.create(transactions);
+                } catch (RollbackFailureException ex) {
+                    Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
         }
     }
 

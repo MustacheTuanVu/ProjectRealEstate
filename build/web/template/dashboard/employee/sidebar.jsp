@@ -12,7 +12,7 @@
     <div class="widget__content">
         <nav class="nav nav--sidebar">
             <ul class="nav__list">
-                <li class="nav__item"><a href="<%=request.getContextPath()%>/Financials?user=employee" class="nav__link">
+                <li class="nav__item"><a href="<%=request.getContextPath()%>/DashboardEmployee" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-dashboard"></use>
                         </svg>Dashboard</a>
@@ -33,7 +33,7 @@
                     </a>
                 </li>
                 <li class="nav__item">
-                    <a href="<%=request.getContextPath()%>/EstateTypeList?user=employee" class="nav__link">
+                    <a href="<%=request.getContextPath()%>/EstateTypeList" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
                         </svg>Estate Type List
@@ -64,20 +64,10 @@
                     </a>
                 </li>
                 <li class="nav__item">
-                    <hr class="nav__separator">
-                </li>
-                <li class="nav__item">
-                    <a href="<%=request.getContextPath()%>/RequestBuyList" class="nav__link">
+                    <a href="<%=request.getContextPath()%>/AssignEmployee" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Request Buy
-                    </a>
-                </li>
-                <li class="nav__item">
-                    <a href="<%=request.getContextPath()%>/RequestSaleList" class="nav__link">
-                        <svg class="nav__icon">
-                        <use xlink:href="#icon-add-listing"></use>
-                        </svg>Request Sale
+                        </svg>Assign
                     </a>
                 </li>
                 <li class="nav__item">
@@ -95,6 +85,13 @@
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
                         </svg>Blog Category
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="<%=request.getContextPath()%>/ListCommentWait?user=employee" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-add-listing"></use>
+                        </svg>Comment Manager
                     </a>
                 </li>
             </ul>

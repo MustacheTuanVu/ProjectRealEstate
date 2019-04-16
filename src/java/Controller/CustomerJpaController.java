@@ -57,7 +57,6 @@ public class CustomerJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
-            //utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
             Users userId = customer.getUserId();
@@ -141,7 +140,6 @@ public class CustomerJpaController implements Serializable {
     public void edit(Customer customer) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            //utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
             Customer persistentCustomer = em.find(Customer.class, customer.getId());
@@ -278,7 +276,6 @@ public class CustomerJpaController implements Serializable {
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            //utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
             Customer customer;
@@ -390,24 +387,21 @@ public class CustomerJpaController implements Serializable {
             em.close();
         }
     }
-
-    /* cuong edit */
-    public List<Customer> findCustomerByEMployeeID(int employeeID) {
+	public List<Customer> findCustomerByEMployeeID(int employeeID) {
         EntityManager em = getEntityManager();
-        try { 
-            
-            List<Integer> idCus= new ArrayList<>();
-            Query q=em.createNativeQuery("SELECT DISTINCT customer_id from contract where employee_id = '"+employeeID+"'");
-            idCus=q.getResultList();
-            List<Customer> ret=new ArrayList<>();
-            for (Integer idCu : idCus) {
-                Query query=em.createNativeQuery("SELECT * FROM customer where id = '"+idCu+"' "
+        try { // select * from customer where id = (SELECT DISTINCT customer_id from contract where employee_id = 3)
+            Query query = em.createNativeQuery("SELECT * FROM customer where "
+                    + "id = (SELECT DISTINCT customer_id from contract where employee_id = '"+employeeID+"') "
                     ,Customer.class);
-                ret.add((Customer) query.getSingleResult());
-            }
+            List<Customer> ret = (List<Customer>) query.getResultList();
             return ret;
         } finally {
             em.close();
         }
     }
+
+    public Object findByIdUser(Users users) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }

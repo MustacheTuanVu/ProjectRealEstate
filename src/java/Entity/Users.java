@@ -6,6 +6,7 @@
 package Entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,10 +15,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,13 +31,15 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")})
 public class Users implements Serializable {
+    @OneToMany(mappedBy = "idUser")
+    private List<ReplyComment> replyCommentList;
+    @OneToMany(mappedBy = "idUser")
+    private List<Comment> commentList;
 
     private static final long serialVersionUID = 1L;
     @Id
-//    @Basic(optional = false)
-//    @NotNull
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
@@ -164,6 +169,24 @@ public class Users implements Serializable {
     @Override
     public String toString() {
         return "Entity.Users[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<ReplyComment> getReplyCommentList() {
+        return replyCommentList;
+    }
+
+    public void setReplyCommentList(List<ReplyComment> replyCommentList) {
+        this.replyCommentList = replyCommentList;
+    }
+
+    @XmlTransient
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
     }
     
 }

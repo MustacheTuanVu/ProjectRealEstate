@@ -58,6 +58,7 @@ public class Transactions implements Serializable {
     private Customer customerOffered;
 
     public Transactions() {
+        
     }
 
     public Transactions(Integer id) {

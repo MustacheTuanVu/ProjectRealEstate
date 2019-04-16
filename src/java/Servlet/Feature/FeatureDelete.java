@@ -62,7 +62,7 @@ public class FeatureDelete extends HttpServlet {
                 String id = request.getParameter("id");
 
                 if (featuresControl.getFeatureByEstateCount(id) != 0) {
-                    response.sendRedirect(request.getContextPath() + "/FeatureList?modal=show");
+                    response.sendRedirect(request.getContextPath() + "/EstateTypeList?modal=show");
                 } else {
                     try {
                         featuresControl.destroy(id);

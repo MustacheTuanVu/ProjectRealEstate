@@ -1,4 +1,12 @@
+<%-- 
+    Document   : dashboard_register
+    Created on : Mar 20, 2019, 6:11:41 PM
+    Author     : Cuong
+--%>
+
 <!DOCTYPE html>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
@@ -10,24 +18,24 @@
         <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700%7cSource+Sans+Pro:200,400,600,700,900,400italic,700italic&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
         <!-- Boostrap and other lib styles-->
         <!-- build:cssvendor-->
-        <link rel="stylesheet" href="assets/css/vendor.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/vendor.css">
         <!-- endbuild-->
         <!-- Font-awesome lib-->
         <!-- build:cssfontawesome-->
-        <link rel="stylesheet" href="assets/css/font-awesome.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/font-awesome.css">
         <!-- endbuild-->
         <!-- Theme styles, please replace "default" with other color scheme from the list available in template/css-->
         <!-- build:csstheme-default-->
-        <link rel="stylesheet" href="assets/css/theme-default.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/theme-default.css">
         <!-- endbuild-->
         <!-- Your styles should go in this file-->
-        <link rel="stylesheet" href="assets/css/custom.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/custom.css">
         <!-- Fixes for IE-->
         <!--[if lt IE 11]>
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
-        <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
     </head>
-    <body class="user_register menu-default hover-default ">
+    <body class="user_login menu-default hover-default">
         <!--
         SVG icons from sprite-inline.svg
         They are inlined in order to make them work,
@@ -52,83 +60,74 @@
     <!-- endinject -->
     <div class="box js-box">
         <!-- BEGIN HEADER-->
- 
         <header class="header header--brand">
-            <%@ include file="/template/header1.jsp" %>
+            <%@ include file="/template/guest/header.jsp" %>
         </header>
-      
         <!-- END HEADER-->
+
         <!-- BEGIN NAVBAR-->
         <div id="header-nav-offset"></div>
         <nav id="header-nav" class="navbar navbar--header">
-            <%@ include file="/template/navbar.jsp" %>
+            <%@ include file="/template/guest/navbar.jsp" %>
         </nav>
         <!-- END NAVBAR-->
         <div class="site-wrap js-site-wrap">
-            <!-- BEGIN BREADCRUMBS-->
-            <nav class="breadcrumbs">
-                <div class="container">
-                    <ul>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Register</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <!-- END BREADCRUMBS-->
+            <!-- BEGIN CENTER SECTION-->
             <div class="center">
                 <div class="container">
                     <div class="row">
                         <section class="site">
                             <header class="site__header">
-                                <h1 class="site__title">Register</h1>
-                                <h2 class="site__headline">Create an account</h2>
+                                <h1 class="site__title">REGISTER </h1>
+                                <h2 class="site__headline">Enter your login and password</h2>
                             </header>
                             <div class="site__main">
                                 <div class="widget js-widget widget--main widget--no-border">
                                     <div class="widget__content">
                                         <div class="auth auth--inline">
-                                            <div class="auth__wrap auth__wrap--register">
-                                                <!-- BEGIN AUTH REGISTER-->
-                                                <h5 class="auth__title">Sign up a new account</h5>
-                                                <form action="" class="form form--flex form--auth js-register-form js-parsley">
+                                            <div class="auth__wrap auth__wrap--login">
+                                                <!-- BEGIN AUTH LOGIN-->
+                                                <h5 class="auth__title">Login in your account</h5>
+                                                <form  action="RegisterUser" method="post" onsubmit="return checkPass()" class="form form--flex form--auth js-register-form js-parsley">
                                                     <div class="row">
-                                                        <div class="form-group form-group--col-6">
-                                                            <label for="register-name-inline" class="control-label">First name</label>
-                                                            <input type="text" name="username" id="register-name-inline" required class="form-control">
-                                                        </div>
-                                                        <div class="form-group form-group--col-6">
-                                                            <label for="register-lastname-inline" class="control-label">Last name</label>
-                                                            <input type="text" name="name" id="register-lastname-inline" required class="form-control">
+                                                        <div class="form-group ${hasError}">
+                                                            <label for="register-lastname-inline1" class="control-label">User Name</label>
+                                                            <input type="text"  name="txtUser" id="register-lastname-inline1" required class="form-control">
+                                                            <span id="errNameRegister"></span>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="form-group form-group--col-6">
-                                                            <label for="register-email-inline" class="control-label">E-mail</label>
-                                                            <input type="email" name="email" id="register-email-inline" required class="form-control">
-                                                        </div>
-                                                        <div class="form-group form-group--col-6">
-                                                            <label for="register-password-inline" class="control-label">Password</label>
-                                                            <input type="password" name="password" id="register-password-inline" required class="form-control">
+                                                        <div class="form-group ">
+                                                            <label class="control-label">Password</label>
+                                                            <input type="password"  name="txtPass" id="register-pass-inline1" required class="form-control">
+                                                            
+                                                            <div id="errPassRegister" ></div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="form__options">Back to<a href="user_login.html">Log In</a>
+                                                        <div class="form-group ">
+                                                            <label for="register-confirm-inline1" class="control-label">Confirm</label>
+                                                            <input type="password" name="confirm" id="register-confirm-inline1" required class="form-control">
                                                         </div>
-                                                        <button type="submit" class="form__submit">Sign up</button>
+                                                        <div class="form__options">Back to<a href="<%=request.getContextPath()%>/LoginUser">Log In</a>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="submit" value="Sign up" class="form__submit"/>
+                                                        </div>
                                                     </div>
                                                 </form>
                                                 <!-- end of block .auth__form-->
-                                                <!-- END AUTH REGISTER-->
+                                                <!-- END AUTH LOGIN-->
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </section>
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
-            
             <div id="myModal" class="modal fade" role="dialog">
                 <div class="modal-dialog modal-sm">
 
@@ -146,7 +145,6 @@
 
                 </div>
             </div> 
-        
             <!-- END CENTER SECTION-->
             <!-- BEGIN AFTER CENTER SECTION-->
             <!-- END AFTER CENTER SECTION-->
@@ -168,7 +166,7 @@
     versions that are verified to work with our theme. Normally, you should not edit that file.
     -->
     <!-- build:jsvendor-->
-    <script type="text/javascript" src="assets/js/vendor.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/vendor.js"></script>
     <!-- endbuild-->
     <!--
     This file is used for demonstration purposes and contains example property items, that are mostly used to
@@ -176,28 +174,56 @@
     to use your own data.
     -->
     <!-- build:jsdemodata-->
-    <script type="text/javascript" src="assets/js/demodata.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demodata.js"></script>
     <!-- endbuild-->
     <!--
     The library code that Realtyspace theme relies on, in order to function properly.
     Normally, you should not edit this file or add your own code there.
     -->
     <!-- build:jsapp-->
-    <script type="text/javascript" src="assets/js/app.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/app.js"></script>
     <!-- endbuild-->
     <!--
     the main file, that you should modify. It contains lots of examples of
     plugin usage, with detailed comments about specific sections of the code.
     -->
     <!-- build:jsdemo-->
-    <script type="text/javascript" src="assets/js/demo.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demo.js"></script>
+    <!-- endbuild--><!-- inject:ga  -->
+    <!-- endinject -->
+    <script type="text/javascript">
+
+
+                                                    function checkPass()
+                                                    {
+                                                        var newPass = document.getElementById('register-pass-inline1').value;
+                                                        var confirmPass = document.getElementById('register-confirm-inline1').value;
+                                                        var username = document.getElementById('register-lastname-inline1').value;
+                                                        
+                                                        username =username.split(' ').join('');
+                                                        newPass=newPass.split(' ').join('');
+                                                        if (username.length < 6 ) {
+                                                            document.getElementById("errNameRegister").innerHTML = "Username cannot be longer than 50 characters ";
+                                                        }else
+                                                        if (newPass.length < 6) {
+                                                            document.getElementById('errPassRegister').innerHTML = 'Username cannot be longer than 50 characters ';
+                                                        }else
+                                                        if (newPass !== confirmPass) {
+                                                            document.getElementById('errPassRegister').innerHTML = 'NEW PASSWORD and CONFIRM NEW PASSWORD not the same ';
+                                                        }else {
+                                                            return true;
+                                                        }
+                                                        return false;
+
+
+                                                    }
+    </script>
     <script type="text/javascript">
         $(window).on('load', function () {
             $('#myModal').modal('${modal}');
         });
     </script>
-    <!-- endbuild--><!-- inject:ga  -->
-    <!-- endinject -->
+
     <!-- END SCRIPTS and INCLUDES-->
 </body>
 </html>

@@ -27,13 +27,6 @@
                         </svg>Project List
                     </a>
                 </li>
-                <li class="nav__item">
-                    <a href="<%=request.getContextPath()%>/EditManager?user=manager" class="nav__link">
-                        <svg class="nav__icon">
-                        <use xlink:href="#icon-add-listing"></use>
-                        </svg>My Profile
-                    </a>
-                </li>
             </ul>
         </nav>
     </div>

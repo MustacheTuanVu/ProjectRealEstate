@@ -15,7 +15,7 @@
                 <use xlink:href="#icon-logo--mob"></use>
                 </svg>
             </a>
-
+            
             <div class="auth auth--header">
                 <ul class="auth__nav">
                     <li class="dropdown auth__nav-item" style="display: ${displayLogin};">
@@ -65,19 +65,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form__options form__options--forgot">
-                                        <button type="button" class="js-user-restore">Forgot password ?</button>
-                                    </div>
                                     <button type="submit" class="form__submit">Sign in</button>
-                                </div>
-                                <div class="form__remember">
-                                    <input type="checkbox" id="remember-in-dropdown" class="in-checkbox">
-                                    <label for="remember-in-dropdown" class="in-label">Remember me</label>
-                                </div>
-                                <div class="row">
-                                    <div class="form__options">Not a user yet?
-                                        <button type="button" class="js-user-register">Get an account</button>
-                                    </div>
                                 </div>
                             </form>
                             <!-- end of block .auth__form-->
@@ -85,41 +73,9 @@
                         </div>
                     </li>
                     <li class="dropdown auth__nav-item" style="display: ${displayLogin};">
-                        <button data-toggle="dropdown" type="button" class="dropdown-toggle auth__nav-btn"><span class="header__span">  Sign up</span></button>
-                        <div class="dropdown__menu auth__dropdown--register">
-                            <!-- BEGIN AUTH REGISTER-->
-                            <!-- cuong add -->
-                            <h5 class="auth__title">Sign up a new account</h5>
-                            <form  action="RegisterUser" method="post" onsubmit="return checkPass()" class="form form--flex form--auth js-register-form js-parsley">
-                                <div class="row">
-                                    <div class="form-group ${hasError}">
-                                        <label for="register-lastname-inline" class="control-label">User Name</label>
-                                        <input type="text"  name="name" id="register-lastname-inline" required class="form-control">
-                                        <div id="errNameRegister" class="parsley-required"></div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group ">
-                                        <label for="register-pass-inline" class="control-label">Password</label>
-                                        <input type="password"  name="password" id="register-pass-inline" required class="form-control">
-                                        <div id="errPassRegister" class="parsley-required"></div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group ">
-                                        <label for="register-confirm-inline" class="control-label">Confirm</label>
-                                        <input type="password" name="confirm" id="register-confirm-inline" required class="form-control">
-                                    </div>
-                                    <div class="form__options">Back to<a href="<%=request.getContextPath()%>/LoginUser">Log In</a>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="submit" value="Sign up" class="form__submit"/>
-                                    </div>
-                                </div>
-                            </form>
-                            <!-- end of block .auth__form-->
-                            <!-- END AUTH REGISTER-->
-                        </div>
+                        <a href="<%=request.getContextPath()%>/RegisterUser" class="dropdown-toggle auth__nav-btn">
+                            <span class="header__span" style="color: white">  Sign up</span>
+                        </a>
                     </li>
                     <li class="dropdown auth__nav-item" style="display: ${displayUser};">
                         <button data-toggle="dropdown" type="button" class="dropdown-toggle js-auth-nav-btn auth__nav-btn">

@@ -5,10 +5,23 @@
  */
 package Servlet.Director;
 
+import Controller.ContractDetailsJpaController;
+import Controller.CustomerJpaController;
+import Controller.EmployeeJpaController;
+import Controller.EstateJpaController;
 import Controller.EstateTypeJpaController;
+import Controller.ManagerJpaController;
+import Controller.PostJpaController;
+import Controller.ProjectJpaController;
+import Controller.TransactionsJpaController;
+import Entity.Contract;
+import Entity.ContractDetails;
+import Entity.Estate;
 import Entity.EstateType;
+import Entity.Project;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
@@ -66,6 +79,78 @@ public class DashboardDirector extends HttpServlet {
                     session.setAttribute("image", user.getCustomer().getCustomerImg());
                     break;
             }
+            
+            // DASHBOARD
+            
+            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+            EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
+            TransactionsJpaController transactionsJpaController = new TransactionsJpaController(utx, emf);
+            ContractDetailsJpaController contractDetailsJpaController = new ContractDetailsJpaController(utx, emf);
+            EmployeeJpaController employeeJpaController = new EmployeeJpaController(utx, emf);
+            EstateJpaController estateJpaController = new EstateJpaController(utx, emf);
+            PostJpaController postJpaController = new PostJpaController(utx, emf);
+            ManagerJpaController managerJpaController = new ManagerJpaController(utx, emf);
+            CustomerJpaController customerJpaController = new CustomerJpaController(utx, emf);
+            ProjectJpaController projectJpaController = new ProjectJpaController(utx, emf);
+            
+            request.setAttribute("contractList", contractDetailsJpaController.findContractDetailsEntities());
+            List<ContractDetails> contractDetailsList = contractDetailsJpaController.findContractDetailsEntities();
+            int countContractWaitSale = 0;
+            System.out.println("this :"+contractDetailsList.size());
+            for (ContractDetails contractDetails : contractDetailsList) {
+                if(contractDetails.getEstateId().getAssignDetails()== null){
+                    if(contractDetails.getContractId().getStatus().equals("waitting for employee")){
+                        countContractWaitSale = countContractWaitSale + 1;
+                    }
+                }
+            }
+            
+            List<String> estateIDList = estateJpaController.getEstateByEmployeeFilter(
+                    "all",
+                    "waitting for director"
+            );
+            List<Estate> estateList = new ArrayList<>();
+            for (String string : estateIDList) {
+                estateList.add(estateJpaController.findEstate(string));
+            }
+            
+            int countEstateWait = 0;
+            for (Estate estate : estateList) {
+                countEstateWait = countEstateWait + 1;
+            }
+            
+            /*------------------------------------------------*/
+            
+            List<Project> projectsList = projectJpaController.getProjectByManager("all");
+            
+            for (Project project : projectsList) {
+                List<String> estateIDList2 = estateJpaController.getEstateByProject(project.getProjectId());
+                int count = 0;
+                for (String estateID : estateIDList2) {
+                    if(estateJpaController.findEstate(estateID).getContractDetails()!=null){
+                        count = count + 1;
+                    }
+                }
+                if(count!=0){
+                    projectsList.remove(project);
+                }
+            }
+            
+            int countProjectWait = 0;
+            for (Project project : projectsList) {
+                countProjectWait = countProjectWait + 1;
+            }
+            
+            /*-------------------------------------------------*/
+            request.setAttribute("countProjectWait", countProjectWait);
+            request.setAttribute("countEstateWait", countEstateWait);
+            request.setAttribute("countContractWaitSale", countContractWaitSale);
+            request.setAttribute("countEmployee", employeeJpaController.getEmployeeCount());
+            request.setAttribute("countManager", managerJpaController.getManagerCount());
+            request.setAttribute("countCustomer", customerJpaController.getCustomerCount());
+            request.setAttribute("countProject", projectJpaController.getProjectCount());
+            request.setAttribute("countEstate", estateJpaController.getEstateCount());
+            request.setAttribute("countBlog", postJpaController.getPostCount());
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");

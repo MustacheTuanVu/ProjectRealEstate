@@ -8,8 +8,8 @@ package Servlet.Contract;
 import Controller.ContractDetailsJpaController;
 import Controller.ContractJpaController;
 import Controller.CustomerJpaController;
-import Controller.EmployeeJpaController;
 import Controller.EstateTypeJpaController;
+import Entity.Contract;
 import Entity.ContractDetails;
 import Entity.Customer;
 import Entity.Users;
@@ -51,23 +51,19 @@ public class MyContract extends HttpServlet {
             request.setAttribute("users", "user");
             request.setAttribute("displayLogin", "none");
             request.setAttribute("displayUser", "block");
-            session.setAttribute("name", users.getEmployee().getEmployeeName());
+            session.setAttribute("name", users.getCustomer().getCustomerName());
                     request.setAttribute("role", "customer");
-            session.setAttribute("image", users.getEmployee().getEmployeeImg());
+            session.setAttribute("image", users.getCustomer().getCustomerImg());
             
             /*-----------------------------------------------------------*/
             
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-            //CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
-            EmployeeJpaController employeeControl= new EmployeeJpaController(utx, emf);
+            CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
             EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
             ContractDetailsJpaController contractDetailsControl = new ContractDetailsJpaController(utx, emf);
-            //Customer customer = customerControl.findCustomer(users.getId());
-            Entity.Employee employee=employeeControl.findEmployee(users.getId());
+            Customer customer = customerControl.findCustomer(users.getId());
             
-            
-            
-            request.setAttribute("employee", employee);
+            request.setAttribute("customer", customer);
             request.setAttribute("contractDetails", contractDetailsControl.findContractDetailsEntities());
             request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
             request.getRequestDispatcher("/page/guest/my_contract.jsp").forward(request, response);

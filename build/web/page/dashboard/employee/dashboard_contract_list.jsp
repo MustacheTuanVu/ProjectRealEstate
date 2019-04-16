@@ -103,34 +103,45 @@
                                                     <thead>
                                                         <tr>
                                                             <th class="datatable__head-1">Location Address</th>
-                                                            <th class="datatable__head-2 datatable__head-sort">Customer</th>
+                                                            <th class="datatable__head-2 datatable__head-sort">Employee</th>
                                                             <th class="datatable__head-3 datatable__head-sort">Price</th>
-                                                            <th class="datatable__head-4 datatable__head-sort">Status</th>
-                                                            <th class="datatable__head-5">Details</th>
+                                                            <th class="datatable__head-5 datatable__head-sort">Note</th>
+                                                            <th class="datatable__head-6 datatable__head-sort">Status</th>
+                                                            <th class="datatable__head-7">Details</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <c:forEach items="${contractDetails}" var="item">
-                                                            <tr>
-                                                                <td class="datatable__cell-1">${item.estateId.address1} <br>
-                                                                    ${item.estateId.address2}
-                                                                </td>
-                                                                <td class="datatable__cell-1"><strong> ${item.contractId.customerId.customerName} </strong>
-                                                                </td>
-                                                                <td class="datatable__cell-2"><strong> ${item.estateId.price} </strong>VND</td>
-                                                                <td class="datatable__cell-2"><strong>${item.contractId.status}</strong></td>
-                                                                <td class="datatable__cell-5">
-                                                                    <c:if test="${item.contractId.status != 'waitting for employee'}">
-                                                                        <a href="<%=request.getContextPath()%>/CreateContract?estateID=${item.estateId.id}&employeeID=${item.contractId.employeeId.id}" class="datatable__more">
-                                                                            View Details
-                                                                        </a>
+                                                        <tr>
+                                                            <td class="datatable__cell-1">${item.estateId.address1} <br>
+                                                                                            ${item.estateId.address2}
+                                                            </td>
+                                                            <td class="datatable__cell-1"><strong>${item.contractId.employeeId.employeeName}</strong>
+                                                            </td>
+                                                            <td class="datatable__cell-2"><strong>${item.contractId.paymentAmount}</strong></td>
+                                                            <td class="datatable__cell-2">
+                                                                <strong>
+                                                                    <c:if test="${item.contractId.contractDetails == 'my request sale'}">
+                                                                        Customer Request Sale
                                                                     </c:if>
-                                                                    <c:if test="${item.contractId.status == 'waitting for employee'}">
-                                                                        <span class="datatable__more" style="color: red">Access Deny View !</span>
+                                                                    <c:if test="${item.contractId.contractDetails != 'my request sale'}">
+                                                                        ${item.contractId.contractDetails}
                                                                     </c:if>
-
-                                                                </td>
-                                                            </tr>    
+                                                                </strong>
+                                                            </td>
+                                                            <td class="datatable__cell-2"><strong>${item.contractId.status}</strong></td>
+                                                            <td class="datatable__cell-5">
+                                                                <c:if test="${item.contractId.status != 'waitting for employee'}">
+                                                                    <a href="<%=request.getContextPath()%>/CreateContract?estateID=${item.estateId.id}&employeeID=${item.contractId.employeeId.id}" class="datatable__more">
+                                                                        View Details
+                                                                    </a>
+                                                                </c:if>
+                                                                <c:if test="${item.contractId.status == 'waitting for employee'}">
+                                                                    <span class="datatable__more" style="color: red">Access Deny View !</span>
+                                                                </c:if>
+                                                                
+                                                            </td>
+                                                        </tr>    
                                                         </c:forEach>
                                                     </tbody>
                                                 </table>

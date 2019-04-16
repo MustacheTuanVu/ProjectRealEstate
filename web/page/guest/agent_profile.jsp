@@ -137,44 +137,6 @@
                                 </div>
                                 <div class="widget js-widget widget--main">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">${employee.employeeName}'s Blog</h2>
-                                    </div>
-                                    <div class="widget__content">
-                                        <!-- BEGIN SECTION ARTICLE-->
-                                        <section class="listing listing--grid">
-                                            <c:forEach items="${postList}" var="item">
-                                                <div class="listing__item">
-                                                    <article class="article article--grid">
-                                                        <a href="blog_details.html" class="article__photo">
-                                                            <img src="${item.postImage}" alt="News title" class="article__photo-img">
-                                                            <time datetime="2009-08-29" class="article__time">
-                                                                <fmt:formatDate value="${item.postDate}" pattern="MMM" />
-                                                                <strong>
-                                                                    <fmt:formatDate value="${item.postDate}" pattern="dd" />
-                                                                </strong>
-                                                            </time>
-                                                        </a>
-                                                        <div class="article__details">
-                                                            <a href="blog_details.html" class="article__item-title">
-                                                                ${item.postTilte}
-                                                            </a>
-                                                            <div class="article__intro">
-                                                                <p>
-                                                                    ${fn:substring(item.postContent, 11, 100)}...
-                                                                </p>
-                                                            </div><a href="blog_details.html" class="article__more">Read more</a>
-                                                        </div>
-                                                    </article>
-                                                    <!-- end of block .article-->
-                                                </div>
-                                            </c:forEach>
-                                        </section>
-                                        <!-- END SECTION ARTICLE-->
-                                        <div class="widget__footer"><a href="" class="widget__more">More articles</a></div>
-                                    </div>
-                                </div>
-                                <div class="widget js-widget widget--main">
-                                    <div class="widget__header">
                                         <h2 class="widget__title">Estate</h2>
                                     </div>
                                     <div class="widget__content">

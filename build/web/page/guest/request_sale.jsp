@@ -127,7 +127,7 @@
                                                     </div>
                                                     <div class="form-group required">
                                                         <label for="in-form-message" class="control-label">Content</label>
-                                                        <textarea name="content" name="message" required data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 20 caracters long comment.." class="form-control"></textarea>
+                                                        <textarea name="content" required data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 20 caracters long comment.." class="form-control"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="row">
