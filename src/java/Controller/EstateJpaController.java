@@ -521,6 +521,7 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
+    
 
     public List<String> getEstateByEmployeeFilter(String employeeID, String status) {
         EntityManager em = getEntityManager();

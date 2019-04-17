@@ -257,7 +257,7 @@ public class EstateCreate extends HttpServlet {
                     modal = request.getParameter("modal");
                     request.setAttribute("modal", modal);
 
-                    request.getRequestDispatcher("/page/dashboard/employee/dashboard_estate_create.jsp").forward(request, response);
+                    request.getRequestDispatcher("/admin/page/dashboard/employee/create_estate.jsp").forward(request, response);
                 }
             } else {
                 response.sendRedirect(request.getContextPath() + "/LoginUser");

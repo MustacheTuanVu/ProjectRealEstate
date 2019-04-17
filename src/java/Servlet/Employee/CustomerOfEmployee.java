@@ -84,7 +84,7 @@ public class CustomerOfEmployee extends HttpServlet {
             //request.setAttribute("contractDetails", contractDetailsControl.getContractDetailsByContractID(employee.getId()));
             request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
             //request.setAttribute("customerList", customerList);
-            request.getRequestDispatcher("/page/dashboard/employee/dashboard_customer_list.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/page/dashboard/employee/customer.jsp").forward(request, response);
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");

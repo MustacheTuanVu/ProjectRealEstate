@@ -143,7 +143,7 @@ public class ProjectList extends HttpServlet {
                     projectsList.add(projectControl.findProject(string));
                 }
             }else{
-                projectsList = projectControl.getProjectByManager(users.getManager().getManagerId().toString());
+                projectsList = projectControl.getProjectByManager(users.getManager().getManagerId().toString(),"all");
             }
             
             request.setAttribute("projectList", projectsList);
@@ -153,8 +153,9 @@ public class ProjectList extends HttpServlet {
                 users.getManager().getManagerId();
             }
             List<Project> projectsList = new ArrayList<>();
-            
+            String url = "";
             String search = (request.getParameter("search") != null) ? request.getParameter("search") : "";
+            String filter = (request.getParameter("filter") != null) ? request.getParameter("filter") : "none";
             
             if(search.equals("search")){
                 String searchInput = (request.getParameter("searchInput") != null) ? request.getParameter("searchInput") : "";
@@ -166,7 +167,15 @@ public class ProjectList extends HttpServlet {
                     projectsList.add(projectControl.findProject(string));
                 }
             }else{
-                projectsList = projectControl.getProjectByManager("all");
+                if(filter.equals("all")){
+                    projectsList = projectControl.getProjectByManager("all","all");
+                    request.setAttribute("active", "ProjectList");
+                    url = "/admin/page/dashboard/director/project.jsp";
+                }else{
+                    projectsList = projectControl.getProjectByManager("all","none");
+                    url = "/admin/page/dashboard/director/project_dash.jsp";
+                }
+                
             }
             
             EstateJpaController estateJpaController = new EstateJpaController(utx, emf);
@@ -182,9 +191,8 @@ public class ProjectList extends HttpServlet {
                     projectsList.remove(project);
                 }
             }
-            
             request.setAttribute("projectList", projectsList);
-            request.getRequestDispatcher("/page/dashboard/director/dashboard_project.jsp").forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

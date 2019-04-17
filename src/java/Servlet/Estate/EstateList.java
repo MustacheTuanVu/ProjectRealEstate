@@ -224,7 +224,7 @@ public class EstateList extends HttpServlet {
             }
             
             request.setAttribute("estateList", estateList);
-            request.getRequestDispatcher("/page/dashboard/employee/dashboard_property.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/page/dashboard/employee/estate_list.jsp").forward(request, response);
         }else if(user.equals("director")){
             String statusFilter = (request.getParameter("filter") != null) ? request.getParameter("filter") : "";
             
@@ -250,8 +250,17 @@ public class EstateList extends HttpServlet {
                     estateList.add(estateControl.findEstate(string));
                 }
             }
-            request.setAttribute("estateList", estateList);
-            request.getRequestDispatcher("/page/dashboard/director/dashboard_property.jsp").forward(request, response);
+            
+            if (statusFilter.isEmpty()) {
+                request.setAttribute("active", "EstateList");
+                request.setAttribute("estateList", estateList);
+                request.getRequestDispatcher("/admin/page/dashboard/director/estatewaiting.jsp").forward(request, response);
+            }else{
+                request.setAttribute("active", "DashboardDirector");
+                request.setAttribute("estateList", estateList);
+                System.out.println("123");
+                request.getRequestDispatcher("/admin/page/dashboard/director/estate_waiting_dash.jsp").forward(request, response);
+            }
         }
         
     }

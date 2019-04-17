@@ -87,7 +87,7 @@ public class ContractOfEmployee extends HttpServlet {
             request.setAttribute("employee", employee);
             
             request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
-            request.getRequestDispatcher("/page/dashboard/employee/dashboard_contract_list.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/page/dashboard/employee/contract.jsp").forward(request, response);
         
         } else {
             request.setAttribute("displayLogin", "block");

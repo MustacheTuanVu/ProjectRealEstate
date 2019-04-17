@@ -3,14 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/abc/ProjectRealEstate/web/index.jsp</file>
-            <file>file:/D:/abc/ProjectRealEstate/src/java/Servlet/Post/PostCreat.java</file>
             <file>file:/D:/abc/ProjectRealEstate/src/java/Servlet/Employee/BlogList.java</file>
-            <file>file:/D:/abc/ProjectRealEstate/web/page/dashboard/employee/dashboard_estate_create.jsp</file>
-            <file>file:/D:/abc/ProjectRealEstate/src/java/Servlet/Estate/EstateCreate.java</file>
-            <file>file:/D:/abc/ProjectRealEstate/web/page/guest/properties_listing_grid.jsp</file>
-            <file>file:/D:/abc/ProjectRealEstate/src/java/Servlet/User/LoginUser.java</file>
-            <file>file:/D:/abc/ProjectRealEstate/src/java/Controller/EstateJpaController.java</file>
+            <file>file:/D:/abc/ProjectRealEstate/web/page/dashboard/employee/dashboard_blog.jsp</file>
         </group>
     </open-files>
 </project-private>

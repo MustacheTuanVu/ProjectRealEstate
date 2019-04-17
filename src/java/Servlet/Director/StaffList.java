@@ -5,13 +5,20 @@
  */
 package Servlet.Director;
 
+import Controller.EmployeeJpaController;
 import Controller.EstateTypeJpaController;
+import Controller.ManagerJpaController;
+import Controller.ProjectJpaController;
 import Controller.UsersJpaController;
+import Entity.Employee;
 import Entity.EstateType;
+import Entity.Manager;
 import Entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,6 +50,9 @@ public class StaffList extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         UsersJpaController usersJpaController = new UsersJpaController(utx, emf);
+        EmployeeJpaController employeeJpaController = new EmployeeJpaController(utx, emf);
+        ManagerJpaController managerJpaController = new ManagerJpaController(utx, emf);
+        ProjectJpaController projectJpaController = new ProjectJpaController(utx, emf);
         EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
 
         // BEGIN SESSION HEADER FONTEND //
@@ -79,10 +89,57 @@ public class StaffList extends HttpServlet {
             // BEGIN NAVBAR HEADER FONTEND //
             List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();
             request.setAttribute("estateTypeList", estateTypeList);
-            request.getRequestDispatcher("/page/dashboard/director/dashboard_userList.jsp").forward(request, response);
             // END NAVBAR HEADER FONTEND //
 
-            request.getRequestDispatcher("/page/dashboard/director/dashboard_userList.jsp").forward(request, response);
+            /*-------------------------------------------------*/
+            List<Employee> employeeList = employeeJpaController.findEmployeeEntities();
+            Map<String,Integer> countEstateByEmployee = new HashMap<>();
+            for (Employee employee : employeeList) {
+                int size = 0;
+                size = employeeJpaController.getEstatePublicByEmployeeID(employee.getId()).size();
+                countEstateByEmployee.put(
+                        employee.getId().toString(), 
+                        size
+                );
+            }
+            request.setAttribute("countEstateByEmployee", countEstateByEmployee);
+            request.setAttribute("countEstateByEmployeeSize", countEstateByEmployee.size());
+            /*-------------------------------------------------*/
+            
+            /*-------------------------------------------------*/
+            List<Employee> employeeList2 = employeeJpaController.findEmployeeEntities();
+            Map<String,Integer> countEstateSoldByEmployee = new HashMap<>();
+            for (Employee employee : employeeList2) {
+                int size = 0;
+                size = employeeJpaController.getEstateSoldByEmployeeID(employee.getId()).size();
+                countEstateSoldByEmployee.put(
+                        employee.getId().toString(), 
+                        size
+                );
+            }
+            request.setAttribute("countEstateSoldByEmployee", countEstateSoldByEmployee);
+            request.setAttribute("countEstateSoldByEmployeeSize", countEstateSoldByEmployee.size());
+            /*-------------------------------------------------*/
+            
+            /*-------------------------------------------------*/
+            List<Manager> managerList = managerJpaController.findManagerEntities();
+            Map<String,Integer> countProjectByManager = new HashMap<>();
+            for (Manager manager : managerList) {
+                int size = 0;
+                size = projectJpaController.getProjectByManager(manager.getManagerId().toString(), "all").size();
+                countProjectByManager.put(
+                        manager.getManagerId().toString(), 
+                        size
+                );
+            }
+            
+            
+            
+            request.setAttribute("countProjectByManager", countProjectByManager);
+            request.setAttribute("countProjectByManagerSize", countProjectByManager.size());
+            /*-------------------------------------------------*/
+            
+            request.getRequestDispatcher("/admin/page/dashboard/director/staff_dash.jsp").forward(request, response);
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");

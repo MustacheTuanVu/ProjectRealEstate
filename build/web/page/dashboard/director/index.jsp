@@ -79,7 +79,7 @@
                                 <div class="site__main">
                                     <div class="widget js-widget widget--dashboard">
                                         <div class="widget__header">
-                                            <h2 class="widget__title">YOU HAVE: </h2>
+                                            <h2 class="widget__title">Công vi?c c?a b?n hôm nay: </h2>
                                         </div>
                                         <div class="widget__content">
                                             <section class="info info--financials">
