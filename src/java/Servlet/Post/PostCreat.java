@@ -103,7 +103,7 @@ public class PostCreat extends HttpServlet {
                 HttpSession session = request.getSession();
 
                 Entity.Users user = (Entity.Users) session.getAttribute("user");
-                Entity.Employee emp = empCon.findEmpbyID(user);
+                Entity.Employee emp = empCon.findEmployee(user.getEmployee().getId());
                 Entity.Category cat = new Category(Integer.valueOf(request.getParameter("cat")));
                 Entity.Post post = new Entity.Post();
 

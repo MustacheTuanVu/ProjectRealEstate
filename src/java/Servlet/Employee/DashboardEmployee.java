@@ -75,7 +75,7 @@ public class DashboardEmployee extends HttpServlet {
                     break;
             }
             
-            // DASHBOARD
+            // BEGIN DASHBOARD EMPLOYEE
             List<Contract> contractList = contractDetailsJpaController.getContractByEmployee(user.getEmployee().getId());
             Double sumMoney = 0.0;
             Double sumMoneyCompany = 0.0;
@@ -103,6 +103,7 @@ public class DashboardEmployee extends HttpServlet {
             request.setAttribute("sumMoneyCompanyByFeb", sumMoneyCompanyByFeb);
             request.setAttribute("sumMoneyCompanyByMar", sumMoneyCompanyByMar);
             request.setAttribute("checkMoneyCompany", checkMoneyCompany);
+            // END DASHBOARD EMPLOYEE
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");

@@ -6,8 +6,10 @@
 package Servlet.Contract;
 
 import Controller.ContractDetailsJpaController;
+import Controller.ContractJpaController;
 import Controller.EmployeeJpaController;
 import Controller.EstateTypeJpaController;
+import Controller.FeaturesJpaController;
 import Entity.Contract;
 import Entity.ContractDetails;
 import Entity.Users;
@@ -41,58 +43,75 @@ public class ContractOfEmployee extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
         Users users = (Users) session.getAttribute("user");
-        
+
         if (users != null) {
             request.setAttribute("users", "user");
             request.setAttribute("displayLogin", "none");
             request.setAttribute("displayUser", "block");
             session.setAttribute("name", users.getEmployee().getEmployeeName());
-                    request.setAttribute("role", "customer");
+            request.setAttribute("role", "customer");
             session.setAttribute("image", users.getEmployee().getEmployeeImg());
-            
+
             /*-----------------------------------------------------------*/
-            
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             //CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
-            EmployeeJpaController employeeControl= new EmployeeJpaController(utx, emf);
+            EmployeeJpaController employeeControl = new EmployeeJpaController(utx, emf);
             EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
             ContractDetailsJpaController contractDetailsControl = new ContractDetailsJpaController(utx, emf);
+            Controller.EstateTypeJpaController typeController = new EstateTypeJpaController(utx, emf);
+            Controller.FeaturesJpaController featureControllre = new FeaturesJpaController(utx, emf);
+            Controller.ContractJpaController contractController = new ContractJpaController(utx, emf);
             //Customer customer = customerControl.findCustomer(users.getId());
-            Entity.Employee employee=employeeControl.findEmployee(users.getEmployee().getId());
-            
-            //String keyword=(request.getParameter("searchInput")!=null)? request.getParameter("searchInput"):"";
-            
-            List<Entity.ContractDetails> listDetails=contractDetailsControl.getContractDetailsByContractID(employee.getId()) ;
-            if (request.getParameter("searchInput")== "" || request.getParameter("searchInput")== null) {
-               request.setAttribute("contractDetails", listDetails);
-            }
-            else{
-                List<Entity.ContractDetails> listDetails1= new ArrayList<ContractDetails>();
+            Entity.Employee employee = employeeControl.findEmployee(users.getEmployee().getId());
+
+            List<Entity.ContractDetails> listDetails = contractDetailsControl.getContractDetailsByContractID(employee.getId());
+            List<Entity.ContractDetails> listDetails1 = new ArrayList<ContractDetails>();
+
+            //|| !request.getParameter("action").equals("all")
+            if (request.getParameter("action") != null) {
+                String key = request.getParameter("action");
+                String key2 = null;
+                switch (request.getParameter("action")) {
+                    case "khaosat":
+                        key = "waitting for employee";
+                        key2 = "none";
+                        break;
+                    case "choban":
+                        key = "done";
+                        key2 = "my request sale";
+                        break;
+                }
                 for (ContractDetails listDetail : listDetails) {
-                    if (listDetail.getContractId().getCustomerId().getCustomerName().contains(request.getParameter("searchInput"))) {
-                        System.out.println("name 1 "+listDetail.getContractId().getCustomerId().getCustomerName());
-                    System.out.println("name key "+request.getParameter("searchInput"));
+                    if (listDetail.getContractId().getStatus().contains(key) && listDetail.getContractId().getContractDetails().contains(key2)) {
                         listDetails1.add(listDetail);
                     }
                 }
                 request.setAttribute("contractDetails", listDetails1);
+            } else {
+
+                    request.setAttribute("contractDetails", listDetails);
+                
             }
-            
+
+            request.setAttribute("countEstateWait", contractController.countEstateWait((users.getEmployee().getId())));
+            request.setAttribute("countEstateSale", contractController.countEstateSale((users.getEmployee().getId())));
             request.setAttribute("employee", employee);
-            
+            request.setAttribute("listEeatures", featureControllre.findFeaturesEntities());
+            request.setAttribute("listType", typeController.findEstateTypeEntities());
             request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
-            request.getRequestDispatcher("/page/dashboard/employee/dashboard_contract_list.jsp").forward(request, response);
-        
+            request.getRequestDispatcher("/admin/page/dashboard/employee/contract.jsp").forward(request, response);
+
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
-            response.sendRedirect(request.getContextPath()+"/LoginUser");
+            response.sendRedirect(request.getContextPath() + "/LoginUser");
         }
         // END SESSION HEADER FONTEND //
     }

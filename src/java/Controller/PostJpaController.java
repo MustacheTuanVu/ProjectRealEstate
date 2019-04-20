@@ -63,7 +63,6 @@ public class PostJpaController implements Serializable {
                 employee = em.merge(employee);
             }
             em.getTransaction().commit();
-            System.out.println("this : " +post.getPostId());
         } catch (Exception ex) {
             try {
                 em.getTransaction().rollback();

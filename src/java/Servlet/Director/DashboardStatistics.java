@@ -142,12 +142,8 @@ public class DashboardStatistics extends HttpServlet {
                     }
                 }
                 countUnitEstateSaleList = countUnitEstateSaleList + estateTypeControl.getEstateTypeByEstateCountStaticPublic(estateType.getId());
-                countEstateSaleList.put(
-                        estateType.getId(), 
-                        estateTypeControl.getEstateTypeByEstateCountStaticPublic(estateType.getId())
-                );
+                countEstateSaleList.put(estateType.getId(), estateTypeControl.getEstateTypeByEstateCountStaticPublic(estateType.getId()));
                 countMoneyEstateSaleList.put(estateType.getId(), money);
-                
             }
             request.setAttribute("countMoneyEstateSaleList", countMoneyEstateSaleList);
             request.setAttribute("countMoneyEstateSaleListSize", countMoneyEstateSaleList.size());

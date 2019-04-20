@@ -62,7 +62,7 @@ public class EstateTypeList extends HttpServlet {
                 
                 request.setAttribute("estateTypeList", estateTypeList);
 
-                request.getRequestDispatcher("/page/dashboard/employee/dashboard_estate_type_new.jsp").forward(request, response);
+                request.getRequestDispatcher("/admin/page/dashboard/employee/type.jsp").forward(request, response);
 
             } else {
                 response.sendRedirect(request.getContextPath() + "/LoginUser");

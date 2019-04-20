@@ -85,7 +85,8 @@ public class ContractOfEmployee1 extends HttpServlet {
             
             request.setAttribute("employeeList", employeeJpaController.findEmployeeEntities());
             request.setAttribute("contractList", contractDetailsControl.findContractDetailsEntities());
-            request.getRequestDispatcher("/page/dashboard/director/dashboard_contract_list.jsp").forward(request, response);
+            request.setAttribute("active","ContractOfEmployee1");
+            request.getRequestDispatcher("/admin/page/dashboard/director/transaction.jsp").forward(request, response);
         
         } else {
             request.setAttribute("displayLogin", "block");

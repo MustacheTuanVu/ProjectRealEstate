@@ -16,13 +16,16 @@ import Controller.ProjectJpaController;
 import Controller.TransactionsJpaController;
 import Entity.Contract;
 import Entity.ContractDetails;
+import Entity.Employee;
 import Entity.Estate;
 import Entity.EstateType;
 import Entity.Project;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -92,7 +95,7 @@ public class DashboardDirector extends HttpServlet {
             ManagerJpaController managerJpaController = new ManagerJpaController(utx, emf);
             CustomerJpaController customerJpaController = new CustomerJpaController(utx, emf);
             ProjectJpaController projectJpaController = new ProjectJpaController(utx, emf);
-            
+            request.setAttribute("active","DashboardDirector");
             request.setAttribute("contractList", contractDetailsJpaController.findContractDetailsEntities());
             List<ContractDetails> contractDetailsList = contractDetailsJpaController.findContractDetailsEntities();
             int countContractWaitSale = 0;
@@ -121,7 +124,7 @@ public class DashboardDirector extends HttpServlet {
             
             /*------------------------------------------------*/
             
-            List<Project> projectsList = projectJpaController.getProjectByManager("all");
+            List<Project> projectsList = projectJpaController.getProjectByManager("all","none");
             
             for (Project project : projectsList) {
                 List<String> estateIDList2 = estateJpaController.getEstateByProject(project.getProjectId());
@@ -141,6 +144,7 @@ public class DashboardDirector extends HttpServlet {
                 countProjectWait = countProjectWait + 1;
             }
             
+            
             /*-------------------------------------------------*/
             request.setAttribute("countProjectWait", countProjectWait);
             request.setAttribute("countEstateWait", countEstateWait);
@@ -151,19 +155,53 @@ public class DashboardDirector extends HttpServlet {
             request.setAttribute("countProject", projectJpaController.getProjectCount());
             request.setAttribute("countEstate", estateJpaController.getEstateCount());
             request.setAttribute("countBlog", postJpaController.getPostCount());
-        } else {
-            request.setAttribute("displayLogin", "block");
-            request.setAttribute("displayUser", "none");
+            /*-------------------------------------------------*/
+            
+            /*-------------------------------------------------*/
+            List<Employee> employeeList = employeeJpaController.findEmployeeEntities();
+            Map<String,Integer> countEstateByEmployee = new HashMap<>();
+            for (Employee employee : employeeList) {
+                int size = 0;
+                size = employeeJpaController.getEstatePublicByEmployeeID(employee.getId()).size();
+                countEstateByEmployee.put(
+                        employee.getId().toString(), 
+                        size
+                );
+            }
+            request.setAttribute("countEstateByEmployee", countEstateByEmployee);
+            request.setAttribute("countEstateByEmployeeSize", countEstateByEmployee.size());
+            /*-------------------------------------------------*/
+            
+            /*-------------------------------------------------*/
+            List<Employee> employeeList2 = employeeJpaController.findEmployeeEntities();
+            Map<String,Integer> countEstateSoldByEmployee = new HashMap<>();
+            for (Employee employee : employeeList2) {
+                int size = 0;
+                size = employeeJpaController.getEstateSoldByEmployeeID(employee.getId()).size();
+                countEstateSoldByEmployee.put(
+                        employee.getId().toString(), 
+                        size
+                );
+            }
+            request.setAttribute("countEstateSoldByEmployee", countEstateSoldByEmployee);
+            request.setAttribute("countEstateSoldByEmployeeSize", countEstateSoldByEmployee.size());
+            /*-------------------------------------------------*/
+            
+            //CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
+            ContractDetailsJpaController contractDetailsControl = new ContractDetailsJpaController(utx, emf);
+            
+            request.setAttribute("employeeList", employeeList);
+            request.setAttribute("contractList", contractDetailsControl.findContractDetailsEntities());
+            
+            // BEGIN NAVBAR HEADER FONTEND //
+            List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();
+            request.setAttribute("estateTypeList", estateTypeList);
+            request.getRequestDispatcher("/admin/page/dashboard/director/work.jsp").forward(request, response);
+            // END NAVBAR HEADER FONTEND //
+        } else{
+            response.sendRedirect(request.getContextPath()+"/admin");
         }
         // END SESSION HEADER FONTEND //
-        
-        // BEGIN NAVBAR HEADER FONTEND //
-        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
-        List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();
-        request.setAttribute("estateTypeList", estateTypeList);
-        request.getRequestDispatcher("/page/dashboard/director/index.jsp").forward(request, response);
-        // END NAVBAR HEADER FONTEND //
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

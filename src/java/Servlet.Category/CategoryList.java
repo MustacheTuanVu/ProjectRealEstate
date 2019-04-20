@@ -71,7 +71,7 @@ public class CategoryList extends HttpServlet {
                 
                 request.setAttribute("featuresList", featuresList);
 
-                request.getRequestDispatcher("/page/dashboard/employee/dashboard_category.jsp").forward(request, response);
+                request.getRequestDispatcher("/admin/page/dashboard/employee/category.jsp").forward(request, response);
             } else {
                 response.sendRedirect(request.getContextPath() + "/LoginUser");
             }

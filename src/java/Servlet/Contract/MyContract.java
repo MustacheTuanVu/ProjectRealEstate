@@ -15,6 +15,8 @@ import Entity.Customer;
 import Entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -60,11 +62,18 @@ public class MyContract extends HttpServlet {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
             EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
+            ContractJpaController contractControl = new ContractJpaController(utx, emf);
             ContractDetailsJpaController contractDetailsControl = new ContractDetailsJpaController(utx, emf);
-            Customer customer = customerControl.findCustomer(users.getId());
+            Customer customer = customerControl.findCustomer(users.getCustomer().getId());
+            
+            List<Integer> contractIDList = contractControl.getContractByCustomer(users.getCustomer().getId());
+            List<ContractDetails> contractDetailsList = (List<ContractDetails>) new ArrayList<ContractDetails>();
+            for (Integer contractID : contractIDList) {
+                contractDetailsList.add(contractDetailsControl.getContractDetailsByContract(contractID));
+            }
             
             request.setAttribute("customer", customer);
-            request.setAttribute("contractDetails", contractDetailsControl.findContractDetailsEntities());
+            request.setAttribute("contractDetails", contractDetailsList);
             request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
             request.getRequestDispatcher("/page/guest/my_contract.jsp").forward(request, response);
         } else {

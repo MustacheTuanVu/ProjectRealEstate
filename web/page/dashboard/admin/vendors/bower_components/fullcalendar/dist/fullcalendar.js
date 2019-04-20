@@ -5622,6 +5622,7 @@ var DayGrid = FC.DayGrid = Grid.extend(DayTableMixin, {
 
 		for (row = 0; row < rowCnt; row++) {
 			html += this.renderDayRowHtml(row, isRigid);
+                        
 		}
 		this.el.html(html);
 

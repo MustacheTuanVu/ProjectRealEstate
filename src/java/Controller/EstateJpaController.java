@@ -111,6 +111,7 @@ public class EstateJpaController implements Serializable {
                             + "." + estates.getPropertyPath() + " " + estates.getMessage());
                 }
             }
+            System.out.println("test "+estate);
             em.persist(estate);
             if (estateStatusId != null) {
                 estateStatusId.getEstateList().add(estate);
@@ -521,6 +522,7 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
+    
 
     public List<String> getEstateByEmployeeFilter(String employeeID, String status) {
         EntityManager em = getEntityManager();
