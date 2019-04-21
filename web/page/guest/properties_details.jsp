@@ -168,27 +168,27 @@
                                 <div class="property__plan">
                                     <dl class="property__plan-item">
                                         <dt class="property__plan-icon">
-                                            <svg>
-                                            <use xlink:href="#icon-area"></use>
-                                            </svg>
+                                        <svg>
+                                        <use xlink:href="#icon-area"></use>
+                                        </svg>
                                         </dt>
                                         <dd class="property__plan-title">Area</dd>
                                         <dd class="property__plan-value">${find.areas}m<sup>2</sup></dd>
                                     </dl>
                                     <dl class="property__plan-item">
                                         <dt class="property__plan-icon property__plan-icon--window">
-                                            <svg>
-                                            <use xlink:href="#icon-window"></use>
-                                            </svg>
+                                        <svg>
+                                        <use xlink:href="#icon-window"></use>
+                                        </svg>
                                         </dt>
                                         <dd class="property__plan-title">Bedrooms</dd>
                                         <dd class="property__plan-value">${find.bedRoom} room</dd>
                                     </dl>
                                     <dl class="property__plan-item">
                                         <dt class="property__plan-icon property__plan-icon--bathrooms">
-                                            <svg>
-                                            <use xlink:href="#icon-bathrooms"></use>
-                                            </svg>
+                                        <svg>
+                                        <use xlink:href="#icon-bathrooms"></use>
+                                        </svg>
                                         </dt>
                                         <dd class="property__plan-title">Bathrooms</dd>
                                         <dd class="property__plan-value">${find.bathRoom} room</dd>
@@ -206,9 +206,9 @@
                                     -->
                                     <dl class="property__plan-item">
                                         <dt class="property__plan-icon property__plan-icon--garage">
-                                            <svg>
-                                            <use xlink:href="#icon-garage"></use>
-                                            </svg>
+                                        <svg>
+                                        <use xlink:href="#icon-garage"></use>
+                                        </svg>
                                         </dt>
                                         <dd class="property__plan-title">Garages</dd>
                                         <dd class="property__plan-value">${find.garages}m<sup>2</sup></dd>
@@ -219,7 +219,7 @@
                                     <ul class="property__params-list property__params-list--options">
                                         <c:forEach items="${featureList}" var="item">
                                             <li>${item.featureName}</li>
-                                        </c:forEach>
+                                            </c:forEach>
                                     </ul>
                                 </div>
                                 <div class="property__description js-unhide-block">
@@ -247,9 +247,160 @@
                                     </div>
                                 </div>
                                 -->
+                                <h3 >Danh Sach Cung Loai</h3>
+                                <div class="listing listing--grid js-properties-list">
+                                    <c:forEach items="${estateList}" var="estate">
+                                        <div class="listing__item">
+                                            <div class="properties properties--grid">
+                                                <div class="properties__thumb">
+                                                    <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" target="_blank" class="item-photo">
+                                                        <img src="${estate.image1st}" />
+                                                        <figure class="item-photo__hover item-photo__hover--params">
+                                                            <span class="properties__params">Bed Room - ${estate.bedRoom} room</span>
+                                                            <span class="properties__params">Bath Room - ${estate.bathRoom} room</span>
+                                                            <span class="properties__params">Garages - ${estate.garages}M<sup>2</sup></span>
+                                                            <!--
+                                                            <span class="properties__intro">My home is bright and spacious. Very good transport links. Close to the Olympic village, Westfiel...</span>
+                                                            -->
+                                                            <span class="properties__time">Areas - ${estate.areas}M<sup>2</sup></span>
 
+                                                            <!-- cuong add -->
 
+                                                        </figure>
+                                                    </a>
+                                                    <span class="properties__ribon">For ${estate.estateStatusId.estateStatusName}</span>
+                                                    
+                                                        <span class="properties__ribon properties__ribon--status properties__ribon--done">
+                                                            <a data-toggle="modal" data-target="#${estate.id}"  href="" >
+                                                            So Sánh
+                                                            </a>
+                                                        </span>
+
+                                                    <!-- start modal -->
+                                                    <div id="${estate.id}" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                                                        <div class="container-fluid pt-25">
+
+                                                            <!-- Row -->
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="panel panel-default card-view">
+                                                                        <div class="panel-heading">
+                                                                            <div class="pull-left">
+                                                                                <h6 class="panel-title txt-dark">Basic Wizard</h6>
+                                                                            </div>
+                                                                            <div class="clearfix"></div>
+                                                                        </div>
+                                                                        <table class="table" style="border: 1px solid black" >
+                                                                            <tr>
+                                                                                <td></td>
+                                                                                <td><img src="${find.image1st}" height="250px" width="500px" /></td>
+                                                                                <td><img src="${estate.image1st}" height="250px" width="500px"/></td>
+                                                                            </tr>
+                                                                            <tr >
+                                                                                <td colspan="3" >Thông Tin C? B?n</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Estate Name</td>
+                                                                                <td>${find.estateName}</td>
+                                                                                <td>${estate.estateName}</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>T?ng Di?n Tích (m<sup>2</sup>)</td>
+                                                                                <td>${find.areas}</td>
+                                                                                <td>${estate.areas}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>S? T?ng</td>
+                                                                                <td>${find.floor}</td>
+                                                                                <td>${estate.floor}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Garages (m<sup>2</sup>)</td>
+                                                                                <td>${find.garages}</td>
+                                                                                <td>${estate.garages}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Phòng T?m</td>
+                                                                                <td>${find.bathRoom}</td>
+                                                                                <td>${estate.bathRoom}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Phòng Ng?</td>
+                                                                                <td>${find.bedRoom}</td>
+                                                                                <td>${estate.bedRoom}</td>
+                                                                            </tr>
+
+                                                                            <tr >
+                                                                                <td colspan="3">Thông Tin Chung</td>
+                                                                            </tr>
+                                                                            <tr >
+                                                                                <fmt:formatDate pattern="dd-MM-yyyy" value="${find.yearBuild}" var="date1"/>
+                                                                                <fmt:formatDate pattern="dd-MM-yyyy" value="${estate.yearBuild}" var="date2"/>
+                                                                                <td >N?m Xây D?ng</td>
+                                                                                <td >${date1}</td>
+                                                                                <td >${date2}</td>
+                                                                            </tr>
+                                                                            <tr >
+                                                                                <td >H??ng</td>
+                                                                                <td >${find.direction}</td>
+                                                                                <td >${estate.direction}</td>
+                                                                            </tr>
+                                                                            <tr >
+                                                                                <td >??a Ch?</td>
+                                                                                <td >${find.address1}</td>
+                                                                                <td >${estate.address1}</td>
+                                                                            </tr>
+                                                                            <tr >
+                                                                                <td ></td>
+                                                                                <td ><button type="button" class="btn--default" data-dismiss="modal">Close</button></td>
+                                                                                <td ><a  href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" class="btn-default btn--default">View Details</a></td>
+                                                                            </tr>
+
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /Row -->
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.modal-dialog -->
+                                                    </div>
+                                                    <!-- end modal -->
+
+                                                </div>
+                                                <!-- end of block .properties__thumb-->
+                                                <div class="properties__details">
+                                                    <div class="properties__info"><a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" class="properties__address">
+                                                            <span class="properties__address-street">${estate.estateName}</span>
+                                                            <span class="properties__address-city">${estate.address2}</span></a>
+                                                        <div class="properties__offer">
+                                                            <div class="properties__offer-column">
+                                                                <div class="properties__offer-label">Direction</div>
+                                                                <div class="properties__offer-value">
+                                                                    <strong> ${estate.direction}</strong>
+                                                                </div>
+                                                            </div>
+                                                            <div class="properties__offer-column">
+                                                                <div class="properties__offer-label">Price</div>
+                                                                <div class="properties__offer-value"><strong>${estate.price}</strong>
+                                                                        <c:if test = "${estate.estateStatusId.estateStatusName == 'Rent'}">
+                                                                        <span class="properties__offer-period">/month</span>
+                                                                    </c:if>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="properties__params--mob">View details<span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
+                                                    </div>
+                                                </div>
+                                                <!-- end of block .properties__info-->
+                                            </div>
+                                            <!-- end of block .properties__item-->
+                                        </div>
+                                    </c:forEach>
+                                </div>
                             </div>
+
                             <!-- end of block .property-->
                         </div>
                         <!-- END site-->
@@ -259,42 +410,42 @@
                                 <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Show agent</a>
                                 </div>
                                 <c:if test="${displayEmployee=='yes'}">
-                                <div class="widget__content">
-                                    <div data-sr="enter bottom move 80px, scale(0), over 0s" data-animate-end="animate-end" class="worker js-unhide-block vcard worker--sidebar-advanced">
-                                        <h3 class="worker__name fn">${employee.employeeName}</h3>
-                                        <div class="worker__post">Employee</div>
-                                        <div class="worker__photo">
-                                            <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${employee.id}" class="item-photo item-photo--static">
-                                                <img src="${employee.employeeImg}" alt="Christopher Pakulla" class="photo"/>
-                                                <figure class="item-photo__hover"><span class="item-photo__more">View Details</span></figure>
-                                            </a>
-                                        </div>
-                                        <div class="worker__intro">
-                                            <button type="button" class="worker__show js-unhide">Contact agent</button>
-                                            <div class="worker__listings">
-                                                <i class="worker__favorites worker__favorites--highlight"></i> My Listings -
-                                                <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${employee.id}">${employee.expr1} estate</a></div>
-                                            <!-- end of block .worker__listings-->
-                                            <div class="worker__intro-row">
-                                                <div class="worker__intro-col">
-                                                    <div class="worker__contacts">
-                                                        <div class="tel"><span class="type">Tel.</span><a href="tel:${employee.employeePhone}" class="uri value">${employee.employeePhone}</a></div>
-                                                        <div class="email"><span class="type">Email</span><a href="mailto:${employee.employeeMail}" class="uri value">${employee.employeeMail}</a></div>
-                                                        <div class="skype"><span class="type">Address</span><a href="skype:Walkenboy?call" class="uri value"> ${employee.employeeAddress}</a></div>
+                                    <div class="widget__content">
+                                        <div data-sr="enter bottom move 80px, scale(0), over 0s" data-animate-end="animate-end" class="worker js-unhide-block vcard worker--sidebar-advanced">
+                                            <h3 class="worker__name fn">${employee.employeeName}</h3>
+                                            <div class="worker__post">Employee</div>
+                                            <div class="worker__photo">
+                                                <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${employee.id}" class="item-photo item-photo--static">
+                                                    <img src="${employee.employeeImg}" alt="Christopher Pakulla" class="photo"/>
+                                                    <figure class="item-photo__hover"><span class="item-photo__more">View Details</span></figure>
+                                                </a>
+                                            </div>
+                                            <div class="worker__intro">
+                                                <button type="button" class="worker__show js-unhide">Contact agent</button>
+                                                <div class="worker__listings">
+                                                    <i class="worker__favorites worker__favorites--highlight"></i> My Listings -
+                                                    <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${employee.id}">${employee.expr1} estate</a></div>
+                                                <!-- end of block .worker__listings-->
+                                                <div class="worker__intro-row">
+                                                    <div class="worker__intro-col">
+                                                        <div class="worker__contacts">
+                                                            <div class="tel"><span class="type">Tel.</span><a href="tel:${employee.employeePhone}" class="uri value">${employee.employeePhone}</a></div>
+                                                            <div class="email"><span class="type">Email</span><a href="mailto:${employee.employeeMail}" class="uri value">${employee.employeeMail}</a></div>
+                                                            <div class="skype"><span class="type">Address</span><a href="skype:Walkenboy?call" class="uri value"> ${employee.employeeAddress}</a></div>
+                                                        </div>
+                                                        <!-- end of block .worker__contacts-->
                                                     </div>
-                                                    <!-- end of block .worker__contacts-->
+                                                </div>
+                                                <div class="worker__intro-row">
+                                                    <div class="worker__descr">
+                                                        <p>${employee.employeeContent}</p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="worker__intro-row">
-                                                <div class="worker__descr">
-                                                    <p>${employee.employeeContent}</p>
-                                                </div>
-                                            </div>
+                                            <div class="clearfix"></div>
                                         </div>
-                                        <div class="clearfix"></div>
+                                        <!-- end of block .worker-->
                                     </div>
-                                    <!-- end of block .worker-->
-                                </div>
                                 </c:if>
                             </div>
                         </div>

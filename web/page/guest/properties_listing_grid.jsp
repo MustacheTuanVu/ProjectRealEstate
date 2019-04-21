@@ -199,6 +199,10 @@
                                                 </span>
                                             </div>
                                         </c:if>
+                                        
+                                        <!-- cuong add -->
+                                        
+                                        
                                         <div class="listing listing--grid js-properties-list">
                                             <c:forEach items="${estateList}" var="estate">
                                                 <div class="listing__item">
@@ -214,7 +218,9 @@
                                                                     <span class="properties__intro">My home is bright and spacious. Very good transport links. Close to the Olympic village, Westfiel...</span>
                                                                     -->
                                                                     <span class="properties__time">Areas - ${estate.areas}M<sup>2</sup></span>
-                                                                    <span class="properties__more">View details</span>
+                                                                    
+                                                                    <!-- cuong add -->
+                                                                    
                                                                 </figure>
                                                             </a>
                                                             <span class="properties__ribon">For ${estate.estateStatusId.estateStatusName}</span>
@@ -240,8 +246,9 @@
                                                                             </c:if>
                                                                         </div>
                                                                     </div>
+                                                                                
                                                                 </div>
-                                                                <div class="properties__params--mob"><a href="#" class="properties__more">View details</a><span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
+                                                                <div class="properties__params--mob">View details<span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
                                                             </div>
                                                         </div>
                                                         <!-- end of block .properties__info-->
@@ -423,6 +430,9 @@
     <!-- BEGIN SCRIPTS and INCLUDES-->
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=places,drawing,geometry"></script>
     <script type="text/javascript" src="http://cdn.ckeditor.com/4.5.6/standard/ckeditor.js"></script>
+    
+ 
+        
     <!--
     Contains vendor libraries (Bootstrap3, Jquery, Chosen, etc) already compiled into a single file, with
     versions that are verified to work with our theme. Normally, you should not edit that file.

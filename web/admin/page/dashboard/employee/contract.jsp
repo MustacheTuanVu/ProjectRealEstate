@@ -326,10 +326,7 @@
                                                                     <a data-toggle="modal" data-target="#${item.estateId.id}" class="label label-danger" href="" >Đang chờ nhân viên khảo sát</a>
                                                                     <div id="${item.estateId.id}" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
                                                                         <div class="container-fluid pt-25">
-                                                                            <!-- Title -->
-
-                                                                            <!-- /Title -->
-
+                                
                                                                             <!-- Row -->
                                                                             <div class="row">
                                                                                 <div class="col-sm-12">

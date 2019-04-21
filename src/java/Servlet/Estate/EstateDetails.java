@@ -49,6 +49,8 @@ public class EstateDetails extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        
+        
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
         Users users = (Users) session.getAttribute("user");
@@ -99,6 +101,7 @@ public class EstateDetails extends HttpServlet {
 
         String id = request.getParameter("estateID");
         
+        
         List<String> featureIDList = featureDetailsJpaController.findFeatureDetailsByEstate(id);
         List<Features> featureList = new ArrayList<>();
         
@@ -108,6 +111,10 @@ public class EstateDetails extends HttpServlet {
         
         Estate find = estateControl.findEstate(id);
         
+        //cuong add
+        int idType=Integer.valueOf(find.getEstateTypeId().getId());
+        int idStatus=find.getEstateStatusId().getId();
+        
         int countEstate = estateControl.getEmployeeByEstateCount(id);
         String displayEmployee = "yes";
         if(countEstate != 0){
@@ -116,6 +123,7 @@ public class EstateDetails extends HttpServlet {
         }else{
             displayEmployee = "no";
         }
+        request.setAttribute("estateList", estateControl.getEstateByTypeAndByPrice(find));
         request.setAttribute("displayEmployee", displayEmployee);
         request.setAttribute("find", find);
         request.setAttribute("featureList", featureList);
