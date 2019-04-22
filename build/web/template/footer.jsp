@@ -15,11 +15,11 @@
                 </div>
                 <div class="widget__content">
                     <nav class="nav nav--footer">
-                        <a href="<%=request.getContextPath()%>/index">Home</a>
-                        <a href="<%=request.getContextPath()%>/EstateList?user=guest&estateStatus=all&estateType=all">Estate</a>
-                        <a href="<%=request.getContextPath()%>/EmployeeList?user=guest">Agent</a>
-                        <a href="<%=request.getContextPath()%>/ProjectList?user=guest">Project</a>
-                        <a href="<%=request.getContextPath()%>/BlogListAllUser?cat=all&user=guest">Blog</a>
+                        <a href="<%=request.getContextPath()%>/index">Trang chủ</a>
+                        <a href="<%=request.getContextPath()%>/EstateList?user=guest&estateStatus=all&estateType=all">Bất động sản</a>
+                        <a href="<%=request.getContextPath()%>/EmployeeList?user=guest">Nhân viên tư vấn</a>
+                        <a href="<%=request.getContextPath()%>/ProjectList?user=guest">Dự án</a>
+                        <a href="<%=request.getContextPath()%>/BlogListAllUser?cat=all&user=guest">Bài viết</a>
                     </nav>
                     <!-- end of block .nav-footer-->
                 </div>
@@ -29,12 +29,12 @@
         <div class="footer__col footer__col--second">
             <div class="widget js-widget widget--footer">
                 <div class="widget__header">
-                    <h2 class="widget__title">Contact</h2>
+                    <h2 class="widget__title">Liên hệ</h2>
                 </div>
                 <div class="widget__content">
                     <section class="address address--footer">
-                        <h4 class="address__headline">Our office</h4>
-                        <address class="address__main"><span>17/5 CMT8, Phuong 3, Quan 10, Ho Chi Minh City</span><span>08 - 17 mon-fr</span><a href="tel:+442240052225">+1 202 555 0135</a><a href="tel:+442240052225">+1 202 555 0135</a><span>Fax: +1 202 555 0135</span><a href="mailto:hello@example.com">hello@example.com</a></address>
+                        <h4 class="address__headline">Văn phòng chúng tôi</h4>
+                        <address class="address__main"><span>17/5 CMT8, Phườngng 3, Quận 10, TP. Hồ Chí Minh</span><span>08 - 17 mon-fr</span><a href="tel:+442240052225">+1 202 555 0135</a><a href="tel:+442240052225">+1 202 555 0135</a><span>Fax: +1 202 555 0135</span><a href="mailto:hello@example.com">hello@example.com</a></address>
                     </section>
                     <!-- end of block .address-->
                 </div>
@@ -43,13 +43,13 @@
         <div class="footer__col footer__col--third">
             <div class="widget js-widget widget--footer">
                 <div class="widget__header">
-                    <h2 class="widget__title">About</h2>
+                    <h2 class="widget__title">Về SGEstate24h</h2>
                 </div>
                 <div class="widget__content">
                     <aside class="widget_text">
                         <div class="textwidget">
-                            RealEstate24H is the leader in online real estate and operator of the HCM of real estate web site for consumers and real estate professionals. Real Estate of websites captures more than 20 million monthly visitors
-                            <p>RealEstate24H is the leader in online real estate and operator of the HCM of real</p>
+                            SGEstate24h là công ty hàng đầu trong lĩnh vực bất động sản trực tuyến và nhà điều hành HCM của trang web bất động sản dành cho người tiêu dùng và các chuyên gia bất động sản. Bất động sản của các trang web thu hút hơn 20 triệu khách truy cập hàng tháng
+                            <p>SGEstate24h là công ty hàng đầu trong lĩnh vực bất động sản và điều hành trực tuyến của HCM</p>
                             <p></p>
                         </div>
 
@@ -57,7 +57,7 @@
                 </div>
             </div>
         </div>
-        <div class="clearfix"></div><span class="footer__copyright">&copy; 2019 RealEstate24H. All rights reserved</span>
+        <div class="clearfix"></div><span class="footer__copyright">&copy; 2019 SGEstate24h. All rights reserved</span>
         <!-- end of block .footer__copyright-->
     </div>
 </div>

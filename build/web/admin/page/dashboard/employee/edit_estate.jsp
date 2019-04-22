@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -183,7 +184,7 @@
                                 </div>
                                 <div class="panel-wrapper collapse in">
                                     <div class="panel-body">
-                                        <form action="<%=request.getContextPath()%>/EstateCreate" class="form form--flex form--property form--basic js-form-property-1">
+                                        <form action="<%=request.getContextPath()%>/EstateEdit" method="POST" class="form form--flex form--property form--basic js-form-property-1">
                                             <div id="example-basic">
                                                 <h3><span class="head-font capitalize-font">Thông tin cơ bản</span></h3>
                                                 <section>
@@ -191,15 +192,21 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10">Tiêu đề bán</label>
-                                                                <input type="text" id="estateName" class="form-control" name="estateName">
+                                                                <input type="hidden" name="estateID" value="${find.id}">
+                                                                <input value="${find.estateName}" type="text" id="estateName" class="form-control" name="estateName">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10">Loại nhà</label>
-                                                                <select class="form-control" name="estateTypeId">
+                                                                <select id="in-15" required name="estateTypeId" data-placeholder="---" class="form-control">
+                                                                    <option label=" "></option>
                                                                     <c:forEach items="${estateTypeList}" var="estateTypeList">
-                                                                        <option value="${estateTypeList.id}">${estateTypeList.typeName}</option>
+                                                                        <option value="${estateTypeList.id}"
+                                                                                <c:if test="${estateTypeList.id == find.estateTypeId.id}">selected</c:if>
+                                                                                    >
+                                                                                ${estateTypeList.typeName}
+                                                                        </option>
                                                                     </c:forEach>
                                                                 </select>
                                                             </div>
@@ -207,45 +214,45 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10">Số lượng phòng ngủ</label>
-                                                                <select class="form-control" name="bedRoom">
-                                                                    <option value="0">0</option>
-                                                                    <option value="1">1</option>
-                                                                    <option value="2">2</option>
-                                                                    <option value="3">3</option>
-                                                                    <option value="4">4</option>
-                                                                    <option value="5">5</option>
-                                                                    <option value="6">6</option>
-                                                                    <option value="7">7</option>
-                                                                    <option value="8">8</option>
-                                                                    <option value="9">9</option>
-                                                                    <option value="10">10</option>
-                                                                </select>
-                                                            </div>
+                                                                <select id="in-5" name="bedRoom" data-placeholder="Choose number..." required class="form-control js-in-select">
+                                                                    <option value="0" <c:if test="${find.bedRoom == '0'}">selected</c:if>>0</option>
+                                                                    <option value="1" <c:if test="${find.bedRoom == '1'}">selected</c:if>>1</option>
+                                                                    <option value="2" <c:if test="${find.bedRoom == '2'}">selected</c:if>>2</option>
+                                                                    <option value="3" <c:if test="${find.bedRoom == '3'}">selected</c:if>>3</option>
+                                                                    <option value="4" <c:if test="${find.bedRoom == '4'}">selected</c:if>>4</option>
+                                                                    <option value="5" <c:if test="${find.bedRoom == '5'}">selected</c:if>>5</option>
+                                                                    <option value="6" <c:if test="${find.bedRoom == '6'}">selected</c:if>>6</option>
+                                                                    <option value="7" <c:if test="${find.bedRoom == '7'}">selected</c:if>>7</option>
+                                                                    <option value="8" <c:if test="${find.bedRoom == '8'}">selected</c:if>>8</option>
+                                                                    <option value="9" <c:if test="${find.bedRoom == '9'}">selected</c:if>>9</option>
+                                                                    <option value="10" <c:if test="${find.bedRoom == '10'}">selected</c:if>>10</option>
+                                                                    </select>
+                                                                </div>
 
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label class="control-label mb-10">Số lượng phòng tắm</label>
-                                                                <select class="form-control" name="bathRoom">
-                                                                    <option value="0">0</option>
-                                                                    <option value="1">1</option>
-                                                                    <option value="2">2</option>
-                                                                    <option value="3">3</option>
-                                                                    <option value="4">4</option>
-                                                                    <option value="5">5</option>
-                                                                    <option value="6">6</option>
-                                                                    <option value="7">7</option>
-                                                                    <option value="8">8</option>
-                                                                    <option value="9">9</option>
-                                                                    <option value="10">10</option>
-                                                                </select>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label class="control-label mb-10">Garages</label>
-                                                                    <input type="number" id="estateName" class="form-control" name="garages">
+                                                                    <label class="control-label mb-10">Số lượng phòng tắm</label>
+                                                                    <select id="in-5" name="bathRoom" data-placeholder="Choose number..." required class="form-control js-in-select">
+                                                                        <option value="0" <c:if test="${find.bathRoom == '0'}">selected</c:if>>0</option>
+                                                                    <option value="1" <c:if test="${find.bathRoom == '1'}">selected</c:if>>1</option>
+                                                                    <option value="2" <c:if test="${find.bathRoom == '2'}">selected</c:if>>2</option>
+                                                                    <option value="3" <c:if test="${find.bathRoom == '3'}">selected</c:if>>3</option>
+                                                                    <option value="4" <c:if test="${find.bathRoom == '4'}">selected</c:if>>4</option>
+                                                                    <option value="5" <c:if test="${find.bathRoom == '5'}">selected</c:if>>5</option>
+                                                                    <option value="6" <c:if test="${find.bathRoom == '6'}">selected</c:if>>6</option>
+                                                                    <option value="7" <c:if test="${find.bathRoom == '7'}">selected</c:if>>7</option>
+                                                                    <option value="8" <c:if test="${find.bathRoom == '8'}">selected</c:if>>8</option>
+                                                                    <option value="9" <c:if test="${find.bathRoom == '9'}">selected</c:if>>9</option>
+                                                                    <option value="10" <c:if test="${find.bathRoom == '10'}">selected</c:if>>10</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label mb-10">Garages</label>
+                                                                        <input value="${find.garages}" type="number" id="estateName" class="form-control" name="garages">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -253,7 +260,7 @@
                                                             <div class="form-group">
                                                                 <div class="form-group">
                                                                     <label class="control-label mb-10">Giá</label>
-                                                                    <input type="number" id="estateName" class="form-control" name="price">
+                                                                    <input value="${find.price}" type="number" id="estateName" class="form-control" name="price">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -261,31 +268,38 @@
                                                             <div class="form-group">
                                                                 <div class="form-group">
                                                                     <label class="control-label mb-10">Diện tích</label>
-                                                                    <input type="number" id="estateName" class="form-control" name="areas">
+                                                                    <input value="${find.areas}" type="number" id="estateName" class="form-control" name="areas">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10">Hướng</label>
-                                                                <select class="form-control" name="direction">
-                                                                    <option value="Đông">Đông</option>
-                                                                    <option value="Tây">Tây</option>
-                                                                    <option value="Nam">Nam</option>
-                                                                    <option value="Bắc">Bắc</option>
-                                                                    <option value="Đông Bắc">Đông Bắc</option>
-                                                                    <option value="Đông Nam">Đông Nam</option>
-                                                                    <option value="Tây Bắc">Tây Bắc</option>
-                                                                    <option value="Tây Nam">Tây Nam</option>
-                                                                </select>
+                                                                <select id="in-5" name="direction" data-placeholder="Choose a Direction..." required class="form-control js-in-select">
+                                                                    <option label=" "></option>
+                                                                    <option value="Đông" <c:if test="${find.direction == 'Đông'}">selected</c:if>>Đông</option>
+                                                                    <option value="Tây" <c:if test="${find.direction == 'Tây'}">selected</c:if>>Tây</option>
+                                                                    <option value="Nam" <c:if test="${find.direction == 'Nam'}">selected</c:if>>Nam</option>
+                                                                    <option value="Bắc" <c:if test="${find.direction == 'Bắc'}">selected</c:if>>Bắc</option>
+                                                                    <option value="Đông Bắc" <c:if test="${find.direction == 'Đông Bắc'}">selected</c:if>>Đông Bắc</option>
+                                                                    <option value="Đông Nam" <c:if test="${find.direction == 'Đông Nam'}">selected</c:if>>Đông Nam</option>
+                                                                    <option value="Tây Bắc" <c:if test="${find.direction == 'Tây Bắc'}">selected</c:if>>Tây Bắc</option>
+                                                                    <option value="Tây Nam" <c:if test="${find.direction == 'Tây Nam'}">selected</c:if>>Tây Nam</option>
+                                                                    </select>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label class="control-label mb-10">Tình trạng</label>
-                                                                <select class="form-control" name="estateStatusId">
-                                                                    <option value="1">Cho Thuê</option>
-                                                                    <option value="2">Cho Bán</option>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label mb-10">Tình trạng</label>
+                                                                    <select id="in-2" required name="estateStatusId" data-placeholder="---" class="form-control">
+                                                                        <option label=" "></option>
+                                                                    <c:forEach items="${estateStatusList}" var="estateStatusList">
+                                                                        <option value="${estateStatusList.id}"
+                                                                                <c:if test="${find.estateStatusId.id == estateStatusList.id}">selected</c:if>
+                                                                                    >
+                                                                                ${estateStatusList.estateStatusName}
+                                                                        </option>
+                                                                    </c:forEach>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -293,7 +307,7 @@
                                                             <div class="form-group">
                                                                 <div class="form-group">
                                                                     <label class="control-label mb-10">Địa chỉ 1</label>
-                                                                    <input type="text" id="estateName" class="form-control" name="address1">
+                                                                    <input value="${find.address1}" type="text" id="estateName" class="form-control" name="address1">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -301,44 +315,49 @@
                                                             <div class="form-group">
                                                                 <div class="form-group">
                                                                     <label class="control-label mb-10">Địa chỉ 2</label>
-                                                                    <input type="text" id="estateName" class="form-control" name="address2">
+                                                                    <input value="${find.address2}" type="text" id="estateName" class="form-control" name="address2">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10">Quận</label>
-                                                                <select class="form-control" name="district">
-                                                                    <option value="1">1</option>
-                                                                    <option value="2">2</option>
-                                                                    <option value="3">3</option>
-                                                                    <option value="4">4</option>
-                                                                    <option value="5">5</option>
-                                                                    <option value="6">6</option>
-                                                                    <option value="7">7</option>
-                                                                    <option value="8">8</option>
-                                                                    <option value="9">9</option>
-                                                                    <option value="10">10</option>
-                                                                    <option value="11">11</option>
-                                                                    <option value="12">12</option>
-                                                                    <option value="Bình Thạnh">Bình Thạnh</option>
-                                                                    <option value="Thủ Đức">Thủ Đức</option>
-                                                                    <option value="Gò Vấp">Gò Vấp</option>
-                                                                    <option value="Hóc Môn">Hóc Môn</option>
+                                                                <select id="in-5" name="district" re data-placeholder="Chọn quận..." required class="form-control js-in-select">
+                                                                    <c:if test="${find.district != null}">
+                                                                        <option value="${find.district}" selected>${find.district}</option>
+                                                                    </c:if>
+                                                                    <c:if test="${find.district == null}">
+                                                                        <option value="1" selected>1</option>
+                                                                        <option value="2">2</option>
+                                                                        <option value="3">3</option>
+                                                                        <option value="4">4</option>
+                                                                        <option value="5">5</option>
+                                                                        <option value="6">6</option>
+                                                                        <option value="7">7</option>
+                                                                        <option value="8">8</option>
+                                                                        <option value="9">9</option>
+                                                                        <option value="10">10</option>
+                                                                        <option value="11">11</option>
+                                                                        <option value="12">12</option>
+                                                                        <option value="Bình Thạnh">Bình Thạnh</option>
+                                                                        <option value="Thủ Đức">Thủ Đức</option>
+                                                                        <option value="Gò Vấp">Gò Vấp</option>
+                                                                        <option value="Hóc Môn">Hóc Môn</option>
+                                                                    </c:if>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10">Năm xây</label>
-                                                                <input name="yearBuild" type="text" placeholder="" data-mask="99/99/9999" class="form-control">
+                                                                <input value="<fmt:formatDate value="${find.yearBuild}" pattern="MM/dd/yyyy" />" name="yearBuild" type="text" placeholder="" data-mask="99/99/9999" class="form-control">
                                                                 <span class="text-muted">dd/mm/yyyy</span> 
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label mb-10 text-left">Nội dung</label>
-                                                                <textarea class="form-control" rows="5" name="estateDescription"></textarea>
+                                                                <textarea class="form-control" rows="5" name="estateDescription">${find.estateContent}</textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -352,9 +371,9 @@
                                                                     <div class="panel-body pa-0">
                                                                         <article class="col-item">
                                                                             <div class="photo">
-                                                                                <input id="image1st" name="image1st" type="hidden"/>
+                                                                                <input value="${find.image1st}" id="image1st" name="image1st" type="hidden"/>
                                                                                 <a onclick="BrowseServer1();"> 
-                                                                                    <img width="240" height="160" id="imageup1st" name="imageup1st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
+                                                                                    <img width="240" height="160" id="imageup1st" name="imageup1st" src="${find.image1st}" alt="Product Image" /> 
                                                                                 </a>
                                                                             </div>
                                                                         </article>
@@ -368,9 +387,9 @@
                                                                     <div class="panel-body pa-0">
                                                                         <article class="col-item">
                                                                             <div class="photo">
-                                                                                <input id="image2st" name="image2st" type="hidden"/>
+                                                                                <input value="${find.image2st}" id="image2st" name="image2st" type="hidden"/>
                                                                                 <a onclick="BrowseServer2();"> 
-                                                                                    <img width="240" height="160" id="imageup2st" name="imageup2st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
+                                                                                    <img width="240" height="160" id="imageup2st" name="imageup2st" src="${find.image2st}" alt="Product Image" /> 
                                                                                 </a>
                                                                             </div>
                                                                         </article>
@@ -384,9 +403,9 @@
                                                                     <div class="panel-body pa-0">
                                                                         <article class="col-item">
                                                                             <div class="photo">
-                                                                                <input id="image3st" name="image3st" type="hidden"/>
+                                                                                <input value="${find.image3st}" id="image3st" name="image3st" type="hidden"/>
                                                                                 <a onclick="BrowseServer3();"> 
-                                                                                    <img width="240" height="160" id="imageup3st" name="imageup3st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
+                                                                                    <img width="240" height="160" id="imageup3st" name="imageup3st" src="${find.image3st}" alt="Product Image" /> 
                                                                                 </a>
                                                                             </div>
                                                                         </article>
@@ -400,9 +419,9 @@
                                                                     <div class="panel-body pa-0">
                                                                         <article class="col-item">
                                                                             <div class="photo">
-                                                                                <input id="image4st" name="image4st" type="hidden"/>
+                                                                                <input value="${find.image4st}" id="image4st" name="image4st" type="hidden"/>
                                                                                 <a onclick="BrowseServer4();"> 
-                                                                                    <img width="240" height="160" id="imageup4st" name="imageup4st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
+                                                                                    <img width="240" height="160" id="imageup4st" name="imageup4st" src="${find.image4st}" alt="Product Image" /> 
                                                                                 </a>
                                                                             </div>
                                                                         </article>
@@ -416,9 +435,9 @@
                                                                     <div class="panel-body pa-0">
                                                                         <article class="col-item">
                                                                             <div class="photo">
-                                                                                <input id="image5st" name="image5st" type="hidden"/>
+                                                                                <input value="${find.image5st}" id="image5st" name="image5st" type="hidden"/>
                                                                                 <a onclick="BrowseServer5();"> 
-                                                                                    <img width="240" height="160" id="imageup5st" name="imageup5st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
+                                                                                    <img width="240" height="160" id="imageup5st" name="imageup5st" src="${find.image5st}" alt="Product Image" /> 
                                                                                 </a>
                                                                             </div>
                                                                         </article>
@@ -431,7 +450,11 @@
                                                 <h3><span class="head-font capitalize-font">Nội thất-Chức năng</span></h3>
                                                 <section>
                                                     <div class="checkbox">
-                                                        <c:forEach items="${featuresList}" var="item">
+                                                        <c:forEach items="${featureEstateList}" var="item">
+                                                            <input value="${item.featuresId}" type="checkbox" name="feature" id="${item.featuresId}" checked>
+                                                            <label for="${item.featuresId}" style="margin-right: 100px;">${item.featureName}</label>
+                                                        </c:forEach>
+                                                        <c:forEach items="${featureEstateListNot}" var="item">
                                                             <input value="${item.featuresId}" type="checkbox" name="feature" id="${item.featuresId}" >
                                                             <label for="${item.featuresId}" style="margin-right: 100px;">${item.featureName}</label>
                                                         </c:forEach>

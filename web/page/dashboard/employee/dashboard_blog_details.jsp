@@ -2,13 +2,14 @@
 
 <!-- cuong add -->
 <!DOCTYPE html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -86,8 +87,8 @@
                     <div class="row">
                         <div class="site site--main">
                             <header class="site__header">
-                                <h1 class="site__title">Blog</h1>
-                                <h2 class="site__headline">Check out our new market updates</h2>
+                                <h1 class="site__title">Bài viết</h1>
+                                <h2 class="site__headline">Kiểm tra cập nhật mới của chúng tôi</h2>
                             </header>
                             <!-- BEGIN SEARCH-->
                             <form class="form form--search form--article-listing">
@@ -100,7 +101,7 @@
                                 </div>
                             </form>
                             <!-- END SEARCH-->
-                            <button type="button" data-goto-target=".js-categories-article" class="widget__btn--goto js-goto-btn">Show blog categories</button>
+                            <button type="button" data-goto-target=".js-categories-article" class="widget__btn--goto js-goto-btn">Xem danh mục bài viết</button>
                             <div class="site__main">
                                 <div class="widget js-widget widget--main widget--no-margin">
                                     <div class="widget__content">
@@ -109,7 +110,7 @@
                                                 <time datetime="2009-08-29" class="article__time"><fmt:formatDate value="${post.postDate}" pattern="yyyy"/> <strong><fmt:formatDate value="${post.postDate}" pattern="MMM"/></strong></time>
                                                 <div class="article__item-info">
                                                     <h3 class="article__item-title">${post.postTilte}</h3>
-                                                    <div class="article__tags">Category:<a href="#">${post.postCategory.categoryName}</a>
+                                                    <div class="article__tags">Danh mục:<a href="#">${post.postCategory.categoryName}</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -132,15 +133,15 @@
                         <div class="sidebar">
                             <div class="widget js-widget widget--sidebar">
                                 <div class="widget__header">
-                                    <h2 class="widget__title">Categories</h2>
-                                    <h5 class="widget__headline">Find your apartment or house on the exact key parameters.</h5><a class="widget__btn js-widget-btn widget__btn--toggle">Show blog categories</a>
+                                    <h2 class="widget__title">Danh mục</h2>
+                                    <h5 class="widget__headline">Tìm căn hộ hoặc nhà của bạn bằng các thông tin chính xác.</h5><a class="widget__btn js-widget-btn widget__btn--toggle">Xem danh mục bài viết</a>
                                 </div>
                                 <div class="widget__content">
                                     <!-- BEGIN ARTICLE CATEGORIES-->
                                     <div class="article-categories">
                                         <div class="article-categories__list js-categories-article">
                                             <ul>
-                                                <li class="article-categories__item"><a href="<%= request.getContextPath()%>/BlogListAllUser?cat=all" class="article-categories__name">All<span class="article-categories__count"></span></a></li>
+                                                <li class="article-categories__item"><a href="<%= request.getContextPath()%>/BlogListAllUser?cat=all" class="article-categories__name">Tất cả<span class="article-categories__count"></span></a></li>
                                                 <c:forEach var="element" items="${listCount}">
                                                     <li class="article-categories__item"><a href="<%= request.getContextPath() %>/BlogListAllUser?cat=${element.categoryId}" class="article-categories__name">${element.categoryName}<span class="article-categories__count"></span></a></li>
                                                     </c:forEach>

@@ -19,7 +19,7 @@
 
         // Bước 2: Kiểm tra dữ liệu hợp lệ hay không
         if (name === "" || name.length < 6) {
-            document.getElementById('nameMessage').innerHTML = 'must more than 10 character';
+            document.getElementById('nameMessage').innerHTML = 'Ít nhất 10 kí tự';
             document.getElementById('nameForm').classList.add("has-error");
         } else {
             document.getElementById('nameMessage').innerHTML = '';
@@ -28,7 +28,7 @@
 
         var re16digit = /^\d{9}$/;
         if (icard === "" || icard.search(re16digit) === -1) {
-            document.getElementById('icardMessage').innerHTML = 'Enter 9 Number ';
+            document.getElementById('icardMessage').innerHTML = 'Nhập vào 9 chữ số ';
             document.getElementById('icardForm').classList.add("has-error");
         } else {
             document.getElementById('icardMessage').innerHTML = '';
@@ -36,7 +36,7 @@
         }
 
         if (address === "" || address.length < 10) {
-            document.getElementById('addressMessage').innerHTML = 'must more than 10 character';
+            document.getElementById('addressMessage').innerHTML = 'Ít nhất 10 kí tự';
             document.getElementById('addressForm').classList.add("has-error");
         } else {
             document.getElementById('addressMessage').innerHTML = '';
@@ -45,7 +45,7 @@
 
         var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
         if (phone === "" || vnf_regex.test(phone) === false) {
-            document.getElementById('phoneMessage').innerHTML = 'Enter sai dinh dang ';
+            document.getElementById('phoneMessage').innerHTML = 'Nhập sai định dạng ';
             document.getElementById('phoneForm').classList.add("has-error");
         }else {
             document.getElementById('phoneMessage').innerHTML = '';
@@ -54,7 +54,7 @@
 
         var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         if (!filter.test(email)) {
-            document.getElementById('emailMessage').innerHTML = 'sai dinh dang';
+            document.getElementById('emailMessage').innerHTML = 'Sai dinh dang';
             document.getElementById('emailForm').classList.add("has-error");
         } else {
             document.getElementById('emailMessage').innerHTML = '';
@@ -64,7 +64,7 @@
         
 
         if (txtContent === "" || txtContent.length < 200) {
-            document.getElementById('descriptionMessage').innerHTML = 'must more than 200 character';
+            document.getElementById('descriptionMessage').innerHTML = 'Ít nhất 200 kí tự';
             document.getElementById('descriptionForm').classList.add("has-error");
         } else {
             document.getElementById('descriptionMessage').innerHTML = '';

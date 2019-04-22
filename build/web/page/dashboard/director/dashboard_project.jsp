@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -79,7 +79,7 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Property Management</h2><a href="<%=request.getContextPath()%>/EstateCreate" class="widget__btn js-widget-btn widget__btn--action">Add new property</a>
+                                        <h2 class="widget__title">Quản lý</h2><a href="<%=request.getContextPath()%>/EstateCreate" class="widget__btn js-widget-btn widget__btn--action">Add new property</a>
                                     </div>
                                     <div class="widget__content">
                                         <div class="widget__content">
@@ -90,7 +90,7 @@
                                                         <input type="hidden" name="user" value="director">
                                                         <input type="hidden" name="filter" value="waitting%20for%20director">
                                                         <input type="text" name="searchInput" placeholder="Input Address" style="width: 500px;">
-                                                        <button type="submit" name="search2" value="search2" class="btn--link js-tags-rename">Search</button>
+                                                        <button type="submit" name="search2" value="search2" class="btn--link js-tags-rename">Tìm kiếm</button>
                                                     </form>
                                                 </div>
                                                 <div class="tags tags--favorites js-tags">
@@ -110,22 +110,22 @@
                                                         <div class="properties__item-header">
                                                             <div class="properties__actions">
                                                                 <c:if test="${item.projectStatus == 'waitting for director create' || item.projectStatus == 'waitting for director edit'}">
-                                                                    <a href="<%=request.getContextPath()%>/ProjectArgree?projectID=${item.projectId}&choice=add" class="properties__link">Agree</a>
+                                                                    <a href="<%=request.getContextPath()%>/ProjectArgree?projectID=${item.projectId}&choice=add" class="properties__link">Đồng ý</a>
                                                                     <div class="dropdown properties__actions-dropdown">
                                                                         <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>
                                                                         <div class="dropdown__menu properties__dropdown-menu">
-                                                                            <a href="<%=request.getContextPath()%>/ProjectArgree?estateID=${item.projectId}" class="properties__link">Delete</a>
-                                                                            <button type="button" class="properties__link">Change status</button>
+                                                                            <a href="<%=request.getContextPath()%>/ProjectArgree?estateID=${item.projectId}" class="properties__link">Xóa</a>
+                                                                            <button type="button" class="properties__link">Thay đổi trạng thái</button>
                                                                         </div>
                                                                     </div>
                                                                 </c:if>
                                                                 <c:if test="${item.projectStatus == 'waitting for director delete'}">
-                                                                    <a href="<%=request.getContextPath()%>/ProjectArgree?projectID=${item.projectId}&choice=remove" class="properties__link">Agree</a>
+                                                                    <a href="<%=request.getContextPath()%>/ProjectArgree?projectID=${item.projectId}&choice=remove" class="properties__link">Đồng ý</a>
                                                                     <div class="dropdown properties__actions-dropdown">
                                                                         <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>
                                                                         <div class="dropdown__menu properties__dropdown-menu">
-                                                                            <a href="<%=request.getContextPath()%>/EstateDelete?estateID=${item.projectId}" class="properties__link">Delete</a>
-                                                                            <button type="button" class="properties__link">Change status</button>
+                                                                            <a href="<%=request.getContextPath()%>/EstateDelete?estateID=${item.projectId}" class="properties__link">Xóa</a>
+                                                                            <button type="button" class="properties__link">Thay đổi trạng thái</button>
                                                                         </div>
                                                                     </div>
                                                                 </c:if>
@@ -135,17 +135,17 @@
                                                             <a href="<%=request.getContextPath()%>/ProjectDashboard?projectId=${item.projectId}" class="item-photo">
                                                                 <img src="${item.image1st}" alt=""/>
                                                                 <figure class="item-photo__hover item-photo__hover--params">
-                                                                    <span class="properties__params">Block Number - ${item.blockNumber} block</span>
-                                                                    <span class="properties__params">Floor Number - ${item.floorNumber} floor</span>
-                                                                    <span class="properties__params">Year Build - <fmt:formatDate value="${item.yearBuild}" pattern="yyyy" /></span>
+                                                                    <span class="properties__params">Số Block - ${item.blockNumber} block</span>
+                                                                    <span class="properties__params">Số tầng - ${item.floorNumber} tầng</span>
+                                                                    <span class="properties__params">Năm xây dựng - <fmt:formatDate value="${item.yearBuild}" pattern="yyyy" /></span>
                                                                     <!--
                                                                     <span class="properties__intro">My home is bright and spacious. Very good transport links. Close to the Olympic village, Westfiel...</span>
                                                                     -->
                                                                     <span class="properties__time">Date - <fmt:formatDate value="${item.dateAdd}" pattern="dd/MM/yyyy" /></span>
-                                                                    <span class="properties__more">View details</span>
+                                                                    <span class="properties__more">Xem chi tiết</span>
                                                                 </figure>
                                                             </a>
-                                                            <span class="properties__ribon">Project</span>
+                                                            <span class="properties__ribon">Dự án</span>
                                                             <span class="properties__ribon properties__ribon--status properties__ribon--done">${item.projectStatus}</span>
                                                         </div>
                                                         <!-- end of block .properties__thumb-->
@@ -155,19 +155,19 @@
                                                                     <span class="properties__address-city">${item.projectAddress}</span></a>
                                                                 <div class="properties__offer">
                                                                     <div class="properties__offer-column">
-                                                                        <div class="properties__offer-label">District</div>
+                                                                        <div class="properties__offer-label">Quận</div>
                                                                         <div class="properties__offer-value">
                                                                             <strong> ${item.district}</strong>
                                                                         </div>
                                                                     </div>
                                                                     <div class="properties__offer-column">
-                                                                        <div class="properties__offer-label">Manager</div>
+                                                                        <div class="properties__offer-label">Nhân viên quản lý</div>
                                                                         <div class="properties__offer-value">
                                                                             <strong>${item.managerId.managerName}</strong>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="properties__params--mob"><a href="#" class="properties__more">View details</a><span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
+                                                                <div class="properties__params--mob"><a href="#" class="properties__more">Xem chi tiết</a><span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
                                                             </div>
                                                         </div>
                                                         <!-- end of block .properties__info-->

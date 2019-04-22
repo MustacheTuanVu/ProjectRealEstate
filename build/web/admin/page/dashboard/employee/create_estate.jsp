@@ -271,8 +271,8 @@
                                                                 <select class="form-control" name="direction">
                                                                     <option value="Đông">Đông</option>
                                                                     <option value="Tây">Tây</option>
-                                                                    <option value="Nam">South</option>
-                                                                    <option value="Bắc">North</option>
+                                                                    <option value="Nam">Nam</option>
+                                                                    <option value="Bắc">Bắc</option>
                                                                     <option value="Đông Bắc">Đông Bắc</option>
                                                                     <option value="Đông Nam">Đông Nam</option>
                                                                     <option value="Tây Bắc">Tây Bắc</option>
@@ -436,7 +436,7 @@
                                                             <label for="${item.featuresId}" style="margin-right: 100px;">${item.featureName}</label>
                                                         </c:forEach>
                                                     </div>
-                                                    <input type="submit" class="btn btn-primary" value="oke">
+                                                    <input name="submit" type="submit" class="btn btn-primary" value="oke">
                                                 </section>
                                             </div>
                                         </form>

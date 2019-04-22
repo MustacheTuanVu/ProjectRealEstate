@@ -13,7 +13,7 @@
 
         // Bước 2: Kiểm tra dữ liệu hợp lệ hay không
         if (estateTypeName === "" || estateTypeName.length<5) {
-            document.getElementById('estateTypeNameMessage').innerHTML = 'must more than 5 character';
+            document.getElementById('estateTypeNameMessage').innerHTML = 'Ít nhất 5 kí tự';
             document.getElementById('estateTypeNameForm').classList.add("has-error");
         }else{
             document.getElementById('estateTypeNameMessage').innerHTML = '';

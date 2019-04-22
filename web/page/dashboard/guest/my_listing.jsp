@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -72,8 +72,8 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
-                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Estate Details</a></li>
+                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Trang chủ</a></li>
+                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Chi tiết</a></li>
                     </ul>
                 </div>
             </nav>
@@ -84,8 +84,8 @@
                         <!-- BEGIN site-->
                         <div class="site site--main">
                             <header class="site__header">
-                                <h1 class="site__title">My profile</h1>
-                                <h2 class="site__headline">Add and edit listing information</h2>
+                                <h1 class="site__title">Trang cá nhân</h1>
+                                <h2 class="site__headline">Thêm và sửa thông tin</h2>
                             </header>
                             <div class="site__panel">
                                 <span class="site__header-text">
@@ -96,7 +96,7 @@
                                 <div class="site__panel">
                                     <div class="listing__sort">
                                         <div class="form-group">
-                                            <label for="in-listing-sort" class="control-label">Sort by:</label>
+                                            <label for="in-listing-sort" class="control-label">Sắp xếp theo:</label>
                                             <div class="form-control--select">
                                                 <select id="in-listing-sort" onchange="changeFunc()" class="form-control js-in-select">
                                                     <option value="all">all</option>
@@ -108,7 +108,7 @@
                                         </div>
                                     </div>
                                     <!--end of block .listing__sort-->
-                                    <div class="listing__view"><span class="control-label">View:</span><a href="properties_listing_grid.html" class="btn--white active"><i class="fa fa-th-large"></i></a><a href="properties_listing_list.html" class="btn--white"><i class="fa fa-bars"></i></a><a href="properties_listing_table.html" class="btn--white"><i class="fa fa-table"></i></a></div>
+                                    <div class="listing__view"><span class="control-label">Xem:</span><a href="properties_listing_grid.html" class="btn--white active"><i class="fa fa-th-large"></i></a><a href="properties_listing_list.html" class="btn--white"><i class="fa fa-bars"></i></a><a href="properties_listing_table.html" class="btn--white"><i class="fa fa-table"></i></a></div>
                                     <!--end of block .listing__view-->
                                 </div>
                                 <!--end of block .listing__param-->
@@ -119,11 +119,10 @@
                                                 <div class="listing__empty">
                                                     <img class="listing__empty-headline" src="http://localhost:8080/ProjectRealEstate/assets/media-demo/productempty.jpeg">
                                                     <h4 class="listing__empty-title">
-                                                        Your search did not return any estate.
+                                                        Không có bất động sản nào được tìm thấy
                                                     </h4>
                                                     <span class="listing__empty-headline">
-                                                        Please make sure all words are spelled correctly
-                                                        or try different keywords.
+                                                       Hãy chắc rằng bạn gõ đúng từ khóa hoặc sử ụng từ khóa khác
                                                     </span>
                                                 </div>
                                             </c:if>
@@ -144,12 +143,12 @@
                                                             </c:choose>
                                                             
                                                             <div class="properties__actions">
-                                                                <button type="button" class="properties__link">Edit</button>
+                                                                <button type="button" class="properties__link>Sửa</button>
                                                                 <div class="dropdown properties__actions-dropdown">
                                                                     <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>
                                                                     <div class="dropdown__menu properties__dropdown-menu">
-                                                                        <button type="button" class="properties__link">Delete</button>
-                                                                        <button type="button" class="properties__link">Change status</button>
+                                                                        <button type="button" class="properties__link">Xóa</button>
+                                                                        <button type="button" class="properties__link">Thay đổi trạng thái</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -166,14 +165,14 @@
                                                                     class="item-photo">
                                                                     <img src="${item.estateId.image1st}" alt=""/>
                                                                     <figure class="item-photo__hover item-photo__hover--params">
-                                                                        <span class="properties__params">Bed Room - ${item.estateId.bedRoom} room</span>
-                                                                        <span class="properties__params">Bath Room - ${item.estateId.bathRoom} room</span>
+                                                                        <span class="properties__params">Phòng ngủ - ${item.estateId.bedRoom} room</span>
+                                                                        <span class="properties__params">Phòng tắm - ${item.estateId.bathRoom} room</span>
                                                                         <span class="properties__params">Garages - ${item.estateId.garages}M<sup>2</sup></span>
                                                                         <!--
                                                                         <span class="properties__intro">My home is bright and spacious. Very good transport links. Close to the Olympic village, Westfiel...</span>
                                                                         -->
-                                                                        <span class="properties__time">Areas - ${item.estateId.areas}M<sup>2</sup></span>
-                                                                        <span class="properties__more">View details</span>
+                                                                        <span class="properties__time">Diện tích - ${item.estateId.areas}M<sup>2</sup></span>
+                                                                        <span class="properties__more">Xem chi tiết</span>
                                                                     </figure>
                                                                 </a>  
                                                                 <span class="properties__ribon">For ${item.estateId.estateStatusId.estateStatusName}</span>
@@ -195,13 +194,13 @@
                                                                     </a>
                                                                     <div class="properties__offer">
                                                                         <div class="properties__offer-column">
-                                                                            <div class="properties__offer-label">Direction</div>
+                                                                            <div class="properties__offer-label">Hướng nhà</div>
                                                                             <div class="properties__offer-value">
                                                                                 <strong> ${item.estateId.direction}</strong>
                                                                             </div>
                                                                         </div>
                                                                         <div class="properties__offer-column">
-                                                                            <div class="properties__offer-label">Price</div>
+                                                                            <div class="properties__offer-label">Giá</div>
                                                                             <div class="properties__offer-value"><strong>${item.estateId.price}</strong>
                                                                                     <c:if test = "${item.estateId.estateStatusId.estateStatusName == 'Rent'}">
                                                                                     <span class="properties__offer-period">/month</span>
@@ -209,7 +208,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="properties__params--mob"><a href="#" class="properties__more">View details</a><span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
+                                                                    <div class="properties__params--mob"><a href="#" class="properties__more">Xem chi tiết</a><span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
                                                                 </div>
                                                             </div>
                                                             <!-- end of block .properties__info-->
@@ -227,7 +226,7 @@
                         <!-- BEGIN SIDEBAR-->
                         <div class="sidebar">
                             <div class="widget js-widget widget--sidebar widget--first-no-head">
-                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Show profile</a>
+                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Xem trang cá nhân</a>
                                 </div>
                                 <div class="widget__content">
                                     <!-- BEGIN WORKER PROFILE-->
@@ -237,13 +236,13 @@
                                             <div class="worker__avatar">
                                                 <img src="${customer.customerImg}" alt="avatar" width="208" height="208">
                                             </div>
-                                            <button class="worker__avatar-upload">Upload your profile picture</button>
+                                            <button class="worker__avatar-upload">Câp nhập hình đại diện</button>
                                         </div>
                                         <nav class="worker__nav">
                                             <ul>
-                                                <li><a href="<%=request.getContextPath()%>/MyListing">My listing</a></li>
-                                                <li><a href="<%=request.getContextPath()%>/DashboardUser">My Profile</a></li>
-                                                <li><a href="<%=request.getContextPath()%>/MyContract">My Contract</a></li>
+                                                <li><a href="<%=request.getContextPath()%>/MyListing">Danh sách bất động sản của tôi</a></li>
+                                                <li><a href="<%=request.getContextPath()%>/DashboardUser">Trang cá nhân</a></li>
+                                                <li><a href="<%=request.getContextPath()%>/MyContract">Hợp đồng của tôi</a></li>
                                             </ul>
                                         </nav>
                                         <!-- end of block .worker__nav-->

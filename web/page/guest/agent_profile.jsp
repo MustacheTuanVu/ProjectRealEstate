@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -73,8 +73,8 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
-                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Estate Details</a></li>
+                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Trang chủ</a></li>
+                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Chi tiết</a></li>
                     </ul>
                 </div>
             </nav>
@@ -85,8 +85,8 @@
                         <!-- BEGIN site-->
                         <div class="site site--main">
                             <header class="site__header">
-                                <h1 class="site__title"><span class="title-thin">Agent</span> Profile</h1>
-                                <h2 class="site__headline">${employee.employeeName}'s Profile</h2>
+                                <h1 class="site__title"><span class="title-thin">Nhân viên tư vấn</span> Trang cá nhân</h1>
+                                <h2 class="site__headline">${employee.employeeName}'s Trang cá nhân</h2>
                             </header>
                             <div class="site__panel">
                                 <span class="site__header-text">
@@ -106,17 +106,17 @@
                                                 <div class="worker__intro-head">
                                                     <div class="worker__intro-name">
                                                         <h3 class="worker__name fn">${employee.employeeName}</h3>
-                                                        <div class="worker__post">Employee</div>
+                                                        <div class="worker__post">Nhân viên tư vấn</div>
                                                     </div>
                                                     <!-- end of block .worker__listings-->
                                                 </div>
-                                                <button type="button" class="worker__show js-unhide">Contact agent</button>
+                                                <button type="button" class="worker__show js-unhide">Liên hệ nhân viên tư vấn</button>
                                                 <div class="worker__intro-row">
                                                     <div class="worker__intro-col">
                                                         <div class="worker__contacts">
-                                                            <div class="tel"><span class="type">Tel.</span><a href="tel:${employee.employeePhone}" class="uri value">${employee.employeePhone}</a></div>
-                                                            <div class="email"><span class="type">Email</span><a href="mailto:${employee.employeeMail}" class="uri value">${employee.employeeMail}</a></div>
-                                                            <div class="skype"><span class="type">Address</span><a href="skype:Walkenboy?call" class="uri value"> ${employee.employeeAddress}</a></div>
+                                                            <div class="tel"><span class="type">Số điện thoại</span><a href="tel:${employee.employeePhone}" class="uri value">${employee.employeePhone}</a></div>
+                                                            <div class="email"><span class="type">Địa chỉ email</span><a href="mailto:${employee.employeeMail}" class="uri value">${employee.employeeMail}</a></div>
+                                                            <div class="skype"><span class="type">Địa chỉ</span><a href="skype:Walkenboy?call" class="uri value"> ${employee.employeeAddress}</a></div>
                                                         </div>
                                                         <!-- end of block .worker__contacts-->
                                                     </div>
@@ -137,7 +137,7 @@
                                 </div>
                                 <div class="widget js-widget widget--main">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Estate</h2>
+                                        <h2 class="widget__title">Bất động sản</h2>
                                     </div>
                                     <div class="widget__content">
                                         <div class="listing listing--grid js-properties-list">
@@ -152,12 +152,12 @@
                                                         </c:if>
 
                                                         <div class="properties__actions">
-                                                            <button type="button" class="properties__link">Edit</button>
+                                                            <button type="button" class="properties__link">Sửa</button>
                                                             <div class="dropdown properties__actions-dropdown">
                                                                 <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>
                                                                 <div class="dropdown__menu properties__dropdown-menu">
-                                                                    <button type="button" class="properties__link">Delete</button>
-                                                                    <button type="button" class="properties__link">Change status</button>
+                                                                    <button type="button" class="properties__link">Xóa</button>
+                                                                    <button type="button" class="properties__link">Thay đổi trạng thái</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -167,14 +167,14 @@
                                                             <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${item.id}" class="item-photo">
                                                                 <img src="${item.image1st}" alt=""/>
                                                                 <figure class="item-photo__hover item-photo__hover--params">
-                                                                    <span class="properties__params">Bed Room - ${item.bedRoom} room</span>
-                                                                    <span class="properties__params">Bath Room - ${item.bathRoom} room</span>
+                                                                    <span class="properties__params">Phòng ngủ - ${item.bedRoom} room</span>
+                                                                    <span class="properties__params">Phòng tắm - ${item.bathRoom} room</span>
                                                                     <span class="properties__params">Garages - ${item.garages}M<sup>2</sup></span>
                                                                     <!--
                                                                     <span class="properties__intro">My home is bright and spacious. Very good transport links. Close to the Olympic village, Westfiel...</span>
                                                                     -->
-                                                                    <span class="properties__time">Areas - ${item.areas}M<sup>2</sup></span>
-                                                                    <span class="properties__more">View details</span>
+                                                                    <span class="properties__time">Diện tích - ${item.areas}M<sup>2</sup></span>
+                                                                    <span class="properties__more">Xem chi tiết</span>
                                                                 </figure>
                                                             </a>
                                                             <span class="properties__ribon">For ${item.estateStatusId.estateStatusName}</span>
@@ -189,13 +189,13 @@
                                                                 </a>
                                                                 <div class="properties__offer">
                                                                     <div class="properties__offer-column">
-                                                                        <div class="properties__offer-label">Direction</div>
+                                                                        <div class="properties__offer-label">Hướng nhà</div>
                                                                         <div class="properties__offer-value">
                                                                             <strong> ${item.direction}</strong>
                                                                         </div>
                                                                     </div>
                                                                     <div class="properties__offer-column">
-                                                                        <div class="properties__offer-label">Price</div>
+                                                                        <div class="properties__offer-label">Giá</div>
                                                                         <div class="properties__offer-value"><strong>${item.price}</strong>
                                                                                 <c:if test = "${item.estateStatusId.estateStatusName == 'Rent'}">
                                                                                 <span class="properties__offer-period">/month</span>
@@ -203,7 +203,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="properties__params--mob"><a href="#" class="properties__more">View details</a><span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
+                                                                <div class="properties__params--mob"><a href="#" class="properties__more">Xem chi tiết</a><span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
                                                             </div>
                                                         </div>
                                                         <!-- end of block .properties__info-->

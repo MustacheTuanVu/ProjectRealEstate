@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
@@ -76,45 +77,45 @@
                                 
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Commission</h2>
+                                        <h2 class="widget__title">Công việc</h2>
                                     </div>
                                     <div class="widget__content">
                                         <section class="info info--commission">
-                                            <h5 class="info__group-name">Post</h5>
+                                            <h5 class="info__group-name">Bài viết</h5>
                                             <div class="info__list">
                                                 <div class="info__column">
                                                     <div class="info__item">
-                                                        <div class="info__title">Total Post</div>
+                                                        <div class="info__title">Tổng bài viết</div>
                                                         <div class="info__value info__value--small"><span class="info__value-label">RM</span> ${countPost}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                                    <h5 class="info__group-name">Customer</h5>
+                                                    <h5 class="info__group-name">Khách hàng</h5>
                                             <div class="info__list">
                                                 <div class="info__column">
                                                     <div class="info__item">
-                                                        <div class="info__title">Total Customer</div>
+                                                        <div class="info__title">Tổng khách hàng</div>
                                                         <div class="info__value info__value--small"><span class="info__value-label">RM</span> ${countCustomer}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <h5 class="info__group-name">Estate</h5>
+                                            <h5 class="info__group-name">Bất động sản</h5>
                                             <div class="info__list">
                                                 <div class="info__column">
                                                     <div class="info__item">
-                                                        <div class="info__title">Estate</div>
+                                                        <div class="info__title">Bất động sản</div>
                                                         <div class="info__value info__value--small"><span class="info__value-label">RM</span> ${countContract}</div>
                                                     </div>
                                                 </div>
                                                 <div class="info__column">
                                                     <div class="info__item">
-                                                        <div class="info__title">Transaction</div>
+                                                        <div class="info__title">Giao dịch</div>
                                                         <div class="info__value info__value--small"><span class="info__value-label">RM</span> ${countTransaction}</div>
                                                     </div>
                                                 </div>
                                                 <div class="info__column">
                                                     <div class="info__item">
-                                                        <div class="info__title">Payment to Customer</div>
+                                                        <div class="info__title">Thanh toán đến khách hàng</div>
                                                         <div class="info__value info__value--small"><span class="info__value-label">RM</span>${countMoney} </div>
                                                     </div>
                                                 </div>

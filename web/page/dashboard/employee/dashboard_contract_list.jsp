@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Contract Report</title><!--[if IE]>
+        <title>Báo cáo hợp đồng</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -80,7 +80,7 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Contract Management</h2>
+                                        <h2 class="widget__title">Quản lý hợp đồng</h2>
                                     </div>
                                     <div class="widget__content">
                                         <div class="widget__content">
@@ -89,59 +89,59 @@
                                                     <form action="<%=request.getContextPath()%>/ContractOfEmployee">
                                                         <input type="hidden" name="user" value="employee">
                                                         <input type="text" name="searchInput" placeholder="Input Name" style="width: 500px;">
-                                                        <button type="submit" name="search" value="search" class="btn--link js-tags-rename">Search</button>
+                                                        <button type="submit" name="search" value="search" class="btn--link js-tags-rename">Tìm kiếm</button>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                                        <hr>
+                                    <hr>
                                     <div class="widget__content">
                                         <div class="datatable datatable--properties">
                                             <div class="datatable__wrap">
                                                 <table id="example1" class="table table-bordered table-striped">
                                                     <thead>
                                                         <tr>
-                                                            <th>Location Address</th>
-                                                            <th>Employee</th>
-                                                            <th>Price</th>
-                                                            <th>Note</th>
-                                                            <th>Status</th>
-                                                            <th>Details</th>
+                                                            <th>Đại chỉ</th>
+                                                            <th>Nhân viên quản lý</th>
+                                                            <th>Giá</th>
+                                                            <th>Ghi chú</th>
+                                                            <th>Trạng thái</th>
+                                                            <th>Chi tiết</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <c:forEach items="${contractDetails}" var="item">
-                                                        <tr>
-                                                            <td>${item.estateId.address1} <br>
-                                                                                            ${item.estateId.address2}
-                                                            </td>
-                                                            <td><strong>${item.contractId.employeeId.employeeName}</strong>
-                                                            </td>
-                                                            <td><strong>${item.contractId.paymentAmount}</strong></td>
-                                                            <td>
-                                                                <strong>
-                                                                    <c:if test="${item.contractId.contractDetails == 'my request sale'}">
-                                                                        Customer Request Sale
+                                                            <tr>
+                                                                <td>${item.estateId.address1} <br>
+                                                                    ${item.estateId.address2}
+                                                                </td>
+                                                                <td><strong>${item.contractId.employeeId.employeeName}</strong>
+                                                                </td>
+                                                                <td><strong>${item.contractId.paymentAmount}</strong></td>
+                                                                <td>
+                                                                    <strong>
+                                                                        <c:if test="${item.contractId.contractDetails == 'my request sale'}">
+                                                                            Customer Request Sale
+                                                                        </c:if>
+                                                                        <c:if test="${item.contractId.contractDetails != 'my request sale'}">
+                                                                            ${item.contractId.contractDetails}
+                                                                        </c:if>
+                                                                    </strong>
+                                                                </td>
+                                                                <td><strong>${item.contractId.status}</strong></td>
+                                                                <td>
+                                                                    <c:if test="${item.contractId.status != 'waitting for employee'}">
+                                                                        <a href="<%=request.getContextPath()%>/CreateContract?estateID=${item.estateId.id}&employeeID=${item.contractId.employeeId.id}" class="datatable__more">
+                                                                            Xem chi tiết
+                                                                        </a>
                                                                     </c:if>
-                                                                    <c:if test="${item.contractId.contractDetails != 'my request sale'}">
-                                                                        ${item.contractId.contractDetails}
+                                                                    <c:if test="${item.contractId.status == 'waitting for employee'}">
+                                                                        <span class="datatable__more" style="color: red">Từ chối xem !</span>
                                                                     </c:if>
-                                                                </strong>
-                                                            </td>
-                                                            <td><strong>${item.contractId.status}</strong></td>
-                                                            <td>
-                                                                <c:if test="${item.contractId.status != 'waitting for employee'}">
-                                                                    <a href="<%=request.getContextPath()%>/CreateContract?estateID=${item.estateId.id}&employeeID=${item.contractId.employeeId.id}" class="datatable__more">
-                                                                        View Details
-                                                                    </a>
-                                                                </c:if>
-                                                                <c:if test="${item.contractId.status == 'waitting for employee'}">
-                                                                    <span class="datatable__more" style="color: red">Access Deny View !</span>
-                                                                </c:if>
-                                                                
-                                                            </td>
-                                                        </tr>    
+
+                                                                </td>
+                                                            </tr>    
                                                         </c:forEach>
                                                     </tbody>
                                                 </table>
@@ -150,7 +150,7 @@
                                                 <div role="document" class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">�</span></button>
+                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                         </div>
                                                         <div class="modal-body"></div>
                                                     </div>
@@ -178,15 +178,15 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Estate <strong>"${name}"</strong> Exist !</h4>
+                            <h4 class="modal-title">Bất động sản <strong>"${name}"</strong> đã tồn tại !</h4>
                         </div>
                         <div class="modal-body">
-                            <p>This Estate Exits. It appear at <br>
+                            <p>Bất động đã tồn tại. Nó xuất hiện ở <br>
                                 <strong>${add1} - ${add2}</strong></p>
                             <img src="${img}" alt="error">
                         </div>
                         <div class="modal-footer">
-                            <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${id}" class="btn btn-default" >View This Estate</a>
+                            <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${id}" class="btn btn-default" >Xem bất động sản này</a>
                         </div>
                     </div>
 
@@ -199,10 +199,10 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 style="text-align: center; color: red" class="modal-title">Transaction Fail</h4>
+                            <h4 style="text-align: center; color: red" class="modal-title">Giao dịch thất bại</h4>
                         </div>
                         <div class="modal-body">
-                            <p style="text-align: center; color: red"><strong>transaction not enough</strong></p>
+                            <p style="text-align: center; color: red"><strong>Giao dịch không đủ</strong></p>
                             <img src="<%=request.getContextPath()%>/assets/media-demo/fail.jpg" alt="error" width="225" height="255">
                         </div>
                     </div>
@@ -216,7 +216,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Transaction Success</h4>
+                            <h4 class="modal-title">Giao dịch thành công</h4>
                         </div>
                         <div class="modal-body">
                             <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" alt="error">

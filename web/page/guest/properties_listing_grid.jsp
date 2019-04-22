@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -71,9 +71,9 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
-                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Home</a></li>
+                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Trang chủ</a></li>
                         <li class="breadcrumbs__item"><a href="http://localhost:8080/ProjectRealEstate/EstateList?user=guest&estateStatus=all&estateType=all" class="breadcrumbs__link">Estate</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">${estateStatus} - ${estateType} List</a></li>
+                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">${estateStatus} - ${estateType} Danh sách</a></li>
                     </ul>
                 </div>
             </nav>
@@ -84,22 +84,22 @@
                         <!-- BEGIN site-->
                         <div class="site site--main">
                             <header class="site__header">
-                                <h1 class="site__title">${estateStatus} - ${estateType} Estate List</h1>
-                                <h5 class="site__headline">Found:<strong> ${size} estate</strong></h5>
+                                <h1 class="site__title">${estateStatus} - ${estateType} Danh sách bất động sản</h1>
+                                <h5 class="site__headline">Tìm thấy:<strong> ${size} bất động sản</strong></h5>
                             </header>
-                            <button type="button" data-goto-target=".js-search-form" class="widget__btn--goto js-goto-btn">Show Filter</button>
+                            <button type="button" data-goto-target=".js-search-form" class="widget__btn--goto js-goto-btn">Lọc</button>
                             <div class="site__panel">
                                 <div class="listing__sort">
                                     <div class="form-group">
-                                        <label for="in-listing-sort" class="control-label">Sort by:</label>
+                                        <label for="in-listing-sort" class="control-label">Sắp xếp theo:</label>
                                         <div class="form-control--select">
                                             <select id="in-listing-sort" onchange="changeFunc()" class="form-control js-in-select">
-                                                <option value="price desc">Price Desc</option>
-                                                <option value="price asc">Price Asc</option>
-                                                <option value="date_add desc">Time Desc</option>
-                                                <option value="date_add asc">Time Asc</option>
-                                                <option value="areas desc">Area Desc</option>
-                                                <option value="areas asc">Area Asc</option>
+                                                <option value="price desc">Giá giảm dần</option>
+                                                <option value="price asc">Giá tăng dần</option>
+                                                <option value="date_add desc">Thời gian giảm dần</option>
+                                                <option value="date_add asc">Thời gian tăng dần</option>
+                                                <option value="areas desc">Diện tích giảm dần</option>
+                                                <option value="areas asc">Diện tích tăng dần</option>
                                             </select>
                                         </div>
                                     </div>
@@ -108,72 +108,72 @@
                             <div class="listing__param">
                                 <span class="listing__param-item">
                                     <span class="glyphicon glyphicon-sort"></span>
-                                    Sort: ${sorts}
+                                    Sắp xếp theo: ${sorts}
                                 </span>
                                 <c:if test="${estateStatus !=' '}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-filter"></span>
-                                        Status: ${estateStatus}
+                                        Trạng thái: ${estateStatus}
                                     </span>
                                 </c:if>
                                 <c:if test="${estateType !=' '}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-filter"></span>
-                                        Type: ${estateType}
+                                        Loại: ${estateType}
                                     </span>
                                 </c:if>
                                 <c:if test="${keywordF !=''}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-search"></span>
-                                        Key word: ${keywordF}
+                                        Từ khóa: ${keywordF}
                                     </span>
                                 </c:if>
                                 <c:if test="${DirectionF !='all' && DirectionF !=''}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-filter"></span>
-                                        Direction: ${DirectionF}
+                                        Hướng nhà: ${DirectionF}
                                     </span>
                                 </c:if>
                                 <c:if test="${DistrictF !='all' && DistrictF !=''}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-filter"></span>
-                                        District: ${DistrictF}
+                                        Quận: ${DistrictF}
                                     </span>
                                 </c:if>
                                 <c:if test="${BuildFrom !='1945' && BuildTo !='2020' && BuildFrom !=''}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-filter"></span>
-                                        Build: ${BuildFrom} - ${BuildTo}
+                                        Năm xây dựng: ${BuildFrom} - ${BuildTo}
                                     </span>
                                 </c:if>
                                 <c:if test="${BedFrom !='0' || BedTo !='10'}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-filter"></span>
-                                        Bed: ${BedFrom} - ${BedTo}
+                                        Số phòng ngủ: ${BedFrom} - ${BedTo}
                                     </span>
                                 </c:if>
                                 <c:if test="${BathFrom !='0' || BathTo !='10'}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-filter"></span>
-                                        Bath: ${BathFrom} - ${BathTo}
+                                        Số phòng tắm: ${BathFrom} - ${BathTo}
                                     </span>
                                 </c:if>
                                 <c:if test="${AreaFrom !='0' || AreaTo !='2000'}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-filter"></span>
-                                        Area: ${AreaFrom} - ${AreaTo}
+                                        Diện tích: ${AreaFrom} - ${AreaTo}
                                     </span>
                                 </c:if>
                                 <c:if test="${PriceFrom !='0' || PriceTo !='500000'}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-filter"></span>
-                                        Price: ${PriceFrom} - ${PriceTo}
+                                        Giá: ${PriceFrom} - ${PriceTo}
                                     </span>
                                 </c:if>
                                 <c:if test="${dateFrom !='2019/01/01' && dateTo !='2020/12/12' && dateTo !='dateFrom'}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-filter"></span>
-                                        Date: ${dateFrom} - ${dateTo}
+                                        Thời gian: ${dateFrom} - ${dateTo}
                                     </span>
                                 </c:if>
                                 <span class="listing__param-item">
@@ -188,11 +188,10 @@
                                             <div class="listing__empty">
                                                 <img class="listing__empty-headline" src="http://localhost:8080/ProjectRealEstate/assets/media-demo/productempty.jpeg">
                                                 <h4 class="listing__empty-title">
-                                                    Your search did not return any estate.
+                                                    Không tìm thấy kết quả nào.
                                                 </h4>
                                                 <span class="listing__empty-headline">
-                                                    Please make sure all words are spelled correctly
-                                                    or try different keywords.
+                                                    Hãy chắc rằng bạn gõ đúng từ khóa hoặc nhập vào từ khóa khác.
                                                 </span>
                                             </div>
                                         </c:if>
@@ -202,16 +201,16 @@
                                                     <div class="properties properties--grid">
                                                         <div class="properties__thumb">
                                                             <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" class="item-photo">
-                                                                <img src="${estate.image1st}" alt=""/>
+                                                                <img src="${estate.image1st}" alt="" style="width: 270px !important; height: 175px !important" width="270px" height="175px"/>
                                                                 <figure class="item-photo__hover item-photo__hover--params">
-                                                                    <span class="properties__params">Bed Room - ${estate.bedRoom} room</span>
-                                                                    <span class="properties__params">Bath Room - ${estate.bathRoom} room</span>
+                                                                    <span class="properties__params">Phòng ngủ - ${estate.bedRoom} room</span>
+                                                                    <span class="properties__params">Phòng tắm - ${estate.bathRoom} room</span>
                                                                     <span class="properties__params">Garages - ${estate.garages}M<sup>2</sup></span>
                                                                     <!--
                                                                     <span class="properties__intro">My home is bright and spacious. Very good transport links. Close to the Olympic village, Westfiel...</span>
                                                                     -->
-                                                                    <span class="properties__time">Areas - ${estate.areas}M<sup>2</sup></span>
-                                                                    <span class="properties__more">View details</span>
+                                                                    <span class="properties__time">Diện tích - ${estate.areas}M<sup>2</sup></span>
+                                                                    <span class="properties__more">Xem chi tiết</span>
                                                                 </figure>
                                                             </a>
                                                             <span class="properties__ribon">For ${estate.estateStatusId.estateStatusName}</span>
@@ -223,22 +222,24 @@
                                                                     <span class="properties__address-street">${estate.estateName}</span>
                                                                     <span class="properties__address-city">${estate.address2}</span></a>
                                                                 <div class="properties__offer">
+                                                                    <!--
                                                                     <div class="properties__offer-column">
-                                                                        <div class="properties__offer-label">Direction</div>
+                                                                        <div class="properties__offer-label">Hướng nhà</div>
                                                                         <div class="properties__offer-value">
                                                                             <strong> ${estate.direction}</strong>
                                                                         </div>
                                                                     </div>
+                                                                    -->
                                                                     <div class="properties__offer-column">
-                                                                        <div class="properties__offer-label">Price</div>
-                                                                        <div class="properties__offer-value"><strong>${estate.price}</strong>
+                                                                        <div class="properties__offer-label">Giá</div>
+                                                                        <div class="properties__offer-value"><strong>${estate.price} VND</strong>
                                                                                 <c:if test = "${estate.estateStatusId.estateStatusName == 'Rent'}">
-                                                                                <span class="properties__offer-period">/month</span>
+                                                                                <span class="properties__offer-period">/tháng</span>
                                                                             </c:if>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="properties__params--mob"><a href="#" class="properties__more">View details</a><span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
+                                                                <div class="properties__params--mob"><a href="#" class="properties__more">Xem chi tiết</a><span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
                                                             </div>
                                                         </div>
                                                         <!-- end of block .properties__info-->
@@ -256,52 +257,52 @@
                         <div class="sidebar">
                             <div class="widget js-widget widget--sidebar">
                                 <div class="widget__header">
-                                    <h2 class="widget__title">Filter</h2>
-                                    <h5 class="widget__headline">Find your estate or house on the exact key parameters.</h5><a class="widget__btn js-widget-btn widget__btn--toggle">Show filter</a>
+                                    <h2 class="widget__title">Lọc kết quả</h2>
+                                    <h5 class="widget__headline">Tìm bất động sản hoặc ngôi nhà của bạn bằng các từ khóa chính xác.</h5><a class="widget__btn js-widget-btn widget__btn--toggle">Show filter</a>
                                 </div>
                                 <div class="widget__content">
                                     <!-- BEGIN SEARCH-->
                                     <form action="<%=request.getContextPath()%>/EstateList" class="form form--flex form--search js-search-form form--sidebar">
                                         <div class="row">
                                             <div class="form-group">
-                                                <label for="in-keyword" class="control-label">Keyword</label>
+                                                <label for="in-keyword" class="control-label">Từ khóa</label>
                                                 <input name="keywordF" type="text" id="in-keyword" placeholder="Text" class="form-control">
                                             </div>
                                             <div class="form-group">
-                                                <label for="in-keyword" class="control-label">Type</label>
+                                                <label for="in-keyword" class="control-label">Loại</label>
                                                 <select name="estateType" id="in-contract-type" data-placeholder="---" class="form-control">
-                                                    <option value="all">All</option>
+                                                    <option value="all">Tất cả</option>
                                                     <c:forEach items="${estateTypeList}" var="item">
                                                         <option value="${item.id}">${item.typeName}</option>
                                                     </c:forEach>
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="in-keyword" class="control-label">Status</label>
+                                                <label for="in-keyword" class="control-label">Trạng thái</label>
                                                 <select name="estateStatus" id="in-contract-type" class="form-control">
-                                                    <option value="all">All</option>
-                                                    <option value="2">Sale</option>
-                                                    <option value="1">Rent</option>
+                                                    <option value="all">Tất cả</option>
+                                                    <option value="2">Bán</option>
+                                                    <option value="1">Cho thuê</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="in-keyword" class="control-label">Direction</label>
+                                                <label for="in-keyword" class="control-label">Hướng nhà</label>
                                                 <select name="DirectionF" id="in-contract-type" data-placeholder="---" class="form-control">
                                                     <option label=" "></option>
-                                                    <option value="East">East</option>
-                                                    <option value="West">West</option>
-                                                    <option value="South">South</option>
-                                                    <option value="North">North</option>
-                                                    <option value="South">South-East</option>
-                                                    <option value="South">South-West</option>
-                                                    <option value="North-West">North-West</option>
-                                                    <option value="North-West">North-East</option>
+                                                    <option value="East">Đông</option>
+                                                    <option value="West">Tây</option>
+                                                    <option value="South">Nam</option>
+                                                    <option value="North">Bắc</option>
+                                                    <option value="South">Đông Nam</option>
+                                                    <option value="South">Tây Nam</option>
+                                                    <option value="North-West">Tây Bắc</option>
+                                                    <option value="North-West">Đông Bắc</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="in-keyword" class="control-label">District</label>
+                                                <label for="in-keyword" class="control-label">Quận</label>
                                                 <select name="DistrictF" id="in-contract-type" data-placeholder="---" class="form-control">
-                                                    <option value="all">all</option>
+                                                    <option value="all">Tất cả</option>
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
@@ -324,7 +325,7 @@
                                                 <div class="form__mode">
                                                     <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
                                                 </div>
-                                                <label for="range_year" class="control-label">Year Build</label>
+                                                <label for="range_year" class="control-label">Năm xây dựng</label>
                                                 <div class="form__ranges">
                                                     <input id="range_year" class="js-search-range form__ranges-in">
                                                 </div>
@@ -337,7 +338,7 @@
                                                 <div class="form__mode">
                                                     <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
                                                 </div>
-                                                <label for="range_bedroom" class="control-label">Bed room</label>
+                                                <label for="range_bedroom" class="control-label">Số phòng ngủ</label>
                                                 <div class="form__ranges">
                                                     <input id="range_bedroom" class="js-search-range form__ranges-in">
                                                 </div>
@@ -350,7 +351,7 @@
                                                 <div class="form__mode">
                                                     <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
                                                 </div>
-                                                <label for="range_bathroom" class="control-label">Bath room</label>
+                                                <label for="range_bathroom" class="control-label">Số phòng tắm</label>
                                                 <div class="form__ranges">
                                                     <input id="range_bathroom" class="js-search-range form__ranges-in">
                                                 </div>
@@ -363,7 +364,7 @@
                                                 <div class="form__mode">
                                                     <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
                                                 </div>
-                                                <label for="range_area" class="control-label">Area</label>
+                                                <label for="range_area" class="control-label">Diện tích</label>
                                                 <div class="form__ranges">
                                                     <input id="range_area" class="js-search-range form__ranges-in">
                                                 </div>
@@ -376,7 +377,7 @@
                                                 <div class="form__mode">
                                                     <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
                                                 </div>
-                                                <label for="range_price" class="control-label">Price</label>
+                                                <label for="range_price" class="control-label">Giá</label>
                                                 <div class="form__ranges">
                                                     <input id="range_price" class="js-search-range form__ranges-in">
                                                 </div>
@@ -386,15 +387,15 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="in-datetime" class="control-label">Date Range</label>
+                                                <label for="in-datetime" class="control-label">Khoảng thời gian</label>
                                                 <input name="dateRange" type="text" id="in-datetime" data-start-date="01/01/2019" data-end-date="12/12/2020" data-time-picker="true" data-single-picker="false" class="js-datetimerange form-control">
                                             </div>
                                             <div class="form-group">
                                                 <input name="user" type="hidden" id="in-keyword" value="guest" class="form-control">
                                             </div>
                                             <div class="form__buttons form__buttons--double">
-                                                <button type="button" class="form__reset js-form-reset">Reset</button>
-                                                <input type="submit" value="filter" name="filter" class="form__submit"/>
+                                                <button type="button" class="form__reset js-form-reset">Nhập lại</button>
+                                                <input type="submit" value="Tìm kiếm" name="filter" class="form__submit"/>
                                             </div>
                                         </div>
                                     </form>

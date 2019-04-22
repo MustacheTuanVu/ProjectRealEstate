@@ -18,7 +18,7 @@
 
         // Bước 2: Kiểm tra dữ liệu hợp lệ hay không
         if (estateName === "" || estateName.length<10) {
-            document.getElementById('estateNameMessage').innerHTML = 'must more than 10 character';
+            document.getElementById('estateNameMessage').innerHTML = 'Ít nhất 10 kí tự';
             document.getElementById('estateNameForm').classList.add("has-error");
         }else{
             document.getElementById('estateNameMessage').innerHTML = '';
@@ -26,7 +26,7 @@
         }
         
         if (garages === "" || garages < 0 || garages > 10) {
-            document.getElementById('garagesMessage').innerHTML = 'Enter a Number between 0 and 10';
+            document.getElementById('garagesMessage').innerHTML = 'Nhập vào chữ số từ 0 đến 10';
             document.getElementById('garagesForm').classList.add("has-error");
         }else{
             document.getElementById('garagesMessage').innerHTML = '';
@@ -34,7 +34,7 @@
         }
         
         if(price === "" || price < 10000 ){
-            document.getElementById('priceMessage').innerHTML = 'Enter price > 10000$';
+            document.getElementById('priceMessage').innerHTML = 'Nhập giá phải lớn hơn 10000$';
             document.getElementById('priceForm').classList.add("has-error");
         }else{
             document.getElementById('priceMessage').innerHTML = '';
@@ -42,7 +42,7 @@
         }
         
         if(areas === "" || areas <0){
-            document.getElementById('areasMessage').innerHTML = 'Please enter a number';
+            document.getElementById('areasMessage').innerHTML = 'Vui lòng nhập vào chữ số';
             document.getElementById('areasForm').classList.add("has-error");
         }else{
             document.getElementById('areasMessage').innerHTML = '';
@@ -50,7 +50,7 @@
         }
         
         if(address1 === "" || address1.length<10 ){
-            document.getElementById('address1Message').innerHTML = 'must more than 10 character';
+            document.getElementById('address1Message').innerHTML = 'Ít nhất 10 kí tự';
             document.getElementById('address1Form').classList.add("has-error");
         }else{
             document.getElementById('address1Message').innerHTML = '';
@@ -58,7 +58,7 @@
         }
         
         if(address2 === "" || address2.length<10 ){
-            document.getElementById('address2Message').innerHTML = 'must more than 10 character';
+            document.getElementById('address2Message').innerHTML = 'Ít nhất 10 kí tự';
             document.getElementById('address2Form').classList.add("has-error");
         }else{
             document.getElementById('address2Message').innerHTML = '';
@@ -66,7 +66,7 @@
         }
         
         if(content === "" || content.length<200 ){
-            document.getElementById('contentMessage').innerHTML = 'must more than 200 character';
+            document.getElementById('contentMessage').innerHTML = 'Ít nhất 200 kí tự';
             document.getElementById('contentForm').classList.add("has-error");
         }else{
             document.getElementById('contentMessage').innerHTML = '';

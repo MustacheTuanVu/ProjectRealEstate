@@ -3,8 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/abc/ProjectRealEstate/src/java/Servlet/Employee/BlogList.java</file>
-            <file>file:/D:/abc/ProjectRealEstate/web/page/dashboard/employee/dashboard_blog.jsp</file>
+            <file>file:/D:/abc/ProjectRealEstate/web/page/guest/my_contract.jsp</file>
+            <file>file:/D:/abc/ProjectRealEstate/web/page/guest/my_listing.jsp</file>
+            <file>file:/D:/abc/ProjectRealEstate/web/page/guest/properties_listing_grid.jsp</file>
+            <file>file:/D:/abc/ProjectRealEstate/web/page/guest/properties_details.jsp</file>
         </group>
     </open-files>
 </project-private>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -81,7 +81,7 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Add new Payment</h2>
+                                        <h2 class="widget__title">Thêm phương thức thanh toán</h2>
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN Favorites-->
@@ -101,11 +101,11 @@
                                                     <table class="js-properties-table datatable__table">
                                                         <thead>
                                                             <tr>
-                                                                <th class="datatable__head-1">Title</th>
-                                                                <th class="datatable__head-2 ">Category</th>
-                                                                <th class="datatable__head-3">Employee</th>
+                                                                <th class="datatable__head-1">Tiêu đề</th>
+                                                                <th class="datatable__head-2 ">Danh mục</th>
+                                                                <th class="datatable__head-3">Nhân viên quản lý</th>
 
-                                                                <th class="datatable__head-5">Delete</th>
+                                                                <th class="datatable__head-5">Xóa</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -126,7 +126,7 @@
                                                                 <div role="document" class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">�</span></button>
+                                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                                         </div>
                                                                         <div class="modal-body">
                                                                             <form method="POST" action="<%=request.getContextPath()%>/PostCreate" class="form form--flex form--article js-parsley">
@@ -136,11 +136,11 @@
                                                                                         <input type="text" value="${item.postId}" name="title" id="in-article-title" required class="form-control">
                                                                                     </div>
                                                                                     <div class="form-group">
-                                                                                        <label for="in-article-title" class="control-label">Title</label>
+                                                                                        <label for="in-article-title" class="control-label">Tiêu đề</label>
                                                                                         <input type="text" value="${item.postTilte}" name="title" id="in-article-title" required class="form-control">
                                                                                     </div>
                                                                                     <div class="form-group">
-                                                                                        <label for="in-article-title" class="control-label">Category</label>
+                                                                                        <label for="in-article-title" class="control-label">Danh mục</label>
                                                                                         <select name="cat" id="in-2">
                                                                                             <c:forEach items="${list}" var="cat" >
                                                                                                 <option value="${cat.categoryId}"  class="form-control">${cat.categoryName}</option> 
@@ -148,7 +148,7 @@
                                                                                         </select>
                                                                                     </div>
                                                                                     <div class="form-group">
-                                                                                        <label for="in-article-title" class="control-label">Description</label>
+                                                                                        <label for="in-article-title" class="control-label">Mô tả</label>
                                                                                         <textarea required="true" name="editor1" class="form-control js-ckeditor">${item.postContent}</textarea>
                                                                                     </div>
                                                                                     <div>
@@ -156,7 +156,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row">
-                                                                                    <button type="submit" class="form__submit">Save</button>
+                                                                                    <button type="submit" class="form__submit">Lưu</button>
                                                                                 </div>
                                                                             </form>
                                                                         </div>
@@ -170,15 +170,15 @@
                                                         <div role="document" class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">�</span></button>
+                                                                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <form action="<%=request.getContextPath()%>/PaymentEdit" method="POST" class="form form--flex form--property form--basic js-form-property-1">
                                                                         <div class="row">
                                                                             <div class="form-group form-group--description ${hasErrorEdit}">
-                                                                                <label for="in-1" class="control-label">Feature ID</label>
+                                                                                <label for="in-1" class="control-label">Tiên ích ID</label>
                                                                                 <input id="in-1" required type="text" name="txtID" value="${id}" class="form-control" readonly="true">
-                                                                                <label for="in-2" class="control-label">Feature Name</label>
+                                                                                <label for="in-2" class="control-label">Tên tiện ích</label>
                                                                                 <input id="in-2" required type="text" name="txtPay" data-placeholder="---" value="${featureName}" class="form-control">
 
                                                                                 <div class="help-block filled" id="parsley-id-11" style="display: ${paymentFrequencyName}">
@@ -188,7 +188,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
-                                                                            <button class="form__submit" type="submit">Submit</button>
+                                                                            <button class="form__submit" type="submit">Đồng ý</button>
                                                                         </div>
                                                                     </form>
                                                                 </div>

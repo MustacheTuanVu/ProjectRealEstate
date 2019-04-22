@@ -114,7 +114,7 @@ public class EstateEdit extends HttpServlet {
                     modal = request.getParameter("modal");
                     request.setAttribute("modal", modal);
 
-                    request.getRequestDispatcher("/page/dashboard/employee/dashboard_estate_edit.jsp").forward(request, response);
+                    request.getRequestDispatcher("/admin/page/dashboard/employee/edit_estate.jsp").forward(request, response);
                 }
             } else {
                 response.sendRedirect(request.getContextPath() + "/LoginUser");

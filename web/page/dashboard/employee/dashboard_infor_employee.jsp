@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
@@ -45,7 +45,7 @@
                 if (document.getElementById('imageup1st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
                     document.getElementById('image1st').value = fileUrl;
                     document.getElementById('imageup1st').src = fileUrl;
-                    document.getElementById('countimage').innerHTML = "Estate have 1/5 photo";
+                    document.getElementById('countimage').innerHTML = "Bất động sản có 1/5 hình ảnh";
                 }
             }
         </script>
@@ -100,7 +100,7 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title"> Your Information</h2>
+                                        <h2 class="widget__title"> Thông tin của bạn</h2>
                                     </div>
                                     <div class="widget__content">
                                         <form method="POST" action="CustomerDetails" class="form form--flex form--profile js-form">
@@ -116,62 +116,62 @@
                                                         <input id="in-1" value="${customer.id}" readonly name="txtID" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="in-2" class="control-label">Your Name</label>
+                                                        <label for="in-2" class="control-label">Tên</label>
                                                         <input  id="in-2" value="${customer.employeeName}" readonly required name="txtName" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="in-3" class="control-label">Identity Card</label>
+                                                        <label for="in-3" class="control-label">Số CMND</label>
                                                         <input <c:if test="${customer.employeeIndentityCard != 'wait'}"> readonly </c:if> id="in-3" value="${customer.employeeIndentityCard}" required name="txtCard" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="in-4" class="control-label">Address</label>
+                                                        <label for="in-4" class="control-label">Địa chỉ</label>
                                                         <input id="in-4" value="${customer.employeeAddress}" required name="txtAddress" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                         <!-- end of block .form-property__control-->
                                                     </div>
                                                 </div>
                                             </div>
                                             <header class="form__header">
-                                                <h3 data-rel="#form-block-2" class="form__title js-form-title">Contact</h3>
+                                                <h3 data-rel="#form-block-2" class="form__title js-form-title">Liên hệ</h3>
                                             </header>
                                             <div id="form-block-2" class="form__block js-form-block">
                                                 <div class="row">
                                                     <div class="form-group">
-                                                        <label for="in-11" class="control-label">Phone</label>
+                                                        <label for="in-11" class="control-label">Điện thoại</label>
                                                         <input id="in-11" name="txtPhone" value="${customer.employeePhone}" type="text" required value="adam.svenson@realtyspace.com" class="form-control">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="in-12" class="control-label">Email</label>
+                                                        <label for="in-12" class="control-label">Địa chỉ email</label>
                                                         <input id="in-12" name="txtMail" value="${customer.employeeMail}" type="email" placeholder="" required value="adam.svenson@realtyspace.com" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
                                             <header class="form__header">
-                                                <h3 data-rel="#form-block-3" class="form__title js-form-title">About me</h3>
+                                                <h3 data-rel="#form-block-3" class="form__title js-form-title">Về tôi</h3>
                                             </header>
                                             <div id="form-block-3" class="form__block js-form-block">
                                                 <div class="row">
                                                     <div class="form-group form-group--description">
-                                                        <label for="in-13" class="control-label">Description</label>
+                                                        <label for="in-13" class="control-label">Mô tả</label>
                                                         <textarea id="in-13" name="txtContent" required data-parsley-trigger="keyup" data-parsley-minlength="200" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 200 caracters long comment.." class="form-control form-control--description">${customer.employeeContent}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <input type="hidden" value="${customer.employeeImg}" id="image1st" name="txtImg"/>
-                                                <button class="form__submit">Save changes</button>
+                                                <button class="form__submit">Lưu thay đổi</button>
                                             </div>
                                         </form>
                                         <hr>
                                         <form method="POST" onsubmit="return checkPass()" action="EditEmployee" class="form form--flex">
                                             <header class="form__header">
-                                                <h3 data-rel="#form-block-5" class="form__title js-form-title">Change your password</h3>
+                                                <h3 data-rel="#form-block-5" class="form__title js-form-title">Đổi mật khẩu</h3>
                                             </header>
                                             <div id="form-block-5" class="form__block js-form-block">
                                                 <div class="row">
                                                     <div class="col-sm-12 col-md-6 col-lg-4">
                                                         <div class="row">
                                                             <div class="form-group ${hasError}">
-                                                                <label for="in-14" class="control-label">Current Password</label>
+                                                                <label for="in-14" class="control-label">Mật khẩu hiên tại</label>
                                                                 <input id="in-14" type="password" name="txtOldPass" data-placeholder="---" value="" class="form-control">
                                                                 <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
                                                                     <div class="parsley-required">${message}</div>
@@ -180,26 +180,26 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="form-group" id="txtNewPass">
-                                                                <label for="in-15"  class="control-label">New Password</label>
+                                                                <label for="in-15"  class="control-label">Mật khẩu mới</label>
                                                                 <input id="in-15" type="password" required name="txtNewPass" data-placeholder="---" value="" class="form-control">
                                                                 <div id="errPass" class="parsley-required"></div>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="form-group">
-                                                                <label for="in-16" class="control-label">Confirm New Password</label>
+                                                                <label for="in-16" class="control-label">Xác nhận mật khẩu mới</label>
                                                                 <input id="in-16" type="password" required name="txtConfirm" data-placeholder="---" value="" class="form-control">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-6 col-lg-8">
                                                         <h5>HINT</h5>
-                                                        <p>Password hint. A reminder to you of how you made up your password. Some systems let you enter a password hint so that if you forget your password, the hint will be displayed to help jog your memory. For example, if your password is your child's birthday, you might use "Alfred" or "Nicole" as a reminder.</p>
+                                                        <p>Gợi ý mật khẩu. Một lời nhắc nhở cho bạn về cách bạn tạo mật khẩu của bạn. Một số hệ thống cho phép bạn nhập một gợi ý mật khẩu để nếu bạn quên mật khẩu, gợi ý sẽ được hiển thị để giúp chạy bộ nhớ của bạn. Ví dụ: nếu mật khẩu của bạn là ngày sinh nhật của con bạn, bạn có thể sử dụng "Alfred" hoặc "Nicole" làm lời nhắc.</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <button type="submit" value="Save password" class="form__submit">Save change</button>
+                                                <button type="submit" value="Lưu mật khẩu" class="form__submit">Lưu thay đổi</button>
                                             </div>
                                         </form>
                                     </div>
@@ -223,15 +223,15 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Estate <strong>"${name}"</strong> Exist !</h4>
+                            <h4 class="modal-title">Bất động sản <strong>"${name}"</strong> đã tồn tại !</h4>
                         </div>
                         <div class="modal-body">
-                            <p>This Estate Exits. It appear at <br>
+                            <p>Bất động sản này đã tồn tại. Nó xuất hiện ở <br>
                                 <strong>${add1} - ${add2}</strong></p>
                             <img src="${img}" alt="error">
                         </div>
                         <div class="modal-footer">
-                            <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${id}" class="btn btn-default" >View This Estate</a>
+                            <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${id}" class="btn btn-default" >Xem bất động sản này</a>
                         </div>
                     </div>
 
@@ -244,10 +244,10 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 style="text-align: center; color: red" class="modal-title">Transaction Fail</h4>
+                            <h4 style="text-align: center; color: red" class="modal-title">Giao dịch thất bại</h4>
                         </div>
                         <div class="modal-body">
-                            <p style="text-align: center; color: red"><strong>transaction not enough</strong></p>
+                            <p style="text-align: center; color: red"><strong>Giao dịch không đủ</strong></p>
                             <img src="<%=request.getContextPath()%>/assets/media-demo/fail.jpg" alt="error" width="225" height="255">
                         </div>
                     </div>
@@ -261,7 +261,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Transaction Success</h4>
+                            <h4 class="modal-title">Giao dịch thành công</h4>
                         </div>
                         <div class="modal-body">
                             <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" alt="error">
@@ -303,7 +303,7 @@
                                                         document.getElementById('txtNewPass').classList.add("has-error");
                                                         document.getElementById('txtNewPass').classList.remove("has-success");
                                                         document.getElementById('txtNewPass').classList.add("has-error");
-                                                        document.getElementById('errPass').innerHTML = 'NEW PASSWORD and CONFIRM NEW PASSWORD does not match !!! ';
+                                                        document.getElementById('errPass').innerHTML = 'Mật khẩu mới và mật khẩu xác nhận không khớp!!! ';
                                                         console.log(document.getElementById('txtNewPass').classList);
                                                         return false;
                                                     } else {

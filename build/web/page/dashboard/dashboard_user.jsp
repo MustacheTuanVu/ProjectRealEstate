@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -120,7 +120,7 @@
                                                                 <div role="document" class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">Ã—</span></button>
                                                                         </div>
                                                                         <div class="modal-body">
                                                                             <form action="<%=request.getContextPath()%>/PaymentEdit" method="POST" class="form form--flex form--property form--basic js-form-property-1">
@@ -167,7 +167,7 @@
                                                         <div role="document" class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                                                                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">Ã—</span></button>
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <form action="<%=request.getContextPath()%>/Edit_Customer_Servlet" method="POST" class="form form--flex form--property form--basic js-form-property-1">

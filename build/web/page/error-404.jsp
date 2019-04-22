@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page isErrorPage="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -86,8 +87,8 @@
                     </div>
                     <div class="widget js-widget widget--landing widget--sep">
                         <div class="widget__header">
-                            <h2 class="widget__title">404 Error. Page Not Found.</h2>
-                            <h5 class="widget__headline">We are sorry but the page you are looking for cannot be found on the server. It may be deleted or replaced. You can try search by another term.</h5>
+                            <h2 class="widget__title">404 Lỗi. Không tìm thấy trang.</h2>
+                            <h5 class="widget__headline">Chúng tôi xin lỗi, trang bạn đang tìm kiếm hiện không có. Có thế nó đã bạn xóa hoặc được thay thế. Bạn có thể tìm kiếm mục khác.</h5>
                         </div>
                         <div class="widget__content">
                         </div>

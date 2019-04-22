@@ -220,10 +220,112 @@
                                                                 </c:if>
                                                             </c:if>
                                                             <c:if test="${item.estateId.assignDetails != null}">
-                                                            <c:if test="${item.contractId.status == 'waitting for employee'}">
-                                                                <span class="label label-danger">Đang chờ nhân viên khảo sát</span>
-                                                            </c:if>
+                                                                <c:if test="${item.contractId.status == 'waitting for employee'}">
+                                                                    <a href="<%=request.getContextPath()%>/EstateEdit?estateID=${item.estateId.id}"  class="label label-danger">Đang chờ nhân viên khảo sát</a>
                                                                 </c:if>
+                                                            </c:if>
+                                                            <c:if test="${item.contractId.status == 'waitting to transaction'}">
+                                                                <a data-toggle="modal" data-target="#${item.estateId.id}" class="label label-danger">Đang chờ nhân viên tư vấn</a>
+                                                                <!-- sample modal content -->
+                                                                <div id="${item.estateId.id}" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                                                                    <div class="modal-dialog modal-lg">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                                <h5 class="modal-title" id="myLargeModalLabel">Chọn nhân viên</h5>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <h5 class="mb-15">Thông tin hẹn tư vấn</h5>
+                                                                                <div class="row">
+                                                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                                        <div class="panel panel-default border-panel card-view">
+                                                                                            <div class="panel-heading">
+                                                                                                <div class="pull-left">
+                                                                                                    <h6 class="panel-title txt-dark">Thông tin bất động sản</h6>
+                                                                                                </div>
+                                                                                                <div class="clearfix"></div>
+                                                                                            </div>
+                                                                                            <div class="panel-wrapper collapse in">
+                                                                                                <div class="panel-body">
+                                                                                                    <div class="mb-5">
+                                                                                                        <img width="200px" height="100px" src="${item.estateId.image1st}" alt="hinhanhbatdongsan">
+                                                                                                    </div> 
+                                                                                                    <div class="mb-5">
+                                                                                                        <span class="inline-block capitalize-font mr-5">Mã: </span>
+                                                                                                        <span class="txt-dark">${item.estateId.address1} - ${item.estateId.id}</span>
+                                                                                                    </div> 
+                                                                                                    <div class="mb-5">
+                                                                                                        <span class="inline-block capitalize-font mr-5">Tình trạng: </span>
+                                                                                                        <span class="txt-dark">Sẵn sàng bán</span>
+                                                                                                    </div> 
+                                                                                                    <div class="mb-5">
+                                                                                                        <span class="inline-block capitalize-font mr-5">Địa chỉ bất động sản: </span>
+                                                                                                        <span class="txt-dark">${item.estateId.address1} - ${item.estateId.address2}</span>
+                                                                                                    </div> 
+                                                                                                    <div class="mb-5">
+                                                                                                        <span class="inline-block capitalize-font mr-5">Giá niêm yết: </span>
+                                                                                                        <span class="txt-dark">${item.estateId.price}</span>
+                                                                                                    </div>
+                                                                                                    <div class="mb-5">
+                                                                                                        <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${item.estateId.id}" target="_blank" class="btn btn-default">Chi tiết</a>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                                        <div class="panel panel-default border-panel card-view">
+                                                                                            <div class="panel-heading">
+                                                                                                <div class="pull-left">
+                                                                                                    <h6 class="panel-title txt-dark">Thông tin khách hàng</h6>
+                                                                                                </div>
+                                                                                                <div class="clearfix"></div>
+                                                                                            </div>
+                                                                                            <div class="panel-wrapper collapse in">
+                                                                                                <div class="panel-body">
+                                                                                                    <div class="mb-5">
+                                                                                                        <img width="100px" height="100px" src="${item.contractId.customerId.customerImg}" alt="hinhanhkhach">
+                                                                                                    </div>
+                                                                                                    <div class="mb-5">
+                                                                                                        <span class="inline-block capitalize-font mr-5">Khách: </span>
+                                                                                                        <span class="txt-dark">${item.contractId.customerId.customerName}</span>
+                                                                                                    </div>
+                                                                                                    <div class="mb-5">
+                                                                                                        <span class="inline-block capitalize-font mr-5">Điện thoại: </span>
+                                                                                                        <span class="txt-dark">${item.contractId.customerId.phone}</span>
+                                                                                                    </div>
+                                                                                                    <div class="mb-5">
+                                                                                                        <span class="inline-block capitalize-font mr-5">Email: </span>
+                                                                                                        <span class="txt-dark">${item.contractId.customerId.mail}</span>
+                                                                                                    </div>
+                                                                                                    <div class="mb-5">
+                                                                                                        <span class="inline-block capitalize-font mr-5">Địa chỉ: </span>
+                                                                                                        <span class="txt-dark">${item.contractId.customerId.customerAddress}</span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <form action="<%=request.getContextPath()%>/CreateContract" method="POST" class="text-right">
+                                                                                    <input type="hidden" name="money" value="${item.estateId.price}">
+                                                                                    <input type="hidden" name="price" value="${item.estateId.price}">
+                                                                                    <input type="hidden" name="customer" value="${item.contractId.customerId.id}">
+                                                                                    <input type="hidden" name="contract" value="${item.contractId.id}">
+                                                                                    <button type="submit" class="btn btn-success text-right">Hợp đồng-giao dịch thành công</button>
+                                                                                    <button type="button" class="btn btn-danger text-left" data-dismiss="modal">Đóng</button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- /.modal-content -->
+                                                                    </div>
+                                                                    <!-- /.modal-dialog -->
+                                                                </div>
+                                                                <!-- /.modal -->
+                                                                <!-- Button trigger modal -->
+                                                            </c:if>
                                                             <c:if test="${item.contractId.status == 'done'}">
                                                                 <span class="label label-success">Hoàn thành</span>
                                                             </c:if>

@@ -13,7 +13,7 @@
 
         // Bước 2: Kiểm tra dữ liệu hợp lệ hay không
         if (featureName === "" || featureName.length<5) {
-            document.getElementById('featureNameMessage').innerHTML = 'must more than 5 character';
+            document.getElementById('featureNameMessage').innerHTML = 'Ít nhất 5 kí tự';
             document.getElementById('featureNameForm').classList.add("has-error");
         }else{
             document.getElementById('featureNameMessage').innerHTML = '';

@@ -16,7 +16,7 @@
 
         // Bước 2: Kiểm tra dữ liệu hợp lệ hay không
         if (projectName === "" || projectName.length<6) {
-            document.getElementById('projectNameMessage').innerHTML = 'must more than 6 character';
+            document.getElementById('projectNameMessage').innerHTML = 'Ít nhất 6 kí tự';
             document.getElementById('projectNameForm').classList.add("has-error");
         }else{
             document.getElementById('projectNameMessage').innerHTML = '';
@@ -24,7 +24,7 @@
         }
         
         if (blockNumber === "" || blockNumber < 0 || blockNumber > 5) {
-            document.getElementById('blockNumberMessage').innerHTML = 'Enter a Number between 0 and 5';
+            document.getElementById('blockNumberMessage').innerHTML = 'Nhập vào chữ số từ 0 đến 5';
             document.getElementById('blockNumberForm').classList.add("has-error");
         }else{
             document.getElementById('blockNumberMessage').innerHTML = '';
@@ -32,7 +32,7 @@
         }
         
         if(floorNumber === "" || floorNumber < 1 || floorNumber > 10 ){
-            document.getElementById('floorNumberMessage').innerHTML = 'Enter a Number between 1 and 10';
+            document.getElementById('floorNumberMessage').innerHTML = 'Nhập vào số từ 1 đến 10';
             document.getElementById('floorNumberForm').classList.add("has-error");
         }else{
             document.getElementById('floorNumberMessage').innerHTML = '';
@@ -40,7 +40,7 @@
         }
         
         if(address === "" || address.length<10 ){
-            document.getElementById('addressMessage').innerHTML = 'must more than 10 character';
+            document.getElementById('addressMessage').innerHTML = 'Ít nhất 10 kí tự';
             document.getElementById('addressForm').classList.add("has-error");
         }else{
             document.getElementById('addressMessage').innerHTML = '';
@@ -48,7 +48,7 @@
         }
         
         if(projectContent === "" || projectContent.length<200 ){
-            document.getElementById('contentMessage').innerHTML = 'must more than 200 character';
+            document.getElementById('contentMessage').innerHTML = 'Ít nhất 200 kí tự';
             document.getElementById('contentForm').classList.add("has-error");
         }else{
             document.getElementById('contentMessage').innerHTML = '';

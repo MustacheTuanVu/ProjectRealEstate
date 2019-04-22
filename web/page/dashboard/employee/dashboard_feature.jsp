@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
@@ -78,7 +78,7 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Add new Feature</h2>
+                                        <h2 class="widget__title">Thêm tiện ích mới</h2>
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN Favorites-->
@@ -95,7 +95,7 @@
                                                     <form action="<%=request.getContextPath()%>/FeatureCreate" class="form form--flex form--property form--basic js-form-property-1">
                                                         <div class="row">
                                                             <div class="form-group form-group--description ${hasError}">
-                                                                <label for="in-1" class="control-label">Feature Name</label>
+                                                                <label for="in-1" class="control-label">Tên tiện ích</label>
                                                                 <input id="in-1" required type="text" name="featureName" data-placeholder="Input Type Name" value="" class="form-control">
 
                                                                 <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
@@ -105,7 +105,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <button class="form__submit" type="submit">Submit</button>
+                                                            <button class="form__submit" type="submit">Đồng ý</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -115,7 +115,7 @@
                                 </div>
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Feature manager</h2>
+                                        <h2 class="widget__title">Qaun3 lý tiện ích</h2>
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN Favorites-->
@@ -125,10 +125,10 @@
                                                     <table class="js-properties-table datatable__table">
                                                         <thead>
                                                             <tr>
-                                                                <th class="datatable__head-1">Feature ID</th>
-                                                                <th class="datatable__head-2 datatable__head-sort">Feature Name</th>
-                                                                <th class="datatable__head-4">Edit</th>
-                                                                <th class="datatable__head-5">Delete</th>
+                                                                <th class="datatable__head-1">Tiên ích ID</th>
+                                                                <th class="datatable__head-2 datatable__head-sort">Tên tiện ích</th>
+                                                                <th class="datatable__head-4">Sửa</th>
+                                                                <th class="datatable__head-5">Xóa</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -151,15 +151,15 @@
                                                                 <div role="document" class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">�</span></button>
+                                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                                         </div>
                                                                         <div class="modal-body">
                                                                             <form action="<%=request.getContextPath()%>/FeatureEdit" class="form form--flex form--property form--basic js-form-property-1">
                                                                                 <div class="row">
                                                                                     <div class="form-group form-group--description ${hasError}">
-                                                                                        <label for="in-1" class="control-label">Feature ID</label>
+                                                                                        <label for="in-1" class="control-label">Tiện ích ID</label>
                                                                                         <input id="in-1" required type="text" name="featureID" value="${item.featuresId}" class="form-control" readonly="true">
-                                                                                        <label for="in-2" class="control-label">Feature Name</label>
+                                                                                        <label for="in-2" class="control-label">Tên tiện ích</label>
                                                                                         <input id="in-2" required type="text" name="featureName" data-placeholder="---" value="${item.featureName}" class="form-control">
 
                                                                                         <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
@@ -169,7 +169,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row">
-                                                                                    <button class="form__submit" type="submit">Submit</button>
+                                                                                    <button class="form__submit" type="submit">Đồng ý</button>
                                                                                 </div>
                                                                             </form>
                                                                         </div>
@@ -183,15 +183,15 @@
                                                         <div role="document" class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">�</span></button>
+                                                                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <form action="<%=request.getContextPath()%>/FeatureEdit" class="form form--flex form--property form--basic js-form-property-1">
                                                                         <div class="row">
                                                                             <div class="form-group form-group--description ${hasErrorEdit}">
-                                                                                <label for="in-1" class="control-label">Feature ID</label>
+                                                                                <label for="in-1" class="control-label">Tiện ích ID</label>
                                                                                 <input id="in-1" required type="text" name="featureID" value="${id}" class="form-control" readonly="true">
-                                                                                <label for="in-2" class="control-label">Feature Name</label>
+                                                                                <label for="in-2" class="control-label">Tên tiện ích</label>
                                                                                 <input id="in-2" required type="text" name="featureName" data-placeholder="---" value="${featureName}" class="form-control">
 
                                                                                 <div class="help-block filled" id="parsley-id-11" style="display: ${displayEdit}">
@@ -201,7 +201,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
-                                                                            <button class="form__submit" type="submit">Submit</button>
+                                                                            <button class="form__submit" type="submit">Đồng ý</button>
                                                                         </div>
                                                                     </form>
                                                                 </div>
@@ -231,11 +231,11 @@
                 <div role="document" class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h2 class="site__title">Deny Delete</h2>
+                            <h2 class="site__title">Từ chối xóa</h2>
                         </div>
                         <div class="modal-body">
-                            <h3>This type can't delete because it have estate ?</h3>
-                            <button type="button" data-dismiss="modal" aria-label="Close" class="form__submit">Oke</button>
+                            <h3>Loại bất động sản này không thể xóa vì có chứa bất động sản ?</h3>
+                            <button type="button" data-dismiss="modal" aria-label="Close" class="form__submit">Đồng ý</button>
                             </div>
                     </div>
                 </div>

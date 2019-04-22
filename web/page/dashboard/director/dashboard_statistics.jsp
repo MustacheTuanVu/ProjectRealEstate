@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>FINANCIALS REPORT</title><!--[if IE]>
+        <title>Báo Cáo Tài Chính</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -80,14 +80,14 @@
                                 <div class="site__main">
                                     <div class="widget js-widget widget--dashboard">
                                         <div class="widget__header">
-                                            <h2 class="widget__title">Financials</h2>
+                                            <h2 class="widget__title">Báo Cáo Tài Chính</h2>
                                         </div>
                                         <div class="widget__content">
                                             <section class="info info--financials">
                                                 <div class="info__list">
                                                     <div class="info__column">
                                                         <div class="info__item">
-                                                            <div class="info__title">Employee Income</div>
+                                                            <div class="info__title">Thu nhập nhân viên tư vấn</div>
                                                             <div class="info__value info__value--succes"><span class="info__value-label"></span> ${sumMoney}</div>
                                                             <!--
                                                             <div class="info__actions"><a href="dashboard_payment.html" class="info__more">Add credits</a>
@@ -98,17 +98,17 @@
                                                     </div>
                                                     <div class="info__column">
                                                         <div class="info__item">
-                                                            <div class="info__title">Estate Transaction</div>
+                                                            <div class="info__title">Số giao dịch bất động sản</div>
                                                             <div class="info__value info__value--small"><span class="info__value-label"></span> ${estateTransaction}</div>
                                                         </div>
                                                         <div class="info__item">
-                                                            <div class="info__title">Transaction Success</div>
+                                                            <div class="info__title">Số giao dịch thành công</div>
                                                             <div class="info__value info__value--small"><span class="info__value-label"></span> ${contractCountCompany}</div>
                                                         </div>
                                                     </div>
                                                     <div class="info__column">
                                                         <div class="info__item">
-                                                            <div class="info__title">RealEstate24h' Income By Me</div>
+                                                            <div class="info__title">Doanh thu của SGEstate24h</div>
                                                             <div class="info__value info__value--info">
                                                                 <span class="info__value-label"></span> ${sumMoneyCompany}
                                                                 <c:if test="${checkMoneyCompany == false}">
@@ -132,8 +132,8 @@
                                     </div>
                                     <div class="widget js-widget widget--dashboard">
                                         <div class="widget__header">
-                                            <h2 class="widget__title">Sale Unit: ${countUnitEstateSaleList}<br>
-                                                Total of Selling Price: ${countMoneyEstaetSaleList}</h2>
+                                            <h2 class="widget__title">Số căn hộ đang bán: ${countUnitEstateSaleList}<br>
+                                                Tồng số tiền đang bán: ${countMoneyEstaetSaleList}</h2>
                                         </div>
                                         <div class="widget__content">
                                             <section class="info info--commission">
@@ -142,9 +142,9 @@
                                                         <table id="example1" class="table table-bordered table-striped">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Category</th>
-                                                                    <th>No. of Listing</th>
-                                                                    <th>Total of Selling Price</th>
+                                                                    <th>Danh mục</th>
+                                                                    <th>Danh sách</th>
+                                                                    <th>Tổng số tiền căn hộ đang bán</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -176,8 +176,8 @@
 
                                     <div class="widget js-widget widget--dashboard">
                                         <div class="widget__header">
-                                            <h2 class="widget__title">Sold Unit: ${countUnitEstateSoldList}<br>
-                                                Total of Selling Price: ${countMoneyEstaetSoldList}</h2>
+                                            <h2 class="widget__title">Số căn đã bán: ${countUnitEstateSoldList}<br>
+                                                Tỗng số tiền đang bán: ${countMoneyEstaetSoldList}</h2>
                                         </div>
                                         <div class="widget__content">
                                             <section class="info info--commission">
@@ -186,9 +186,9 @@
                                                         <table id="example2" class="table table-bordered table-striped">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Category</th>
-                                                                    <th>No. of Listing</th>
-                                                                    <th>Total of Selling Price</th>
+                                                                    <th>Danh mục</th>
+                                                                    <th>Danh sách</th>
+                                                                    <th>Tổng số tiền căn hộ đang bán</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>

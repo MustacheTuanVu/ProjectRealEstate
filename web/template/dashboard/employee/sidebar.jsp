@@ -20,7 +20,7 @@
 				<li class="nav__item"><a href="<%=request.getContextPath()%>/EditEmployee" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-dashboard"></use>
-                        </svg>My Profile</a>
+                        </svg>Trang cá nhân</a>
                 </li>
                 <li class="nav__item">
                     <hr class="nav__separator">
@@ -29,21 +29,21 @@
                     <a href="<%=request.getContextPath()%>/EstateList?user=employee" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Estate List
+                        </svg>Danh sách bất động sản
                     </a>
                 </li>
                 <li class="nav__item">
                     <a href="<%=request.getContextPath()%>/EstateTypeList" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Estate Type List
+                        </svg>Danh sách loại bất động sản
                     </a>
                 </li>
                 <li class="nav__item">
                     <a href="<%=request.getContextPath()%>/FeatureList" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Feature List
+                        </svg>Danh sách tiện ích
                     </a>
                 </li>
                 <li class="nav__item">
@@ -53,14 +53,14 @@
                     <a href="<%=request.getContextPath()%>/ContractOfEmployee" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Contract
+                        </svg>Hợp đồng
                     </a>
                 </li>
                 <li class="nav__item">
                     <a href="<%=request.getContextPath()%>/CustomerOfEmployee" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Customer
+                        </svg>Khách hàng
                     </a>
                 </li>
                 <li class="nav__item">
@@ -70,14 +70,14 @@
                     <a href="<%=request.getContextPath()%>/BlogList?user=employee" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Blog Manager
+                        </svg>Quản lý bài viết
                     </a>
                 </li>
                 <li class="nav__item">
                     <a href="<%=request.getContextPath()%>/CategoryList?user=employee" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Blog Category
+                        </svg>Danh mục bài viết
                     </a>
                 </li>
             </ul>

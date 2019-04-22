@@ -24,7 +24,7 @@
                     <a href="<%=request.getContextPath()%>/ProjectList?user=manager" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Project List
+                        </svg>Danh sách dự án
                     </a>
                 </li>
             </ul>

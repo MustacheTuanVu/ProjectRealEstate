@@ -60,5 +60,28 @@
                 </div>
             </a>
         </li>
+        <li><hr class="light-grey-hr mb-10"/></li>
+        <li class="navigation-header">
+            <span>Nhân viên</span> 
+            <i class="zmdi zmdi-more"></i>
+        </li>
+        <li>
+            <a class="<c:if test="${active == 'CreateUser'}">active</c:if>" href="<%=request.getContextPath()%>/CreateUser" data-toggle="collapse" data-target="#dashboard_dr">
+                <div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i>
+                    <span class="right-nav-text">Thêm nhân viên</span>
+                </div>
+                <div class="clearfix"> 
+                </div>
+            </a>
+        </li>
+        <li>
+            <a class="<c:if test="${active == 'StaffList'}">active</c:if>" href="<%=request.getContextPath()%>/StaffList" data-toggle="collapse" data-target="#dashboard_dr">
+                <div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i>
+                    <span class="right-nav-text">Danh sách nhân viên</span>
+                </div>
+                <div class="clearfix"> 
+                </div>
+            </a>
+        </li>
     </ul>
 </div>

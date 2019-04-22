@@ -13,8 +13,8 @@
             </svg></a>
         <div id="navbar-collapse-1" class="navbar__wrap">
             <ul class="navbar__nav">
-                <li class="navbar__item"><a href="<%=request.getContextPath()%>" class="navbar__link">Home</a></li>
-                <li class="navbar__item"><a href="<%=request.getContextPath()%>/EstateList?user=guest" class="navbar__link">Property List</a></li>
+                <li class="navbar__item"><a href="<%=request.getContextPath()%>" class="navbar__link">Trang chủ</a></li>
+                <li class="navbar__item"><a href="<%=request.getContextPath()%>/EstateList?user=guest" class="navbar__link">Danh sách bất động sản</a></li>
                 <li class="navbar__item js-dropdown">
                     <a class="navbar__link">Dashboard
                         <svg class="navbar__arrow">
@@ -25,11 +25,11 @@
                         <button class="navbar__back js-navbar-submenu-back">
                             <svg class="navbar__arrow">
                             <use xlink:href="#icon-arrow-left"></use>
-                            </svg>Back
+                            </svg>Trở về
                         </button>
                         <div class="navbar__submenu">
                             <ul class="navbar__subnav">
-                                <li class="navbar__subitem"><a href="<%=request.getContextPath()%>/EstateList?user=admin" class="navbar__sublink js-navbar-sublink">Estate Manager</a></li>
+                                <li class="navbar__subitem"><a href="<%=request.getContextPath()%>/EstateList?user=admin" class="navbar__sublink js-navbar-sublink">Quản lý bất động sản</a></li>
                             </ul>
                         </div>
                     </div>

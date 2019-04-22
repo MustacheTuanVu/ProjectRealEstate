@@ -5,12 +5,12 @@
 --%>
 
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -78,8 +78,8 @@
                     <div class="row">
                         <section class="site">
                             <header class="site__header">
-                                <h1 class="site__title">REGISTER </h1>
-                                <h2 class="site__headline">Enter your login and password</h2>
+                                <h1 class="site__title">Đăng Kí </h1>
+                                <h2 class="site__headline">Nhập tên đăng nhập và mật khẩu</h2>
                             </header>
                             <div class="site__main">
                                 <div class="widget js-widget widget--main widget--no-border">
@@ -87,18 +87,18 @@
                                         <div class="auth auth--inline">
                                             <div class="auth__wrap auth__wrap--login">
                                                 <!-- BEGIN AUTH LOGIN-->
-                                                <h5 class="auth__title">Login in your account</h5>
+                                                <h5 class="auth__title">Đăng nhập tài khoản của bạn</h5>
                                                 <form  action="RegisterUser" method="post" onsubmit="return checkPass()" class="form form--flex form--auth js-register-form js-parsley">
                                                     <div class="row">
                                                         <div class="form-group ${hasError}">
-                                                            <label for="register-lastname-inline1" class="control-label">User Name</label>
+                                                            <label for="register-lastname-inline1" class="control-label">Tên đăng nhập</label>
                                                             <input type="text"  name="name" id="register-lastname-inline1" required class="form-control">
                                                             <span id="errNameRegister"></span>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="form-group ">
-                                                            <label class="control-label">Password</label>
+                                                            <label class="control-label">Mật khẩu</label>
                                                             <input type="password"  name="password" id="register-pass-inline1" required class="form-control">
                                                             
                                                             <div id="errPassRegister" ></div>
@@ -106,10 +106,10 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="form-group ">
-                                                            <label for="register-confirm-inline1" class="control-label">Confirm</label>
+                                                            <label for="register-confirm-inline1" class="control-label">Xác nhận</label>
                                                             <input type="password" name="confirm" id="register-confirm-inline1" required class="form-control">
                                                         </div>
-                                                        <div class="form__options">Back to<a href="<%=request.getContextPath()%>/LoginUser">Log In</a>
+                                                        <div class="form__options">Trờ về<a href="<%=request.getContextPath()%>/LoginUser">Đăng nhập</a>
                                                         </div>
                                                         <div class="form-group">
                                                             <input type="submit" value="Sign up" class="form__submit"/>
@@ -138,7 +138,7 @@
                             <h4 class="modal-title text-center text-success"></h4>
                         </div>
                         <div class="modal-body">
-                            <h4 class="modal-title text-center text-success" style="text-align: center">User Name Exsit !!!</h4>
+                            <h4 class="modal-title text-center text-success" style="text-align: center">Tên tài khoản đã tồn tại !!!</h4>
                             <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
                         </div>
                     </div>
@@ -205,13 +205,13 @@
                                                         username = str2.replace(/\s/g, '');
 
                                                         if (username.length < 6 ) {
-                                                            document.getElementById("errNameRegister").innerHTML = "Username cannot be longer than 50 characters ";
+                                                            document.getElementById("errNameRegister").innerHTML = "Tên đăng nhập không được quá 50 kí tự ";
                                                         }else
                                                         if (newPass.length < 6) {
-                                                            document.getElementById('errPassRegister').innerHTML = 'Password from 6 to 50 Characters ';
+                                                            document.getElementById('errPassRegister').innerHTML = 'Mật khẩu phải từ 6 đến 50 kí tự ';
                                                         }else
                                                         if (newPass !== confirmPass) {
-                                                            document.getElementById('errPassRegister').innerHTML = 'NEW PASSWORD and CONFIRM NEW PASSWORD not the same ';
+                                                            document.getElementById('errPassRegister').innerHTML = 'Mật khẩu mới và mật khẩu xác nhận không khớp ';
                                                         }else {
                                                             return true;
                                                         }

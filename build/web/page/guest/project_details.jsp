@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -72,8 +72,8 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
-                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Estate Details</a></li>
+                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Trang chủ</a></li>
+                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Chi tiết bất động sản</a></li>
                     </ul>
                 </div>
             </nav>
@@ -90,7 +90,7 @@
                                 </h1>
                                 <div class="property__header">
                                     <div class="property__price property__price--commision">
-                                        <span class="property__price-label">district</span>
+                                        <span class="property__price-label">Quận</span>
                                         <strong class="property__price-value">${find.district}</strong>
                                     </div>
                                     <!--
@@ -102,7 +102,7 @@
                                 <div class="clearfix"></div>
 
                                 <div class="property__slider">
-                                    <div class="property__ribon">Project</div>
+                                    <div class="property__ribon">Dự án</div>
                                     <div class="property__ribon property__ribon--status property__ribon--done">
                                         ${find.projectStatus}
                                     </div>
@@ -165,10 +165,10 @@
                                 </div>      
                                 <div class="widget js-widget widget--details">
                                     <div class="property__info">
-                                        <div class="property__info-item">District: <strong> ${find.district}</strong></div>
-                                        <div class="property__info-item">Status: <strong> ${find.projectStatus}</strong></div>
-                                        <div class="property__info-item">Year build: <strong> <fmt:formatDate value="${find.yearBuild}" pattern="yyyy" /></strong></div>
-                                        <div class="property__info-item">Date add: <strong> <fmt:formatDate value="${find.dateAdd}" pattern="dd/MM/yyyy" /></strong></div>
+                                        <div class="property__info-item">Quận: <strong> ${find.district}</strong></div>
+                                        <div class="property__info-item">Trạng thái: <strong> ${find.projectStatus}</strong></div>
+                                        <div class="property__info-item">Năm xây dựng: <strong> <fmt:formatDate value="${find.yearBuild}" pattern="yyyy" /></strong></div>
+                                        <div class="property__info-item">Ngày: <strong> <fmt:formatDate value="${find.dateAdd}" pattern="dd/MM/yyyy" /></strong></div>
                                     </div>
                                     <div class="property__plan">
                                         <dl class="property__plan-item">
@@ -177,7 +177,7 @@
                                                 <use xlink:href="#icon-area"></use>
                                                 </svg>
                                             </dt>
-                                            <dd class="property__plan-title">Block Number</dd>
+                                            <dd class="property__plan-title">Số Block</dd>
                                             <dd class="property__plan-value">${find.blockNumber}</dd>
                                         </dl>
                                         <dl class="property__plan-item">
@@ -186,7 +186,7 @@
                                                 <use xlink:href="#icon-window"></use>
                                                 </svg>
                                             </dt>
-                                            <dd class="property__plan-title">Floor Number</dd>
+                                            <dd class="property__plan-title">Số tầng</dd>
                                             <dd class="property__plan-value">${find.floorNumber}</dd>
                                         </dl>
                                         <dl class="property__plan-item">
@@ -195,7 +195,7 @@
                                                 <use xlink:href="#icon-bathrooms"></use>
                                                 </svg>
                                             </dt>
-                                            <dd class="property__plan-title">Unit Number</dd>
+                                            <dd class="property__plan-title">Tên bất động sản</dd>
                                             <dd class="property__plan-value">${countEstate}</dd>
                                         </dl>
                                         <dl class="property__plan-item">
@@ -204,7 +204,7 @@
                                                 <use xlink:href="#icon-garage"></use>
                                                 </svg>
                                             </dt>
-                                            <dd class="property__plan-title">Value</dd>
+                                            <dd class="property__plan-title">Đơn vị</dd>
                                             <dd class="property__plan-value">${sumPrice} USD</dd>
                                         </dl>
                                     </div>
@@ -221,12 +221,12 @@
                                                         <tr>
                                                             <td class="datatable__head-1">No.</td>
                                                             <td class="datatable__head-2 datatable__head-sort">Block</td>
-                                                            <td class="datatable__head-3 datatable__head-sort">Floor</td>
-                                                            <td class="datatable__head-4 datatable__head-sort">Area</td>
-                                                            <td class="datatable__head-5 datatable__head-sort">BedRoom</td>
-                                                            <td class="datatable__head-6 datatable__head-sort">BathRoom</td>
-                                                            <td class="datatable__head-7 datatable__head-sort">Price</td>
-                                                            <td class="datatable__head-8 datatable__head-sort">Status</td>
+                                                            <td class="datatable__head-3 datatable__head-sort">Tầng</td>
+                                                            <td class="datatable__head-4 datatable__head-sort">Diện tích</td>
+                                                            <td class="datatable__head-5 datatable__head-sort">Phòng ngủ</td>
+                                                            <td class="datatable__head-6 datatable__head-sort">Phòng tắm</td>
+                                                            <td class="datatable__head-7 datatable__head-sort">Giá</td>
+                                                            <td class="datatable__head-8 datatable__head-sort">Trạng thái</td>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -251,18 +251,18 @@
                                                             <div role="document" class="modal-dialog modal-md">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">�</span></button>
+                                                                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                                     </div>
                                                                     <div class="modal-body">
                                                                         <div class="widget js-widget widget--dashboard">
                                                                             <div class="widget__header">
-                                                                                <h2 class="widget__title">Estate Details</h2>
+                                                                                <h2 class="widget__title">Chi tiết bất động sản</h2>
                                                                             </div>
                                                                             <div class="widget__content">
                                                                                 <!-- BEGIN SECTION ACTIVITY-->
                                                                                 <section class="activity activity--feed">
                                                                                     <ul class="activity__list">
-                                                                                        <li class="activity__date">Estate No. ${item.id}</li>
+                                                                                        <li class="activity__date">Số bất động sản ${item.id}</li>
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
                                                                                                 <a>Block: </a>${item.block}
@@ -270,38 +270,38 @@
                                                                                         </li>
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
-                                                                                                <a>Floor: </a>${item.floor}
+                                                                                                <a>Số tầng: </a>${item.floor}
                                                                                             </div>
                                                                                         </li>
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
-                                                                                                <a>Area: </a>${item.areas}
+                                                                                                <a>Diện tích: </a>${item.areas}
                                                                                             </div>
                                                                                         </li>
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
-                                                                                                <a>BedRoom: </a>${item.bedRoom}
+                                                                                                <a>Phòng ngủ: </a>${item.bedRoom}
                                                                                             </div>
                                                                                         </li>
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
-                                                                                                <a>BathRoom: </a>${item.bathRoom}
+                                                                                                <a>Phòng tắm: </a>${item.bathRoom}
                                                                                             </div>
                                                                                         </li>
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
-                                                                                                <a>Price: </a>${item.price}
+                                                                                                <a>Giá: </a>${item.price}
                                                                                             </div>
                                                                                         </li>
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
-                                                                                                <a>Status: </a>${item.estateStatus}
+                                                                                                <a>Trạng thái: </a>${item.estateStatus}
                                                                                             </div>
                                                                                         </li>
                                                                                     </ul>
                                                                                     <div class="widget__footer">
                                                                                         <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${item.id}" class="widget__more">
-                                                                                            Request Buy
+                                                                                            Yêu cầu mua
                                                                                         </a>
                                                                                     </div>
                                                                                 </section>
@@ -320,23 +320,23 @@
                                 </div>
                                 <div class="widget js-widget widget--details">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Summary chart information</h2>
+                                        <h2 class="widget__title">Tóm tắt thông tin biểu đồ</h2>
                                     </div>
                                     <div class="widget__content">
                                         <div class="info info--property">
                                             <div class="info__column">
                                                 <div class="info__donut">
                                                     <canvas id="property-statistics-units" class="info__chart" width="300" height="300" style="width: 300px !important; height: 300px !important;"></canvas>
-                                                    <div class="info__total">Total Unit <br> 
+                                                    <div class="info__total">Tổng số căn hộ<br> 
                                                         <strong id="getUnit" class="info__total-value">${countEstate}</strong>
                                                     </div>
                                                 </div>
 
                                                 <ul class="info__legend">
-                                                    <li class="info__legend-item info__legend-item--green">Total sold unit <br> 
+                                                    <li class="info__legend-item info__legend-item--green">Tổng căn hộ đã bán <br> 
                                                         <strong id="getSold">${countEstateSold}</strong>
                                                     </li>
-                                                    <li class="info__legend-item info__legend-item--light-green">Total unsold unit <br> 
+                                                    <li class="info__legend-item info__legend-item--light-green">Tổng căn hộ chưa bán <br> 
                                                         <strong id="getUnsold">${countEstateUnSold}</strong>
                                                     </li>
                                                 </ul>
@@ -344,13 +344,13 @@
                                             <div class="info__column">
                                                 <div class="info__donut">
                                                     <canvas id="property-statistics-price" class="info__chart" width="300" height="300" style="width: 300px !important; height: 300px !important;"></canvas>
-                                                    <div class="info__total">Total Price <br>  
+                                                    <div class="info__total">Tổng giá <br>  
                                                         <strong class="info__total-value">${sumPrice}</strong> </div>
                                                 </div>
                                                 <ul class="info__legend">
-                                                    <li class="info__legend-item info__legend-item--blue">Total sold price <br> 
+                                                    <li class="info__legend-item info__legend-item--blue">Tổng giá căn hộ đã bán <br> 
                                                         <strong id="getSoldPrice">${sumPriceSold}</strong></li>
-                                                    <li class="info__legend-item info__legend-item--light-blue">Total unsold price <br> 
+                                                    <li class="info__legend-item info__legend-item--light-blue">Tổng giá căn hộ chưa bán <br> 
                                                         <strong id="getUnsoldPrice">${sumPriceUnSold}</strong></li>
                                                 </ul>
                                             </div>
@@ -365,31 +365,31 @@
 
                         <div class="sidebar">
                             <div class="widget js-widget widget--sidebar widget--first-no-head">
-                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Show agent</a>
+                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Xem nhân viên tư vấn</a>
                                 </div>
                                 <c:if test="${displayManager=='yes'}">
                                     <div class="widget__content">
                                         <div data-sr="enter bottom move 80px, scale(0), over 0s" data-animate-end="animate-end" class="worker js-unhide-block vcard worker--sidebar-advanced">
                                             <h3 class="worker__name fn">${manager.managerName}</h3>
-                                            <div class="worker__post">Manager</div>
+                                            <div class="worker__post">Nhân viên quản lý</div>
                                             <div class="worker__photo">
                                                 <a href="#" class="item-photo item-photo--static">
                                                     <img src="${manager.managerImg}" alt="Christopher Pakulla" class="photo"/>
-                                                    <figure class="item-photo__hover"><span class="item-photo__more">View Details</span></figure>
+                                                    <figure class="item-photo__hover"><span class="item-photo__more">Xem chi tiết</span></figure>
                                                 </a>
                                             </div>
                                             <div class="worker__intro">
-                                                <button type="button" class="worker__show js-unhide">Contact agent</button>
+                                                <button type="button" class="worker__show js-unhide">Liên hệ nhân viên tư vấn</button>
                                                 <div class="worker__listings">
-                                                    <i class="worker__favorites worker__favorites--highlight"></i> My Listings -
-                                                    <a href="#">${countProject} Project</a></div>
+                                                    <i class="worker__favorites worker__favorites--highlight"></i> Danh sách của tôi -
+                                                    <a href="#">${countProject} Dự án</a></div>
                                                 <!-- end of block .worker__listings-->
                                                 <div class="worker__intro-row">
                                                     <div class="worker__intro-col">
                                                         <div class="worker__contacts">
-                                                            <div class="tel"><span class="type">Tel.</span><a href="tel:${manager.managerPhone}" class="uri value">${manager.managerPhone}</a></div>
-                                                            <div class="email"><span class="type">Email</span><a href="mailto:${manager.managerMail}" class="uri value">${manager.managerMail}</a></div>
-                                                            <div class="skype"><span class="type">Address</span><a href="skype:Walkenboy?call" class="uri value"> ${manager.managerAddress}</a></div>
+                                                            <div class="tel"><span class="type">Số điện thoại</span><a href="tel:${manager.managerPhone}" class="uri value">${manager.managerPhone}</a></div>
+                                                            <div class="email"><span class="type">Địa chỉ email</span><a href="mailto:${manager.managerMail}" class="uri value">${manager.managerMail}</a></div>
+                                                            <div class="skype"><span class="type">Địa chỉ</span><a href="skype:Walkenboy?call" class="uri value"> ${manager.managerAddress}</a></div>
                                                         </div>
                                                         <!-- end of block .worker__contacts-->
                                                     </div>
