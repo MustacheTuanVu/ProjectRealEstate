@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
-    Created on : Mar 30, 2019, 11:19:33 AM
-    Author     : kiems
+    Created on : Apr 22, 2019, 10:33:15 PM
+    Author     : Cuong
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -43,7 +43,7 @@
             <!-- /Top Menu Items -->
 
             <!-- Left Sidebar Menu -->
-            <%@ include file="/admin/page/template/employee/left_sidebar.jsp" %>
+            <%@ include file="/admin/page/template/manager/left_sidebar.jsp" %>
             <!-- /Left Sidebar Menu -->
 
             <!-- Right Sidebar Menu -->
@@ -71,7 +71,7 @@
                         <!-- /Breadcrumb -->
                     </div>
                     <!-- /Title -->
-                    
+
                     <!-- Row -->
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -89,76 +89,46 @@
                                     <div  class="panel-body">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <h4>Quản lý nhà-đất</h4>
+                                                <h4>Quản lý dự án</h4>
                                                 <hr>
                                                 <span class="fa fa-home"></span><a class="<c:if test="${active == 'CreateEstate'}">active</c:if>" href="<%=request.getContextPath()%>/EstateCreate1" data-toggle="collapse" data-target="#dashboard_dr">
-                                                    Thêm nhà đất</a>
-                                                <hr>
-                                                <span class="fa fa-home"></span><a class="<c:if test="${active == 'EstateList'}">active</c:if>" href="<%=request.getContextPath()%>/EstateList?user=employee" data-toggle="collapse" data-target="#dashboard_dr"> 
-                                                    Danh sách nhà đất</a>
-                                                <hr>
-                                                <span class="fa fa-home"></span><a class="<c:if test="${active == 'EstateTypeList'}">active</c:if>" href="<%=request.getContextPath()%>/EstateTypeList" data-toggle="collapse" data-target="#dashboard_dr">
-                                                    Danh mục nhà đất</a>
-                                                <hr>
-                                                <span class="fa fa-home"></span> <a class="<c:if test="${active == 'FeatureList'}">active</c:if>" href="<%=request.getContextPath()%>/FeatureList" data-toggle="collapse" data-target="#dashboard_dr">
-                                                    Nội thất-chức năng</a>
-                                                <hr>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <h4>Quản lý giao dịch - khách hàng</h4>
-                                                <hr>
-                                                <span class="fa fa-paper-plane-o"></span><a href="#"> Các yêu cầu giao dịch</a>
-                                                <hr>
-                                                <span class="fa fa-list-ul"></span><a href="#"> Danh sách giao dịch</a>
-                                                <hr>
-                                                <span class="fa fa-users"></span><a class="<c:if test="${active == 'CustomerOfEmployee'}">active</c:if>" href="<%=request.getContextPath()%>/CustomerOfEmployee" data-toggle="collapse" data-target="#dashboard_dr">
-                                                    Danh sách khách hàng</a>
-                                                <hr>
-                                                <span class="fa fa-users"><a class="<c:if test="${active == 'ContractOfEmployee'}">active</c:if>" href="<%=request.getContextPath()%>/ContractOfEmployee" data-toggle="collapse" data-target="#dashboard_dr">
-                                                    Danh sách hợp đồng</a>
-                                                <hr>
-                                                <span class="fa-calendar"></span><a href="#"> Lịch hẹn</a>
-                                                <hr>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <h4>Quản lý bài viết</h4>
-                                                <hr>
-                                                <span class="fa fa-pencil"></span><a href="#"> Tạo bài viết</a>
-                                                <hr>
-                                                <span class="fa fa-files-o"></span><a href="#"> Danh sách bài viết</a>
-                                                <hr>
-                                                <span class="fa fa-comment"></span><a href="#"> Comment chờ duyệt</a>
-                                                <hr>
+                                                        Thêm dự án</a>
+                                                    <hr>
+                                                    <span class="fa fa-home"></span><a class="<c:if test="${active == 'EstateList'}">active</c:if>" href="<%=request.getContextPath()%>/EstateList?user=employee" data-toggle="collapse" data-target="#dashboard_dr"> 
+                                                        Danh sách dự án</a>
+                                                    <hr>
+                                                </div>
+
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- /Row -->
                     </div>
-                    <!-- /Row -->
-                </div>
 
-                <!-- Footer -->
-                <footer class="footer container-fluid pl-30 pr-30">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <p>2019 &copy; SGEstate24h. Prepare Page by Le Tuan Vu</p>
+                    <!-- Footer -->
+                    <footer class="footer container-fluid pl-30 pr-30">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p>2019 &copy; SGEstate24h. Prepare Page by Le Tuan Vu</p>
+                            </div>
                         </div>
-                    </div>
-                </footer>
-                <!-- /Footer -->
+                    </footer>
+                    <!-- /Footer -->
+
+                </div>
+                <!-- /Main Content -->
 
             </div>
-            <!-- /Main Content -->
+            <!-- /#wrapper -->
 
-        </div>
-        <!-- /#wrapper -->
+            <!-- JavaScript -->
 
-        <!-- JavaScript -->
-
-        <!-- jQuery -->
-        <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/jquery/dist/jquery.min.js"></script>
+            <!-- jQuery -->
+            <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/jquery/dist/jquery.min.js"></script>
 
         <!-- Bootstrap Core JavaScript -->
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

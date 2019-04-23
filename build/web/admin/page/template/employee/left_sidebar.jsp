@@ -22,7 +22,7 @@
             </a>
         </li>
         <li>
-            <a class="<c:if test="${active == 'Employee'}">active</c:if>" href="<%=request.getContextPath()%>/Employee" data-toggle="collapse" data-target="#dashboard_dr">
+            <a class="<c:if test="${active == 'Employee'}">active</c:if>" href="<%=request.getContextPath()%>/EditEmployee" data-toggle="collapse" data-target="#dashboard_dr">
                 <div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i>
                     <span class="right-nav-text">Hồ sơ</span>
                 </div>
@@ -87,7 +87,7 @@
         <li>
             <a class="<c:if test="${active == 'ContractOfEmployee'}">active</c:if>" href="<%=request.getContextPath()%>/ContractOfEmployee" data-toggle="collapse" data-target="#dashboard_dr">
                 <div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i>
-                    <span class="right-nav-text">Hợp đồng - Giao Dịch</span>
+                    <span class="right-nav-text">Danh sách Hợp đồng </span>
                 </div>
                 <div class="clearfix"> 
                 </div>

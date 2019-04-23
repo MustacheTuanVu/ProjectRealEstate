@@ -40,45 +40,21 @@ public class DashboardManager extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         // BEGIN SESSION HEADER FONTEND //
-        HttpSession session = request.getSession();
+       HttpSession session = request.getSession();
         Entity.Users user = (Entity.Users) session.getAttribute("user");
         if (user != null) {
-            request.setAttribute("user", "user");
-            request.setAttribute("displayLogin", "none");
-            request.setAttribute("displayUser", "block");
-            switch (user.getRole()) {
-                case "employee":
-                    session.setAttribute("name", user.getEmployee().getEmployeeName());
-                    request.setAttribute("role", "employee");
-                    session.setAttribute("image", user.getEmployee().getEmployeeImg());
-                    break;
-                case "manager":
-                    session.setAttribute("name", user.getManager().getManagerName());
-                    session.setAttribute("image", user.getManager().getManagerImg());
-                    break;
-                case "director":
-                    session.setAttribute("name", "Boss");
-                    request.setAttribute("role", "director");
-                    session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
-                    break;
-                case "customer":
-                    session.setAttribute("name", user.getCustomer().getCustomerName());
-                    session.setAttribute("image", user.getCustomer().getCustomerImg());
-                    break;
+            if(user.getRole().equals("manager")){
+                session.setAttribute("name", user.getManager().getManagerName());
+                request.setAttribute("role", "manager");
+                session.setAttribute("image", user.getManager().getManagerImg());
+                request.setAttribute("active","Manager");
+                request.getRequestDispatcher("/admin/page/dashboard/manager/index.jsp").forward(request, response);
+            }else{
+                response.sendRedirect(request.getContextPath()+"/admin");
             }
-        } else {
-            request.setAttribute("displayLogin", "block");
-            request.setAttribute("displayUser", "none");
+        }else{
+            response.sendRedirect(request.getContextPath()+"/admin");
         }
-        // END SESSION HEADER FONTEND //
-        
-        // BEGIN NAVBAR HEADER FONTEND //
-        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
-        List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();
-        request.setAttribute("estateTypeList", estateTypeList);
-        request.getRequestDispatcher("/page/dashboard/manager/index.jsp").forward(request, response);
-        // END NAVBAR HEADER FONTEND //
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

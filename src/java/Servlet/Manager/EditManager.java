@@ -75,7 +75,7 @@ public class EditManager extends HttpServlet {
             //request.getParameter("employeeID");
             Entity.Manager manager = managerController.findManager(user.getManager().getManagerId());
             request.setAttribute("customer", manager);
-            request.getRequestDispatcher("/page/dashboard/manager/dashboard_infor_manager.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/page/dashboard/manager/info_manager.jsp").forward(request, response);
         }
         else {
             request.setAttribute("displayLogin", "block");
@@ -97,6 +97,7 @@ public class EditManager extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
     }
 
     /**

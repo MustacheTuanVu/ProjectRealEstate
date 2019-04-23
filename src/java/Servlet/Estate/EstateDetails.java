@@ -11,13 +11,22 @@ import Controller.EstateTypeJpaController;
 import Controller.FeatureDetailsJpaController;
 import Controller.FeaturesJpaController;
 import Controller.ViewEmployeeAssignJpaController;
+import Controller.exceptions.RollbackFailureException;
 import Entity.Estate;
+import Entity.EstateStatus;
+import Entity.EstateType;
+import Entity.FeatureDetails;
 import Entity.Features;
 import Entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -105,15 +114,12 @@ public class EstateDetails extends HttpServlet {
         List<String> featureIDList = featureDetailsJpaController.findFeatureDetailsByEstate(id);
         List<Features> featureList = new ArrayList<>();
         
+        
         for (String string : featureIDList) {
             featureList.add(featuresJpaController.findFeatures(string));
         }
         
         Estate find = estateControl.findEstate(id);
-        
-        //cuong add
-        int idType=Integer.valueOf(find.getEstateTypeId().getId());
-        int idStatus=find.getEstateStatusId().getId();
         
         int countEstate = estateControl.getEmployeeByEstateCount(id);
         String displayEmployee = "yes";
@@ -144,6 +150,9 @@ public class EstateDetails extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
+//        String idEstate=request.getParameter("idEstate");
+//        System.out.println("id "+idEstate);
     }
 
     /**
@@ -157,7 +166,73 @@ public class EstateDetails extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            //processRequest(request, response);
+            String idEstate =(request.getParameter("idEstate"));
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            
+            EntityManagerFactory emf= (EntityManagerFactory) getServletContext().getAttribute("emf");
+            Controller.EstateJpaController estateController= new EstateJpaController(utx, emf);
+            Controller.FeaturesJpaController featuresController= new FeaturesJpaController(utx, emf);
+            Controller.FeatureDetailsJpaController detailsControllre= new FeatureDetailsJpaController(utx, emf);
+            Entity.Estate estate= estateController.findEstate(idEstate);
+            Entity.FeatureDetails details=new FeatureDetails();
+            
+            String a=request.getParameter("yearBuild");
+            Date day;
+            day=sdf.parse(a);
+            
+            estate.setEstateName(request.getParameter("estateName"));
+            estate.setEstateTypeId(new EstateType(request.getParameter("estateTypeId")));
+            estate.setBedRoom(Integer.valueOf(request.getParameter("bedRoom")));
+            estate.setBathRoom(Integer.valueOf(request.getParameter("bathRoom")));
+            estate.setGarages(Double.valueOf(request.getParameter("garages")));
+            estate.setPrice(Double.valueOf(request.getParameter("price")));
+            estate.setAreas(Double.valueOf(request.getParameter("areas")));
+            estate.setDirection(request.getParameter("direction"));
+            estate.setEstateStatusId(new EstateStatus(Integer.valueOf(request.getParameter("estateStatusId"))));
+            estate.setAddress1(request.getParameter("address1"));
+            estate.setAddress2(request.getParameter("address2"));
+            estate.setDistrict(request.getParameter("district"));
+            estate.setYearBuild(day);
+            estate.setEstateContent(request.getParameter("estateDescription"));
+            estate.setEstateDescription(request.getParameter("estateDescription"));
+            estate.setImage1st(request.getParameter("image1st"));
+            estate.setImage2st(request.getParameter("image2st"));
+            estate.setImage3st(request.getParameter("image3st"));
+            estate.setImage4st(request.getParameter("image4st"));
+            estate.setImage5st(request.getParameter("image5st"));
+            
+            estateController.edit(estate);
+            System.out.println("edit completed");
+             
+//            List<Integer> featureDetailsID = detailsControllre.findEstatesByFeature(estate.getId());
+//            for (Integer featureDetailsID1 : featureDetailsID) {
+//                detailsControllre.destroy(featureDetailsID1);
+//            }
+//            
+//            //String[] b=request.getParameterValues("feature");
+//            List<Features> listFe=featuresController.findFeaturesEntities();
+//            for (Features listFe1 : listFe) {
+//                if (request.getParameter("feature"+listFe1.getFeaturesId())!= null) {
+//                    details.setEstateId(estate);
+//                    details.setFeatureId(new Features(request.getParameter("feature"+listFe1.getFeaturesId())));
+//                   detailsControllre.create(details);
+//                }
+//            }
+           
+            
+        } catch (ParseException ex) {
+            Logger.getLogger(EstateDetails.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(EstateDetails.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(EstateDetails.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
     }
 
     /**

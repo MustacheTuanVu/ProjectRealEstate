@@ -71,7 +71,7 @@ public class EditEmployee extends HttpServlet {
             //request.getParameter("employeeID");
             Employee customer = managerController.findEmployee(user.getEmployee().getId());
             request.setAttribute("customer", customer);
-            request.getRequestDispatcher("/page/dashboard/employee/dashboard_infor_employee.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/page/dashboard/employee/info_employee.jsp").forward(request, response);
         }
         else {
             request.setAttribute("displayLogin", "block");

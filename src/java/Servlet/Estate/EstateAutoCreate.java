@@ -71,9 +71,11 @@ public class EstateAutoCreate extends HttpServlet {
                 session.setAttribute("name", user.getManager().getManagerName());
                 request.setAttribute("role", "manager");
                 session.setAttribute("image", user.getManager().getManagerAddress());
+                
                 EstateTypeJpaController estateType = new EstateTypeJpaController(utx, emf);
                 List<EstateType> estateTypeList = estateType.findEstateTypeEntities();
                 request.setAttribute("estateTypeList", estateTypeList);
+                
                 EstateJpaController estateControl = new EstateJpaController(utx, emf);
                 ProjectJpaController projectJpaController = new ProjectJpaController(utx, emf);
                 ProjectDetailsJpaController detailsJpaController = new ProjectDetailsJpaController(utx, emf);

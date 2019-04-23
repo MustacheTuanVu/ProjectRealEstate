@@ -142,13 +142,21 @@
                                                     <select name="DistrictF" id="in-contract-type" data-placeholder="---" class="form-control">
                                                         <option value="all">all</option>
                                                         <option value="1">1</option>
-                                                        <option value="West">West</option>
-                                                        <option value="South">South</option>
-                                                        <option value="North">North</option>
-                                                        <option value="South">South-East</option>
-                                                        <option value="South">South-West</option>
-                                                        <option value="North-West">North-West</option>
-                                                        <option value="North-West">North-East</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                        <option value="Binh Thanh">Binh Thanh</option>
+                                                        <option value="Thu Duc">Thu Duc</option>
+                                                        <option value="Go Vap">Go Vap</option>
+                                                        <option value="Hoc Mon">Hoc Mon</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">

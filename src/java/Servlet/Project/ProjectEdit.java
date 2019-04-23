@@ -142,6 +142,7 @@ public class ProjectEdit extends HttpServlet {
             pro.setBlockNumber(Integer.valueOf(request.getParameter("blockNumber")));
             pro.setDocumentUrl("123");
             pro.setImage1st(request.getParameter("image1st"));
+            System.out.println("img "+pro.getImage1st());
             pro.setImage2st(request.getParameter("image2st"));
             pro.setImage3st(request.getParameter("image3st"));
             pro.setImage4st(request.getParameter("image4st"));
