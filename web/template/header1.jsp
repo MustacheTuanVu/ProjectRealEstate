@@ -82,7 +82,7 @@
                       <div class="row">
                         <div class="form__options">Trở về
                           <button type="button" class="js-user-login">Đăng xuất</button>or
-                          <button type="button" class="js-user-register">Đăng kí</button>
+                          <button type="button" class="js-user-register">Đăng ký</button>
                         </div>
                         <!-- end of block .auth__links-->
                       </div>
@@ -132,7 +132,7 @@
                   </div>
                 </li>
                 <li class="dropdown auth__nav-item">
-                  <button data-toggle="dropdown" type="button" class="dropdown-toggle auth__nav-btn"><span class="header__span">  Sign up</span></button>
+                  <button data-toggle="dropdown" type="button" class="dropdown-toggle auth__nav-btn"><span class="header__span">Đăng ký</span></button>
                   <div class="dropdown__menu auth__dropdown--register">
                     <!-- BEGIN AUTH REGISTER-->
                     <h5 class="auth__title">Tạo tài khoản mới</h5>
@@ -161,7 +161,7 @@
                         <div class="form__options">Back to
                           <button type="button" class="js-user-login">Đăng nhập</button>
                         </div>
-                        <button type="submit" class="form__submit">Đăng kí</button>
+                        <button type="submit" class="form__submit">Đăng nhập</button>
                       </div>
                     </form>
                     <!-- end of block .auth__form-->

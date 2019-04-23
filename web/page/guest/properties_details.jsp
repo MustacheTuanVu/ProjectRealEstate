@@ -111,9 +111,9 @@
                                                                         <div class="form-group">
                                                                             <label for="in-1" class="control-label">Thời gian muốn xem nhà</label>
                                                                             <input name="yearBuild" type="text" id="in-datetime" value="01/01/2019" data-time-picker="false" data-single-picker="true" class="js-datetimerange form-control">
-                                                                            <input name="employeeID" type="text" value="${employee.id}">
-                                                                            <input name="paymentAmount" type="text" value="${find.price}">
-                                                                            <input name="estateId" type="text" value="${find.id}">
+                                                                            <input name="employeeID" type="hidden" value="${employee.id}">
+                                                                            <input name="paymentAmount" type="hidden" value="${find.price}">
+                                                                            <input name="estateId" type="hidden" value="${find.id}">
                                                                         </div>
                                                                     </div>
                                                                     <div id="form-block-3" class="form__block js-form-block">
