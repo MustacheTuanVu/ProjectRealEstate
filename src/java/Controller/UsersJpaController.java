@@ -42,8 +42,8 @@ public class UsersJpaController implements Serializable {
     public void create(Users users) throws PreexistingEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Manager manager = users.getManager();
             if (manager != null) {
                 manager = em.getReference(manager.getClass(), manager.getManagerId());
@@ -87,10 +87,10 @@ public class UsersJpaController implements Serializable {
                 customer.setUserId(users);
                 customer = em.merge(customer);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -108,8 +108,8 @@ public class UsersJpaController implements Serializable {
     public void edit(Users users) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Users persistentUsers = em.find(Users.class, users.getId());
             Manager managerOld = persistentUsers.getManager();
             Manager managerNew = users.getManager();
@@ -169,10 +169,10 @@ public class UsersJpaController implements Serializable {
                 customerNew.setUserId(users);
                 customerNew = em.merge(customerNew);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -194,8 +194,8 @@ public class UsersJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Users users;
             try {
                 users = em.getReference(Users.class, id);
@@ -219,10 +219,10 @@ public class UsersJpaController implements Serializable {
                 customer = em.merge(customer);
             }
             em.remove(users);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -278,6 +278,34 @@ public class UsersJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    public Users checkLogin(String user,String pass){
+        EntityManager em=getEntityManager();
+        Query q=em.createQuery("SELECT u FROM Users u WHERE u.username LIKE :user AND u.password LIKE :pass AND u.status =TRUE");
+        q.setParameter("user", user);
+        q.setParameter("pass", pass);
+        
+        try {
+            Users obj=(Users) q.getResultList().get(0);
+            return obj;
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
+ 
+    }
+    
+    public List<Users> checkDuplicate(String user){
+        EntityManager em=getEntityManager();
+        try {
+            Query query=em.createNativeQuery("SELECT * FROM users WHERE username='"+user+"'", Users.class);
+            List<Users> userList = (List<Users>)query.getResultList();
+            return userList;
+        } finally {
+            em.close();
+        }
+ 
     }
     
 }

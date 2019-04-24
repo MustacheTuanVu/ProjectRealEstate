@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
 /**
@@ -40,51 +41,73 @@ public class FeatureEdit extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        FeaturesJpaController featuresControl = new FeaturesJpaController(utx, emf);
 
-        String id = request.getParameter("featureID");
-        String featureName = request.getParameter("featureName");
-        System.out.println(id);
-        Features find = featuresControl.findFeatures(id);
-        find.setFeatureName(featureName);
+        HttpSession session = request.getSession();
+        Entity.Users user = (Entity.Users) session.getAttribute("user");
 
-        String message = "";
-        String hasError = "";
-        String display = "none";
-        String modal = "hiden";
-        List<Features> estateTypeList = (List<Features>) featuresControl.getFeatureByName(featureName);
+        if (user != null) {
+            if (user.getRole().equals("employee")) {
+                request.setAttribute("user", "user");
+                request.setAttribute("displayLogin", "none");
+                request.setAttribute("displayUser", "block");
 
-        if (estateTypeList.size() > 0) {
-            message = "Type exits !";
-            hasError = "has-error";
-            display = "block";
-            modal = "show";
+                session.setAttribute("name", user.getEmployee().getEmployeeName());
+                request.setAttribute("role", "employee");
+                session.setAttribute("image", user.getEmployee().getEmployeeImg());
 
-            request.setAttribute("id", id);
-            request.setAttribute("featureName", featureName);
-            request.setAttribute("messageEdit", message);
-            request.setAttribute("hasErrorEdit", hasError);
-            request.setAttribute("displayEdit", display);
-            request.setAttribute("modal", modal);
+                EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+                FeaturesJpaController featuresControl = new FeaturesJpaController(utx, emf);
 
-            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/FeatureList");
-            dispatcher.forward(request, response);
-        } else {
-            try {
-                featuresControl.edit(find);
-            } catch (NonexistentEntityException ex) {
-                Logger.getLogger(FeatureEdit.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (RollbackFailureException ex) {
-                Logger.getLogger(FeatureEdit.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(FeatureEdit.class.getName()).log(Level.SEVERE, null, ex);
+                String id = request.getParameter("featureID");
+                String featureName = request.getParameter("featureName");
+                System.out.println(id);
+                Features find = featuresControl.findFeatures(id);
+                find.setFeatureName(featureName);
+
+                String message = "";
+                String hasError = "";
+                String display = "none";
+                String modal = "hiden";
+                List<Features> estateTypeList = (List<Features>) featuresControl.getFeatureByName(featureName);
+
+                if (estateTypeList.size() > 0) {
+                    message = "Type exits !";
+                    hasError = "has-error";
+                    display = "block";
+                    modal = "show";
+
+                    request.setAttribute("id", id);
+                    request.setAttribute("featureName", featureName);
+                    request.setAttribute("messageEdit", message);
+                    request.setAttribute("hasErrorEdit", hasError);
+                    request.setAttribute("displayEdit", display);
+                    request.setAttribute("modal", modal);
+
+                    RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/FeatureList");
+                    dispatcher.forward(request, response);
+                } else {
+                    try {
+                        featuresControl.edit(find);
+                    } catch (NonexistentEntityException ex) {
+                        Logger.getLogger(FeatureEdit.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (RollbackFailureException ex) {
+                        Logger.getLogger(FeatureEdit.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception ex) {
+                        Logger.getLogger(FeatureEdit.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    response.sendRedirect(request.getContextPath() + "/FeatureList");
+                }
+            } else {
+                response.sendRedirect(request.getContextPath() + "/LoginUser");
             }
-            response.sendRedirect(request.getContextPath() + "/FeatureList");
+        } else {
+            response.sendRedirect(request.getContextPath() + "/LoginUser");
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

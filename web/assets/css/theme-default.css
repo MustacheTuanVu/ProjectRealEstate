@@ -15785,10 +15785,10 @@ fieldset[disabled] .dropdown--select .dropdown-toggle {
 
 .header__row {
   padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  /* display: -webkit-box; */
+  /* display: -webkit-flex; */
+  /* display: -ms-flexbox; */
+  /* display: flex; */
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
@@ -22613,9 +22613,9 @@ fieldset[disabled] .subscribe__field {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
+  /*-webkit-justify-content: space-between;*/
   -ms-flex-pack: justify;
-  justify-content: space-between;
+  /*justify-content: space-between;*/
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
@@ -23403,7 +23403,7 @@ fieldset[disabled] .subscribe__field {
 }
 
 .auth__nav {
-  padding: 0;
+  padding: 10px;
   margin: 0;
   list-style: none;
 }
@@ -23470,6 +23470,7 @@ fieldset[disabled] .subscribe__field {
 }
 
 .auth--header {
+  float: right;
   border: none;
   outline: none;
 }

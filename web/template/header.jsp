@@ -11,6 +11,7 @@
             <svg>
             <use xlink:href="#icon-logo--mob"></use>
             </svg></a>
+        <!--
         <div class="header__settings">
             <div class="header__settings-column">
                 <div class="dropdown dropdown--header">
@@ -26,16 +27,18 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <!-- end of block .header__settings-column-->
+            <!--
             <div class="header__settings-column">
                 <div class="switch switch--header">
                     <label>M <sup>2</sup>
                         <input type="checkbox" checked><span class="lever"></span>Sq Ft
                     </label>
                 </div>
-            </div>
+            </div>-->
             <!-- end of block .header__settings-column-->
+            <!--
             <div class="header__settings-column">
                 <div class="dropdown dropdown--header">
                     <button data-toggle="dropdown" type="button" class="dropdown-toggle dropdown__btn">
@@ -58,29 +61,19 @@
                 <use xlink:href="#icon-phone"></use>
                 </svg><span class="header__span">+1 202 555 0135</span></a></div>
         <!-- end of block .header__contacts-->
+        <!--
         <div class="header__social">
             <div class="social social--header social--circles"><a href="#" class="social__item"><i class="fa fa-facebook"></i></a><a href="#" class="social__item"><i class="fa fa-twitter"></i></a><a href="#" class="social__item"><i class="fa fa-google-plus"></i></a></div>
         </div>
+        -->
         <div class="auth auth--header">
             <ul class="auth__nav">
                 <li class="dropdown auth__nav-item">
-                    <button data-toggle="dropdown" type="button" class="dropdown-toggle js-auth-nav-btn auth__nav-btn"><img src="assets/media-demo/avatars/01.jpg" alt="" class="auth__avatar"><span class="auth__name"> Hi Jenifer</span></button>
+                    <button data-toggle="dropdown" type="button" class="dropdown-toggle js-auth-nav-btn auth__nav-btn"><img src="assets/media-demo/avatars/01.jpg" alt="" class="auth__avatar"><span class="auth__name"> Chào</span></button>
                     <div class="dropdown__menu auth__dropdown--logged-in js-user-logged-in">
                         <nav class="nav nav--auth">
                             <ul class="nav__list">
-                                <li class="nav__item"><a href="dashboard.html" class="nav__link">Dashboard</a></li>
-                                <li class="nav__item"><a href="dashboard_property_new.html" class="nav__link active">Add Listing</a></li>
-                                <li class="nav__item"><a href="dashboard_news.html" class="nav__link">News Feed</a></li>
-                                <li class="nav__item"><a href="dashboard_profile.html" class="nav__link">Profile</a></li>
-                                <li class="nav__item"><a href="dashboard_activity.html" class="nav__link">Activity Log</a></li>
-                                <li class="nav__item"><a href="dashboard_favorites_listings.html" class="nav__link">Favorite Listings</a></li>
-                                <li class="nav__item"><a href="dashboard_favorites_agents.html" class="nav__link">Favorite Agents</a></li>
-                                <li class="nav__item"><a href="dashboard_favorites_search.html" class="nav__link">Favorite search</a></li>
-                                <li class="nav__item"><a href="dashboard_financials.html" class="nav__link">Financials</a></li>
-                                <li class="nav__item"><a href="dashboard_statistics.html" class="nav__link">Statistics</a></li>
-                                <li class="nav__item"><a href="dashboard_property.html" class="nav__link">Property management</a></li>
-                                <li class="nav__item"><a href="dashboard_blog.html" class="nav__link">Blog Management</a></li>
-                                <li class="nav__item"><a href="#" class="nav__link">Log out</a></li>
+                                <li class="nav__item"><a href="#" class="nav__link">Đăng xuất</a></li>
                             </ul>
                         </nav>
                     </div>

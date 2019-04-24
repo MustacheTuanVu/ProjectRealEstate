@@ -30,6 +30,38 @@
         <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
         <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
         <script type="text/javascript">
+            function BrowseServer() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField;
+                finder.popup();
+            }
+            function SetFileField(fileUrl) {
+                var countimage = 0;
+                if (document.getElementById('imageup1st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image1st').value = fileUrl;
+                    document.getElementById('imageup1st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 1/5 photo";
+                } else if (document.getElementById('imageup2st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image2st').value = fileUrl;
+                    document.getElementById('imageup2st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 2/5 photo";
+                } else if (document.getElementById('imageup3st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image3st').value = fileUrl;
+                    document.getElementById('imageup3st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 3/5 photo";
+                } else if (document.getElementById('imageup4st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image4st').value = fileUrl;
+                    document.getElementById('imageup4st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 4/5 photo";
+                } else if (document.getElementById('imageup5st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image5st').value = fileUrl;
+                    document.getElementById('imageup5st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Estate have 5/5 photo";
+                }
+            }
+        </script>
+        <script type="text/javascript">
             function BrowseServer1() {
                 var finder = new CKFinder();
                 finder.basePath = '../';
@@ -38,6 +70,7 @@
             }
             function SetFileField1(fileUrl) {
                 document.getElementById('image1st').value = fileUrl;
+                document.getElementById('imageup1st').src = fileUrl;
             }
         </script>
         <script type="text/javascript">
@@ -49,6 +82,7 @@
             }
             function SetFileField2(fileUrl) {
                 document.getElementById('image2st').value = fileUrl;
+                document.getElementById('imageup2st').src = fileUrl;
             }
         </script>
         <script type="text/javascript">
@@ -60,6 +94,7 @@
             }
             function SetFileField3(fileUrl) {
                 document.getElementById('image3st').value = fileUrl;
+                document.getElementById('imageup3st').src = fileUrl;
             }
         </script>
         <script type="text/javascript">
@@ -71,6 +106,7 @@
             }
             function SetFileField4(fileUrl) {
                 document.getElementById('image4st').value = fileUrl;
+                document.getElementById('imageup4st').src = fileUrl;
             }
         </script>
         <script type="text/javascript">
@@ -82,6 +118,7 @@
             }
             function SetFileField5(fileUrl) {
                 document.getElementById('image5st').value = fileUrl;
+                document.getElementById('imageup5st').src = fileUrl;
             }
         </script>
     </head>
@@ -141,25 +178,30 @@
                                         <section class="form-property form-property--dashboard">
                                             <!-- Nav tabs-->
                                             <ul role="tablist" class="nav form-property__tabs">
-                                                <li role="presentation" class="active"><a href="#basic" aria-controls="basic" role="tab" data-toggle="tab">Basic</a></li>
-                                                <li role="presentation"><a href="#Photo" aria-controls="Photo" role="tab" data-toggle="tab">Photo</a></li>
+                                                <li role="presentation" class="active"><a>Basic</a></li>
+                                                <li role="presentation"><a>Photo</a></li>
+                                                <!--
                                                 <li role="presentation"><a href="#Status" aria-controls="Status" role="tab" data-toggle="tab">Extra</a></li>
+                                                -->
                                             </ul>
                                             <!-- Tab panes-->
-                                            <div class="tab-content form-property__content">
-                                                <div id="basic" role="tabpanel" class="tab-pane active">
-                                                    <form action="<%=request.getContextPath()%>/EstateCreate" class="form form--flex form--property form--basic js-form-property-1">
+                                            <form action="<%=request.getContextPath()%>/EstateCreate" class="form form--flex form--property form--basic js-form-property-1">
+                                                <div class="tab-content form-property__content">
+                                                    <div id="basic" role="tabpanel" class="tab-pane active">
                                                         <div class="row">
                                                             <div class="form-group form-group--description">
                                                                 <label for="in-1" class="control-label">Estate Name</label>
                                                                 <input id="in-1" required type="text" name="estateName" data-placeholder="---" value="Text" class="form-control">
+                                                                <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
+                                                                    <div class="parsley-required">${message}</div>
+                                                                </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-15" class="control-label">Estate Type</label>
                                                                 <select id="in-15" required name="estateTypeId" data-placeholder="---" class="form-control">
                                                                     <option label=" "></option>
                                                                     <c:forEach items="${estateTypeList}" var="estateTypeList">
-                                                                        <option value="${estateTypeList.id}">${cate.typeName}</option>
+                                                                        <option value="${estateTypeList.id}">${estateTypeList.typeName}</option>
                                                                     </c:forEach>
                                                                 </select>
                                                             </div>
@@ -199,7 +241,7 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-2" class="control-label">Estate Status</label>
-                                                                <select id="in-2" required name="property_type" data-placeholder="---" class="form-control">
+                                                                <select id="in-2" required name="estateStatusId" data-placeholder="---" class="form-control">
                                                                     <option label=" "></option>
                                                                     <c:forEach items="${estateStatusList}" var="estateStatusList">
                                                                         <option value="${estateStatusList.id}">${estateStatusList.estateStatusName}</option>
@@ -208,7 +250,7 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-9" class="control-label">Built Up</label>
-                                                                <input id="in-9" type="number" placeholder="" required class="form-control">
+                                                                <input name="yearBuild" type="text" id="in-datetime" value="01/01/2019" data-time-picker="false" data-single-picker="true" class="js-datetimerange form-control">
                                                             </div>
 
                                                             <div class="form-group">
@@ -220,290 +262,108 @@
                                                                 <input id="in-6" type="text" name="address2" required class="form-control">
                                                             </div>
                                                             <div class="form-group form-group--description">
-                                                                <label for="in-6" class="control-label">Image 1</label>
-                                                                <input id="image1st" name="image1st" type="text" size="60" class="form-control"/>
-                                                                <input type="button" class="form__submit" value="Browse Server" onclick="BrowseServer1();" />
-                                                            </div>
-                                                            <div class="form-group form-group--description">
-                                                                <label for="in-6" class="control-label">Image 2</label>
-                                                                <input id="image2st" name="image2st" type="text" size="60" class="form-control"/>
-                                                                <input type="button" class="form__submit" value="Browse Server" onclick="BrowseServer2();" />
-                                                            </div>
-                                                            <div class="form-group form-group--description">
-                                                                <label for="in-6" class="control-label">Image 3</label>
-                                                                <input id="image3st" name="image3st" type="text" size="60" class="form-control"/>
-                                                                <input type="button" class="form__submit" value="Browse Server" onclick="BrowseServer3();" />
-                                                            </div>
-                                                            <div class="form-group form-group--description">
-                                                                <label for="in-6" class="control-label">Image 4</label>
-                                                                <input id="image4st" name="image4st" type="text" size="60" class="form-control"/>
-                                                                <input type="button" class="form__submit" value="Browse Server" onclick="BrowseServer4();" />
-                                                            </div>
-                                                            <div class="form-group form-group--description">
-                                                                <label for="in-6" class="control-label">Image 5</label>
-                                                                <input id="image5st" name="image5st" type="text" size="60" class="form-control"/>
-                                                                <input type="button" class="form__submit" value="Browse Server" onclick="BrowseServer5();" />
-                                                            </div>
-                                                            <div class="form-group form-group--description">
                                                                 <label for="in-6" class="control-label">Content</label>
-                                                                <textarea id="in-6" name="estateDescription" rows="4" cols="50" class="form-control">
-                                                                </textarea>
+                                                                <textarea id="in-6" name="estateDescription" rows="4" cols="50" class="form-control"></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <button class="form__submit">Next</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-
-
-
-                                                <div id="Photo" role="tabpanel" class="tab-pane">
-                                                    <div class="listing--items listing--grid listing--photos">
-                                                        <div class="listing__actions">
-                                                            <div class="listing__actions-border"></div>
-                                                            <button type="button" class="btn--link js-listing-delete-photo">Delete selected</button>
-                                                            <button type="button" data-toggle="modal" data-target="#modal-photos-uploader" class="btn--action js-listing-add-photo">Add new photo</button>
-                                                        </div>
-                                                        <div class="listing__list js-photos-list">
-                                                            <div class="listing__item js-listing-item">
-                                                                <div class="listing__item-header">
-                                                                    <div></div>
-                                                                    <div class="listing__tools">
-                                                                        <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-caption" class="listing__tools-link js-photos-edit">Add caption</button>
-                                                                        <div class="dropdown listing__tools-dropdown">
-                                                                            <button data-toggle="dropdown" type="button" class="dropdown-toggle listing__tools-toggle">...</button>
-                                                                            <div class="dropdown__menu listing__tools-menu">
-                                                                                <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-crop" class="js-photos-edit listing__tools-link">Crop photo</button>
-                                                                                <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-watermark" class="js-photos-edit listing__tools-link">Add watermark</button>
-                                                                                <button type="button" class="listing__tools-link">Set as cover</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="listing__thumb"><i class="fa fa-arrows listing__move"></i>
-                                                                    <button type="button" class="listing__select js-listing-select"></button><a href="assets/media-demo/properties/1168x550/06.jpg" data-size="1168x550" class="item-photo item-photo--static js-gallery-item"><img src="assets/media-demo/properties/554x360/06.jpg" alt="">
-                                                                        <figure class="item-photo__hover"><span class="item-photo__more">Full screen</span></figure></a>
-                                                                </div>
-                                                                <!-- end of block .listing__thumb-->
-                                                                <div class="listing__info"><a href="" class="listing__title">Kitchen</a></div>
-                                                                <!-- end of block .listing__info-->
-                                                            </div>
-                                                            <!-- end of block .listing__item-->
-                                                            <div class="listing__item js-listing-item">
-                                                                <div class="listing__item-header">
-                                                                    <div></div>
-                                                                    <div class="listing__tools">
-                                                                        <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-caption" class="listing__tools-link js-photos-edit">Add caption</button>
-                                                                        <div class="dropdown listing__tools-dropdown">
-                                                                            <button data-toggle="dropdown" type="button" class="dropdown-toggle listing__tools-toggle">...</button>
-                                                                            <div class="dropdown__menu listing__tools-menu">
-                                                                                <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-crop" class="js-photos-edit listing__tools-link">Crop photo</button>
-                                                                                <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-watermark" class="js-photos-edit listing__tools-link">Add watermark</button>
-                                                                                <button type="button" class="listing__tools-link">Set as cover</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="listing__thumb"><i class="fa fa-arrows listing__move"></i>
-                                                                    <button type="button" class="listing__select js-listing-select"></button><a href="assets/media-demo/properties/1168x550/07.jpg" data-size="1168x550" class="item-photo item-photo--static js-gallery-item"><img src="assets/media-demo/properties/554x360/07.jpg" alt="">
-                                                                        <figure class="item-photo__hover"><span class="item-photo__more">Full screen</span></figure></a>
-                                                                </div>
-                                                                <!-- end of block .listing__thumb-->
-                                                                <div class="listing__info"><a href="" class="listing__title">Kitchen another view</a></div>
-                                                                <!-- end of block .listing__info-->
-                                                            </div>
-                                                            <!-- end of block .listing__item-->
-                                                            <div class="listing__item js-listing-item">
-                                                                <div class="listing__item-header">
-                                                                    <div></div>
-                                                                    <div class="listing__tools">
-                                                                        <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-caption" class="listing__tools-link js-photos-edit">Add caption</button>
-                                                                        <div class="dropdown listing__tools-dropdown">
-                                                                            <button data-toggle="dropdown" type="button" class="dropdown-toggle listing__tools-toggle">...</button>
-                                                                            <div class="dropdown__menu listing__tools-menu">
-                                                                                <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-crop" class="js-photos-edit listing__tools-link">Crop photo</button>
-                                                                                <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-watermark" class="js-photos-edit listing__tools-link">Add watermark</button>
-                                                                                <button type="button" class="listing__tools-link">Set as cover</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="listing__thumb"><i class="fa fa-arrows listing__move"></i>
-                                                                    <button type="button" class="listing__select js-listing-select"></button><a href="assets/media-demo/properties/1168x550/08.jpg" data-size="1168x550" class="item-photo item-photo--static js-gallery-item"><img src="assets/media-demo/properties/554x360/08.jpg" alt="">
-                                                                        <figure class="item-photo__hover"><span class="item-photo__more">Full screen</span></figure></a>
-                                                                </div>
-                                                                <!-- end of block .listing__thumb-->
-                                                                <div class="listing__info"><a href="" class="listing__title">Yard</a></div>
-                                                                <!-- end of block .listing__info-->
-                                                            </div>
-                                                            <!-- end of block .listing__item-->
-                                                            <div class="listing__item js-listing-item">
-                                                                <div class="listing__item-header">
-                                                                    <div></div>
-                                                                    <div class="listing__tools">
-                                                                        <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-caption" class="listing__tools-link js-photos-edit">Add caption</button>
-                                                                        <div class="dropdown listing__tools-dropdown">
-                                                                            <button data-toggle="dropdown" type="button" class="dropdown-toggle listing__tools-toggle">...</button>
-                                                                            <div class="dropdown__menu listing__tools-menu">
-                                                                                <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-crop" class="js-photos-edit listing__tools-link">Crop photo</button>
-                                                                                <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-watermark" class="js-photos-edit listing__tools-link">Add watermark</button>
-                                                                                <button type="button" class="listing__tools-link">Set as cover</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="listing__thumb"><i class="fa fa-arrows listing__move"></i>
-                                                                    <button type="button" class="listing__select js-listing-select"></button><a href="assets/media-demo/properties/1168x550/09.jpg" data-size="1168x550" class="item-photo item-photo--static js-gallery-item"><img src="assets/media-demo/properties/554x360/09.jpg" alt="">
-                                                                        <figure class="item-photo__hover"><span class="item-photo__more">Full screen</span></figure></a>
-                                                                </div>
-                                                                <!-- end of block .listing__thumb-->
-                                                                <div class="listing__info"><a href="" class="listing__title">Garage</a></div>
-                                                                <!-- end of block .listing__info-->
-                                                            </div>
-                                                            <!-- end of block .listing__item-->
-                                                            <div class="listing__item js-listing-item">
-                                                                <div class="listing__item-header">
-                                                                    <div></div>
-                                                                    <div class="listing__tools">
-                                                                        <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-caption" class="listing__tools-link js-photos-edit">Add caption</button>
-                                                                        <div class="dropdown listing__tools-dropdown">
-                                                                            <button data-toggle="dropdown" type="button" class="dropdown-toggle listing__tools-toggle">...</button>
-                                                                            <div class="dropdown__menu listing__tools-menu">
-                                                                                <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-crop" class="js-photos-edit listing__tools-link">Crop photo</button>
-                                                                                <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-watermark" class="js-photos-edit listing__tools-link">Add watermark</button>
-                                                                                <button type="button" class="listing__tools-link">Set as cover</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="listing__thumb"><i class="fa fa-arrows listing__move"></i>
-                                                                    <button type="button" class="listing__select js-listing-select"></button><a href="assets/media-demo/properties/1168x550/10.jpg" data-size="1168x550" class="item-photo item-photo--static js-gallery-item"><img src="assets/media-demo/properties/554x360/10.jpg" alt="">
-                                                                        <figure class="item-photo__hover"><span class="item-photo__more">Full screen</span></figure></a>
-                                                                </div>
-                                                                <!-- end of block .listing__thumb-->
-                                                                <div class="listing__info"><a href="" class="listing__title"></a></div>
-                                                                <!-- end of block .listing__info-->
-                                                            </div>
-                                                            <!-- end of block .listing__item-->
-                                                            <div class="listing__item js-listing-item">
-                                                                <div class="listing__item-header">
-                                                                    <div></div>
-                                                                    <div class="listing__tools">
-                                                                        <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-caption" class="listing__tools-link js-photos-edit">Add caption</button>
-                                                                        <div class="dropdown listing__tools-dropdown">
-                                                                            <button data-toggle="dropdown" type="button" class="dropdown-toggle listing__tools-toggle">...</button>
-                                                                            <div class="dropdown__menu listing__tools-menu">
-                                                                                <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-crop" class="js-photos-edit listing__tools-link">Crop photo</button>
-                                                                                <button type="button" data-toggle="modal" data-target="#modal-photos-edit" data-tab="#tab-watermark" class="js-photos-edit listing__tools-link">Add watermark</button>
-                                                                                <button type="button" class="listing__tools-link">Set as cover</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="listing__thumb"><i class="fa fa-arrows listing__move"></i>
-                                                                    <button type="button" class="listing__select js-listing-select"></button><a href="assets/media-demo/properties/1168x550/11.jpg" data-size="1168x550" class="item-photo item-photo--static js-gallery-item"><img src="assets/media-demo/properties/554x360/11.jpg" alt="">
-                                                                        <figure class="item-photo__hover"><span class="item-photo__more">Full screen</span></figure></a>
-                                                                </div>
-                                                                <!-- end of block .listing__thumb-->
-                                                                <div class="listing__info"><a href="" class="listing__title"></a></div>
-                                                                <!-- end of block .listing__info-->
-                                                            </div>
-                                                            <!-- end of block .listing__item-->
-                                                        </div>
-                                                        <div id="modal-photos-uploader" tabindex="-1" role="dialog" class="modal modal--photos-upload fade">
-                                                            <div role="document" class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <form id="photos-uploader" action="/file-upload" class="dropzone"></form>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn--primary">Save changes</button>
-                                                                        <button type="button" data-dismiss="modal" class="btn--default">Cancel</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div id="modal-photos-edit" tabindex="-1" role="dialog" class="modal modal--photos-upload fade">
-                                                            <div role="document" class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <div class="tab tab--sidebar">
-                                                                            <!-- Nav tabs-->
-                                                                            <ul role="tablist" class="nav tab__nav">
-                                                                                <li role="presentation" class="active"><a href="#crop" aria-controls="crop" role="tab" data-toggle="tab" id="tab-crop">Crop photo</a></li>
-                                                                                <li role="presentation"><a href="#caption" aria-controls="caption" role="tab" data-toggle="tab" id="tab-caption">Add caption</a></li>
-                                                                                <li role="presentation"><a href="#watermark" aria-controls="watermark" role="tab" data-toggle="tab" id="tab-watermark">Add watermark</a></li>
-                                                                            </ul>
-                                                                            <!-- Tab panes-->
-                                                                            <div class="tab-content payment__content">
-                                                                                <div id="crop" role="tabpanel" class="tab-pane active">
-                                                                                    <div class="photo-crop"><img id="photo-crop" src="assets/media-demo/properties/1168x550/09.jpg" alt=""></div>
-                                                                                </div>
-                                                                                <div id="caption" role="tabpanel" class="tab-pane">
-                                                                                    <form class="form form--flex form--property form--photo js-form-property"><img src="assets/media-demo/properties/1168x550/09.jpg" alt="">
-                                                                                        <div class="row">
-                                                                                            <div class="form-group form-group--col-12">
-                                                                                                <label for="in-Caption" class="control-label">Caption</label>
-                                                                                                <input id="in-Caption" type="text" placeholder="" class="form-control">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </form>
-                                                                                </div>
-                                                                                <div id="watermark" role="tabpanel" class="tab-pane">
-                                                                                    <form class="form form--flex form--property form--photo js-form-property"><img src="assets/media-demo/properties/1168x550/09.jpg" alt="">
-                                                                                        <div class="listing--items listing--grid listing--watermarks">
-                                                                                            <div class="listing__list listing--lg-4 listing--xs-6">
-                                                                                                <div class="listing__item js-listing-item">
-                                                                                                    <div class="listing__thumb">
-                                                                                                        <button type="button" class="listing__select js-listing-select"></button><img src="assets/img/watermarks/watermark-1.png" alt="">
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="listing__item js-listing-item">
-                                                                                                    <div class="listing__thumb">
-                                                                                                        <button type="button" class="listing__select js-listing-select"></button><img src="assets/img/watermarks/watermark-2.png" alt="">
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="listing__item js-listing-item">
-                                                                                                    <div class="listing__thumb">
-                                                                                                        <button type="button" class="listing__select js-listing-select"></button><img src="assets/img/watermarks/watermark-3.png" alt="">
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="listing__item js-listing-item">
-                                                                                                    <div class="listing__thumb">
-                                                                                                        <button type="button" class="listing__select js-listing-select"></button><img src="assets/img/watermarks/watermark-4.png" alt="">
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </form>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn--primary">Save changes</button>
-                                                                        <button type="button" data-dismiss="modal" class="btn--default">Cancel</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            <a href="#Photo" aria-controls="Photo" class="form__submit" role="tab" data-toggle="tab">Next</a>
                                                         </div>
                                                     </div>
-                                                    <!-- END Photos-->
-                                                    <form class="form form--flex form--property form--photo js-form-property">
-                                                        <div class="row">
-                                                            <button class="form__submit">Next</button>
+                                                    <div id="Photo" role="tabpanel" class="tab-pane">
+                                                        <div class="listing--items listing--grid listing--photos">
+                                                            <div class="listing__actions">
+                                                                <div class="listing__actions-border"></div>
+                                                                <h4 id="countimage" class="form__title js-form-title active">Estate have 0/5 photo</h4>
+                                                                <input type="button" class="btn--action js-listing-add-photo" value="Add Photo" onclick="BrowseServer();" />
+                                                            </div>
+                                                            <div class="listing__list js-photos-list">
+                                                                <div class="listing__item js-listing-item">
+                                                                    <div class="listing__item-header">
+                                                                        <div></div>
+                                                                        <div class="listing__tools">
+                                                                            <input onclick="BrowseServer1();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="listing__thumb">
+                                                                        <a class="item-photo item-photo--static js-gallery-item">
+                                                                            <input id="image1st" name="image1st" type="hidden"/>
+                                                                            <img width="240" height="160" id="imageup1st" name="imageup1st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- end of block .listing__item 11111-->
+                                                                <div class="listing__item js-listing-item">
+                                                                    <div class="listing__item-header">
+                                                                        <div></div>
+                                                                        <div class="listing__tools">
+                                                                            <input onclick="BrowseServer2();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="listing__thumb">
+                                                                        <a class="item-photo item-photo--static js-gallery-item">
+                                                                            <input id="image2st" name="image2st" type="hidden"/>
+                                                                            <img width="240" height="160" id="imageup2st" name="imageup2st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- end of block .listing__item 2222222-->
+                                                                <div class="listing__item js-listing-item">
+                                                                    <div class="listing__item-header">
+                                                                        <div></div>
+                                                                        <div class="listing__tools">
+                                                                            <input onclick="BrowseServer3();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="listing__thumb">
+                                                                        <a class="item-photo item-photo--static js-gallery-item">
+                                                                            <input id="image3st" name="image3st" type="hidden"/>
+                                                                            <img width="240" height="160" id="imageup3st" name="imageup3st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- end of block .listing__item 3333333-->
+                                                                <div class="listing__item js-listing-item">
+                                                                    <div class="listing__item-header">
+                                                                        <div></div>
+                                                                        <div class="listing__tools">
+                                                                            <input onclick="BrowseServer4();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="listing__thumb">
+                                                                        <a class="item-photo item-photo--static js-gallery-item">
+                                                                            <input id="image4st" name="image4st" type="hidden"/>
+                                                                            <img width="240" height="160" id="imageup4st" name="imageup4st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- end of block .listing__item 44444-->
+                                                                <div class="listing__item js-listing-item">
+                                                                    <div class="listing__item-header">
+                                                                        <div></div>
+                                                                        <div class="listing__tools">
+                                                                            <input onclick="BrowseServer5();" type="button" class="listing__tools-link js-photos-edit" value="Edit" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="listing__thumb">
+                                                                        <a class="item-photo item-photo--static js-gallery-item">
+                                                                            <input id="image5st" name="image5st" type="hidden"/>
+                                                                            <img width="240" height="160" id="imageup5st" name="imageup5st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- end of block .listing__item 55555-->
+                                                            </div>
                                                         </div>
-                                                    </form>
-                                                </div>
-                                                <div id="Status" role="tabpanel" class="tab-pane">
-                                                    <form class="form form--flex form--property form--extra js-form-property">
+                                                        <!-- END Photos-->
+                                                        <!--<form class="form form--flex form--property form--photo js-form-property">-->
+                                                        <div class="row">
+                                                            <input type="submit" name="submit" value="submit" class="form__submit"/>
+                                                        </div>
+                                                        <!--</form>-->
+                                                    </div>
+                                                    <div id="Status" role="tabpanel" class="tab-pane">
+                                                        <!--<form class="form form--flex form--property form--extra js-form-property">-->
                                                         <div class="row">
                                                             <div class="form-group form-group--col-12 form-group--inline">
                                                                 <label class="control-label">Market Status</label>
@@ -551,10 +411,12 @@
                                                         <div class="row">
                                                             <button class="form__submit">Next</button>
                                                         </div>
-                                                    </form>
+                                                        <!--</form>-->
+                                                    </div>
+
                                                 </div>
 
-                                            </div>
+                                            </form>
                                         </section>
                                     </div>
                                 </div>
@@ -563,79 +425,25 @@
                         <!-- END LISTING-->
                         <!-- BEGIN SIDEBAR-->
                         <div class="sidebar sidebar--dashboard">
-                            <div class="widget js-widget widget--sidebar-dashboard widget--collapsing">
-                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Dashboard</a>
-                                </div>
-                                <div class="widget__content">
-                                    <nav class="nav nav--sidebar">
-                                        <ul class="nav__list">
-                                            <li class="nav__item"><a href="dashboard.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-dashboard"></use>
-                                                    </svg>Dashboard</a></li>
-                                            <li class="nav__item"><a href="dashboard_property_new.html" class="nav__link active">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-add-listing"></use>
-                                                    </svg>Add Listing</a></li>
-                                            <li class="nav__item">
-                                                <hr class="nav__separator">
-                                            </li>
-                                            <li class="nav__item"><a href="dashboard_news.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-news"></use>
-                                                    </svg>News Feed</a></li>
-                                            <li class="nav__item"><a href="dashboard_profile.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-user-admin"></use>
-                                                    </svg>Profile</a></li>
-                                            <li class="nav__item"><a href="dashboard_activity.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-clock"></use>
-                                                    </svg>Activity Log</a></li>
-                                            <li class="nav__item">
-                                                <hr class="nav__separator">
-                                            </li>
-                                            <li class="nav__item"><a href="dashboard_favorites_listings.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-favorite-listings"></use>
-                                                    </svg>Favorite Listings</a></li>
-                                            <li class="nav__item"><a href="dashboard_favorites_agents.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-favorite-agents"></use>
-                                                    </svg>Favorite Agents</a></li>
-                                            <li class="nav__item"><a href="dashboard_favorites_search.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-favorite-search"></use>
-                                                    </svg>Favorite search</a></li>
-                                            <li class="nav__item">
-                                                <hr class="nav__separator">
-                                            </li>
-                                            <li class="nav__item"><a href="dashboard_financials.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-financials"></use>
-                                                    </svg>Financials</a></li>
-                                            <li class="nav__item"><a href="dashboard_statistics.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-statistics"></use>
-                                                    </svg>Statistics</a></li>
-                                            <li class="nav__item">
-                                                <hr class="nav__separator">
-                                            </li>
-                                            <li class="nav__item"><a href="dashboard_property.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-property-edit"></use>
-                                                    </svg>Property management</a></li>
-                                            <li class="nav__item"><a href="dashboard_blog.html" class="nav__link">
-                                                    <svg class="nav__icon">
-                                                    <use xlink:href="#icon-blog-edit"></use>
-                                                    </svg>Blog Management</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+                            <%@ include file="/template/dashboard/sidebar.jsp" %>
                         </div>
                         <!-- END SIDEBAR-->
                         <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="myModal" tabindex="-1" role="dialog" class="modal fade">
+                <div role="document" class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="site__title">Add Success</h2>
+                        </div>
+                        <div class="modal-body">
+                            <h3>Are you want continue create estate ?</h3>
+                            <button type="button" data-dismiss="modal" aria-label="Close" class="form__submit">Yes</button>
+                            <a href="<%=request.getContextPath()%>/EstateList?user=admin" class="form__submit">No</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -687,9 +495,9 @@
     <!-- endinject -->
 
     <script type="text/javascript">
-                                                                    $(window).on('load', function () {
-                                                                        $('#myModal').modal('${modal}');
-                                                                    });
+        $(window).on('load', function () {
+            $('#myModal').modal('${modal}');
+        });
     </script>
 
     <!-- END SCRIPTS and INCLUDES-->

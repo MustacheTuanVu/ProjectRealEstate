@@ -17,10 +17,13 @@ import javax.persistence.criteria.Root;
 import Entity.Users;
 import Entity.Contract;
 import Entity.Customer;
+import Entity.Employee;
+import Entity.Estate;
 import java.util.ArrayList;
 import java.util.List;
 import Entity.Transactions;
 import Entity.Schedule;
+import java.math.BigDecimal;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
@@ -54,8 +57,8 @@ public class CustomerJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Users userId = customer.getUserId();
             if (userId != null) {
                 userId = em.getReference(userId.getClass(), userId.getId());
@@ -116,10 +119,10 @@ public class CustomerJpaController implements Serializable {
                     oldCustomerIdOfScheduleListSchedule = em.merge(oldCustomerIdOfScheduleListSchedule);
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -137,8 +140,8 @@ public class CustomerJpaController implements Serializable {
     public void edit(Customer customer) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Customer persistentCustomer = em.find(Customer.class, customer.getId());
             Users userIdOld = persistentCustomer.getUserId();
             Users userIdNew = customer.getUserId();
@@ -248,10 +251,10 @@ public class CustomerJpaController implements Serializable {
                     }
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -273,8 +276,8 @@ public class CustomerJpaController implements Serializable {
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Customer customer;
             try {
                 customer = em.getReference(Customer.class, id);
@@ -313,10 +316,10 @@ public class CustomerJpaController implements Serializable {
                 userId = em.merge(userId);
             }
             em.remove(customer);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -372,6 +375,33 @@ public class CustomerJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    public Customer getCustomerByUserID(int userID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM customer where user_id='" + userID + "'",Customer.class);
+            Customer ret = (Customer) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+	public List<Customer> findCustomerByEMployeeID(int employeeID) {
+        EntityManager em = getEntityManager();
+        try { // select * from customer where id = (SELECT DISTINCT customer_id from contract where employee_id = 3)
+            Query query = em.createNativeQuery("SELECT * FROM customer where "
+                    + "id = (SELECT DISTINCT customer_id from contract where employee_id = '"+employeeID+"') "
+                    ,Customer.class);
+            List<Customer> ret = (List<Customer>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public Object findByIdUser(Users users) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

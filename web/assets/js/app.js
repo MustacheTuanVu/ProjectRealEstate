@@ -1028,7 +1028,7 @@ webpackJsonpapp([0],[
 	    },
 	    {
 	      locale: {
-	        format: 'MM/DD/YYYY  h:mm A'
+	        format: 'MM/DD/YYYY'
 	      },
 	      timePicker: false,
 	      timePickerIncrement: 5,
@@ -1244,8 +1244,24 @@ webpackJsonpapp([0],[
 	"use strict";
 	module.exports = function () {
 	  var Chart = __webpack_require__(/*! chart.js */ 151);
+          
+          var getJanRealEstate24hIncome = document.getElementById("getJanRealEstate24hIncome");
+          if(getJanRealEstate24hIncome){
+              var getJanRealEstate24hIncome = getJanRealEstate24hIncome.innerHTML;
+          }
+          
+          var getFebRealEstate24hIncome = document.getElementById("getFebRealEstate24hIncome");
+          if(getFebRealEstate24hIncome){
+              var getFebRealEstate24hIncome = getFebRealEstate24hIncome.innerHTML;
+          }
+          
+          var getMarRealEstate24hIncome = document.getElementById("getMarRealEstate24hIncome");
+          if(getMarRealEstate24hIncome){
+              var getMarRealEstate24hIncome = getMarRealEstate24hIncome.innerHTML;
+          }
+          
 	  var data = {
-	    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+	    labels: ["Jan", "Feb", "Mar"],
 	    datasets: [
 	      {
 	        label: "My First dataset",
@@ -1255,7 +1271,7 @@ webpackJsonpapp([0],[
 	        //pointStrokeColor: "#fff",
 	        //pointHighlightFill: "#fff",
 	        //pointHighlightStroke: "rgba(220,220,220,1)",
-	        data: [65, 59, 80, 81, 56, 55]
+	        data: [getJanRealEstate24hIncome, getFebRealEstate24hIncome, getMarRealEstate24hIncome]
 	      }
 	    ]
 	  };
@@ -1587,31 +1603,48 @@ webpackJsonpapp([0],[
 
 	"use strict";
 	module.exports = function () {
+          var unitSold = document.getElementById("getSold");
+          if(unitSold){
+              var unitSoldGet = unitSold.innerHTML;
+          }
+          var unitUnSold = document.getElementById("getUnsold");
+          if(unitUnSold){
+              var unitUnSoldGet = unitUnSold.innerHTML;
+          }
 	  var Chart = __webpack_require__(/*! chart.js */ 151);
 	  var units = [
 	    {
-	      value: 957,
+	      value: Number(unitSoldGet),
 	      color:"#43a047",
 	      highlight: "#43a047",
 	      label: "Total sold unit"
 	    },
 	    {
-	      value: 768,
+	      value: Number(unitUnSoldGet),
 	      color: "#a5d6a7",
 	      highlight: "#a5d6a7",
 	      label: "Total unsold unit"
 	    }
 	  ];
+          
+          var unitSoldPrice = document.getElementById("getSoldPrice");
+          if(unitSoldPrice){
+              var unitSoldGetPrice = unitSoldPrice.innerHTML;
+          }
+          var unitUnSoldPrice = document.getElementById("getUnsoldPrice");
+          if(unitUnSoldPrice){
+              var unitUnSoldGetPrice = unitUnSoldPrice.innerHTML;
+          }
 
 	  var price = [
 	    {
-	      value: 590,
+	      value: Number(unitSoldGetPrice),
 	      color:"#1e88e5",
 	      highlight: "#1e88e5",
 	      label: "Total sold price"
 	    },
 	    {
-	      value: 165,
+	      value: Number(unitUnSoldGetPrice),
 	      color: "#90caf9",
 	      highlight: "#90caf9",
 	      label: "Total unsold price"
@@ -2953,7 +2986,7 @@ webpackJsonpapp([0],[
 	  var decPlaces = Math.pow(10, 0);
 
 	  // Enumerate number abbreviations
-	  var abbrev = ["k", "m", "b", "t"];
+	  var abbrev = ["k", "M", "B", "t"];
 
 	  // Go through the array backwards, so we do the largest first
 	  for (var i = abbrev.length - 1; i >= 0; i--) {

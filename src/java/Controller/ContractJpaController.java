@@ -9,6 +9,7 @@ import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
 import Entity.Contract;
+import Entity.ContractDetails;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -19,9 +20,14 @@ import Entity.Customer;
 import Entity.Employee;
 import Entity.PaymentFrequency;
 import java.util.List;
+import java.util.Set;
+import javax.faces.validator.Validator;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 
 /**
  *
@@ -43,8 +49,8 @@ public class ContractJpaController implements Serializable {
     public void create(Contract contract) throws PreexistingEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             ContractType contractTypeId = contract.getContractTypeId();
             if (contractTypeId != null) {
                 contractTypeId = em.getReference(contractTypeId.getClass(), contractTypeId.getId());
@@ -65,6 +71,19 @@ public class ContractJpaController implements Serializable {
                 paymentFrequency = em.getReference(paymentFrequency.getClass(), paymentFrequency.getId());
                 contract.setPaymentFrequency(paymentFrequency);
             }
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            javax.validation.Validator validator =  factory.getValidator();
+
+            Set<ConstraintViolation<Contract>> constraintViolations;
+            constraintViolations = validator.validate(contract);
+
+            if (constraintViolations.size() > 0 ) {
+                System.out.println("Constraint Violations occurred..");
+                for (ConstraintViolation<Contract> contraints : constraintViolations) {
+                    System.out.println(contraints.getRootBeanClass().getSimpleName()+
+                    "." + contraints.getPropertyPath() + " " + contraints.getMessage());
+                }
+            }
             em.persist(contract);
             if (contractTypeId != null) {
                 contractTypeId.getContractList().add(contract);
@@ -82,10 +101,10 @@ public class ContractJpaController implements Serializable {
                 paymentFrequency.getContractList().add(contract);
                 paymentFrequency = em.merge(paymentFrequency);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -103,8 +122,8 @@ public class ContractJpaController implements Serializable {
     public void edit(Contract contract) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Contract persistentContract = em.find(Contract.class, contract.getId());
             ContractType contractTypeIdOld = persistentContract.getContractTypeId();
             ContractType contractTypeIdNew = contract.getContractTypeId();
@@ -163,10 +182,10 @@ public class ContractJpaController implements Serializable {
                 paymentFrequencyNew.getContractList().add(contract);
                 paymentFrequencyNew = em.merge(paymentFrequencyNew);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -188,8 +207,8 @@ public class ContractJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Contract contract;
             try {
                 contract = em.getReference(Contract.class, id);
@@ -218,10 +237,10 @@ public class ContractJpaController implements Serializable {
                 paymentFrequency = em.merge(paymentFrequency);
             }
             em.remove(contract);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -278,5 +297,35 @@ public class ContractJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public List<Integer> getContractByCustomer(int customerID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT id FROM contract where customer_id='" + customerID + "'");
+            System.out.println(query);
+            List<Integer> ret = (List<Integer>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Integer> getContractIDBy_CustomerID_EmployeeID(int cusID,int empID) {
+       EntityManager em = getEntityManager();
+        
+       
+       //q.setParameter("cusID", cusID);
+       try {
+            Query q=em.createNativeQuery("SELECT * FROM Contract WHERE "
+                    + "customer_id = '"+cusID+"' AND "
+                    + "employee_id = '"+empID+"'"
+            );
+            List<Integer> ret = (List<Integer>) q.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
     
 }

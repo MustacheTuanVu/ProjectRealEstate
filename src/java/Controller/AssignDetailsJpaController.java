@@ -57,8 +57,8 @@ public class AssignDetailsJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Employee employeeId = assignDetails.getEmployeeId();
             if (employeeId != null) {
                 employeeId = em.getReference(employeeId.getClass(), employeeId.getId());
@@ -78,10 +78,10 @@ public class AssignDetailsJpaController implements Serializable {
                 estateId.setAssignDetails(assignDetails);
                 estateId = em.merge(estateId);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -99,8 +99,8 @@ public class AssignDetailsJpaController implements Serializable {
     public void edit(AssignDetails assignDetails) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             AssignDetails persistentAssignDetails = em.find(AssignDetails.class, assignDetails.getId());
             Employee employeeIdOld = persistentAssignDetails.getEmployeeId();
             Employee employeeIdNew = assignDetails.getEmployeeId();
@@ -144,10 +144,10 @@ public class AssignDetailsJpaController implements Serializable {
                 estateIdNew.setAssignDetails(assignDetails);
                 estateIdNew = em.merge(estateIdNew);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -169,8 +169,8 @@ public class AssignDetailsJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             AssignDetails assignDetails;
             try {
                 assignDetails = em.getReference(AssignDetails.class, id);
@@ -189,10 +189,10 @@ public class AssignDetailsJpaController implements Serializable {
                 estateId = em.merge(estateId);
             }
             em.remove(assignDetails);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
