@@ -56,8 +56,8 @@ public class ProjectDetailsJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Estate estateId = projectDetails.getEstateId();
             if (estateId != null) {
                 estateId = em.getReference(estateId.getClass(), estateId.getId());
@@ -68,10 +68,10 @@ public class ProjectDetailsJpaController implements Serializable {
                 estateId.setProjectDetails(projectDetails);
                 estateId = em.merge(estateId);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -89,8 +89,8 @@ public class ProjectDetailsJpaController implements Serializable {
     public void edit(ProjectDetails projectDetails) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             ProjectDetails persistentProjectDetails = em.find(ProjectDetails.class, projectDetails.getProjectDetailId());
             Estate estateIdOld = persistentProjectDetails.getEstateId();
             Estate estateIdNew = projectDetails.getEstateId();
@@ -120,10 +120,10 @@ public class ProjectDetailsJpaController implements Serializable {
                 estateIdNew.setProjectDetails(projectDetails);
                 estateIdNew = em.merge(estateIdNew);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -145,8 +145,8 @@ public class ProjectDetailsJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             ProjectDetails projectDetails;
             try {
                 projectDetails = em.getReference(ProjectDetails.class, id);
@@ -160,10 +160,10 @@ public class ProjectDetailsJpaController implements Serializable {
                 estateId = em.merge(estateId);
             }
             em.remove(projectDetails);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -216,6 +216,18 @@ public class ProjectDetailsJpaController implements Serializable {
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<ProjectDetails> getProjectDetailByProject(String projectID) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("SELECT project_detail_id FROM project_details where prject_id='" + projectID + "'");
+            List<ProjectDetails> ret = (List<ProjectDetails>) query.getResultList();
+            return ret;
         } finally {
             em.close();
         }

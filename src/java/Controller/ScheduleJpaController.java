@@ -42,8 +42,8 @@ public class ScheduleJpaController implements Serializable {
     public void create(Schedule schedule) throws PreexistingEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Customer customerId = schedule.getCustomerId();
             if (customerId != null) {
                 customerId = em.getReference(customerId.getClass(), customerId.getId());
@@ -72,10 +72,10 @@ public class ScheduleJpaController implements Serializable {
                 estateId.getScheduleList().add(schedule);
                 estateId = em.merge(estateId);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -93,8 +93,8 @@ public class ScheduleJpaController implements Serializable {
     public void edit(Schedule schedule) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Schedule persistentSchedule = em.find(Schedule.class, schedule.getId());
             Customer customerIdOld = persistentSchedule.getCustomerId();
             Customer customerIdNew = schedule.getCustomerId();
@@ -139,10 +139,10 @@ public class ScheduleJpaController implements Serializable {
                 estateIdNew.getScheduleList().add(schedule);
                 estateIdNew = em.merge(estateIdNew);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -164,8 +164,8 @@ public class ScheduleJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Schedule schedule;
             try {
                 schedule = em.getReference(Schedule.class, id);
@@ -189,10 +189,10 @@ public class ScheduleJpaController implements Serializable {
                 estateId = em.merge(estateId);
             }
             em.remove(schedule);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -245,6 +245,18 @@ public class ScheduleJpaController implements Serializable {
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Schedule> getScheduleByEmployee(int employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM schedule where employee_id='" + employeeID + "'", Schedule.class);
+            
+            List<Schedule> ret = (List<Schedule>) query.getResultList();
+            return ret;
         } finally {
             em.close();
         }

@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
@@ -33,9 +35,8 @@ public class Manager implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "manager_id")
+    @Column(name = "manager_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer managerId;
     @Basic(optional = false)
     @NotNull

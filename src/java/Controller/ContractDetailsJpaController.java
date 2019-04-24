@@ -9,6 +9,7 @@ import Controller.exceptions.IllegalOrphanException;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
+import Entity.Contract;
 import Entity.ContractDetails;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -21,6 +22,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
+
+import Entity.Contract;
 
 /**
  *
@@ -51,13 +54,13 @@ public class ContractDetailsJpaController implements Serializable {
                 illegalOrphanMessages.add("The Estate " + estateIdOrphanCheck + " already has an item of type ContractDetails whose estateId column cannot be null. Please make another selection for the estateId field.");
             }
         }
-        if (illegalOrphanMessages != null) {
-            throw new IllegalOrphanException(illegalOrphanMessages);
-        }
+//        if (illegalOrphanMessages != null) {
+//            throw new IllegalOrphanException(illegalOrphanMessages);
+//        }
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Estate estateId = contractDetails.getEstateId();
             if (estateId != null) {
                 estateId = em.getReference(estateId.getClass(), estateId.getId());
@@ -68,10 +71,10 @@ public class ContractDetailsJpaController implements Serializable {
                 estateId.setContractDetails(contractDetails);
                 estateId = em.merge(estateId);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -89,8 +92,8 @@ public class ContractDetailsJpaController implements Serializable {
     public void edit(ContractDetails contractDetails) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             ContractDetails persistentContractDetails = em.find(ContractDetails.class, contractDetails.getId());
             Estate estateIdOld = persistentContractDetails.getEstateId();
             Estate estateIdNew = contractDetails.getEstateId();
@@ -120,10 +123,10 @@ public class ContractDetailsJpaController implements Serializable {
                 estateIdNew.setContractDetails(contractDetails);
                 estateIdNew = em.merge(estateIdNew);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -145,8 +148,8 @@ public class ContractDetailsJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             ContractDetails contractDetails;
             try {
                 contractDetails = em.getReference(ContractDetails.class, id);
@@ -160,10 +163,10 @@ public class ContractDetailsJpaController implements Serializable {
                 estateId = em.merge(estateId);
             }
             em.remove(contractDetails);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -220,5 +223,104 @@ public class ContractDetailsJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    public ContractDetails getContractDetailsByContract(int contractID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM contract_details where contract_id='" + contractID + "'", ContractDetails.class);
+            System.out.println(query);
+            ContractDetails ret = (ContractDetails) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Contract> getContractByEmployee(int employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = null;
+            List<Contract> ret = null;
+            if(employeeID == -1){
+                query = em.createNativeQuery("SELECT * FROM contract", Contract.class);
+                ret = (List<Contract>) query.getResultList();
+            }else{
+                query = em.createNativeQuery("SELECT * FROM contract where employee_id='" + employeeID + "'", Contract.class);
+                ret = (List<Contract>) query.getResultList();
+            }
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Contract> getContractByEmployeeAndCustomer(int employeeID, int customerID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM contract where "
+                    + "employee_id='" + employeeID + "' AND "
+                    + "customer_id='" + customerID + "'",
+                     Contract.class);
+            List<Contract> ret = (List<Contract>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<ContractDetails> getContractDetailsByContractID(int employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            List<Contract> contractList = getContractByEmployee(employeeID);
+            List<ContractDetails> ret = (List<ContractDetails>) new ArrayList<ContractDetails>();
+
+            for (Contract contract : contractList) {
+                Query query = em.createNativeQuery("SELECT * FROM contract_details where contract_id='" + contract.getId() + "'", ContractDetails.class);
+                List<ContractDetails> ret2 = (List<ContractDetails>) query.getResultList();
+                ret.addAll(ret2);
+            }
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    // CAI NAY NHE
+    public List<ContractDetails> getContractDetailsByContractIDCustomerID(int employeeID, int customerID) {
+        EntityManager em = getEntityManager();
+        try {
+            List<Contract> contractList = getContractByEmployeeAndCustomer(employeeID, customerID);
+            List<ContractDetails> ret = (List<ContractDetails>) new ArrayList<ContractDetails>();
+
+            for (Contract contract : contractList) {
+                Query query = em.createNativeQuery("SELECT * FROM contract_details where "
+                        + "contract_id='" + contract.getId() + "'",
+                         ContractDetails.class);
+                List<ContractDetails> ret2 = (List<ContractDetails>) query.getResultList();
+                ret.addAll(ret2);
+            }
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public Object getContractDetailsByContractIDandKeyword(int employeeID, String keyword) {
+        EntityManager em = getEntityManager();
+        try {
+            List<Contract> contractList = getContractByEmployee(employeeID);
+            List<ContractDetails> ret = (List<ContractDetails>) new ArrayList<ContractDetails>();
+
+            for (Contract contract : contractList) {
+                Query query = em.createNativeQuery("SELECT * FROM contract_details where contract_id='" + contract.getId() + "'"
+                        + " AND ",
+                         ContractDetails.class);
+                List<ContractDetails> ret2 = (List<ContractDetails>) query.getResultList();
+                ret.addAll(ret2);
+            }
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
 }

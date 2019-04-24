@@ -20,11 +20,17 @@ import java.util.ArrayList;
 import java.util.List;
 import Entity.AssignDetails;
 import Entity.Employee;
+import Entity.Estate;
 import Entity.Schedule;
 import Entity.Post;
+import java.util.Iterator;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 
 /**
  *
@@ -58,8 +64,8 @@ public class EmployeeJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Users userId = employee.getUserId();
             if (userId != null) {
                 userId = em.getReference(userId.getClass(), userId.getId());
@@ -89,6 +95,20 @@ public class EmployeeJpaController implements Serializable {
                 attachedPostList.add(postListPostToAttach);
             }
             employee.setPostList(attachedPostList);
+
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            javax.validation.Validator validator = factory.getValidator();
+            Set<ConstraintViolation<Employee>> constraintViolations;
+            constraintViolations = validator.validate(employee);
+
+            if (constraintViolations.size() > 0) {
+                System.out.println("Constraint Violations occurred..");
+                for (ConstraintViolation<Employee> employees : constraintViolations) {
+                    System.out.println(employees.getRootBeanClass().getSimpleName()
+                            + "." + employees.getPropertyPath() + " " + employees.getMessage());
+                }
+            }
+
             em.persist(employee);
             if (userId != null) {
                 Employee oldEmployeeOfUserId = userId.getEmployee();
@@ -135,10 +155,10 @@ public class EmployeeJpaController implements Serializable {
                     oldEmployeeOfPostListPost = em.merge(oldEmployeeOfPostListPost);
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -156,8 +176,8 @@ public class EmployeeJpaController implements Serializable {
     public void edit(Employee employee) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Employee persistentEmployee = em.find(Employee.class, employee.getId());
             Users userIdOld = persistentEmployee.getUserId();
             Users userIdNew = employee.getUserId();
@@ -293,10 +313,10 @@ public class EmployeeJpaController implements Serializable {
                     }
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -318,8 +338,8 @@ public class EmployeeJpaController implements Serializable {
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Employee employee;
             try {
                 employee = em.getReference(Employee.class, id);
@@ -363,10 +383,10 @@ public class EmployeeJpaController implements Serializable {
                 contractListContract = em.merge(contractListContract);
             }
             em.remove(employee);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -423,5 +443,106 @@ public class EmployeeJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    public Employee getCustomerByUserID(int userID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM employee where user_id='" + userID + "'", Employee.class);
+            Employee ret = (Employee) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<String> getEstateByEmployeeID(int employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT DISTINCT estate_id FROM assign_details where "
+                    + "employee_id='" + employeeID + "'");
+            List<String> ret = (List<String>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Estate> getEstatePublicByEmployeeID(int employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            List<Estate> estateList = new ArrayList<Estate>();
+            List<String> estateIDList = getEstateByEmployeeID(employeeID);
+            for (String id : estateIDList) {
+                Query query1 = em.createNativeQuery("SELECT * FROM estate where "
+                    + "id='" + id + "'",
+                Estate.class);
+                estateList.add((Estate)query1.getSingleResult());
+            }
+            List<Estate> estateListRemove = new ArrayList<Estate>();
+            if (!estateList.isEmpty()) {
+                Query query = null;
+                for (int i = 0; i < estateList.size(); i++) {
+                    Estate estate = estateList.get(i);
+                    query = em.createNativeQuery("SELECT * FROM estate where "
+                            + "estate_status!='publish' AND "
+                            + "id='" + estate.getId() + "'",
+                            Estate.class);
+                    if (!query.getResultList().isEmpty()) {
+                        if(estateList.contains(estate)){
+                            estateListRemove.add(estate);
+                        }
+                    }
+                }
+            }
+            estateList.removeAll(estateListRemove);
+            return estateList;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Estate> getEstateSoldByEmployeeID(int employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            List<Estate> estateList = new ArrayList<Estate>();
+            List<String> estateIDList = getEstateByEmployeeID(employeeID);
+            for (String id : estateIDList) {
+                Query query1 = em.createNativeQuery("SELECT * FROM estate where "
+                    + "id='" + id + "'",
+                Estate.class);
+                estateList.add((Estate)query1.getSingleResult());
+            }
+            List<Estate> estateListRemove = new ArrayList<Estate>();
+            if (!estateList.isEmpty()) {
+                Query query = null;
+                for (int i = 0; i < estateList.size(); i++) {
+                    Estate estate = estateList.get(i);
+                    query = em.createNativeQuery("SELECT * FROM estate where "
+                            + "estate_status!='sold' AND "
+                            + "id='" + estate.getId() + "'",
+                            Estate.class);
+                    if (!query.getResultList().isEmpty()) {
+                        if(estateList.contains(estate)){
+                            estateListRemove.add(estate);
+                        }
+                    }
+                }
+            }
+            estateList.removeAll(estateListRemove);
+            return estateList;
+        } finally {
+            em.close();
+        }
+    }
+
+    public int getEstateCountByEmployeeID(int employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT count(*) FROM assign_details where employee_id='" + employeeID + "'");
+            int ret = (int) query.getSingleResult();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
 }

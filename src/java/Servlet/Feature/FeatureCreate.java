@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
 /**
@@ -39,58 +40,78 @@ public class FeatureCreate extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        FeaturesJpaController featuresControl = new FeaturesJpaController(utx, emf);
-        
-        String featureName = request.getParameter("featureName");
-        
-        int indexID = 1;
-        //String estateID = estateTypeName + indexID;
-        String featureID = "1";
-        
-        while (true) {
-            if (featuresControl.findFeatures(featureID)!=null) {
-                indexID = indexID + 1;
-                featureID = String.valueOf(indexID);
+
+        HttpSession session = request.getSession();
+        Entity.Users user = (Entity.Users) session.getAttribute("user");
+
+        if (user != null) {
+            if (user.getRole().equals("employee")) {
+                request.setAttribute("user", "user");
+                request.setAttribute("displayLogin", "none");
+                request.setAttribute("displayUser", "block");
+
+                session.setAttribute("name", user.getEmployee().getEmployeeName());
+                request.setAttribute("role", "employee");
+                session.setAttribute("image", user.getEmployee().getEmployeeImg());
+
+                EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+                FeaturesJpaController featuresControl = new FeaturesJpaController(utx, emf);
+
+                String featureName = request.getParameter("featureName");
+
+                int indexID = 1;
+                //String estateID = estateTypeName + indexID;
+                String featureID = "1";
+
+                while (true) {
+                    if (featuresControl.findFeatures(featureID) != null) {
+                        indexID = indexID + 1;
+                        featureID = String.valueOf(indexID);
+                    } else {
+                        break;
+                    }
+                }
+
+                String message = "";
+                String hasError = "";
+                String display = "none";
+                List<Features> featuresList = (List<Features>) featuresControl.getFeatureByName(featureName);
+                if (featuresList.size() > 0) {
+                    message = "Type exits !";
+                    hasError = "has-error";
+                    display = "block";
+                    request.setAttribute("message", message);
+                    request.setAttribute("hasError", hasError);
+                    request.setAttribute("display", display);
+
+                    RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/FeatureList");
+                    dispatcher.forward(request, response);
+                } else {
+                    Features features = new Features();
+                    features.setFeaturesId(featureID);
+                    features.setFeatureName(featureName);
+
+                    try {
+                        featuresControl.create(features);
+                        response.sendRedirect(request.getContextPath() + "/FeatureList");
+                    } catch (RollbackFailureException ex) {
+                        Logger.getLogger(FeatureCreate.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception ex) {
+                        Logger.getLogger(FeatureCreate.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             } else {
-                break;
+                response.sendRedirect(request.getContextPath() + "/LoginUser");
             }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/LoginUser");
         }
-        
-        String message = "";
-        String hasError = "";
-        String display = "none";
-        List<Features> featuresList = (List<Features>) featuresControl.getFeatureByName(featureName);
-        if(featuresList.size()>0){
-            message = "Type exits !";
-            hasError = "has-error";
-            display = "block";
-            request.setAttribute("message", message);
-            request.setAttribute("hasError", hasError);
-            request.setAttribute("display", display);
-            
-            RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/FeatureList");
-            dispatcher.forward(request, response);
-        }else{
-            Features features = new Features();
-            features.setFeaturesId(featureID);
-            features.setFeatureName(featureName);
-            
-            try {
-                featuresControl.create(features);
-                response.sendRedirect(request.getContextPath()+"/FeatureList");
-            } catch (RollbackFailureException ex) {
-                Logger.getLogger(FeatureCreate.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(FeatureCreate.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                
-        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

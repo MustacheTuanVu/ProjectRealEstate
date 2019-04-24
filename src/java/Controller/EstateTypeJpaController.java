@@ -45,8 +45,8 @@ public class EstateTypeJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             List<Estate> attachedEstateList = new ArrayList<Estate>();
             for (Estate estateListEstateToAttach : estateType.getEstateList()) {
                 estateListEstateToAttach = em.getReference(estateListEstateToAttach.getClass(), estateListEstateToAttach.getId());
@@ -63,10 +63,10 @@ public class EstateTypeJpaController implements Serializable {
                     oldEstateTypeIdOfEstateListEstate = em.merge(oldEstateTypeIdOfEstateListEstate);
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -84,8 +84,8 @@ public class EstateTypeJpaController implements Serializable {
     public void edit(EstateType estateType) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             EstateType persistentEstateType = em.find(EstateType.class, estateType.getId());
             List<Estate> estateListOld = persistentEstateType.getEstateList();
             List<Estate> estateListNew = estateType.getEstateList();
@@ -120,10 +120,10 @@ public class EstateTypeJpaController implements Serializable {
                     }
                 }
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -145,8 +145,8 @@ public class EstateTypeJpaController implements Serializable {
     public void destroy(String id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             EstateType estateType;
             try {
                 estateType = em.getReference(EstateType.class, id);
@@ -166,10 +166,10 @@ public class EstateTypeJpaController implements Serializable {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(estateType);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -226,12 +226,55 @@ public class EstateTypeJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public List<EstateType> getEstateTypeByName(String estateTypeName) {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createNativeQuery("SELECT * FROM estate_type where type_name='" + estateTypeName + "'",EstateType.class);
+            Query query = em.createNativeQuery("SELECT * FROM estate_type where type_name='" + estateTypeName + "'", EstateType.class);
             List<EstateType> ret = query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+
+    public int getEstateTypeByEstateCount(String estateTypeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT count(id) as axs FROM estate where estate_type_id='" + estateTypeID + "'");
+            int ret = (int) query.getSingleResult();
+            System.out.println(query);
+            System.out.println(ret);
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public int getEstateTypeByEstateCountStaticPublic(String estateTypeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT count(id) as axs FROM estate where "
+                    + "estate_type_id='" + estateTypeID + "' AND "
+                    + "estate_status='publish'");
+            int ret = (int) query.getSingleResult();
+            System.out.println(query);
+            System.out.println(ret);
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public int getEstateTypeByEstateCountStaticSold(String estateTypeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT count(id) as axs FROM estate where "
+                    + "estate_type_id='" + estateTypeID + "' AND "
+                    + "estate_status='sold'");
+            int ret = (int) query.getSingleResult();
+            System.out.println(query);
+            System.out.println(ret);
             return ret;
         } finally {
             em.close();
