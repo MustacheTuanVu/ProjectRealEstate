@@ -110,7 +110,7 @@
                                                                     <div class="row">
                                                                         <div class="form-group">
                                                                             <label for="in-1" class="control-label">Thời gian muốn xem nhà</label>
-                                                                            <input name="yearBuild" type="text" id="in-datetime" value="01/01/2019" data-time-picker="false" data-single-picker="true" class="js-datetimerange form-control">
+                                                                            <input name="contactTime" type="text" id="in-datetime" data-time-picker="false" data-single-picker="true" class="js-datetimerange form-control">
                                                                             <input name="employeeID" type="hidden" value="${employee.id}">
                                                                             <input name="paymentAmount" type="hidden" value="${find.price}">
                                                                             <input name="estateId" type="hidden" value="${find.id}">
@@ -120,7 +120,7 @@
                                                                         <div class="row">
                                                                             <div class="form-group form-group--description">
                                                                                 <label for="in-13" class="text-left control-label">Lời nhắn</label>
-                                                                                <textarea id="in-13" name="txtContent" required data-parsley-trigger="keyup" data-parsley-minlength="200" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 200 caracters long comment.." class="form-control form-control--description">${customer.customerContent}</textarea>
+                                                                                <textarea id="in-13" name="contactContext" required data-parsley-trigger="keyup" data-parsley-minlength="200" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 200 caracters long comment.." class="form-control form-control--description">${customer.customerContent}</textarea>
                                                                             </div>
                                                                         </div>
                                                                     </div>

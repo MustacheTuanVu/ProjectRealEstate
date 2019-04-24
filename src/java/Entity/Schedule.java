@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -31,11 +33,14 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Schedule.findAll", query = "SELECT s FROM Schedule s")})
 public class Schedule implements Serializable {
 
+    @Size(max = 100)
+    @Column(name = "status")
+    private String status;
+
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Basic(optional = false)
     @NotNull
@@ -138,6 +143,14 @@ public class Schedule implements Serializable {
     @Override
     public String toString() {
         return "Entity.Schedule[ id=" + id + " ]";
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
     
 }

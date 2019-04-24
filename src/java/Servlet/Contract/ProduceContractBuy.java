@@ -13,6 +13,7 @@ import Controller.EmployeeJpaController;
 import Controller.EstateJpaController;
 import Controller.FeeJpaController;
 import Controller.PaymentFrequencyJpaController;
+import Controller.ScheduleJpaController;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
@@ -23,9 +24,13 @@ import Entity.Customer;
 import Entity.Employee;
 import Entity.Estate;
 import Entity.PaymentFrequency;
+import Entity.Schedule;
 import Entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
@@ -132,9 +137,36 @@ public class ProduceContractBuy extends HttpServlet {
 
                 try {
                     contractDetailsControl.create(contractDetails);
-                    response.sendRedirect(request.getContextPath() + "/DashboardUser");
                 } catch (PreexistingEntityException ex) {
                     Logger.getLogger(ProduceContractBuy.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (RollbackFailureException ex) {
+                    Logger.getLogger(ProduceContractBuy.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(ProduceContractBuy.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                /*-----------------------------------------------------------*/
+                ScheduleJpaController scheduleJpaController = new ScheduleJpaController(utx, emf);
+                Schedule schedule = new Schedule();
+                schedule.setCustomerId(customer);
+                schedule.setEmployeeId(employee);
+                schedule.setEstateId(estate);
+
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                Date day;
+                try {
+                    day = sdf.parse(request.getParameter("contactTime"));
+                    schedule.setContactTime(day);
+                } catch (ParseException ex) {
+                    Logger.getLogger(ProduceContractBuy.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                schedule.setContactContext(request.getParameter("contactContext"));
+                schedule.setContactContext("unread");
+                
+                try {
+                    scheduleJpaController.create(schedule);
+                    response.sendRedirect(request.getContextPath() + "/DashboardUser");
                 } catch (RollbackFailureException ex) {
                     Logger.getLogger(ProduceContractBuy.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception ex) {
