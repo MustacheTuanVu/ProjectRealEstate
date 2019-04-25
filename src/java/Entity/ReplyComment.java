@@ -47,8 +47,8 @@ public class ReplyComment implements Serializable {
     private String emailReply;
     private static final long serialVersionUID = 1L;
     @Id
+    @Column(name = "id_reply", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_reply")
     private Integer idReply;
     @Basic(optional = false)
     @NotNull

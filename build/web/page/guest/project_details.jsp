@@ -1,10 +1,21 @@
+<%@page import="Entity.Users"%>
 <!DOCTYPE html>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
     <head lang="en">
-        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+        <style type="text/css">
+            .star-rating {
+                line-height:32px;
+                font-size:1.25em;
+            }
+            .star-rating .fa-star{color: yellow;}
+        </style>
+
         <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
@@ -86,13 +97,11 @@
                             <!-- BEGIN PROPERTY DETAILS-->
                             <div class="property">
                                 <h1 class="property__title">${find.projectName}
+                                    <input type="hidden" value="${find.projectId}" name="txtidProject" id="txtId" />
                                     <span class="property__city">${find.projectAddress}</span>
                                 </h1>
                                 <div class="property__header">
-                                    <div class="property__price property__price--commision">
-                                        <span class="property__price-label">district</span>
-                                        <strong class="property__price-value">${find.district}</strong>
-                                    </div>
+
                                     <!--
                                     <div class="property__actions property__actions--btn">
                                         <button type="button" class="btn--default"><i class="fa fa-star"></i>Add to favorites</button>
@@ -165,7 +174,16 @@
                                 </div>      
                                 <div class="widget js-widget widget--details">
                                     <div class="property__info">
-                                        <div class="property__info-item">District: <strong> ${find.district}</strong></div>
+                                        <div class="property__info-item">Rating : 
+                                            <div class="star-rating">
+                                                <span onclick="checkUserRating(1)" class="fa fa-star-o" data-rating="1"></span>
+                                                <span onclick="checkUserRating(2)" class="fa fa-star-o" data-rating="2"></span>
+                                                <span onclick="checkUserRating(3)" class="fa fa-star-o" data-rating="3"></span>
+                                                <span onclick="checkUserRating(4)" class="fa fa-star-o" data-rating="4"></span>
+                                                <span onclick="checkUserRating(5)" class="fa fa-star-o" data-rating="5"></span>
+                                                <input type="hidden" name="whatever1" class="rating-value" value="${point}">
+                                            </div>
+                                        </div>
                                         <div class="property__info-item">Status: <strong> ${find.projectStatus}</strong></div>
                                         <div class="property__info-item">Year build: <strong> <fmt:formatDate value="${find.yearBuild}" pattern="yyyy" /></strong></div>
                                         <div class="property__info-item">Date add: <strong> <fmt:formatDate value="${find.dateAdd}" pattern="dd/MM/yyyy" /></strong></div>
@@ -173,36 +191,36 @@
                                     <div class="property__plan">
                                         <dl class="property__plan-item">
                                             <dt class="property__plan-icon">
-                                                <svg>
-                                                <use xlink:href="#icon-area"></use>
-                                                </svg>
+                                            <svg>
+                                            <use xlink:href="#icon-area"></use>
+                                            </svg>
                                             </dt>
                                             <dd class="property__plan-title">Block Number</dd>
                                             <dd class="property__plan-value">${find.blockNumber}</dd>
                                         </dl>
                                         <dl class="property__plan-item">
                                             <dt class="property__plan-icon property__plan-icon--window">
-                                                <svg>
-                                                <use xlink:href="#icon-window"></use>
-                                                </svg>
+                                            <svg>
+                                            <use xlink:href="#icon-window"></use>
+                                            </svg>
                                             </dt>
                                             <dd class="property__plan-title">Floor Number</dd>
                                             <dd class="property__plan-value">${find.floorNumber}</dd>
                                         </dl>
                                         <dl class="property__plan-item">
                                             <dt class="property__plan-icon property__plan-icon--bathrooms">
-                                                <svg>
-                                                <use xlink:href="#icon-bathrooms"></use>
-                                                </svg>
+                                            <svg>
+                                            <use xlink:href="#icon-bathrooms"></use>
+                                            </svg>
                                             </dt>
                                             <dd class="property__plan-title">Unit Number</dd>
                                             <dd class="property__plan-value">${countEstate}</dd>
                                         </dl>
                                         <dl class="property__plan-item">
                                             <dt class="property__plan-icon property__plan-icon--garage">
-                                                <svg>
-                                                <use xlink:href="#icon-garage"></use>
-                                                </svg>
+                                            <svg>
+                                            <use xlink:href="#icon-garage"></use>
+                                            </svg>
                                             </dt>
                                             <dd class="property__plan-title">Value</dd>
                                             <dd class="property__plan-value">${sumPrice} USD</dd>
@@ -232,7 +250,7 @@
                                                     <tbody>
                                                         <c:forEach items="${estateList}" var="item">
                                                             <tr <c:if test="${item.estateStatus=='project'}">onclick="myFunction(${item.id})"</c:if>
-                                                                <c:if test="${item.estateStatus!='project'}">style="background: #cccccc !important"</c:if>>
+                                                                                                             <c:if test="${item.estateStatus!='project'}">style="background: #cccccc !important"</c:if>>
                                                                 <td class="datatable__cell datatable__cell--5">${item.id}</td>
                                                                 <td class="datatable__cell datatable__cell--5">${item.block}</td>
                                                                 <td class="datatable__cell datatable__cell--5">${item.floor}</td>
@@ -251,7 +269,7 @@
                                                             <div role="document" class="modal-dialog modal-md">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">�</span></button>
+                                                                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                                     </div>
                                                                     <div class="modal-body">
                                                                         <div class="widget js-widget widget--dashboard">
@@ -358,6 +376,265 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- begin comment -->
+                            <!-- cuong add ****************** -->
+
+                            <div class="comment">
+                                <h3 class="comment__headline">Comments (${totalComment})</h3>
+                                <div class="comment__wrap">
+
+                                    <!--  cuong add -->
+
+                                    <ul id="showcomment"  class="comment__list"  >
+
+                                        <c:forEach var="listComment" items="${listComment}" >
+                                            <c:set value="${listComment.roleComment}" var="role" />
+                                            <li class="comment__item">
+                                                <input type="hidden" id="idComment"  value="${listComment.idComment}" />
+                                                <div class="comment__item-body js-comment-item">
+                                                    <%
+                                                        if (session.getAttribute("user") != null) {
+                                                            Users user = (Users) session.getAttribute("user");
+                                                            if (user.getRole().equals("employee")) {
+                                                    %>
+                                                    <!-- login employee and display info employee -->
+                                                    <c:if test="${role=='employee'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="${listComment.idUser.employee.employeeImg}" alt=""></div>
+                                                        <div class="comment__item-right">
+                                                            <button class="comment__item-btn" onclick="deleteCommentOrReply(${listComment.idComment}, 'comment')" >Delete</button>
+                                                        </div>
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.employee.employeeName}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+                                                    <!-- login employee and display info customer -->
+                                                    <c:if test="${role=='customer'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="${listComment.idUser.customer.customerImg}" alt=""></div>
+                                                        <div class="comment__item-right">
+                                                            <button class="comment__item-btn" onclick="deleteCommentOrReply(${listComment.idComment}, 'comment')" >Delete</button>
+                                                        </div>
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.customer.customerName}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+                                                    <!-- login employee and display info guest -->
+                                                    <c:if test="${role=='guest'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="assets/media-demo/avatars/03.jpg" alt=""></div>
+                                                        <div class="comment__item-right">
+                                                            <button class="comment__item-btn" onclick="deleteCommentOrReply(${listComment.idComment}, 'comment')" >Delete</button>
+                                                        </div>
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.nameComment} - ${listComment.emailComment}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+
+                                                    <%
+                                                    } else { %>
+
+                                                    <!-- login other and display info employee -->
+                                                    <c:if test="${role=='employee'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="${listComment.idUser.employee.employeeImg}" alt=""></div>
+
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.employee.employeeName}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+                                                    <!-- login other and display info customer -->
+                                                    <c:if test="${role=='customer'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="${listComment.idUser.customer.customerImg}" alt=""></div>
+
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.customer.customerName}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+                                                    <!-- login other and display info guest -->
+                                                    <c:if test="${role=='guest'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="assets/media-demo/avatars/03.jpg" alt=""></div>
+
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.nameComment} - ${listComment.emailComment}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+                                                    <%
+                                                        }
+
+                                                    } else {
+                                                    %>
+                                                    <!-- no login and display info employee -->
+                                                    <c:if test="${role=='employee'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="${listComment.idUser.employee.employeeImg}" alt=""></div>
+
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.employee.employeeName}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+                                                    <!-- no login and display info customer -->
+                                                    <c:if test="${role=='customer'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="${listComment.idUser.customer.customerImg}" alt=""></div>
+
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.customer.customerName}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+                                                    <!-- no login and display info guest -->
+                                                    <c:if test="${role=='guest'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="assets/media-demo/avatars/03.jpg" alt=""></div>
+
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.nameComment} - ${listComment.emailComment}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+                                                    <% }%>
+
+                                                </div>
+                                                <!-- end of block .comment__item-body-->
+                                                <ul id="idReply${listComment.idComment}" class="comment__children">
+
+                                                </ul>
+
+                                            </li>
+                                        </c:forEach>
+
+                                    </ul>
+                                    <div class="comment__footer">
+                                        <!-- BEGIN PAGINATION-->
+                                        <nav class="listing__pagination">
+                                            <ul class="pagination-custom">
+                                                <li><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span><span class="sr-only">Previous</span></a></li>
+                                                <li><a href="#">1</a></li>
+                                                <li><span>...</span></li>
+                                                <li class="active-before"><a href="#">3</a></li>
+                                                <li class="active"><span>4</span></li>
+                                                <li class="active-after"><a href="#">5</a></li>
+                                                <li><span>...</span></li>
+                                                <li><a href="#">15</a></li>
+                                                <li><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span><span class="sr-only">Next</span></a></li>
+                                            </ul>
+                                        </nav>
+                                        <!-- END PAGINATION-->
+
+                                        <div class="comment__form" >
+                                            <!-- form thu 1 -->
+                                            <div id="formReply" style="display: none">
+                                                <div class="comment__form js-form-comment-wrap">
+                                                    <h3 class="comment__form-title">Reply comment</h3>
+                                                    <form method="POST" action="<%=request.getContextPath()%>/ProjectDetails?action=reply" class="form form--flex js-parsley form--comment"><span class="comment__form-headline">Your email address will not be published. Required fields are marked *</span>
+                                                        <div class="row">
+                                                            <input type="hidden"  name="txtIdComment" id="txtIdComment" />
+                                                            <%
+                                                                if (session.getAttribute("user") == null) {
+                                                            %>
+                                                            <div class="form-group form-group--col-6">
+                                                                <label for="in-comment-name" class="form__label control-label required">Your Name</label>
+                                                                <input type="text" name="txtNameReply" id="in-comment-name" required class="form-control form__in form__in--text">
+                                                            </div>
+                                                            <div class="form-group form-group--col-6">
+                                                                <label for="in-comment-email" class="form__label control-label">E-mail</label>
+                                                                <input type="email" name="txtEmailReply" id="in-comment-email" required class="form-control form__in form__in--text">
+                                                            </div>
+                                                            <% }%>
+                                                            <div class="form-group">
+                                                                <label for="in-comment-message" class="form__label control-label">Message</label>
+                                                                <textarea id="in-comment-message" name="txtReplyContent" required class="form-control form__in form__in--textarea"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row row--buttons">
+                                                            <button type="submit" id="btnPost" class="form__submit" >Post comment</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+
+                                            <!-- end of block .comment__form-->
+                                        </div>
+                                        <!-- form thu 2 -->
+                                        <h3 class="comment__form-title">Leave a comment</h3>
+                                        <div class="comment__form">
+                                            <form method="POST" action="<%=request.getContextPath()%>/ProjectDetails?action=comment" class="form form--flex js-parsley form--comment"><span class="comment__form-headline">Your email address will not be published. Required fields are marked *</span>
+                                                <div class="row">
+                                                    <input type="hidden" name="txtIDProject" value="${find.projectId}" />
+                                                    <%
+                                                        if (session.getAttribute("user") == null) {
+                                                    %>
+                                                    <div class="form-group form-group--col-6">
+
+                                                        <label for="in-comment-name" class="form__label control-label required">Your Name</label>
+                                                        <input name="txtNameComment" type="text" id="in-comment-name" required class="form-control form__in form__in--text">
+                                                    </div>
+                                                    <div class="form-group form-group--col-6">
+                                                        <label for="in-comment-email" class="form__label control-label">E-mail</label>
+                                                        <input type="email" name="txtEmailComment" id="in-comment-email" required class="form-control form__in form__in--text">
+                                                    </div>
+                                                    <% }%>
+                                                    <div class="form-group">
+                                                        <label for="in-comment-message" class="form__label control-label">Message</label>
+                                                        <textarea id="in-comment-message" name="txtComment" required class="form-control form__in form__in--textarea"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="row row--buttons">
+                                                    <button type="submit" id="btnPost" class="form__submit" >Post comment</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end comment -->
                             <!-- end of block .property-->
                         </div>
                         <!-- END site-->
@@ -459,10 +736,103 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demo.js"></script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
-    <script type="text/javascript">
-                                                                function myFunction(id) {
-                                                                    $('#' + id).modal('show');
+    <script >
+
+                                                                function showButton(idComment) {
+                                                                    var idHidden = document.getElementById("idHiddent" + idComment);
+                                                                    idHidden.style.display = "none";
+                                                                    var idshowMore = document.getElementById("showMore" + idComment);
+                                                                    idshowMore.style.display = "inline";
+
+                                                                    document.getElementById("idReply" + idComment).innerHTML = "";
                                                                 }
+                                                                ;
+                                                                function showFormReply(idComment) {
+                                                                    var formReply = document.getElementById("formReply");
+                                                                    formReply.style.display = "block";
+                                                                    document.getElementById("txtIdComment").value = idComment;
+                                                                }
+                                                                ;
+                                                                function deleteCommentOrReply(idComment, action) {
+
+                                                                    var result = confirm('Are You Sure Delete Comment !!!');
+                                                                    if (result == true) {
+                                                                        var xhttp = new XMLHttpRequest();
+                                                                        xhttp.onreadystatechange = function () {
+                                                                            if (this.readyState == 4 && this.status == 200) {
+                                                                                //document.getElementById("idReply" + idComme98989
+                                                                            }
+                                                                        };
+                                                                        xhttp.open("POST", "<%= request.getContextPath()%>/CommentEmployee?id=" + idComment + "&action=" + action, true);
+                                                                        xhttp.send();
+                                                                    }
+                                                                }
+                                                                ;
+                                                                function getReplyComment(idComment) {
+
+                                                                    var idHidden = document.getElementById("idHiddent" + idComment);
+                                                                    idHidden.style.display = "inline";
+                                                                    var idshowMore = document.getElementById("showMore" + idComment);
+                                                                    idshowMore.style.display = "none";
+
+                                                                    var xhttp = new XMLHttpRequest();
+                                                                    xhttp.onreadystatechange = function () {
+                                                                        if (this.readyState == 4 && this.status == 200) {
+                                                                            document.getElementById("idReply" + idComment).innerHTML = this.responseText;
+                                                                        }
+                                                                    };
+                                                                    xhttp.open("GET", "<%= request.getContextPath()%>/CommentEmployee?idComment=" + idComment, true);
+                                                                    xhttp.send();
+                                                                }
+
+    </script>
+    <script type="text/javascript">
+        function myFunction(id) {
+            $('#' + id).modal('show');
+        }
+
+
+        var $star_rating = $('.star-rating .fa');
+
+        var SetRatingStar = function () {
+            return $star_rating.each(function () {
+                if (parseInt($star_rating.siblings('input.rating-value').val()) >= parseInt($(this).data('rating'))) {
+                    return $(this).removeClass('fa-star-o').addClass('fa-star');
+                } else {
+                    return $(this).removeClass('fa-star').addClass('fa-star-o');
+                }
+            });
+        };
+
+        $star_rating.on('click', function () {
+            $star_rating.siblings('input.rating-value').val($(this).data('rating'));
+            return SetRatingStar();
+        });
+
+        SetRatingStar();
+        $(document).ready(function () {
+
+        });
+
+        function checkUserRating(point) {
+
+            var idproject = document.getElementById('txtId').value;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    if (this.responseText == ('0')) {
+                        alert('Mời Bạn Đăng Nhập Để Đánh Giá !!!');
+                    }
+                    else if (this.responseText == '1') {
+                        alert('Bạn Đã Đánh Giá Dự Án Này !!!');
+                    } else if (this.responseText == '2') {
+                        alert('Đánh Giá Thành Công !!!');
+                    }
+                }
+            };
+            xhttp.open("GET", "Rating?idProject=" + idproject + "&point=" + point, true);
+            xhttp.send();
+        }
     </script>
     <!-- END SCRIPTS and INCLUDES-->
 </body>

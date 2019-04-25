@@ -6,31 +6,27 @@
 package Controller;
 
 import Controller.exceptions.NonexistentEntityException;
-import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
-import Entity.ReplyComment;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Entity.Users;
+import Entity.Project;
+import Entity.Rating;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.ValidatorFactory;
 
 /**
  *
  * @author Cuong
  */
-public class ReplyCommentJpaController implements Serializable {
+public class RatingJpaController implements Serializable {
 
-    public ReplyCommentJpaController(UserTransaction utx, EntityManagerFactory emf) {
+    public RatingJpaController(UserTransaction utx, EntityManagerFactory emf) {
         this.utx = utx;
         this.emf = emf;
     }
@@ -41,36 +37,30 @@ public class ReplyCommentJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(ReplyComment replyComment) throws PreexistingEntityException, RollbackFailureException, Exception {
+    public void create(Rating rating) throws RollbackFailureException, Exception {
         EntityManager em = null;
         try {
             //utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
-            Users idUser = replyComment.getIdUser();
+            Users idUser = rating.getIdUser();
             if (idUser != null) {
                 idUser = em.getReference(idUser.getClass(), idUser.getId());
-                replyComment.setIdUser(idUser);
+                rating.setIdUser(idUser);
             }
-            
-            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-            javax.validation.Validator validator = factory.getValidator();
-
-            Set<ConstraintViolation<ReplyComment>> constraintViolations;
-            constraintViolations = validator.validate(replyComment);
-
-            if (constraintViolations.size() > 0) {
-                System.out.println("Constraint Violations occurred..");
-                for (ConstraintViolation<ReplyComment> estates : constraintViolations) {
-                    System.out.println(estates.getRootBeanClass().getSimpleName()
-                            + "." + estates.getPropertyPath() + " " + estates.getMessage());
-                }
+            Project idProject = rating.getIdProject();
+            if (idProject != null) {
+                idProject = em.getReference(idProject.getClass(), idProject.getProjectId());
+                rating.setIdProject(idProject);
             }
-            
-            em.persist(replyComment);
+            em.persist(rating);
             if (idUser != null) {
-                idUser.getReplyCommentList().add(replyComment);
+                idUser.getRatingList().add(rating);
                 idUser = em.merge(idUser);
+            }
+            if (idProject != null) {
+                idProject.getRatingList().add(rating);
+                idProject = em.merge(idProject);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -78,9 +68,6 @@ public class ReplyCommentJpaController implements Serializable {
                 em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            if (findReplyComment(replyComment.getIdReply()) != null) {
-                throw new PreexistingEntityException("Reply " + replyComment + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -90,27 +77,41 @@ public class ReplyCommentJpaController implements Serializable {
         }
     }
 
-    public void edit(ReplyComment replyComment) throws NonexistentEntityException, RollbackFailureException, Exception {
+    public void edit(Rating rating) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
             //utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
-            ReplyComment persistentReplyComment = em.find(ReplyComment.class, replyComment.getIdReply());
-            Users idUserOld = persistentReplyComment.getIdUser();
-            Users idUserNew = replyComment.getIdUser();
+            Rating persistentRating = em.find(Rating.class, rating.getIdRating());
+            Users idUserOld = persistentRating.getIdUser();
+            Users idUserNew = rating.getIdUser();
+            Project idProjectOld = persistentRating.getIdProject();
+            Project idProjectNew = rating.getIdProject();
             if (idUserNew != null) {
                 idUserNew = em.getReference(idUserNew.getClass(), idUserNew.getId());
-                replyComment.setIdUser(idUserNew);
+                rating.setIdUser(idUserNew);
             }
-            replyComment = em.merge(replyComment);
+            if (idProjectNew != null) {
+                idProjectNew = em.getReference(idProjectNew.getClass(), idProjectNew.getProjectId());
+                rating.setIdProject(idProjectNew);
+            }
+            rating = em.merge(rating);
             if (idUserOld != null && !idUserOld.equals(idUserNew)) {
-                idUserOld.getReplyCommentList().remove(replyComment);
+                idUserOld.getRatingList().remove(rating);
                 idUserOld = em.merge(idUserOld);
             }
             if (idUserNew != null && !idUserNew.equals(idUserOld)) {
-                idUserNew.getReplyCommentList().add(replyComment);
+                idUserNew.getRatingList().add(rating);
                 idUserNew = em.merge(idUserNew);
+            }
+            if (idProjectOld != null && !idProjectOld.equals(idProjectNew)) {
+                idProjectOld.getRatingList().remove(rating);
+                idProjectOld = em.merge(idProjectOld);
+            }
+            if (idProjectNew != null && !idProjectNew.equals(idProjectOld)) {
+                idProjectNew.getRatingList().add(rating);
+                idProjectNew = em.merge(idProjectNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -121,9 +122,9 @@ public class ReplyCommentJpaController implements Serializable {
             }
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = replyComment.getIdReply();
-                if (findReplyComment(id) == null) {
-                    throw new NonexistentEntityException("The replyComment with id " + id + " no longer exists.");
+                Integer id = rating.getIdRating();
+                if (findRating(id) == null) {
+                    throw new NonexistentEntityException("The rating with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -137,22 +138,27 @@ public class ReplyCommentJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            //utx.begin();
+           // utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
-            ReplyComment replyComment;
+            Rating rating;
             try {
-                replyComment = em.getReference(ReplyComment.class, id);
-                replyComment.getIdReply();
+                rating = em.getReference(Rating.class, id);
+                rating.getIdRating();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The replyComment with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The rating with id " + id + " no longer exists.", enfe);
             }
-            Users idUser = replyComment.getIdUser();
+            Users idUser = rating.getIdUser();
             if (idUser != null) {
-                idUser.getReplyCommentList().remove(replyComment);
+                idUser.getRatingList().remove(rating);
                 idUser = em.merge(idUser);
             }
-            em.remove(replyComment);
+            Project idProject = rating.getIdProject();
+            if (idProject != null) {
+                idProject.getRatingList().remove(rating);
+                idProject = em.merge(idProject);
+            }
+            em.remove(rating);
             em.getTransaction().commit();
         } catch (Exception ex) {
             try {
@@ -168,19 +174,19 @@ public class ReplyCommentJpaController implements Serializable {
         }
     }
 
-    public List<ReplyComment> findReplyCommentEntities() {
-        return findReplyCommentEntities(true, -1, -1);
+    public List<Rating> findRatingEntities() {
+        return findRatingEntities(true, -1, -1);
     }
 
-    public List<ReplyComment> findReplyCommentEntities(int maxResults, int firstResult) {
-        return findReplyCommentEntities(false, maxResults, firstResult);
+    public List<Rating> findRatingEntities(int maxResults, int firstResult) {
+        return findRatingEntities(false, maxResults, firstResult);
     }
 
-    private List<ReplyComment> findReplyCommentEntities(boolean all, int maxResults, int firstResult) {
+    private List<Rating> findRatingEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(ReplyComment.class));
+            cq.select(cq.from(Rating.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -192,20 +198,20 @@ public class ReplyCommentJpaController implements Serializable {
         }
     }
 
-    public ReplyComment findReplyComment(Integer id) {
+    public Rating findRating(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(ReplyComment.class, id);
+            return em.find(Rating.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getReplyCommentCount() {
+    public int getRatingCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<ReplyComment> rt = cq.from(ReplyComment.class);
+            Root<Rating> rt = cq.from(Rating.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
@@ -213,33 +219,18 @@ public class ReplyCommentJpaController implements Serializable {
             em.close();
         }
     }
- 
-        // cuong add
-    public List<ReplyComment> getReplyComment(int id){
+    
+    // cuong add
+    public Double getPointByProject(String id){
         EntityManager em=getEntityManager();
-        Query q=em.createNativeQuery("select * from reply_comment where id_comment ='"+id+"' and status_reply like 'accept'",ReplyComment.class);
-        
-        return q.getResultList();
+        Query q=em.createNativeQuery("select avg(point_rating) as point from rating where id_project ="+id);
+        return (Double) q.getSingleResult();
     }
     // cuong add
-    public ReplyComment countReplyCommentAccept(int idCom){
+    public Integer checkUserRatingByIdUser(int idUser,String idProject){
         EntityManager em=getEntityManager();
-        Query q=em.createNativeQuery("select count(id_comment) as id_reply from reply_comment where id_comment="+idCom+" and status_reply like 'accept'",ReplyComment.class);
-        
-        return (ReplyComment) q.getSingleResult();
-    }
-    // cuong add
-    public ReplyComment countReplyCommentAcceptProject(int idCom){
-        EntityManager em=getEntityManager();
-        Query q=em.createNativeQuery("select count(id_comment) as id_reply from reply_comment where id_comment="+idCom+" and status_reply like 'accept'",ReplyComment.class);
-        
-        return (ReplyComment) q.getSingleResult();
-    }
-    // cuong add
-    public List<ReplyComment> getReplyWait(){
-        EntityManager em=getEntityManager();
-        Query q=em.createNativeQuery("select * from reply_comment where status_reply like 'wait'",ReplyComment.class);
-        
-        return q.getResultList();
+        Query q=em.createNativeQuery("select count(id_rating) as point from rating where id_project ="+idProject+" and id_user="+idUser);
+        System.out.println("count "+q.getSingleResult());
+        return (Integer) q.getSingleResult();
     }
 }

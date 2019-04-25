@@ -8,7 +8,6 @@ package Entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +22,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -35,11 +33,14 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c")})
 public class Comment implements Serializable {
+    @JoinColumn(name = "id_project", referencedColumnName = "project_id")
+    @ManyToOne
+    private Project idProject;
     @OneToMany(mappedBy = "idComment")
     private List<ReplyComment> replyCommentList;
     private static final long serialVersionUID = 1L;
     @Id
-      @Column(name = "id_comment", nullable = false)
+    @Column(name = "id_comment", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idComment;
     @Lob
@@ -178,6 +179,14 @@ public class Comment implements Serializable {
 
     public void setReplyCommentList(List<ReplyComment> replyCommentList) {
         this.replyCommentList = replyCommentList;
+    }
+
+    public Project getIdProject() {
+        return idProject;
+    }
+
+    public void setIdProject(Project idProject) {
+        this.idProject = idProject;
     }
     
 }

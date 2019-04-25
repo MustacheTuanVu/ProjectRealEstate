@@ -32,6 +32,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")})
 public class Users implements Serializable {
     @OneToMany(mappedBy = "idUser")
+    private List<Rating> ratingList;
+    @OneToMany(mappedBy = "idUser")
     private List<ReplyComment> replyCommentList;
     @OneToMany(mappedBy = "idUser")
     private List<Comment> commentList;
@@ -187,6 +189,14 @@ public class Users implements Serializable {
 
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
+    }
+
+    public List<Rating> getRatingList() {
+        return ratingList;
+    }
+
+    public void setRatingList(List<Rating> ratingList) {
+        this.ratingList = ratingList;
     }
     
 }

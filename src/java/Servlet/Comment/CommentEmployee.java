@@ -5,9 +5,7 @@
  */
 package Servlet.Comment;
 
-import Controller.CategoryJpaController;
 import Controller.CommentJpaController;
-import Controller.PostJpaController;
 import Controller.ReplyCommentJpaController;
 import Controller.exceptions.RollbackFailureException;
 import Entity.ReplyComment;
@@ -202,6 +200,7 @@ public class CommentEmployee extends HttpServlet {
                 }
                 // session == null and display info customer
                 if (reply1.getRoleReply().equals("customer")) {
+   //                 System.out.println("id user "+reply1.getIdUser().getCustomer());
                     table += "<li class=comment__item>"
                             + "<div class=comment__item-body js-comment-item>"
                             + "<div class=comment__avatar><img width=\"64px\" height=\"64px\" src=" + reply1.getIdUser().getCustomer().getCustomerImg() + " ></div>"

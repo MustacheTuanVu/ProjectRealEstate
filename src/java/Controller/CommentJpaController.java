@@ -53,6 +53,7 @@ public class CommentJpaController implements Serializable {
                 idPost = em.getReference(idPost.getClass(), idPost.getPostId());
                 comment.setIdPost(idPost);
             }
+
             em.persist(comment);
             if (idUser != null) {
                 idUser.getCommentList().add(comment);
@@ -141,8 +142,9 @@ public class CommentJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
+           // utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Comment comment;
             try {
                 comment = em.getReference(Comment.class, id);
@@ -161,10 +163,10 @@ public class CommentJpaController implements Serializable {
                 idPost = em.merge(idPost);
             }
             em.remove(comment);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -230,6 +232,13 @@ public class CommentJpaController implements Serializable {
                 + "' and status_comment like 'accept'", Comment.class);
         return q.getResultList();
     }
+    public List<Comment> getCommentByIdPost_Project(String id) {
+        EntityManager em = getEntityManager();
+        Query q = em.createNativeQuery("select * from comment where id_project ='"
+                + id
+                + "' and status_comment like 'accept'", Comment.class);
+        return q.getResultList();
+    }
 
     // cuong add
 
@@ -237,6 +246,13 @@ public class CommentJpaController implements Serializable {
         EntityManager em = getEntityManager();
         
         Query q = em.createNativeQuery("select count(id_post) as id_comment from comment where id_post=" + idCom + " and status_comment like 'accept'", Comment.class);
+        return (Comment) q.getSingleResult();
+    }
+    // cuong add
+    public Comment countCommentAcceptProject(String idCom) {
+        EntityManager em = getEntityManager();
+        
+        Query q = em.createNativeQuery("select count(*) as id_comment from comment where id_project=" + idCom + " and status_comment like 'accept'", Comment.class);
         return (Comment) q.getSingleResult();
     }
     // cuong add
