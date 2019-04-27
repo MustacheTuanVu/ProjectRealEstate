@@ -100,7 +100,6 @@
                                                         <div class="form-group ">
                                                             <label class="control-label">Password</label>
                                                             <input type="password"  name="txtPass" id="register-pass-inline1" required class="form-control">
-
                                                             <div id="errPassRegister" ></div>
                                                         </div>
                                                     </div>
@@ -192,31 +191,31 @@
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
     <script type="text/javascript">
-        function checkPass()
-        {
-            var newPass = document.getElementById('register-pass-inline1').value;
-            var confirmPass = document.getElementById('register-confirm-inline1').value;
-            var username = document.getElementById('register-lastname-inline1').value;
-            var passw=  /^[A-Za-z]\w{7,14}$/;
-            if(!username.match(passw)){
-               document.getElementById("errNameRegister").innerHTML = "Username dont have blank ";  
-            }else
-            if(!newPass.match(passw)){
-               document.getElementById("errNameRegister").innerHTML = "Pass wrong format "; 
-            }else
-            if (username.length < 6) {
-                document.getElementById("errNameRegister").innerHTML = "Username cannot be longer than 50 characters ";
-            } else
-            if (newPass.length < 6) {
-                document.getElementById('errPassRegister').innerHTML = 'Username cannot be longer than 50 characters ';
-            } else
-            if (newPass !== confirmPass) {
-                document.getElementById('errPassRegister').innerHTML = 'NEW PASSWORD and CONFIRM NEW PASSWORD not the same ';
-            } else {
-                return true;
-            }
-            return false;
-        }
+
+
+                                                    function checkPass()
+                                                    {
+                                                        var newPass = document.getElementById('register-pass-inline1').value;
+                                                        var confirmPass = document.getElementById('register-confirm-inline1').value;
+                                                        var username = document.getElementById('register-lastname-inline1').value;
+                                                        
+                                                        username =username.split(' ').join('');
+                                                        newPass=newPass.split(' ').join('');
+                                                        if (username.length < 6 ) {
+                                                            document.getElementById("errNameRegister").innerHTML = "Username cannot be longer than 50 characters ";
+                                                        }else
+                                                        if (newPass.length < 6) {
+                                                            document.getElementById('errPassRegister').innerHTML = 'Username cannot be longer than 50 characters ';
+                                                        }else
+                                                        if (newPass !== confirmPass) {
+                                                            document.getElementById('errPassRegister').innerHTML = 'NEW PASSWORD and CONFIRM NEW PASSWORD not the same ';
+                                                        }else {
+                                                            return true;
+                                                        }
+                                                        return false;
+
+
+                                                    }
     </script>
     <script type="text/javascript">
         $(window).on('load', function () {

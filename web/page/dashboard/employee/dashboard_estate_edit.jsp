@@ -172,16 +172,20 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
+
                                         <h2 class="widget__title">Sửa bất động sản : ${find.id}</h2>
+
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN Favorites-->
                                         <section class="form-property form-property--dashboard">
                                             <!-- Nav tabs-->
                                             <ul role="tablist" class="nav form-property__tabs">
+
                                                 <li role="presentation" class="active"><a>Cơ bản</a></li>
                                                 <li role="presentation"><a>Hình ảnh</a></li>
                                                 <li role="presentation"><a>Tiện ích</a></li>
+
                                                 <!--
                                                 <li role="presentation"><a href="#Status" aria-controls="Status" role="tab" data-toggle="tab">Extra</a></li>
                                                 -->
@@ -193,14 +197,18 @@
                                                         <div class="row">
                                                             <input type="hidden" name="estateID" value="${find.id}">
                                                             <div class="form-group form-group--description" id="estateNameForm">
+
                                                                 <label for="in-1" class="control-label">Tên bất động sản</label>
+
                                                                 <input onchange="validateFormEditEstate()" id="estateName" required type="text" name="estateName" data-placeholder="---" value="${find.estateName}" class="form-control">
                                                                 <div class="help-block filled" id="estateNameMessage">
                                                                     <div class="parsley-required"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
+
                                                                 <label for="in-15" class="control-label">Loại bất động sản</label>
+
                                                                 <select id="in-15" required name="estateTypeId" data-placeholder="---" class="form-control">
                                                                     <option label=" "></option>
                                                                     <c:forEach items="${estateTypeList}" var="estateTypeList">
@@ -213,7 +221,9 @@
                                                                 </select>
                                                             </div>
                                                             <div class="form-group" id="bedRoomForm">
+
                                                                 <label for="in-10" class="control-label">Số phòng ngủ</label>
+
                                                                 <select id="in-5" name="bedRoom" data-placeholder="Choose number..." required class="form-control js-in-select">
                                                                     <option value="0" <c:if test="${find.bedRoom == '0'}">selected</c:if>>0</option>
                                                                     <option value="1" <c:if test="${find.bedRoom == '1'}">selected</c:if>>1</option>
@@ -229,7 +239,9 @@
                                                                 </select>
                                                             </div>
                                                             <div class="form-group" id="bathRoomForm">
+
                                                                 <label for="in-10" class="control-label">Số phòng tắm</label>
+
                                                                 <select id="in-5" name="bathRoom" data-placeholder="Choose number..." required class="form-control js-in-select">
                                                                     <option value="0" <c:if test="${find.bathRoom == '0'}">selected</c:if>>0</option>
                                                                     <option value="1" <c:if test="${find.bathRoom == '1'}">selected</c:if>>1</option>
@@ -252,21 +264,27 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group" id="priceForm">
+
                                                                 <label for="in-10" class="control-label">Giá</label>
+
                                                                 <input onchange="validateFormEditEstate()" id="price" type="number" name="price" value="${find.price}" required class="form-control">
                                                                 <div class="help-block filled" id="parsley-id-11">
                                                                     <div class="parsley-required" id="priceMessage"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group" id="areasForm">
+
                                                                 <label for="in-10" class="control-label">Diện tích</label>
+
                                                                 <input onchange="validateFormEditEstate()" id="areas" type="number" name="areas" value="${find.areas}" required class="form-control">
                                                                 <div class="help-block filled" id="parsley-id-11">
                                                                     <div class="parsley-required" id="garagesMessage"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
+
                                                                 <label for="in-5" class="control-label">Hướng nhà</label>
+
                                                                 <select id="in-5" name="direction" data-placeholder="Choose a Direction..." required class="form-control js-in-select">
                                                                     <option label=" "></option>
                                                                     <option value="East" <c:if test="${find.direction == 'East'}">selected</c:if>>East</option>
@@ -280,7 +298,9 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="form-group">
+
                                                                     <label for="in-2" class="control-label">Trạng thái</label>
+
                                                                     <select id="in-2" required name="estateStatusId" data-placeholder="---" class="form-control">
                                                                         <option label=" "></option>
                                                                     <c:forEach items="${estateStatusList}" var="estateStatusList">
@@ -293,27 +313,35 @@
                                                                 </select>
                                                             </div>
                                                             <div class="form-group">
+
                                                                 <label for="in-9" class="control-label">Năm xây dựng</label>
+
                                                                 <input name="yearBuild" type="text" id="in-datetime" value="<fmt:formatDate value="${find.yearBuild}" pattern="MM/dd/yyyy" />" data-time-picker="false" data-single-picker="true" class="js-datetimerange form-control">
                                                             </div>
 
                                                             <div class="form-group" id="address1Form">
+
                                                                 <label for="in-6" class="control-label">Địa chỉ 1</label>
+
                                                                 <input onchange="validateFormEditEstate()" id="address1" type="text" name="address1" value="${find.address1}" readonly required class="form-control">
                                                                 <div class="help-block filled" id="parsley-id-11">
                                                                     <div class="parsley-required" id="address1Message"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group" id="address2Form">
+
                                                                 <label for="in-6" class="control-label">Điạ chỉ 2</label>
+
                                                                 <input onchange="validateFormEditEstate()" id="address2" type="text" name="address2" value="${find.address2}" readonly required class="form-control">
                                                                 <div class="help-block filled" id="parsley-id-11">
                                                                     <div class="parsley-required" id="address2Message"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
+
                                                                 <label for="in-6" class="control-label">Quận</label>
                                                                 <select id="in-5" name="district" re data-placeholder="Chọn quận..." required class="form-control js-in-select">
+
                                                                     <c:if test="${find.district != null}">
                                                                         <option value="${find.district}" selected>${find.district}</option>
                                                                     </c:if>
@@ -338,7 +366,9 @@
                                                                 </select>
                                                             </div>
                                                             <div class="form-group form-group--description" id="contentForm">
+
                                                                 <label for="in-6" class="control-label">Nội dung</label>
+
                                                                 <textarea onchange="validateFormEditEstate()" id="estateDescription" name="estateDescription" rows="4" cols="50" class="form-control">${find.estateContent}</textarea>
                                                                 <div class="help-block filled" id="parsley-id-11">
                                                                     <div class="parsley-required" id="contentMessage"></div>
@@ -353,7 +383,9 @@
                                                         <div class="listing--items listing--grid listing--photos">
                                                             <div class="listing__actions">
                                                                 <div class="listing__actions-border"></div>
+
                                                                 <h4 id="countimage" class="form__title js-form-title active">Bất động sản có 0/5 hình ảnh</h4>
+
                                                                 <input type="button" class="btn--action js-listing-add-photo" value="Add Photo" onclick="BrowseServer();" />
                                                             </div>
                                                             <div class="listing__list js-photos-list">
@@ -463,7 +495,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
+
                                                             <input type="submit" name="submit" value="Đồng ý" class="form__submit"/>
+
                                                         </div>
                                                         <!--</form>-->
                                                     </div>
@@ -489,12 +523,14 @@
                 <div role="document" class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
+
                             <h2 class="site__title">Thêm thành công</h2>
                         </div>
                         <div class="modal-body">
                             <h3>Bạn có muốn tiếp tục tạo bất động sản mới hay không ?</h3>
                             <button type="button" data-dismiss="modal" aria-label="Close" class="form__submit">Có</button>
                             <a href="<%=request.getContextPath()%>/EstateList?user=admin" class="form__submit">Không</a>
+
                         </div>
                     </div>
                 </div>

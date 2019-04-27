@@ -89,7 +89,9 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
+
                                         <h2 class="widget__title">Danh sách bài viết</h2> 
+
 
                                         <%
                                             Entity.Users user = (Entity.Users) session.getAttribute("user");
@@ -115,8 +117,10 @@
                                                                 if (user.getRole().equals("employee")) {
                                                             %>    
                                                             <div class="article__actions">
+
                                                                 <a href="<%= request.getContextPath()%>/EditBlog?id=${item.postId}&action=edit" class="article__link"  >Sửa</a>
                                                                 <a onclick="return (confirm('Are You Sure !!!'))" href="<%= request.getContextPath()%>/EditBlog?id=${item.postId}&action=delete" class="article__link">Xóa</a>
+
                                                             </div>
                                                             <%
                                                                 }
@@ -156,8 +160,10 @@
                         <div class="sidebar sidebar--dashboard">
 
                             <div class="widget__header">
+
                                 <h2 class="widget__title">Danh mục</h2>
                                 <h5 class="widget__headline">Tìm căn hộ hoặc nhà của bạn bằng thông tin chính xác</h5><a class="widget__btn js-widget-btn widget__btn--toggle">Show blog categories</a>
+
                             </div>
                             <div class="widget__content">
                                 <div class="article-categories">
@@ -190,15 +196,19 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
+
                             <h4 class="modal-title">Bất động sản <strong>"${name}"</strong> Đã tồn tại !</h4>
                         </div>
                         <div class="modal-body">
                             <p>Bất động sản này đã tồn tại. Nó xuất hiện ở <br>
+
                                 <strong>${add1} - ${add2}</strong></p>
                             <img src="${img}" alt="error">
                         </div>
                         <div class="modal-footer">
+
                             <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${id}" class="btn btn-default" >Xem bất động sản này</a>
+
                         </div>
                     </div>
 
@@ -211,10 +221,12 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
+
                             <h4 style="text-align: center; color: red" class="modal-title">Giao dịch không thành công</h4>
                         </div>
                         <div class="modal-body">
                             <p style="text-align: center; color: red"><strong>Giao dịch không đủ</strong></p>
+
                             <img src="<%=request.getContextPath()%>/assets/media-demo/fail.jpg" alt="error" width="225" height="255">
                         </div>
                     </div>
@@ -228,7 +240,9 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
+
                             <h4 class="modal-title">Giao dịch thành công</h4>
+
                         </div>
                         <div class="modal-body">
                             <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" alt="error">
@@ -245,7 +259,9 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
+
                             <h4 class="modal-title text-center text-success">Thay đổi mật khẩu</h4>
+
                         </div>
                         <div class="modal-body">
                         </div>

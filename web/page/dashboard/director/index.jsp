@@ -92,6 +92,7 @@
                                                                     
                                                                 </span> ${countContractWaitSale}</div>
                                                             <div class="info__actions"><a href="<%=request.getContextPath()%>/ContractOfEmployee1" class="info__more">Xem yêu cầu</a>
+
                                                                 
                                                             </div>
                                                         </div>

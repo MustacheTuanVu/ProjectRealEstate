@@ -42,15 +42,20 @@ public class Schedule implements Serializable {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "contact_time")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date contactTime;
+    @Column(name = "schedule_time")
+    @Temporal(TemporalType.TIME)
+    private Date scheduleTime;
+    @Column(name = "schedule_date")
+    @Temporal(TemporalType.DATE)
+    private Date scheduleDate;
     @Size(max = 1073741823)
     @Column(name = "contact_context")
     private String contactContext;
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @Size(max = 10)
+    @Column(name = "status_schedule")
+    private String statusSchedule;
+    @JoinColumn(name = "estate_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Customer customerId;
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
@@ -67,11 +72,6 @@ public class Schedule implements Serializable {
         this.id = id;
     }
 
-    public Schedule(Integer id, Date contactTime) {
-        this.id = id;
-        this.contactTime = contactTime;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -80,12 +80,20 @@ public class Schedule implements Serializable {
         this.id = id;
     }
 
-    public Date getContactTime() {
-        return contactTime;
+    public Date getScheduleTime() {
+        return scheduleTime;
     }
 
-    public void setContactTime(Date contactTime) {
-        this.contactTime = contactTime;
+    public void setScheduleTime(Date scheduleTime) {
+        this.scheduleTime = scheduleTime;
+    }
+
+    public Date getScheduleDate() {
+        return scheduleDate;
+    }
+
+    public void setScheduleDate(Date scheduleDate) {
+        this.scheduleDate = scheduleDate;
     }
 
     public String getContactContext() {
@@ -95,9 +103,18 @@ public class Schedule implements Serializable {
     public void setContactContext(String contactContext) {
         this.contactContext = contactContext;
     }
-
     public Customer getCustomerId() {
         return customerId;
+    public String getStatusSchedule() {
+        return statusSchedule;
+    }
+
+    public void setStatusSchedule(String statusSchedule) {
+        this.statusSchedule = statusSchedule;
+    }
+
+    public Estate getEstateId() {
+        return estateId;
     }
 
     public void setCustomerId(Customer customerId) {

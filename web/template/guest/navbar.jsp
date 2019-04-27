@@ -21,6 +21,7 @@
                 </li>
                 <li class="navbar__item js-dropdown">
                     <a href="<%=request.getContextPath()%>/EstateList?user=guest&estateStatus=all&estateType=all" class="navbar__link">Bất động sản
+
                         <svg class="navbar__arrow">
                         <use xlink:href="#icon-arrow-right"></use>
                         </svg>
@@ -32,18 +33,22 @@
                             </svg>Back
                         </button>
                         <div class="navbar__submenu">
+
                             <h5 class="navbar__subtitle">Cho thuê</h5>
                             <ul class="navbar__subnav">
                                 <li class="navbar__subitem"><a href="<%=request.getContextPath()%>/EstateList?user=guest&estateStatus=1&estateType=all" class="navbar__sublink js-navbar-sublink">Danh sách bất động sản cho thuê</a></li>
+
                                 <c:forEach items="${estateTypeList}" var="item">
                                 <li class="navbar__subitem"><a href="<%=request.getContextPath()%>/EstateList?user=guest&estateStatus=1&estateType=${item.id}" class="navbar__sublink js-navbar-sublink">${item.typeName}</a></li>
                                 </c:forEach>
                             </ul>
                         </div>
                         <div class="navbar__submenu">
+
                             <h5 class="navbar__subtitle">Bán</h5>
                             <ul class="navbar__subnav">
                                 <li class="navbar__subitem"><a href="<%=request.getContextPath()%>/EstateList?user=guest&estateStatus=2&estateType=all" class="navbar__sublink js-navbar-sublink">Danh sách bất động sản đang bán</a></li>
+
                                 <c:forEach items="${estateTypeList}" var="item">
                                 <li class="navbar__subitem"><a href="<%=request.getContextPath()%>/EstateList?user=guest&estateStatus=2&estateType=${item.id}" class="navbar__sublink js-navbar-sublink">${item.typeName}</a></li>
                                 </c:forEach>
@@ -52,6 +57,7 @@
                     </div>
                 </li>
                 <li class="navbar__item">
+
                     <a href="<%=request.getContextPath()%>/EmployeeList?user=guest" class="navbar__link">Nhân viên tư vấn</a>
                 </li>
                 <li class="navbar__item">
@@ -59,11 +65,14 @@
                 </li>
                 <li class="navbar__item">
                     <a href="<%=request.getContextPath()%>/RequestSale" class="navbar__link">Đăng bán</a>
+
                 </li>
                 <!-- cuong add -->
                
                 <li class="navbar__item">
+
                     <a href="<%=request.getContextPath()%>/BlogListAllUser?cat=all&user=guest" class="navbar__link">Bài viết</a>
+
                 </li>
                 
                 <!--

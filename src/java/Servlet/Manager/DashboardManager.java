@@ -79,6 +79,21 @@ public class DashboardManager extends HttpServlet {
         request.setAttribute("estateTypeList", estateTypeList);
         request.getRequestDispatcher("/page/dashboard/manager/index.jsp").forward(request, response);
         // END NAVBAR HEADER FONTEND //
+       HttpSession session = request.getSession();
+        Entity.Users user = (Entity.Users) session.getAttribute("user");
+        if (user != null) {
+            if(user.getRole().equals("manager")){
+                session.setAttribute("name", user.getManager().getManagerName());
+                request.setAttribute("role", "manager");
+                session.setAttribute("image", user.getManager().getManagerImg());
+                request.setAttribute("active","Manager");
+                request.getRequestDispatcher("/admin/page/dashboard/manager/index.jsp").forward(request, response);
+            }else{
+                response.sendRedirect(request.getContextPath()+"/admin");
+            }
+        }else{
+            response.sendRedirect(request.getContextPath()+"/admin");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

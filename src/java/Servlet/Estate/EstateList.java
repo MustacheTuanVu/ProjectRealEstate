@@ -8,6 +8,8 @@ package Servlet.Estate;
 import Controller.EstateJpaController;
 import Controller.EstateStatusJpaController;
 import Controller.EstateTypeJpaController;
+import Controller.FeatureDetailsJpaController;
+import Controller.FeaturesJpaController;
 import Entity.Estate;
 import Entity.EstateStatus;
 import Entity.EstateType;
@@ -90,6 +92,10 @@ public class EstateList extends HttpServlet {
         EstateJpaController estateControl = new EstateJpaController(utx, emf);
         EstateStatusJpaController estateStatusControl = new EstateStatusJpaController(utx, emf);
         EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
+        Controller.FeaturesJpaController featureControllre = new FeaturesJpaController(utx, emf);
+        Controller.EstateTypeJpaController typeController = new EstateTypeJpaController(utx, emf);
+        Controller.FeatureDetailsJpaController detailsController= new FeatureDetailsJpaController(utx, emf);
+        //Entity.FeatureDetails details=detailsController.getFeatureBy
         
         String estateStatusID = (request.getParameter("estateStatus") != null) ? request.getParameter("estateStatus") : "all";
         System.out.println(estateStatusID.length());
@@ -210,6 +216,7 @@ public class EstateList extends HttpServlet {
             
             if(search.equals("search")){
                 String searchInput = (request.getParameter("searchInput") != null) ? request.getParameter("searchInput") : "";
+                System.out.println("key "+searchInput);
                 List<String> estateIDListSearch = estateControl.getEstateByEmployeeSearch(
                     String.valueOf(users.getEmployee().getId()),
                     searchInput
@@ -222,7 +229,9 @@ public class EstateList extends HttpServlet {
                     estateList.add(estateControl.findEstate(string));
                 }
             }
-            
+            request.setAttribute("listEeatures", featureControllre.findFeaturesEntities());
+            request.setAttribute("listType", typeController.findEstateTypeEntities());
+            request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
             request.setAttribute("estateList", estateList);
             request.getRequestDispatcher("/admin/page/dashboard/employee/estate_list.jsp").forward(request, response);
         }else if(user.equals("director")){

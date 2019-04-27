@@ -72,8 +72,10 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
+
                         <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Trang chủ</a></li>
                         <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Chi tiết bất động sản</a></li>
+
                     </ul>
                 </div>
             </nav>
@@ -87,6 +89,7 @@
                             <div class="property">
                                 <h1 class="property__title">${find.estateName}<span class="property__city">${find.address2}</span></h1>
                                 <div class="property__header">
+
                                     <div class="property__price"><strong class="property__price-value">${find.price} VND</strong></div>
                                     <!--
                                     <h4 class="property__commision">Hướng nhà: <strong>${find.direction}</strong></h4>
@@ -136,6 +139,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </c:if>
                                 </div>
@@ -203,23 +207,28 @@
                                     </div>
                                 </div>
                                 <div class="property__info">
+
                                     <div class="property__info-item">Loại bất động sản: <strong> ${find.estateTypeId.typeName}</strong></div>
                                     <div class="property__info-item">Trạng thái: <strong> ${find.estateStatusId.estateStatusName}</strong></div>
                                     <div class="property__info-item">Năm xây dựng: <strong> <fmt:formatDate value="${find.yearBuild}" pattern="yyyy" /></strong></div>
                                     <div class="property__info-item">Diện tích: <strong> ${find.areas}m<sup>2</sup></strong></div>
+
                                 </div>
                                 <div class="property__plan">
                                     <dl class="property__plan-item">
                                         <dt class="property__plan-icon">
+
                                             <svg>
                                             <use xlink:href="#icon-area"></use>
                                             </svg>
                                         </dt>
                                         <dd class="property__plan-title">Diện tích</dd>
+
                                         <dd class="property__plan-value">${find.areas}m<sup>2</sup></dd>
                                     </dl>
                                     <dl class="property__plan-item">
                                         <dt class="property__plan-icon property__plan-icon--window">
+
                                             <svg>
                                             <use xlink:href="#icon-window"></use>
                                             </svg>
@@ -235,6 +244,7 @@
                                         </dt>
                                         <dd class="property__plan-title">Số phòng tắm</dd>
                                         <dd class="property__plan-value">${find.bathRoom} phòng</dd>
+
                                     </dl>
                                     <!--
                                     <dl class="property__plan-item">
@@ -249,16 +259,20 @@
                                     -->
                                     <dl class="property__plan-item">
                                         <dt class="property__plan-icon property__plan-icon--garage">
+
                                             <svg>
                                             <use xlink:href="#icon-garage"></use>
                                             </svg>
+
                                         </dt>
                                         <dd class="property__plan-title">Garages</dd>
                                         <dd class="property__plan-value">${find.garages}m<sup>2</sup></dd>
                                     </dl>
                                 </div>
                                 <div class="property__params">
+
                                     <h4 class="property__subtitle">Tiện tích</h4>
+
                                     <ul class="property__params-list property__params-list--options">
                                         <c:forEach items="${featureList}" var="item">
                                             <li>${item.featureName}</li>
@@ -266,13 +280,17 @@
                                     </ul>
                                 </div>
                                 <div class="property__description js-unhide-block">
+
                                     <h4 class="property__subtitle">Mô tả</h4>
+
                                     <div class="property__description-wrap">
                                         <p>
                                             ${find.estateContent}
                                         </p>
                                     </div>
+
                                     <button type="button" class="property__btn-more js-unhide">Xem thêm ...</button>
+
                                 </div>
                                 <!--                
                                 <div class="widget js-widget widget--details">
@@ -290,8 +308,158 @@
                                     </div>
                                 </div>
                                 -->
+                                <h3 >Danh Sach Cung Loai</h3>
+                                <div class="listing listing--grid js-properties-list">
+                                    <c:forEach items="${estateList}" var="estate">
+                                        <div class="listing__item">
+                                            <div class="properties properties--grid">
+                                                <div class="properties__thumb">
+                                                    <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" target="_blank" class="item-photo">
+                                                        <img src="${estate.image1st}" />
+                                                        <figure class="item-photo__hover item-photo__hover--params">
+                                                            <span class="properties__params">Bed Room - ${estate.bedRoom} room</span>
+                                                            <span class="properties__params">Bath Room - ${estate.bathRoom} room</span>
+                                                            <span class="properties__params">Garages - ${estate.garages}M<sup>2</sup></span>
+                                                            <!--
+                                                            <span class="properties__intro">My home is bright and spacious. Very good transport links. Close to the Olympic village, Westfiel...</span>
+                                                            -->
+                                                            <span class="properties__time">Areas - ${estate.areas}M<sup>2</sup></span>
 
+                                                            <!-- cuong add -->
 
+                                                        </figure>
+                                                    </a>
+                                                    <span class="properties__ribon">For ${estate.estateStatusId.estateStatusName}</span>
+                                                    
+                                                        <span class="properties__ribon properties__ribon--status properties__ribon--done">
+                                                            <a data-toggle="modal" data-target="#${estate.id}"  href="" >
+                                                            So S?h
+                                                            </a>
+                                                        </span>
+
+                                                    <!-- start modal -->
+                                                    <div id="${estate.id}" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+                                                        <div class="container-fluid pt-25">
+
+                                                            <!-- Row -->
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="panel panel-default card-view">
+                                                                        <div class="panel-heading">
+                                                                            <div class="pull-left">
+                                                                                <h6 class="panel-title txt-dark">Basic Wizard</h6>
+                                                                            </div>
+                                                                            <div class="clearfix"></div>
+                                                                        </div>
+                                                                        <table class="table" style="border: 1px solid black" >
+                                                                            <tr>
+                                                                                <td></td>
+                                                                                <td><img src="${find.image1st}" height="250px" width="500px" /></td>
+                                                                                <td><img src="${estate.image1st}" height="250px" width="500px"/></td>
+                                                                            </tr>
+                                                                            <tr >
+                                                                                <td colspan="3" >Th?g Tin C? B?n</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Estate Name</td>
+                                                                                <td>${find.estateName}</td>
+                                                                                <td>${estate.estateName}</td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>T?ng Di?n T?h (m<sup>2</sup>)</td>
+                                                                                <td>${find.areas}</td>
+                                                                                <td>${estate.areas}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>S? T?ng</td>
+                                                                                <td>${find.floor}</td>
+                                                                                <td>${estate.floor}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Garages (m<sup>2</sup>)</td>
+                                                                                <td>${find.garages}</td>
+                                                                                <td>${estate.garages}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Ph?g T?m</td>
+                                                                                <td>${find.bathRoom}</td>
+                                                                                <td>${estate.bathRoom}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Ph?g Ng?</td>
+                                                                                <td>${find.bedRoom}</td>
+                                                                                <td>${estate.bedRoom}</td>
+                                                                            </tr>
+
+                                                                            <tr >
+                                                                                <td colspan="3">Th?g Tin Chung</td>
+                                                                            </tr>
+                                                                            <tr >
+                                                                                <fmt:formatDate pattern="dd-MM-yyyy" value="${find.yearBuild}" var="date1"/>
+                                                                                <fmt:formatDate pattern="dd-MM-yyyy" value="${estate.yearBuild}" var="date2"/>
+                                                                                <td >N?m X? D?ng</td>
+                                                                                <td >${date1}</td>
+                                                                                <td >${date2}</td>
+                                                                            </tr>
+                                                                            <tr >
+                                                                                <td >H??ng</td>
+                                                                                <td >${find.direction}</td>
+                                                                                <td >${estate.direction}</td>
+                                                                            </tr>
+                                                                            <tr >
+                                                                                <td >??a Ch?</td>
+                                                                                <td >${find.address1}</td>
+                                                                                <td >${estate.address1}</td>
+                                                                            </tr>
+                                                                            <tr >
+                                                                                <td ></td>
+                                                                                <td ><button type="button" class="btn--default" data-dismiss="modal">Close</button></td>
+                                                                                <td ><a  href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" class="btn-default btn--default">View Details</a></td>
+                                                                            </tr>
+
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /Row -->
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.modal-dialog -->
+                                                    </div>
+                                                    <!-- end modal -->
+
+                                                </div>
+                                                <!-- end of block .properties__thumb-->
+                                                <div class="properties__details">
+                                                    <div class="properties__info"><a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" class="properties__address">
+                                                            <span class="properties__address-street">${estate.estateName}</span>
+                                                            <span class="properties__address-city">${estate.address2}</span></a>
+                                                        <div class="properties__offer">
+                                                            <div class="properties__offer-column">
+                                                                <div class="properties__offer-label">Direction</div>
+                                                                <div class="properties__offer-value">
+                                                                    <strong> ${estate.direction}</strong>
+                                                                </div>
+                                                            </div>
+                                                            <div class="properties__offer-column">
+                                                                <div class="properties__offer-label">Price</div>
+                                                                <div class="properties__offer-value"><strong>${estate.price}</strong>
+                                                                        <c:if test = "${estate.estateStatusId.estateStatusName == 'Rent'}">
+                                                                        <span class="properties__offer-period">/month</span>
+                                                                    </c:if>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="properties__params--mob">View details<span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
+                                                    </div>
+                                                </div>
+                                                <!-- end of block .properties__info-->
+                                            </div>
+                                            <!-- end of block .properties__item-->
+                                        </div>
+                                    </c:forEach>
+                                </div>
                             </div>
                             <!-- end of block .property-->
                         </div>
@@ -299,7 +467,9 @@
                         <!-- BEGIN SIDEBAR-->
                         <div class="sidebar">
                             <div class="widget js-widget widget--sidebar widget--first-no-head">
+
                                 <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Xem nhân viên tư vấn</a>
+
                                 </div>
                                 <c:if test="${displayEmployee=='yes'}">
                                     <div class="widget__content">
@@ -309,6 +479,7 @@
                                             <div class="worker__photo">
                                                 <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${employee.id}" class="item-photo item-photo--static">
                                                     <img src="${employee.employeeImg}" alt="Christopher Pakulla" class="photo"/>
+
                                                     <figure class="item-photo__hover"><span class="item-photo__more">Xem chi tiết</span></figure>
                                                 </a>
                                             </div>
@@ -317,13 +488,16 @@
                                                 <div class="worker__listings">
                                                     <i class="worker__favorites worker__favorites--highlight"></i> Danh sách của tôi -
                                                     <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${employee.id}">${employee.expr1} bất động sản</a></div>
+
                                                 <!-- end of block .worker__listings-->
                                                 <div class="worker__intro-row">
                                                     <div class="worker__intro-col">
                                                         <div class="worker__contacts">
+
                                                             <div class="tel"><span class="type">Số điện thoại</span><a href="tel:${employee.employeePhone}" class="uri value">${employee.employeePhone}</a></div>
                                                             <div class="email"><span class="type">Địa chỉ email</span><a href="mailto:${employee.employeeMail}" class="uri value">${employee.employeeMail}</a></div>
                                                             <div class="skype"><span class="type">Địa chỉ</span><a href="skype:Walkenboy?call" class="uri value"> ${employee.employeeAddress}</a></div>
+
                                                         </div>
                                                         <!-- end of block .worker__contacts-->
                                                     </div>

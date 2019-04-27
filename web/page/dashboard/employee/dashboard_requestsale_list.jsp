@@ -86,7 +86,9 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
+
                                         <h2 class="widget__title">Danh sách yêu cầu mua</h2>
+
                                     </div>
                                     <div class="widget__content">
                                         <div class="widget__content">
@@ -95,8 +97,10 @@
                                                 <div class="listing__actions">
                                                     <form action="<%=request.getContextPath()%>/EstateListOfCustomer_Employee">
                                                         <input type="hidden" name="user" value="employee">
+
                                                         <input type="text" name="searchInput" placeholder="Nhập vào địa chỉ" style="width: 500px;">
                                                         <button type="submit" name="search" value="Tìm kiếm" class="btn--link js-tags-rename">Tìm kiếm</button>
+
                                                     </form>
                                                 </div>
                                                
@@ -141,7 +145,9 @@
                                                                         <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>
                                                                         <div class="dropdown__menu properties__dropdown-menu">
                                                                             <a href="<%=request.getContextPath()%>/EstateDelete?estateID=${estate.id}" class="properties__link">Delete</a>
+
                                                                             <button type="button" class="properties__link">Thay đổi trạng thái</button>
+
                                                                         </div>
                                                                     </div>
                                                                 </c:if>
@@ -151,7 +157,9 @@
                                                                         <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>
                                                                         <div class="dropdown__menu properties__dropdown-menu">
                                                                             <a href="<%=request.getContextPath()%>/EstateDelete?estateID=${estate.id}" class="properties__link">Delete</a>
+
                                                                             <button type="button" class="properties__link">Thay đổi trạng thái</button>
+
                                                                         </div>
                                                                     </div>
                                                                 </c:if>
@@ -161,11 +169,13 @@
                                                             <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" target="_blank" class="item-photo item-photo--static">
                                                                 <img src="${estate.image1st}" alt="">
                                                                 <figure class="item-photo__hover item-photo__hover--params">
+
                                                                     <span class="properties__params">Số phòng ngủ - ${estate.bedRoom} phòng</span>
                                                                     <span class="properties__params">Số phòng tắm - ${estate.bathRoom} phòng</span>
                                                                     <span class="properties__params">Garages - ${estate.garages}M<sup>2</sup></span>
                                                                     <span class="properties__time">Diện tích - ${estate.areas}M<sup>2</sup></span>
                                                                     <span class="properties__more">Xem chi tiết</span>
+
                                                                 </figure>
                                                             </a>
                                                             <span class="properties__ribon">For ${estate.estateStatusId.estateStatusName}</span>
@@ -180,13 +190,17 @@
                                                                 </a>
                                                                 <div class="properties__offer">
                                                                     <div class="properties__offer-column">
+
                                                                         <div class="properties__offer-label">Hướng nhà</div>
+
                                                                         <div class="properties__offer-value">
                                                                             <strong> ${estate.direction}</strong>
                                                                         </div>
                                                                     </div>
                                                                     <div class="properties__offer-column">
+
                                                                         <div class="properties__offer-label">Giá</div>
+
                                                                         <div class="properties__offer-value"><strong>${estate.price}</strong>
                                                                                 <c:if test = "${estate.estateStatusId.estateStatusName == 'Rent'}">
                                                                                 <span class="properties__offer-period">/month</span>
@@ -194,7 +208,9 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+
                                                                 <div class="properties__params--mob"><a href="#" class="properties__more">Xem chi tiết</a><span class="properties__params">Built-Up - 165 Sq Ft</span><span class="properties__params">Land Size - 210 Sq Ft</span></div>
+
                                                             </div>
                                                         </div>
                                                         <!-- end of block .properties__info-->
@@ -228,15 +244,19 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
+
                             <h4 class="modal-title">Bất động sản <strong>"${name}"</strong> đã tồn tại !</h4>
                         </div>
                         <div class="modal-body">
                             <p>Bất động sản này đã tồn tại. Nó xuất hiện ở <br>
+
                                 <strong>${add1} - ${add2}</strong></p>
                             <img src="${img}" alt="error">
                         </div>
                         <div class="modal-footer">
+
                             <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${id}" class="btn btn-default" >Xem bất động sản này</a>
+
                         </div>
                     </div>
 
@@ -249,10 +269,12 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
+
                             <h4 style="text-align: center; color: red" class="modal-title">Giao dịch thất bại</h4>
                         </div>
                         <div class="modal-body">
                             <p style="text-align: center; color: red"><strong>Giao dịch không đủ</strong></p>
+
                             <img src="<%=request.getContextPath()%>/assets/media-demo/fail.jpg" alt="error" width="225" height="255">
                             </div>
                     </div>
@@ -266,7 +288,9 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
+
                             <h4 class="modal-title">Giao dịch thành công</h4>
+
                         </div>
                         <div class="modal-body">
                             <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" alt="error">

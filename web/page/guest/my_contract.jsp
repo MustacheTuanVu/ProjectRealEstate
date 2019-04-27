@@ -72,8 +72,10 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
+
                         <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Trang chủ</a></li>
                         <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Chi tiết bất động sản</a></li>
+
                     </ul>
                 </div>
             </nav>
@@ -84,8 +86,10 @@
                         <!-- BEGIN site-->
                         <div class="site site--main">
                             <header class="site__header">
+
                                 <h1 class="site__title">Trang cá nhân</h1>
                                 <h2 class="site__headline">Thêm và sửa thông tin danh sách</h2>
+
                             </header>
                             <div class="site__panel">
                                 <span class="site__header-text">
@@ -97,6 +101,7 @@
                                     <div class="widget__content">
                                         <div class="datatable datatable--properties">
                                             <div class="datatable__wrap">
+
                                                 <table id="example1" class="table table-bordered table-striped">
                                                     <thead>
                                                         <tr>
@@ -105,10 +110,12 @@
                                                             <th>Giá</th>
                                                             <th>Trạng thái</th>
                                                             <th>Chi tiết</th>
+
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <c:forEach items="${contractDetails}" var="item">
+
                                                             <tr>
                                                                 <td>${item.estateId.address1} <br>
                                                                     ${item.estateId.address2}
@@ -149,6 +156,7 @@
                                                             </tr>    
                                                         </c:forEach>
 
+
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -156,7 +164,9 @@
                                                 <div role="document" class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
+
                                                             <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+
                                                         </div>
                                                         <div class="modal-body"></div>
                                                     </div>
@@ -171,7 +181,9 @@
                         <!-- BEGIN SIDEBAR-->
                         <div class="sidebar">
                             <div class="widget js-widget widget--sidebar widget--first-no-head">
+
                                 <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Xem trang cá nhân</a>
+
                                 </div>
                                 <div class="widget__content">
                                     <!-- BEGIN WORKER PROFILE-->
@@ -181,6 +193,7 @@
                                             <div class="worker__avatar">
                                                 <img src="${customer.customerImg}" alt="avatar" width="208" height="208">
                                             </div>
+
                                             <button class="worker__avatar-upload">Cập nhập ảnh đại diện</button>
                                         </div>
                                         <nav class="worker__nav">
@@ -188,6 +201,7 @@
                                                 <li><a href="<%=request.getContextPath()%>/MyListing">Danh sách của tôi</a></li>
                                                 <li><a href="<%=request.getContextPath()%>/DashboardUser">Trang cá nhân</a></li>
                                                 <li><a href="<%=request.getContextPath()%>/MyContract">Hợp đồng của tôi</a></li>
+
                                             </ul>
                                         </nav>
                                         <!-- end of block .worker__nav-->
@@ -251,6 +265,7 @@
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
     <!-- END SCRIPTS and INCLUDES-->
+
     <!-- DATA TABES SCRIPT -->
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/dataTables.bootstrap.min.js"></script>

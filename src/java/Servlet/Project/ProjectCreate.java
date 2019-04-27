@@ -59,6 +59,9 @@ public class ProjectCreate extends HttpServlet {
 
         if (user != null) {
             if (user.getRole().equals("manager")) {
+            System.out.println("1 ");
+            if (user.getRole().equals("manager")) {
+                System.out.println(" 2");
                 request.setAttribute("user", "user");
                 request.setAttribute("displayLogin", "none");
                 request.setAttribute("displayUser", "block");
@@ -71,7 +74,7 @@ public class ProjectCreate extends HttpServlet {
                 EntityManager em = emf.createEntityManager();
 
                 if (request.getParameter("submit") != null) {
-                    
+                    System.out.println(" 3");
                     ProjectJpaController projectControl = new ProjectJpaController(utx, emf);
 
                     String projectName = request.getParameter("projectName");
@@ -149,6 +152,7 @@ public class ProjectCreate extends HttpServlet {
                         
                         try {
                             projectControl.create(project);
+                            System.out.println("create completed !!!");
                             response.sendRedirect(request.getContextPath() + "/ProjectList?user=manager&modal=show");
                         } catch (RollbackFailureException ex) {
                             Logger.getLogger(ProjectCreate.class.getName()).log(Level.SEVERE, null, ex);
@@ -157,6 +161,7 @@ public class ProjectCreate extends HttpServlet {
                         }
                     }
                 } else {
+                    System.out.println("4 ");
                     EstateTypeJpaController estateType = new EstateTypeJpaController(utx, emf);
                     List<EstateType> estateTypeList = estateType.findEstateTypeEntities();
                     request.setAttribute("estateTypeList", estateTypeList);
@@ -164,8 +169,7 @@ public class ProjectCreate extends HttpServlet {
                     String modal = "hidden";
                     modal = request.getParameter("modal");
                     request.setAttribute("modal", modal);
-
-                    request.getRequestDispatcher("/page/dashboard/manager/dashboard_project_new.jsp").forward(request, response);
+                    request.getRequestDispatcher("/admin/page/dashboard/manager/create_project.jsp").forward(request, response);
                 }
             } else {
                 response.sendRedirect(request.getContextPath() + "/LoginUser");

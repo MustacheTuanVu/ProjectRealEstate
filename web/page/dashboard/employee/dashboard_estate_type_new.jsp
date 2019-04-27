@@ -78,7 +78,9 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
+
                                         <h2 class="widget__title">Thêm loại bất động sản mới</h2>
+
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN Favorites-->
@@ -95,7 +97,9 @@
                                                     <form action="<%=request.getContextPath()%>/EstateTypeCreate" class="form form--flex form--property form--basic js-form-property-1">
                                                         <div class="row">
                                                             <div class="form-group form-group--description ${hasError}">
+
                                                                 <label for="in-1" class="control-label">Tên loại bất động sản</label>
+
                                                                 <input id="in-1" type="text" name="estateTypeName" data-placeholder="Input Type Name" value="" class="form-control">
 
                                                                 <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
@@ -105,7 +109,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
+
                                                             <button class="form__submit" type="submit">Đồng ý</button>
+
                                                         </div>
                                                     </form>
                                                 </div>
@@ -115,7 +121,9 @@
                                 </div>
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
+
                                         <h2 class="widget__title">Quản lý loại bất động sản</h2>
+
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN Favorites-->
@@ -125,10 +133,12 @@
                                                     <table class="js-properties-table datatable__table">
                                                         <thead>
                                                             <tr>
+
                                                                 <th class="datatable__head-1">Loại bất động sản ID</th>
                                                                 <th class="datatable__head-2 datatable__head-sort">Tên loại bất động sản</th>
                                                                 <th class="datatable__head-4">Sửa</th>
                                                                 <th class="datatable__head-5">Xóa</th>
+
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -151,15 +161,19 @@
                                                                 <div role="document" class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
+
                                                                             <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+
                                                                         </div>
                                                                         <div class="modal-body">
                                                                             <form action="<%=request.getContextPath()%>/EstateTypeEdit" class="form form--flex form--property form--basic js-form-property-1">
                                                                                 <div class="row">
                                                                                     <div class="form-group form-group--description ${hasError}">
+
                                                                                         <label for="in-1" class="control-label">Loại bất động sản ID</label>
                                                                                         <input id="in-1" required type="text" name="estateTypeID" value="${estateType.id}" class="form-control" readonly="true">
                                                                                         <label for="in-2" class="control-label">Tên loại bất động sản</label>
+
                                                                                         <input id="in-2" required type="text" name="estateTypeName" data-placeholder="---" value="${estateType.typeName}" class="form-control">
 
                                                                                         <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
@@ -169,7 +183,9 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row">
+
                                                                                     <button class="form__submit" type="submit">Đồng ý</button>
+
                                                                                 </div>
                                                                             </form>
                                                                         </div>
@@ -183,15 +199,19 @@
                                                         <div role="document" class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
+
                                                                     <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <form action="<%=request.getContextPath()%>/EstateTypeEdit" class="form form--flex form--property form--basic js-form-property-1">
                                                                         <div class="row">
                                                                             <div class="form-group form-group--description ${hasErrorEdit}">
+
                                                                                 <label for="in-1" class="control-label">Loại bất động sản ID</label>
                                                                                 <input id="in-1" required type="text" name="estateTypeID" value="${id}" class="form-control" readonly="true">
                                                                                 <label for="in-2" class="control-label">Tên loại bất động sản</label>
+
                                                                                 <input id="in-2" required type="text" name="estateTypeName" data-placeholder="---" value="${estateTypeName}" class="form-control">
 
                                                                                 <div class="help-block filled" id="parsley-id-11" style="display: ${displayEdit}">
@@ -201,7 +221,9 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
+
                                                                             <button class="form__submit" type="submit">Đồng ý</button>
+
                                                                         </div>
                                                                     </form>
                                                                 </div>
@@ -231,11 +253,13 @@
                 <div role="document" class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
+
                             <h2 class="site__title">Từ chối xóa</h2>
                         </div>
                         <div class="modal-body">
                             <h3>Không thể xóa loại bất động sản này vì nó chứa bất động sản</h3>
                             <button type="button" data-dismiss="modal" aria-label="Close" class="form__submit">Đồng ý</button>
+
                             </div>
                     </div>
                 </div>

@@ -72,7 +72,9 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
+
                         <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Trang chủ</a></li>
+
                         <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">${estateStatus} - ${estateType} List</a></li>
                     </ul>
                 </div>
@@ -84,33 +86,43 @@
                         <!-- BEGIN site-->
                         <div class="site site--main">
                             <header class="site__header">
+
                                 <h1 class="site__title">Danh sách dự án</h1>
                                 <h5 class="site__headline">Tìm thấy:<strong> ${size} dự án</strong></h5>
                             </header>
                             <button type="button" data-goto-target=".js-search-form" class="widget__btn--goto js-goto-btn">Lọc</button>
+
                             <div class="listing__param">
                                 <c:if test="${keywordF !=''}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-search"></span>
+
                                         Từ khóa: ${keywordF}
+
                                     </span>
                                 </c:if>
                                 <c:if test="${DistrictF !='all' && DistrictF !=''}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-filter"></span>
+
                                         Quận: ${DistrictF}
+
                                     </span>
                                 </c:if>
                                 <c:if test="${BuildFrom !='1945' && BuildTo !='2020' && BuildFrom !=''}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-filter"></span>
+
                                         Năm xây dựng: ${BuildFrom} - ${BuildTo}
+
                                     </span>
                                 </c:if>
                                 <c:if test="${dateFrom !='2019/01/01' && dateTo !='2020/12/12' && dateTo !='dateFrom'}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-filter"></span>
+
                                         Thời gian: ${dateFrom} - ${dateTo}
+
                                     </span>
                                 </c:if>
                                 <span class="listing__param-item">
@@ -125,10 +137,12 @@
                                             <div class="listing__empty">
                                                 <img class="listing__empty-headline" src="http://localhost:8080/ProjectRealEstate/assets/media-demo/productempty.jpeg">
                                                 <h4 class="listing__empty-title">
+
                                                     Không tìm thấy bất động sản nào.
                                                 </h4>
                                                 <span class="listing__empty-headline">
                                                     Vui lòng thử tìm kiếm khác.
+
                                                 </span>
                                             </div>
                                         </c:if>
@@ -140,6 +154,7 @@
                                                             <a href="<%=request.getContextPath()%>/ProjectDetails?projectId=${item.projectId}" class="item-photo">
                                                                 <img src="${item.image1st}" alt=""/>
                                                                 <figure class="item-photo__hover item-photo__hover--params">
+
                                                                     <span class="properties__params">Số block - ${item.blockNumber} block</span>
                                                                     <span class="properties__params">Số tầng - ${item.floorNumber} floor</span>
                                                                     <span class="properties__params">Năm xây dựng - <fmt:formatDate value="${item.yearBuild}" pattern="yyyy" /></span>
@@ -151,6 +166,7 @@
                                                                 </figure>
                                                             </a>
                                                             <span class="properties__ribon">Dự án</span>
+
                                                             <span class="properties__ribon properties__ribon--status properties__ribon--done">${item.projectStatus}</span>
                                                         </div>
                                                         <!-- end of block .properties__thumb-->
@@ -160,19 +176,25 @@
                                                                     <span class="properties__address-city">${item.projectAddress}</span></a>
                                                                 <div class="properties__offer">
                                                                     <div class="properties__offer-column">
+
                                                                         <div class="properties__offer-label">Quận</div>
+
                                                                         <div class="properties__offer-value">
                                                                             <strong> ${item.district}</strong>
                                                                         </div>
                                                                     </div>
                                                                     <div class="properties__offer-column">
+
                                                                         <div class="properties__offer-label">Nhân viên quản lý</div>
+
                                                                         <div class="properties__offer-value">
                                                                             <strong>${item.managerId.managerName}</strong>
                                                                         </div>
                                                                     </div>
                                                                 </div>
+
                                                                 <div class="properties__params--mob"><a href="#" class="properties__more">Xem chi tiết</a><span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
+
                                                             </div>
                                                         </div>
                                                         <!-- end of block .properties__info-->
@@ -183,6 +205,8 @@
                                         </div>
                                     </div>
                                 </div>
+
+
                             </div>
                         </div>
                         <!-- END site-->
@@ -190,14 +214,17 @@
                         <div class="sidebar">
                             <div class="widget js-widget widget--sidebar">
                                 <div class="widget__header">
+
                                     <h2 class="widget__title">Lọc kết quả</h2>
                                     <h5 class="widget__headline">Tìm bất động sản hoặc ngôi nhà của bạn bằng từ khóa chính xác.</h5><a class="widget__btn js-widget-btn widget__btn--toggle">Lọc kết quả</a>
+
                                 </div>
                                 <div class="widget__content">
                                     <!-- BEGIN SEARCH-->
                                     <form action="<%=request.getContextPath()%>/ProjectList" class="form form--flex form--search js-search-form form--sidebar">
                                         <div class="row">
                                             <div class="form-group">
+
                                                 <label for="in-keyword" class="control-label">Từ khóa</label>
                                                 <input name="keywordF" type="text" id="in-keyword" placeholder="Text" class="form-control">
                                             </div>
@@ -213,13 +240,16 @@
                                                     <option value="South">Tây Nam</option>
                                                     <option value="North-West">Tây Bắc</option>
                                                     <option value="North-West">Đông Bắc</option>
+
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <div class="form__mode">
                                                     <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
                                                 </div>
+
                                                 <label for="range_year" class="control-label">Năm xây dựng</label>
+
                                                 <div class="form__ranges">
                                                     <input id="range_year" class="js-search-range form__ranges-in">
                                                 </div>
@@ -229,14 +259,18 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
+
                                                 <label for="in-datetime" class="control-label">Khoảng thời gian</label>
+
                                                 <input name="dateRange" type="text" id="in-datetime" data-start-date="01/01/2019" data-end-date="12/12/2020" data-time-picker="true" data-single-picker="false" class="js-datetimerange form-control">
                                             </div>
                                             <div class="form-group">
                                                 <input name="user" type="hidden" id="in-keyword" value="guest" class="form-control">
                                             </div>
                                             <div class="form__buttons form__buttons--double">
+
                                                 <button type="button" class="form__reset js-form-reset">Nhập lại</button>
+
                                                 <input type="submit" value="filter" name="filter" class="form__submit"/>
                                             </div>
                                         </div>

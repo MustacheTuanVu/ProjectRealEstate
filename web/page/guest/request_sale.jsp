@@ -76,8 +76,10 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
+
                         <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Trang chủ</a></li>
                         <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Chi tiết bất động sản</a></li>
+
                     </ul>
                 </div>
             </nav>
@@ -86,9 +88,11 @@
                 <div class="container">
                     <div class="widget js-widget widget--landing">
                         <div class="widget__header">
+
                             <h2 class="widget__title">Yêu cầu bán</h2>
                             <h5 class="widget__headline">
                                 Ngoài ra, SGEstate24h vận hành các mạng quảng cáo bất động sản và cho thuê lớn nhất tại VN. hợp tác với các ngôi nhà Livemile!
+
                             </h5>
                         </div>
                         <div class="widget__content">
@@ -99,7 +103,9 @@
                                             <form action="<%=request.getContextPath()%>/RequestSale" method="POST" class="form form--flex js-contact-form form--contacts">
                                                 <div class="row">
                                                     <div class="form-group form-group--col-6">
+
                                                         <label for="in-form-name" class="control-label">Lại bất động sàn</label>
+
                                                         <select name="estateType" class="form-control">
                                                             <c:forEach items="${estateTypeList}" var="item">
                                                                 <option value="${item.id}">${item.typeName}</option>
@@ -107,13 +113,16 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group form-group--col-6">
+
                                                         <label for="in-form-name" class="control-label">Trạng thái</label>
+
                                                         <select name="estateStatus" class="form-control">
                                                             <option value="1">Rent</option>
                                                             <option value="2">Sale</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group form-group--col-6">
+
                                                         <label for="in-form-phone" class="control-label">Địa chỉ 1</label>
                                                         <input name="address1" id="in-form-phone" type="text" class="form-control">
                                                     </div>
@@ -127,11 +136,14 @@
                                                     </div>
                                                     <div class="form-group required">
                                                         <label for="in-form-message" class="control-label">Nội dung</label>
+
                                                         <textarea name="content" required data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 20 caracters long comment.." class="form-control"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="row">
+
                                                     <button type="submit" class="form__submit">Đồng ý</button>
+
                                                 </div>
                                             </form>
                                             <!-- end of block form-->
@@ -139,9 +151,11 @@
                                     </div>
                                     <div class="contacts__column">
                                         <div class="contacts__body">
+
                                             <h4>Gặp gỡ SGEstate24h</h4>
                                             <p>Ngoài ra, SGEstate24h vận hành các mạng quảng cáo cho thuê và bất động sản lớn nhất ở tp.Hồ Chí Minh hợp tác với Livemile Homes!</p>
                                             <p>Chúng tôi đang thay đổi cách người tiêu dùng đưa ra quyết định liên quan đến nhà và kết nối với các chuyên gia.</p>
+
                                         </div>
                                     </div>
                                 </div>

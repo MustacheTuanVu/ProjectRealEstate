@@ -183,7 +183,7 @@
                                 </div>
                                 <div class="panel-wrapper collapse in">
                                     <div class="panel-body">
-                                        <form action="<%=request.getContextPath()%>/EstateCreate" class="form form--flex form--property form--basic js-form-property-1">
+                                        <form method="POST" action="<%=request.getContextPath()%>/EstateCreate" class="form form--flex form--property form--basic js-form-property-1">
                                             <div id="example-basic">
                                                 <h3><span class="head-font capitalize-font">Thông tin cơ bản</span></h3>
                                                 <section>

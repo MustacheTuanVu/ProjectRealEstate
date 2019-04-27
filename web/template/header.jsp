@@ -74,6 +74,7 @@
                         <nav class="nav nav--auth">
                             <ul class="nav__list">
                                 <li class="nav__item"><a href="#" class="nav__link">Đăng xuất</a></li>
+
                             </ul>
                         </nav>
                     </div>

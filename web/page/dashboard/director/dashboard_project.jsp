@@ -110,6 +110,7 @@
                                                         <div class="properties__item-header">
                                                             <div class="properties__actions">
                                                                 <c:if test="${item.projectStatus == 'waitting for director create' || item.projectStatus == 'waitting for director edit'}">
+
                                                                     <a href="<%=request.getContextPath()%>/ProjectArgree?projectID=${item.projectId}&choice=add" class="properties__link">Đồng ý</a>
                                                                     <div class="dropdown properties__actions-dropdown">
                                                                         <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>

@@ -96,6 +96,17 @@
                                                 <span class="fa fa-home"></span><a href="#"> Danh sách nhà đất</a>
                                                 <hr>
                                                 <span class="fa fa-home"></span><a href="#"> Kiểm tra nhà đất</a>
+                                                <span class="fa fa-home"></span><a class="<c:if test="${active == 'CreateEstate'}">active</c:if>" href="<%=request.getContextPath()%>/EstateCreate1" data-toggle="collapse" data-target="#dashboard_dr">
+                                                    Thêm nhà đất</a>
+                                                <hr>
+                                                <span class="fa fa-home"></span><a class="<c:if test="${active == 'EstateList'}">active</c:if>" href="<%=request.getContextPath()%>/EstateList?user=employee" data-toggle="collapse" data-target="#dashboard_dr"> 
+                                                    Danh sách nhà đất</a>
+                                                <hr>
+                                                <span class="fa fa-home"></span><a class="<c:if test="${active == 'EstateTypeList'}">active</c:if>" href="<%=request.getContextPath()%>/EstateTypeList" data-toggle="collapse" data-target="#dashboard_dr">
+                                                    Danh mục nhà đất</a>
+                                                <hr>
+                                                <span class="fa fa-home"></span> <a class="<c:if test="${active == 'FeatureList'}">active</c:if>" href="<%=request.getContextPath()%>/FeatureList" data-toggle="collapse" data-target="#dashboard_dr">
+                                                    Nội thất-chức năng</a>
                                                 <hr>
                                             </div>
                                             <div class="col-md-4">
@@ -108,6 +119,11 @@
                                                 <span class="fa fa-users"></span><a href="#"> Danh sách khách hàng</a>
                                                 <hr>
                                                 <span class="fa fa-legal"></span><a href="#"> Danh sách hợp đồng</a>
+                                                <span class="fa fa-users"></span><a class="<c:if test="${active == 'CustomerOfEmployee'}">active</c:if>" href="<%=request.getContextPath()%>/CustomerOfEmployee" data-toggle="collapse" data-target="#dashboard_dr">
+                                                    Danh sách khách hàng</a>
+                                                <hr>
+                                                <span class="fa fa-users"><a class="<c:if test="${active == 'ContractOfEmployee'}">active</c:if>" href="<%=request.getContextPath()%>/ContractOfEmployee" data-toggle="collapse" data-target="#dashboard_dr">
+                                                    Danh sách hợp đồng</a>
                                                 <hr>
                                                 <span class="fa-calendar"></span><a href="#"> Lịch hẹn</a>
                                                 <hr>

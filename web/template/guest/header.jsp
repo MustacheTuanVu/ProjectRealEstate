@@ -21,21 +21,25 @@
                     <li class="dropdown auth__nav-item" style="display: ${displayLogin};">
                         <div class="dropdown__menu auth__dropdown--restore">
                             <!-- BEGIN AUTH RESTORE-->
+
                             <h5 class="auth__title">Đặt lại mật khẩu</h5>
                             <form action="#" class="form form--flex form--auth form--restore js-restore-form js-parsley">
                                 <div class="row">
                                     <div class="form-group">
                                         <label for="restore-email-dropdown" class="control-label">Nhập tên đăng nhập hoặc địa chỉ email</label>
+
                                         <input type="email" name="email" id="restore-email-dropdown" required class="form-control">
                                     </div>
                                 </div>
                                 <div class="row">
+
                                     <button type="submit" class="form__submit">Đặt lại mật khẩu</button>
                                 </div>
                                 <div class="row">
                                     <div class="form__options">Trở về
                                         <button type="button" class="js-user-login">Đăng nhập</button>or
                                         <button type="button" class="js-user-register">Đăng kí</button>
+
                                     </div>
                                     <!-- end of block .auth__links-->
                                 </div>
@@ -48,6 +52,7 @@
                         <button data-toggle="dropdown" type="button" class="dropdown-toggle js-auth-nav-btn auth__nav-btn">
                             <svg class="auth__icon-user">
                             <use xlink:href="#icon-user"></use>
+
                             </svg><span class="header__span"> Đăng nhập /</span>
                         </button>
                         <div class="dropdown__menu auth__dropdown--login">
@@ -61,11 +66,14 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="login-password-dropdown" class="control-label">Mật khẩu</label>
+
                                         <input type="password" name="password" id="login-password-dropdown" required class="form-control">
                                     </div>
                                 </div>
                                 <div class="row">
+
                                     <button type="submit" class="form__submit">Đăng kí</button>
+
                                 </div>
                             </form>
                             <!-- end of block .auth__form-->
@@ -74,13 +82,17 @@
                     </li>
                     <li class="dropdown auth__nav-item" style="display: ${displayLogin};">
                         <a href="<%=request.getContextPath()%>/RegisterUser" class="dropdown-toggle auth__nav-btn">
+
                             <span class="header__span" style="color: white">Đăng kí</span>
+
                         </a>
                     </li>
                     <li class="dropdown auth__nav-item" style="display: ${displayUser};">
                         <button data-toggle="dropdown" type="button" class="dropdown-toggle js-auth-nav-btn auth__nav-btn">
                             <img src="${image}" alt="" class="auth__avatar">
+
                             <span class="auth__name"> Chào ${name}</span>
+
                         </button>
                         <div class="dropdown__menu auth__dropdown--logged-in js-user-logged-in">
                             <nav class="nav nav--auth">
@@ -103,7 +115,9 @@
                             </nav>
                             <nav class="nav nav--auth">
                                 <ul class="nav__list">
+
                                     <li class="nav__item"><a href="<%=request.getContextPath()%>/Logout" class="nav__link">Đăng xuất</a></li>
+
                                 </ul>
                             </nav>
                         </div>

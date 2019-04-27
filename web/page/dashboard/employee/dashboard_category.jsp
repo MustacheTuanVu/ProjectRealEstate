@@ -8,6 +8,7 @@
 
 <!DOCTYPE html>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
@@ -86,7 +87,9 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
+
                                         <h2 class="widget__title">Thêm danh mục mới</h2>
+
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN Favorites-->
@@ -103,7 +106,9 @@
                                                     <form action="<%=request.getContextPath()%>/CategoryCreate" class="form form--flex form--property form--basic js-form-property-1">
                                                         <div class="row">
                                                             <div class="form-group form-group--description ${hasError}">
+
                                                                 <label for="in-1" class="control-label">Tên danh mục</label>
+
                                                                 <input id="in-1" required type="text" name="featureName" data-placeholder="Input Type Name" value="" class="form-control">
 
                                                                 <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
@@ -113,7 +118,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
+
                                                             <button class="form__submit" type="submit">Đồng ý</button>
+
                                                         </div>
                                                     </form>
                                                 </div>
@@ -123,7 +130,9 @@
                                 </div>
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
+
                                         <h2 class="widget__title">Quản lý dnah mục</h2>
+
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN Favorites-->
@@ -133,10 +142,12 @@
                                                     <table class="js-properties-table datatable__table">
                                                         <thead>
                                                             <tr>
+
                                                                 <th class="datatable__head-1">Danh mục ID</th>
                                                                 <th class="datatable__head-2 datatable__head-sort">Tên danh mục</th>
                                                                 <th class="datatable__head-4">Sửa</th>
                                                                 <th class="datatable__head-5">Xóa</th>
+
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -159,15 +170,19 @@
                                                                 <div role="document" class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
+
                                                                             <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+
                                                                         </div>
                                                                         <div class="modal-body">
                                                                             <form action="<%=request.getContextPath()%>/CategoryEdit" class="form form--flex form--property form--basic js-form-property-1">
                                                                                 <div class="row">
                                                                                     <div class="form-group form-group--description ${hasError}">
+
                                                                                         <label for="in-1" class="control-label">Danh mục ID</label>
                                                                                         <input id="in-1" required type="text" name="categoryID" value="${item.categoryId}" class="form-control" readonly="true">
                                                                                         <label for="in-2" class="control-label">Tên danh mục</label>
+
                                                                                         <input id="in-2" required type="text" name="categoryName" data-placeholder="---" value="${item.categoryName}" class="form-control">
 
                                                                                         <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
@@ -177,7 +192,9 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row">
+
                                                                                     <button class="form__submit" type="submit">Đồng ý</button>
+
                                                                                 </div>
                                                                             </form>
                                                                         </div>
@@ -191,15 +208,19 @@
                                                         <div role="document" class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
+
                                                                     <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <form action="<%=request.getContextPath()%>/CategoryEdit" class="form form--flex form--property form--basic js-form-property-1">
                                                                         <div class="row">
                                                                             <div class="form-group form-group--description ${hasErrorEdit}">
+
                                                                                 <label for="in-1" class="control-label">Danh mục ID</label>
                                                                                 <input id="in-1" required type="text" name="featureID" value="${id}" class="form-control" readonly="true">
                                                                                 <label for="in-2" class="control-label">Tên danh mục</label>
+
                                                                                 <input id="in-2" required type="text" name="featureName" data-placeholder="---" value="${categoryName}" class="form-control">
 
                                                                                 <div class="help-block filled" id="parsley-id-11" style="display: ${displayEdit}">
@@ -209,7 +230,9 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
+
                                                                             <button class="form__submit" type="submit">Đồng ý</button>
+
                                                                         </div>
                                                                     </form>
                                                                 </div>
@@ -239,11 +262,13 @@
                 <div role="document" class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
+
                             <h2 class="site__title">Xóa từ chối</h2>
                         </div>
                         <div class="modal-body">
                             <h3>Danh mục này không thể xóa vì nó chứa bài viết</h3>
                             <button type="button" data-dismiss="modal" aria-label="Close" class="form__submit">Hoàn tất</button>
+
                             </div>
                     </div>
                 </div>
@@ -252,7 +277,9 @@
                 <div role="document" class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-body">
+
                             <h3>Tạo thành công !!!</h3>
+
                             <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150px" height="150" alt="error">
                             </div>
                     </div>

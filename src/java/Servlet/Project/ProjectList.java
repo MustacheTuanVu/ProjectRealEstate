@@ -147,7 +147,7 @@ public class ProjectList extends HttpServlet {
             }
             
             request.setAttribute("projectList", projectsList);
-            request.getRequestDispatcher("/page/dashboard/manager/dashboard_project.jsp").forward(request, response);
+            request.getRequestDispatcher("admin/page/dashboard/manager/project_list.jsp").forward(request, response);
         }else if(user.equals("director")){
             if(!users.getRole().equals("director")){
                 users.getManager().getManagerId();

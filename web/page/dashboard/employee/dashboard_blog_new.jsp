@@ -119,11 +119,14 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="in-article-title" class="control-label">Tiêu đề <span  style="color: red; padding-left: 10px" id="errTitle1"></span></label>
+
                                                     <input type="text" name="title" id="in-article-title" required class="form-control">
 
                                                 </div>
                                                 <div class="form-group">
+
                                                     <label for="in-article-title" class="control-label">Danh mục</label>
+
                                                     <select name="cat" id="in-2">
                                                         <c:forEach items="${list}" var="cat" >
                                                             <option value="${cat.categoryId}"  class="form-control">${cat.categoryName}</option> 
@@ -131,13 +134,17 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
+
                                                     <label for="in-article-title" class="control-label">Mô tả <span style="color: red ; padding-left: 10px" id="errDes1"></span></label>
+
                                                     <textarea id="txtDes" name="editor1" class="form-control js-ckeditor"></textarea>
 
                                                 </div>
                                             </div>
                                             <div class="row">
+
                                                 <button type="submit" class="form__submit">Lưu</button>
+
                                             </div>
                                         </form>
                                     </div>
@@ -151,7 +158,9 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
+
                             <h4 class="modal-title"> <strong>Lưu tên bài viết hoàn thành !!!</strong></h4>
+
                             <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
                         </div>
                     </div>
@@ -214,6 +223,7 @@
             txtDes = txtDes.replace(/^\s+|\s+$/g, "");
 
             if (txtImg.length === 0) {
+
                 document.getElementById('errImg1').innerHTML = 'Vui lòng chọn hình ảnh !!!';
             }
             if (txtTitle.length > 51 || txtTitle.length < 5) {
@@ -221,6 +231,7 @@
             }
             if (txtDes.length < 100) {
                 document.getElementById('errDes1').innerHTML = 'Mô tả ít nhất 200 kí tự !!!';
+
             }
             else
                 return true;

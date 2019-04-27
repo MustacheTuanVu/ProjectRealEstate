@@ -133,7 +133,9 @@
                                                             <div class="row">
                                                                 <div class="form-group form-group ${hasError}">
                                                                     <label for="in-1" class="control-label">Price Floor ${item}A</label>
+
                                                                     <input id="priceB${blocks}F${item}Type1" onchange="changepriceB${blocks}F${item}Type1()" type="number" name="priceB${blocks}F${item}Type1" data-placeholder="---"  class="form-control">
+
                                                                     <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
                                                                         <div class="parsley-required">${message}</div>
                                                                     </div>
@@ -156,7 +158,9 @@
                                                             <div class="row">
                                                                 <div class="form-group form-group ${hasError}">
                                                                     <label for="in-1" class="control-label">Bed Room Floor ${item}A</label>
+
                                                                     <input onchange="changebedRoomB${blocks}F${item}Type1()" id="bedRoomB${blocks}F${item}Type1" required type="number" name="bedRoomB${blocks}F${item}Type1" data-placeholder="---"  class="form-control">
+
                                                                     <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
                                                                         <div class="parsley-required">${message}</div>
                                                                     </div>
@@ -179,7 +183,9 @@
                                                             <div class="row">
                                                                 <div class="form-group form-group ${hasError}">
                                                                     <label for="in-1" class="control-label">Bath Room Floor ${item}A</label>
+
                                                                     <input onchange="changebathRoomB${blocks}F${item}Type1()" id="bathRoomB${blocks}F${item}Type1" required type="number" name="bathRoomB${blocks}F${item}Type1" data-placeholder="---"  class="form-control">
+
                                                                     <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
                                                                         <div class="parsley-required">${message}</div>
                                                                     </div>
@@ -202,7 +208,9 @@
                                                             <div class="row">
                                                                 <div class="form-group form-group ${hasError}">
                                                                     <label for="in-1" class="control-label">Area Floor ${item}A</label>
+
                                                                     <input onchange="changeareasB${blocks}F${item}Type1()" id="areasB${blocks}F${item}Type1" required type="number" name="areasB${blocks}F${item}Type1" data-placeholder="---"  class="form-control">
+
                                                                     <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
                                                                         <div class="parsley-required">${message}</div>
                                                                     </div>
@@ -304,6 +312,7 @@
                                                                 var typeNumberFloorF${item}Type1 = parseInt(document.getElementById("typeNumberFloorF${item}Type1").value);
                                                                 var typeNumberFloorF${item}Type2 = parseInt(document.getElementById("typeNumberFloorF${item}Type2").value);
                                                                 document.getElementById("typeNumberFloorF${item}Type3").value = parseInt(${estateNumbers}) - typeNumberFloorF${item}Type1 - typeNumberFloorF${item}Type2;
+
                                                             };
                                                             
                                                             function changepriceB${blocks}F${item}Type1(){
@@ -327,6 +336,7 @@
                                                                 var areasB${blocks}F${item}Type1 = document.getElementById("areasB${blocks}F${item}Type1").value;
                                                                 document.getElementById("areasB${blocks}F${item}Type2").value = areasB${blocks}F${item}Type1;
                                                                 document.getElementById("areasB${blocks}F${item}Type2").value = areasB${blocks}F${item}Type1;
+
                                                             }
                                                         </script>
                                                     </c:forEach>

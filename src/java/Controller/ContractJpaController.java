@@ -326,6 +326,19 @@ public class ContractJpaController implements Serializable {
             em.close();
         }
     }
+
+    public Object countEstateWait(int idUser) {
+
+        EntityManager em=getEntityManager();
+        Query q= em.createNativeQuery("select count(*) as countEs from contract c where c.status like 'waitting for employee' and c.contract_details like 'none' and c.employee_id ="+idUser+"");
+        return q.getSingleResult();
+    }
+
+    public Object countEstateSale(int idEm) {
+        EntityManager em= getEntityManager();
+        Query q=em.createNativeQuery("select count(*) as countEs from contract c where c.status like 'done' and c.contract_details like 'my request sale' and c.employee_id ="+idEm+"");
+        return q.getSingleResult();
+    }
     
     
 }

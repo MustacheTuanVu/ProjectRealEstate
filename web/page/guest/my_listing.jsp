@@ -72,8 +72,10 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
+
                         <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Trang Chủ</a></li>
                         <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Chi tiết bất động sản</a></li>
+
                     </ul>
                 </div>
             </nav>
@@ -84,8 +86,10 @@
                         <!-- BEGIN site-->
                         <div class="site site--main">
                             <header class="site__header">
+
                                 <h1 class="site__title">Trang cá nhân</h1>
                                 <h2 class="site__headline">Thêm và sửa thông tin danh sách</h2>
+
                             </header>
                             <div class="site__panel">
                                 <span class="site__header-text">
@@ -96,6 +100,7 @@
                                 <div class="site__panel">
                                     <div class="listing__sort">
                                         <div class="form-group">
+
                                             <label for="in-listing-sort" class="control-label">Sắp xếp theo:</label>
                                             <div class="form-control--select">
                                                 <select id="in-listing-sort" onchange="changeFunc()" class="form-control js-in-select">
@@ -105,12 +110,15 @@
                                                     <option value="date_add asc">Thời gian tăng dần</option>
                                                     <option value="areas desc">Diện tích giảm dần</option>
                                                     <option value="areas asc">Diện tích tăng dần</option>
+
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                     <!--end of block .listing__sort-->
+
                                     <div class="listing__view"><span class="control-label">Xem:</span><a href="properties_listing_grid.html" class="btn--white active"><i class="fa fa-th-large"></i></a><a href="properties_listing_list.html" class="btn--white"><i class="fa fa-bars"></i></a><a href="properties_listing_table.html" class="btn--white"><i class="fa fa-table"></i></a></div>
+
                                     <!--end of block .listing__view-->
                                 </div>
                                 <!--end of block .listing__param-->
@@ -121,10 +129,12 @@
                                                 <div class="listing__empty">
                                                     <img class="listing__empty-headline" src="http://localhost:8080/ProjectRealEstate/assets/media-demo/productempty.jpeg">
                                                     <h4 class="listing__empty-title">
+
                                                         Không tìm thấy kết quả nào
                                                     </h4>
                                                     <span class="listing__empty-headline">
                                                         Hãy chắc rằng bạn gõ đúng từ khóa , vui lòng sử dụng tài khóa khác.
+
                                                     </span>
                                                 </div>
                                             </c:if>
@@ -134,6 +144,7 @@
                                                         <div class="properties__item-header">
                                                             <c:choose>
                                                                 <c:when test="${item.contractId.contractDetails == 'my request sale'  && item.contractId.status != 'done'}">
+
                                                                     <span class="properties__state properties__state--highlight">Chờ bán</span>
                                                                 </c:when>
                                                                 <c:when test="${item.contractId.contractDetails == 'my request sale' && item.contractId.status == 'done'}">
@@ -144,6 +155,7 @@
                                                                 </c:when>
                                                                 <c:when test="${item.contractId.status == 'waitting for employee'}">
                                                                     <span class="properties__state properties__state--hidden">Đợi nhân viên tư vấn</span>
+
                                                                 </c:when>
                                                                 <c:when test="${item.contractId.status == 'done'}">
                                                                     <span class="properties__state properties__state--default">${item.contractId.status}</span>
@@ -151,12 +163,14 @@
                                                             </c:choose>
                                                             
                                                             <div class="properties__actions">
+
                                                                 <button type="button" class="properties__link">Sửa</button>
                                                                 <div class="dropdown properties__actions-dropdown">
                                                                     <button data-toggle="dropdown" type="button" class="dropdown-toggle properties__dropdown-toggle">...</button>
                                                                     <div class="dropdown__menu properties__dropdown-menu">
                                                                         <button type="button" class="properties__link">Xóa</button>
                                                                         <button type="button" class="properties__link">Thay đổi trạng thái</button>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -171,16 +185,20 @@
                                                                         href="" 
                                                                     </c:if>
                                                                     class="item-photo">
+
                                                                     <img src="${item.estateId.image1st}" alt="" style="width: 270px !important; height: 175px !important" width="270px" height="175px"/>
                                                                     <figure class="item-photo__hover item-photo__hover--params">
                                                                         <span class="properties__params">Phòng ngủ - ${item.estateId.bedRoom} room</span>
                                                                         <span class="properties__params">Phòng tắm - ${item.estateId.bathRoom} room</span>
+
                                                                         <span class="properties__params">Garages - ${item.estateId.garages}M<sup>2</sup></span>
                                                                         <!--
                                                                         <span class="properties__intro">My home is bright and spacious. Very good transport links. Close to the Olympic village, Westfiel...</span>
                                                                         -->
+
                                                                         <span class="properties__time">Diện tích - ${item.estateId.areas}M<sup>2</sup></span>
                                                                         <span class="properties__more">Xem chi tiết</span>
+
                                                                     </figure>
                                                                 </a>  
                                                                 <span class="properties__ribon">For ${item.estateId.estateStatusId.estateStatusName}</span>
@@ -202,21 +220,27 @@
                                                                     </a>
                                                                     <div class="properties__offer">
                                                                         <div class="properties__offer-column">
+
                                                                             <div class="properties__offer-label">Hướng nhà</div>
+
                                                                             <div class="properties__offer-value">
                                                                                 <strong> ${item.estateId.direction}</strong>
                                                                             </div>
                                                                         </div>
                                                                         <div class="properties__offer-column">
+
                                                                             <div class="properties__offer-label">Giá</div>
                                                                             <div class="properties__offer-value"><strong>${item.estateId.price} VND</strong>
+
                                                                                     <c:if test = "${item.estateId.estateStatusId.estateStatusName == 'Rent'}">
                                                                                     <span class="properties__offer-period">/month</span>
                                                                                 </c:if>
                                                                             </div>
                                                                         </div>
                                                                     </div>
+
                                                                     <div class="properties__params--mob"><a href="#" class="properties__more">Xem chi tiết</a><span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
+
                                                                 </div>
                                                             </div>
                                                             <!-- end of block .properties__info-->
@@ -227,6 +251,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -234,7 +259,9 @@
                         <!-- BEGIN SIDEBAR-->
                         <div class="sidebar">
                             <div class="widget js-widget widget--sidebar widget--first-no-head">
+
                                 <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Trang cá nhân</a>
+
                                 </div>
                                 <div class="widget__content">
                                     <!-- BEGIN WORKER PROFILE-->
@@ -244,6 +271,7 @@
                                             <div class="worker__avatar">
                                                 <img src="${customer.customerImg}" alt="avatar" width="208" height="208">
                                             </div>
+
                                             <button class="worker__avatar-upload">Cập nhập hình đại diện</button>
                                         </div>
                                         <nav class="worker__nav">
@@ -251,6 +279,7 @@
                                                 <li><a href="<%=request.getContextPath()%>/MyListing">Danh sách bất động sản cửa tôi</a></li>
                                                 <li><a href="<%=request.getContextPath()%>/DashboardUser">Trang cá nhân</a></li>
                                                 <li><a href="<%=request.getContextPath()%>/MyContract">Hợp đồng của tôi</a></li>
+
                                             </ul>
                                         </nav>
                                         <!-- end of block .worker__nav-->

@@ -7,6 +7,7 @@ package Entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,7 +31,10 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Project.findAll", query = "SELECT p FROM Project p")})
 public class Project implements Serializable {
-
+    @OneToMany(mappedBy = "idProject")
+    private List<Comment> commentList;
+    @OneToMany(mappedBy = "idProject")
+    private List<Rating> ratingList;
     @Size(max = 2147483647)
     @Column(name = "project_content")
     private String projectContent;
@@ -283,6 +287,22 @@ public class Project implements Serializable {
 
     public void setProjectContent(String projectContent) {
         this.projectContent = projectContent;
+    }
+
+    public List<Rating> getRatingList() {
+        return ratingList;
+    }
+
+    public void setRatingList(List<Rating> ratingList) {
+        this.ratingList = ratingList;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
     }
     
 }

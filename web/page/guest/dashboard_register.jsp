@@ -78,8 +78,10 @@
                     <div class="row">
                         <section class="site">
                             <header class="site__header">
+
                                 <h1 class="site__title">Đăng Kí </h1>
                                 <h2 class="site__headline">Nhập tên đăng nhập và mật khẩu</h2>
+
                             </header>
                             <div class="site__main">
                                 <div class="widget js-widget widget--main widget--no-border">
@@ -87,18 +89,22 @@
                                         <div class="auth auth--inline">
                                             <div class="auth__wrap auth__wrap--login">
                                                 <!-- BEGIN AUTH LOGIN-->
+
                                                 <h5 class="auth__title">Đăng nhập tài khoản của bạn</h5>
                                                 <form  action="RegisterUser" method="post" onsubmit="return checkPass()" class="form form--flex form--auth js-register-form js-parsley">
                                                     <div class="row">
                                                         <div class="form-group ${hasError}">
                                                             <label for="register-lastname-inline1" class="control-label">Tên đăng nhập</label>
+
                                                             <input type="text"  name="name" id="register-lastname-inline1" required class="form-control">
                                                             <span id="errNameRegister"></span>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="form-group ">
+
                                                             <label class="control-label">Mật khẩu</label>
+
                                                             <input type="password"  name="password" id="register-pass-inline1" required class="form-control">
                                                             
                                                             <div id="errPassRegister" ></div>
@@ -106,10 +112,12 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="form-group ">
+
                                                             <label for="register-confirm-inline1" class="control-label">Xác nhận</label>
                                                             <input type="password" name="confirm" id="register-confirm-inline1" required class="form-control">
                                                         </div>
                                                         <div class="form__options">Trờ về<a href="<%=request.getContextPath()%>/LoginUser">Đăng nhập</a>
+
                                                         </div>
                                                         <div class="form-group">
                                                             <input type="submit" value="Sign up" class="form__submit"/>
@@ -138,7 +146,9 @@
                             <h4 class="modal-title text-center text-success"></h4>
                         </div>
                         <div class="modal-body">
+
                             <h4 class="modal-title text-center text-success" style="text-align: center">Tên tài khoản đã tồn tại !!!</h4>
+
                             <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
                         </div>
                     </div>
@@ -199,6 +209,7 @@
                                                         var newPass = document.getElementById('register-pass-inline1').value;
                                                         var confirmPass = document.getElementById('register-confirm-inline1').value;
                                                         var username = document.getElementById('register-lastname-inline1').value;
+
                                                         var str1 = document.getElementById('register-pass-inline1').value;
                                                         var str2 = document.getElementById('register-lastname-inline1').value;
                                                         newPass = str1.replace(/\s/g, '');
@@ -212,6 +223,7 @@
                                                         }else
                                                         if (newPass !== confirmPass) {
                                                             document.getElementById('errPassRegister').innerHTML = 'Mật khẩu mới và mật khẩu xác nhận không khớp ';
+
                                                         }else {
                                                             return true;
                                                         }

@@ -4,8 +4,8 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
-        <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title>
+        <!--[if IE]>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
         <!-- Loading Source Sans Pro font that is used in this theme-->
@@ -85,7 +85,6 @@
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN Favorites-->
-
                                     </div>
                                 </div>
                                 <div class="widget js-widget widget--dashboard">
@@ -126,7 +125,7 @@
                                                                 <div role="document" class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">�</span></button>
                                                                         </div>
                                                                         <div class="modal-body">
                                                                             <form method="POST" action="<%=request.getContextPath()%>/PostCreate" class="form form--flex form--article js-parsley">
@@ -135,12 +134,11 @@
                                                                                         <label for="in-article-title" class="control-label">Post ID</label>
                                                                                         <input type="text" value="${item.postId}" name="title" id="in-article-title" required class="form-control">
                                                                                     </div>
-                                                                                    <div class="form-group">
-                                                                                        <label for="in-article-title" class="control-label">Tiêu đề</label>
+                                                                                        <label for="in-article-title" class="control-label">Title</label>
                                                                                         <input type="text" value="${item.postTilte}" name="title" id="in-article-title" required class="form-control">
                                                                                     </div>
                                                                                     <div class="form-group">
-                                                                                        <label for="in-article-title" class="control-label">Danh mục</label>
+                                                                                        <label for="in-article-title" class="control-label">Category</label>
                                                                                         <select name="cat" id="in-2">
                                                                                             <c:forEach items="${list}" var="cat" >
                                                                                                 <option value="${cat.categoryId}"  class="form-control">${cat.categoryName}</option> 
@@ -148,7 +146,7 @@
                                                                                         </select>
                                                                                     </div>
                                                                                     <div class="form-group">
-                                                                                        <label for="in-article-title" class="control-label">Mô tả</label>
+                                                                                        <label for="in-article-title" class="control-label">Description</label>
                                                                                         <textarea required="true" name="editor1" class="form-control js-ckeditor">${item.postContent}</textarea>
                                                                                     </div>
                                                                                     <div>
@@ -156,7 +154,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row">
-                                                                                    <button type="submit" class="form__submit">Lưu</button>
+                                                                                    <button type="submit" class="form__submit">Save</button>
                                                                                 </div>
                                                                             </form>
                                                                         </div>
@@ -170,15 +168,15 @@
                                                         <div role="document" class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                                                                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">�</span></button>
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <form action="<%=request.getContextPath()%>/PaymentEdit" method="POST" class="form form--flex form--property form--basic js-form-property-1">
                                                                         <div class="row">
                                                                             <div class="form-group form-group--description ${hasErrorEdit}">
-                                                                                <label for="in-1" class="control-label">Tiên ích ID</label>
+                                                                                <label for="in-1" class="control-label">Feature ID</label>
                                                                                 <input id="in-1" required type="text" name="txtID" value="${id}" class="form-control" readonly="true">
-                                                                                <label for="in-2" class="control-label">Tên tiện ích</label>
+                                                                                <label for="in-2" class="control-label">Feature Name</label>
                                                                                 <input id="in-2" required type="text" name="txtPay" data-placeholder="---" value="${featureName}" class="form-control">
 
                                                                                 <div class="help-block filled" id="parsley-id-11" style="display: ${paymentFrequencyName}">
@@ -188,7 +186,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
-                                                                            <button class="form__submit" type="submit">Đồng ý</button>
+                                                                            <button class="form__submit" type="submit">Submit</button>
                                                                         </div>
                                                                     </form>
                                                                 </div>

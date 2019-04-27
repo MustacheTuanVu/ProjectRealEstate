@@ -74,8 +74,10 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
+
                         <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Trang chủ</a></li>
                         <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Bài viết</a></li>
+
                     </ul>
                 </div>
             </nav>
@@ -85,8 +87,10 @@
                     <div class="row">
                         <div class="site site--main">
                             <header class="site__header">
+
                                 <h1 class="site__title">Bài viết</h1>
                                 <h2 class="site__headline">Kiểm tra cập nhập mới của chúng tôi</h2>
+
                             </header>
                             <!-- BEGIN SEARCH-->
                             <form class="form form--search form--article-listing">
@@ -99,7 +103,9 @@
                                 </div>
                             </form>
                             <!-- END SEARCH-->
+
                             <button type="button" data-goto-target=".js-categories-article" class="widget__btn--goto js-goto-btn">Xem danh mục</button>
+
                             <div class="site__main">
                                 <div class="widget js-widget widget--main widget--no-margin">
                                     <div class="widget__content">
@@ -113,7 +119,9 @@
                                                                 <strong><fmt:formatDate value="${list.postDate}" pattern="dd" /></strong></time>
                                                             <div class="article__item-info">
                                                                 <h3 class="article__item-title"><a href="blog_details.html">${list.postTilte}</a></h3>
+
                                                                 <div class="article__tags">Danh mục:
+
                                                                     <a href="<%= request.getContextPath() %>/BlogListAllUser?cat=${list.postCategory.categoryId}">${list.postCategory.categoryName}</a>
                                                                 </div>
                                                             </div>
@@ -125,7 +133,9 @@
                                                         <div class="article__intro">
                                                             <c:set var="string1" value="${list.postContent}" />
                                                             <p>${fn:substring(string1,0, 500)}...</strong></p></p>
+
                                                         </div><a href="<%=request.getContextPath()%>/BlogDetails?id=${list.postId}" class="article__more">Xem thêm</a>
+
                                                     </article>
                                                 </div>
                                             </c:forEach>
@@ -134,7 +144,21 @@
                                 </div>
                                 <div class="site__footer">
                                     <!-- BEGIN PAGINATION-->
-                                    
+
+                                    <nav class="listing__pagination">
+                                        <ul class="pagination-custom">
+                                            <li><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span><span class="sr-only">Previous</span></a></li>
+                                            <li><a href="#">1</a></li>
+                                            <li><span>...</span></li>
+                                            <li class="active-before"><a href="#">3</a></li>
+                                            <li class="active"><span>4</span></li>
+                                            <li class="active-after"><a href="#">5</a></li>
+                                            <li><span>...</span></li>
+                                            <li><a href="#">15</a></li>
+                                            <li><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span><span class="sr-only">Next</span></a></li>
+                                        </ul>
+                                    </nav>
+
                                     <!-- END PAGINATION-->
                                 </div>
                             </div>
@@ -144,15 +168,19 @@
                         <div class="sidebar">
                             <div class="widget js-widget widget--sidebar">
                                 <div class="widget__header">
+
                                     <h2 class="widget__title">Danh mục</h2>
                                     <h5 class="widget__headline">Tìm căn hộ hoặc nhà của bạn bằng thông tin chính xác.</h5><a class="widget__btn js-widget-btn widget__btn--toggle">Xem danh mục bài viết</a>
+
                                 </div>
                                 <div class="widget__content">
                                     <!-- BEGIN ARTICLE CATEGORIES-->
                                     <div class="article-categories">
                                         <div class="article-categories__list js-categories-article">
                                             <ul>
+
                                                 <li class="article-categories__item"><a href="<%= request.getContextPath()%>/BlogListAllUser?cat=all" class="article-categories__name">Tất cả<span class="article-categories__count"></span></a></li>
+
                                                 <c:forEach items="${listCat}" var="listCat">
                                                     <li class="article-categories__item"><a href="<%= request.getContextPath() %>/BlogListAllUser?cat=${listCat.categoryId}" class="article-categories__name">${listCat.categoryName}<span class="article-categories__count"></span></a></li>
                                                 </c:forEach>
@@ -185,13 +213,17 @@
                             <h2 class="widget__title">Menu</h2>
                         </div>
                         <div class="widget__content">
+
                             <nav class="nav nav--footer"><a href="index1.html">Trang chủ</a><a href="properties_listing_grid.html">Realty</a><a href="agents_listing_grid.html">Agents</a><a href="gallery.html">Gallery</a><a href="blog.html">Blog</a><a href="pricing.html">Pricing</a><a href="contacts.html">Contacts</a><a href="feature_ui.html">UI</a></nav>
+
                             <!-- end of block .nav-footer-->
                         </div>
                     </div>
                     <div class="widget js-widget widget--footer">
                         <div class="widget__header">
+
                             <h2 class="widget__title">Về SGEstate24h</h2>
+
                         </div>
                         <div class="widget__content">
                             <aside class="widget_text">
@@ -206,7 +238,9 @@
                     </div>
                     <div class="widget js-widget widget--footer">
                         <div class="widget__header">
+
                             <h2 class="widget__title">Xã hội</h2>
+
                         </div>
                         <div class="widget__content">
                             <div class="social social--footer"><a href="#" class="social__item"><i class="fa fa-facebook"></i></a><a href="#" class="social__item"><i class="fa fa-twitter"></i></a><a href="#" class="social__item"><i class="fa fa-google-plus"></i></a></div>
@@ -218,11 +252,13 @@
                 <div class="footer__col footer__col--second">
                     <div class="widget js-widget widget--footer">
                         <div class="widget__header">
+
                             <h2 class="widget__title">Liện hệ</h2>
                         </div>
                         <div class="widget__content">
                             <section class="address address--footer">
                                 <h4 class="address__headline">Văn phòng của chúng tôi</h4>
+
                                 <address class="address__main"><span>1950 New York, NY, Ave NW, California, DC 3000600, USA</span><span>08 - 17 mon-fr</span><a href="tel:+442240052225">+1 202 555 0135</a><a href="tel:+442240052225">+1 202 555 0135</a><span>Fax: +1 202 555 0135</span><a href="mailto:hello@example.com">hello@example.com</a></address>
                             </section>
                             <!-- end of block .address-->
@@ -230,23 +266,29 @@
                     </div>
                     <div class="widget js-widget widget--footer">
                         <div class="widget__header">
+
                             <h2 class="widget__title">Phản hồi</h2>
+
                         </div>
                         <div class="widget__content">
                             <!-- BEGIN SECTION FEEDBACK-->
                             <form action="#" class="form form--flex form--footer js-parsley">
                                 <div class="row">
                                     <div class="form-group">
+
                                         <label for="in-email" class="sr-only control-label">Địa chỉ email</label>
                                         <input id="in-email" type="email" name="email" placeholder="E-mail" required data-parsley-trigger="change" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label for="in-message" class="sr-only control-label">Nhắn tin cho chúng tôi</label>
+
                                         <textarea id="in-message" name="message" placeholder="Message for Us" required data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 20 caracters long comment.." class="form-control"></textarea>
                                     </div>
                                 </div>
                                 <div class="row">
+
                                     <button type="submit" class="form__submit">Gửi</button>
+
                                 </div>
                             </form>
                             <!-- end of block .form__wrap-->
@@ -258,7 +300,9 @@
                 <div class="footer__col footer__col--third">
                     <div class="widget js-widget widget--footer">
                         <div class="widget__header">
+
                             <h2 class="widget__title">Bài viết mới nhất</h2>
+
                         </div>
                         <div class="widget__content">
                             <div class="listing listing--footer">
@@ -275,7 +319,9 @@
                                 <div class="listing__item">
                                     <!-- BEGIN SECTION ARTICLE-->
                                     <div class="article article--footer">
+
                                         <div class="article__details"><a href="blog_details.html" class="article__item-title">Bạn đã được chấp thuận cho thuê nhà.</a>
+
                                             <time datetime="2009-08-29" class="article__time">Mon - 3 Sep - 3:17 PM</time>
                                         </div>
                                         <!-- end of block .article-->
@@ -292,12 +338,16 @@
                                     </div>
                                     <!-- END SECTION ARTICLE-->
                                 </div>
+
                             </div><a href="blog.html" class="widget__more"> Thêm </a>
+
                         </div>
                     </div>
                 </div>
                 <!-- end of block .footer__col-third-->
+
                 <div class="clearfix"></div><span class="footer__copyright">&copy; 2016 SGEstate24h. All rights reserved</span>
+
                 <!-- end of block .footer__copyright-->
             </div>
         </div>

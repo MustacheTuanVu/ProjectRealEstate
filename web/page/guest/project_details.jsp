@@ -1,11 +1,23 @@
+
+<%@page import="Entity.Users"%>
 <!DOCTYPE html>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
     <head lang="en">
-        <meta charset="UTF-8">
-        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+        <style type="text/css">
+            .star-rating {
+                line-height:32px;
+                font-size:1.25em;
+            }
+            .star-rating .fa-star{color: yellow;}
+        </style>
+
+        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -72,8 +84,10 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
+
                         <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Trang chủ</a></li>
                         <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Chi tiết bất động sản</a></li>
+
                     </ul>
                 </div>
             </nav>
@@ -86,13 +100,13 @@
                             <!-- BEGIN PROPERTY DETAILS-->
                             <div class="property">
                                 <h1 class="property__title">${find.projectName}
+
+                                    <input type="hidden" value="${find.projectId}" name="txtidProject" id="txtId" />
                                     <span class="property__city">${find.projectAddress}</span>
                                 </h1>
                                 <div class="property__header">
-                                    <div class="property__price property__price--commision">
-                                        <span class="property__price-label">Quận</span>
-                                        <strong class="property__price-value">${find.district}</strong>
-                                    </div>
+
+
                                     <!--
                                     <div class="property__actions property__actions--btn">
                                         <button type="button" class="btn--default"><i class="fa fa-star"></i>Add to favorites</button>
@@ -102,7 +116,9 @@
                                 <div class="clearfix"></div>
 
                                 <div class="property__slider">
+
                                     <div class="property__ribon">Dự án</div>
+
                                     <div class="property__ribon property__ribon--status property__ribon--done">
                                         ${find.projectStatus}
                                     </div>
@@ -165,46 +181,76 @@
                                 </div>      
                                 <div class="widget js-widget widget--details">
                                     <div class="property__info">
+
                                         <div class="property__info-item">Quận: <strong> ${find.district}</strong></div>
                                         <div class="property__info-item">Trạng thái: <strong> ${find.projectStatus}</strong></div>
                                         <div class="property__info-item">Năm xây dựng: <strong> <fmt:formatDate value="${find.yearBuild}" pattern="yyyy" /></strong></div>
                                         <div class="property__info-item">Ngày: <strong> <fmt:formatDate value="${find.dateAdd}" pattern="dd/MM/yyyy" /></strong></div>
+
+                                        <div class="property__info-item">Rating : 
+                                            <div class="star-rating">
+                                                <span onclick="checkUserRating(1)" class="fa fa-star-o" data-rating="1"></span>
+                                                <span onclick="checkUserRating(2)" class="fa fa-star-o" data-rating="2"></span>
+                                                <span onclick="checkUserRating(3)" class="fa fa-star-o" data-rating="3"></span>
+                                                <span onclick="checkUserRating(4)" class="fa fa-star-o" data-rating="4"></span>
+                                                <span onclick="checkUserRating(5)" class="fa fa-star-o" data-rating="5"></span>
+                                                <input type="hidden" name="whatever1" class="rating-value" value="${point}">
+                                            </div>
+                                        </div>
+                                        <div class="property__info-item">Status: <strong> ${find.projectStatus}</strong></div>
+                                        <div class="property__info-item">Year build: <strong> <fmt:formatDate value="${find.yearBuild}" pattern="yyyy" /></strong></div>
+                                        <div class="property__info-item">Date add: <strong> <fmt:formatDate value="${find.dateAdd}" pattern="dd/MM/yyyy" /></strong></div>
+
                                     </div>
                                     <div class="property__plan">
                                         <dl class="property__plan-item">
                                             <dt class="property__plan-icon">
+
                                                 <svg>
                                                 <use xlink:href="#icon-area"></use>
                                                 </svg>
                                             </dt>
                                             <dd class="property__plan-title">Số Block</dd>
+
+                                            <svg>
+                                            <use xlink:href="#icon-area"></use>
+                                            </svg>
+                                            </dt>
+                                            <dd class="property__plan-title">Block Number</dd>
+
                                             <dd class="property__plan-value">${find.blockNumber}</dd>
                                         </dl>
                                         <dl class="property__plan-item">
                                             <dt class="property__plan-icon property__plan-icon--window">
+
                                                 <svg>
                                                 <use xlink:href="#icon-window"></use>
                                                 </svg>
                                             </dt>
                                             <dd class="property__plan-title">Số tầng</dd>
+
                                             <dd class="property__plan-value">${find.floorNumber}</dd>
                                         </dl>
                                         <dl class="property__plan-item">
                                             <dt class="property__plan-icon property__plan-icon--bathrooms">
+
                                                 <svg>
                                                 <use xlink:href="#icon-bathrooms"></use>
                                                 </svg>
                                             </dt>
                                             <dd class="property__plan-title">Tên bất động sản</dd>
+
                                             <dd class="property__plan-value">${countEstate}</dd>
                                         </dl>
                                         <dl class="property__plan-item">
                                             <dt class="property__plan-icon property__plan-icon--garage">
+
                                                 <svg>
                                                 <use xlink:href="#icon-garage"></use>
                                                 </svg>
                                             </dt>
                                             <dd class="property__plan-title">Đơn vị</dd>
+
                                             <dd class="property__plan-value">${sumPrice} USD</dd>
                                         </dl>
                                     </div>
@@ -221,18 +267,22 @@
                                                         <tr>
                                                             <td class="datatable__head-1">No.</td>
                                                             <td class="datatable__head-2 datatable__head-sort">Block</td>
+
                                                             <td class="datatable__head-3 datatable__head-sort">Tầng</td>
                                                             <td class="datatable__head-4 datatable__head-sort">Diện tích</td>
                                                             <td class="datatable__head-5 datatable__head-sort">Phòng ngủ</td>
                                                             <td class="datatable__head-6 datatable__head-sort">Phòng tắm</td>
                                                             <td class="datatable__head-7 datatable__head-sort">Giá</td>
                                                             <td class="datatable__head-8 datatable__head-sort">Trạng thái</td>
+
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <c:forEach items="${estateList}" var="item">
                                                             <tr <c:if test="${item.estateStatus=='project'}">onclick="myFunction(${item.id})"</c:if>
-                                                                <c:if test="${item.estateStatus!='project'}">style="background: #cccccc !important"</c:if>>
+
+                                                                                                             <c:if test="${item.estateStatus!='project'}">style="background: #cccccc !important"</c:if>>
+
                                                                 <td class="datatable__cell datatable__cell--5">${item.id}</td>
                                                                 <td class="datatable__cell datatable__cell--5">${item.block}</td>
                                                                 <td class="datatable__cell datatable__cell--5">${item.floor}</td>
@@ -256,13 +306,17 @@
                                                                     <div class="modal-body">
                                                                         <div class="widget js-widget widget--dashboard">
                                                                             <div class="widget__header">
+
                                                                                 <h2 class="widget__title">Chi tiết bất động sản</h2>
+
                                                                             </div>
                                                                             <div class="widget__content">
                                                                                 <!-- BEGIN SECTION ACTIVITY-->
                                                                                 <section class="activity activity--feed">
                                                                                     <ul class="activity__list">
+
                                                                                         <li class="activity__date">Số bất động sản ${item.id}</li>
+
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
                                                                                                 <a>Block: </a>${item.block}
@@ -270,38 +324,52 @@
                                                                                         </li>
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
+
                                                                                                 <a>Số tầng: </a>${item.floor}
+
                                                                                             </div>
                                                                                         </li>
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
+
                                                                                                 <a>Diện tích: </a>${item.areas}
+
                                                                                             </div>
                                                                                         </li>
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
+
                                                                                                 <a>Phòng ngủ: </a>${item.bedRoom}
+
                                                                                             </div>
                                                                                         </li>
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
+
                                                                                                 <a>Phòng tắm: </a>${item.bathRoom}
+
                                                                                             </div>
                                                                                         </li>
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
+
                                                                                                 <a>Giá: </a>${item.price}
+
                                                                                             </div>
                                                                                         </li>
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
+
                                                                                                 <a>Trạng thái: </a>${item.estateStatus}
+
                                                                                             </div>
                                                                                         </li>
                                                                                     </ul>
                                                                                     <div class="widget__footer">
                                                                                         <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${item.id}" class="widget__more">
+
                                                                                             Yêu cầu mua
+
                                                                                         </a>
                                                                                     </div>
                                                                                 </section>
@@ -320,23 +388,29 @@
                                 </div>
                                 <div class="widget js-widget widget--details">
                                     <div class="widget__header">
+
                                         <h2 class="widget__title">Tóm tắt thông tin biểu đồ</h2>
+
                                     </div>
                                     <div class="widget__content">
                                         <div class="info info--property">
                                             <div class="info__column">
                                                 <div class="info__donut">
                                                     <canvas id="property-statistics-units" class="info__chart" width="300" height="300" style="width: 300px !important; height: 300px !important;"></canvas>
+
                                                     <div class="info__total">Tổng số căn hộ<br> 
+
                                                         <strong id="getUnit" class="info__total-value">${countEstate}</strong>
                                                     </div>
                                                 </div>
 
                                                 <ul class="info__legend">
+
                                                     <li class="info__legend-item info__legend-item--green">Tổng căn hộ đã bán <br> 
                                                         <strong id="getSold">${countEstateSold}</strong>
                                                     </li>
                                                     <li class="info__legend-item info__legend-item--light-green">Tổng căn hộ chưa bán <br> 
+
                                                         <strong id="getUnsold">${countEstateUnSold}</strong>
                                                     </li>
                                                 </ul>
@@ -344,6 +418,7 @@
                                             <div class="info__column">
                                                 <div class="info__donut">
                                                     <canvas id="property-statistics-price" class="info__chart" width="300" height="300" style="width: 300px !important; height: 300px !important;"></canvas>
+
                                                     <div class="info__total">Tổng giá <br>  
                                                         <strong class="info__total-value">${sumPrice}</strong> </div>
                                                 </div>
@@ -351,6 +426,7 @@
                                                     <li class="info__legend-item info__legend-item--blue">Tổng giá căn hộ đã bán <br> 
                                                         <strong id="getSoldPrice">${sumPriceSold}</strong></li>
                                                     <li class="info__legend-item info__legend-item--light-blue">Tổng giá căn hộ chưa bán <br> 
+
                                                         <strong id="getUnsoldPrice">${sumPriceUnSold}</strong></li>
                                                 </ul>
                                             </div>
@@ -358,6 +434,267 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- begin comment -->
+                            <!-- cuong add ****************** -->
+
+                            <div class="comment">
+                                <h3 class="comment__headline">Comments (${totalComment})</h3>
+                                <div class="comment__wrap">
+
+                                    <!--  cuong add -->
+
+                                    <ul id="showcomment"  class="comment__list"  >
+
+                                        <c:forEach var="listComment" items="${listComment}" >
+                                            <c:set value="${listComment.roleComment}" var="role" />
+                                            <li class="comment__item">
+                                                <input type="hidden" id="idComment"  value="${listComment.idComment}" />
+                                                <div class="comment__item-body js-comment-item">
+                                                    <%
+                                                        if (session.getAttribute("user") != null) {
+                                                            Users user = (Users) session.getAttribute("user");
+                                                            if (user.getRole().equals("employee")) {
+                                                    %>
+                                                    <!-- login employee and display info employee -->
+                                                    <c:if test="${role=='employee'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="${listComment.idUser.employee.employeeImg}" alt=""></div>
+                                                        <div class="comment__item-right">
+                                                            <button class="comment__item-btn" onclick="deleteCommentOrReply(${listComment.idComment}, 'comment')" >Delete</button>
+                                                        </div>
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.employee.employeeName}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+                                                    <!-- login employee and display info customer -->
+                                                    <c:if test="${role=='customer'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="${listComment.idUser.customer.customerImg}" alt=""></div>
+                                                        <div class="comment__item-right">
+                                                            <button class="comment__item-btn" onclick="deleteCommentOrReply(${listComment.idComment}, 'comment')" >Delete</button>
+                                                        </div>
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.customer.customerName}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+                                                    <!-- login employee and display info guest -->
+                                                    <c:if test="${role=='guest'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="assets/media-demo/avatars/03.jpg" alt=""></div>
+                                                        <div class="comment__item-right">
+                                                            <button class="comment__item-btn" onclick="deleteCommentOrReply(${listComment.idComment}, 'comment')" >Delete</button>
+                                                        </div>
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.nameComment} - ${listComment.emailComment}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+
+                                                    <%
+                                                    } else { %>
+
+                                                    <!-- login other and display info employee -->
+                                                    <c:if test="${role=='employee'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="${listComment.idUser.employee.employeeImg}" alt=""></div>
+
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.employee.employeeName}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+                                                    <!-- login other and display info customer -->
+                                                    <c:if test="${role=='customer'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="${listComment.idUser.customer.customerImg}" alt=""></div>
+
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.customer.customerName}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+                                                    <!-- login other and display info guest -->
+                                                    <c:if test="${role=='guest'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="assets/media-demo/avatars/03.jpg" alt=""></div>
+
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.nameComment} - ${listComment.emailComment}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+                                                    <%
+                                                        }
+
+                                                    } else {
+                                                    %>
+                                                    <!-- no login and display info employee -->
+                                                    <c:if test="${role=='employee'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="${listComment.idUser.employee.employeeImg}" alt=""></div>
+
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.employee.employeeName}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+                                                    <!-- no login and display info customer -->
+                                                    <c:if test="${role=='customer'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="${listComment.idUser.customer.customerImg}" alt=""></div>
+
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.customer.customerName}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+                                                    <!-- no login and display info guest -->
+                                                    <c:if test="${role=='guest'}" >
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="assets/media-demo/avatars/03.jpg" alt=""></div>
+
+                                                        <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
+                                                        <div class="comment__info"><span class="comment__author">${listComment.nameComment} - ${listComment.emailComment}</span><span class="comment__date">${dateComment}</span>
+                                                            <div class="comment__content">
+                                                                <p>${listComment.content}</p>
+                                                            </div>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                        </div>
+                                                    </c:if>
+                                                    <% }%>
+
+                                                </div>
+                                                <!-- end of block .comment__item-body-->
+                                                <ul id="idReply${listComment.idComment}" class="comment__children">
+
+                                                </ul>
+
+                                            </li>
+                                        </c:forEach>
+
+                                    </ul>
+                                    <div class="comment__footer">
+                                        <!-- BEGIN PAGINATION-->
+                                        <nav class="listing__pagination">
+                                            <ul class="pagination-custom">
+                                                <li><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span><span class="sr-only">Previous</span></a></li>
+                                                <li><a href="#">1</a></li>
+                                                <li><span>...</span></li>
+                                                <li class="active-before"><a href="#">3</a></li>
+                                                <li class="active"><span>4</span></li>
+                                                <li class="active-after"><a href="#">5</a></li>
+                                                <li><span>...</span></li>
+                                                <li><a href="#">15</a></li>
+                                                <li><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span><span class="sr-only">Next</span></a></li>
+                                            </ul>
+                                        </nav>
+                                        <!-- END PAGINATION-->
+
+                                        <div class="comment__form" >
+                                            <!-- form thu 1 -->
+                                            <div id="formReply" style="display: none">
+                                                <div class="comment__form js-form-comment-wrap">
+                                                    <h3 class="comment__form-title">Reply comment</h3>
+                                                    <form method="POST" action="<%=request.getContextPath()%>/ProjectDetails?action=reply" class="form form--flex js-parsley form--comment"><span class="comment__form-headline">Your email address will not be published. Required fields are marked *</span>
+                                                        <div class="row">
+                                                            <input type="hidden"  name="txtIdComment" id="txtIdComment" />
+                                                            <%
+                                                                if (session.getAttribute("user") == null) {
+                                                            %>
+                                                            <div class="form-group form-group--col-6">
+                                                                <label for="in-comment-name" class="form__label control-label required">Your Name</label>
+                                                                <input type="text" name="txtNameReply" id="in-comment-name" required class="form-control form__in form__in--text">
+                                                            </div>
+                                                            <div class="form-group form-group--col-6">
+                                                                <label for="in-comment-email" class="form__label control-label">E-mail</label>
+                                                                <input type="email" name="txtEmailReply" id="in-comment-email" required class="form-control form__in form__in--text">
+                                                            </div>
+                                                            <% }%>
+                                                            <div class="form-group">
+                                                                <label for="in-comment-message" class="form__label control-label">Message</label>
+                                                                <textarea id="in-comment-message" name="txtReplyContent" required class="form-control form__in form__in--textarea"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row row--buttons">
+                                                            <button type="submit" id="btnPost" class="form__submit" >Post comment</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+
+                                            <!-- end of block .comment__form-->
+                                        </div>
+                                        <!-- form thu 2 -->
+                                        <h3 class="comment__form-title">Leave a comment</h3>
+                                        <div class="comment__form">
+                                            <form method="POST" action="<%=request.getContextPath()%>/ProjectDetails?action=comment" class="form form--flex js-parsley form--comment"><span class="comment__form-headline">Your email address will not be published. Required fields are marked *</span>
+                                                <div class="row">
+                                                    <input type="hidden" name="txtIDProject" value="${find.projectId}" />
+                                                    <%
+                                                        if (session.getAttribute("user") == null) {
+                                                    %>
+                                                    <div class="form-group form-group--col-6">
+
+                                                        <label for="in-comment-name" class="form__label control-label required">Your Name</label>
+                                                        <input name="txtNameComment" type="text" id="in-comment-name" required class="form-control form__in form__in--text">
+                                                    </div>
+                                                    <div class="form-group form-group--col-6">
+                                                        <label for="in-comment-email" class="form__label control-label">E-mail</label>
+                                                        <input type="email" name="txtEmailComment" id="in-comment-email" required class="form-control form__in form__in--text">
+                                                    </div>
+                                                    <% }%>
+                                                    <div class="form-group">
+                                                        <label for="in-comment-message" class="form__label control-label">Message</label>
+                                                        <textarea id="in-comment-message" name="txtComment" required class="form-control form__in form__in--textarea"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="row row--buttons">
+                                                    <button type="submit" id="btnPost" class="form__submit" >Post comment</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end comment -->
+
                             <!-- end of block .property-->
                         </div>
                         <!-- END site-->
@@ -365,12 +702,15 @@
 
                         <div class="sidebar">
                             <div class="widget js-widget widget--sidebar widget--first-no-head">
+
                                 <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Xem nhân viên tư vấn</a>
+
                                 </div>
                                 <c:if test="${displayManager=='yes'}">
                                     <div class="widget__content">
                                         <div data-sr="enter bottom move 80px, scale(0), over 0s" data-animate-end="animate-end" class="worker js-unhide-block vcard worker--sidebar-advanced">
                                             <h3 class="worker__name fn">${manager.managerName}</h3>
+
                                             <div class="worker__post">Nhân viên quản lý</div>
                                             <div class="worker__photo">
                                                 <a href="#" class="item-photo item-photo--static">
@@ -383,13 +723,16 @@
                                                 <div class="worker__listings">
                                                     <i class="worker__favorites worker__favorites--highlight"></i> Danh sách của tôi -
                                                     <a href="#">${countProject} Dự án</a></div>
+
                                                 <!-- end of block .worker__listings-->
                                                 <div class="worker__intro-row">
                                                     <div class="worker__intro-col">
                                                         <div class="worker__contacts">
+
                                                             <div class="tel"><span class="type">Số điện thoại</span><a href="tel:${manager.managerPhone}" class="uri value">${manager.managerPhone}</a></div>
                                                             <div class="email"><span class="type">Địa chỉ email</span><a href="mailto:${manager.managerMail}" class="uri value">${manager.managerMail}</a></div>
                                                             <div class="skype"><span class="type">Địa chỉ</span><a href="skype:Walkenboy?call" class="uri value"> ${manager.managerAddress}</a></div>
+
                                                         </div>
                                                         <!-- end of block .worker__contacts-->
                                                     </div>
@@ -459,10 +802,104 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demo.js"></script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
-    <script type="text/javascript">
-                                                                function myFunction(id) {
-                                                                    $('#' + id).modal('show');
+
+    <script >
+
+                                                                function showButton(idComment) {
+                                                                    var idHidden = document.getElementById("idHiddent" + idComment);
+                                                                    idHidden.style.display = "none";
+                                                                    var idshowMore = document.getElementById("showMore" + idComment);
+                                                                    idshowMore.style.display = "inline";
+
+                                                                    document.getElementById("idReply" + idComment).innerHTML = "";
                                                                 }
+                                                                ;
+                                                                function showFormReply(idComment) {
+                                                                    var formReply = document.getElementById("formReply");
+                                                                    formReply.style.display = "block";
+                                                                    document.getElementById("txtIdComment").value = idComment;
+                                                                }
+                                                                ;
+                                                                function deleteCommentOrReply(idComment, action) {
+
+                                                                    var result = confirm('Are You Sure Delete Comment !!!');
+                                                                    if (result == true) {
+                                                                        var xhttp = new XMLHttpRequest();
+                                                                        xhttp.onreadystatechange = function () {
+                                                                            if (this.readyState == 4 && this.status == 200) {
+                                                                                //document.getElementById("idReply" + idComme98989
+                                                                            }
+                                                                        };
+                                                                        xhttp.open("POST", "<%= request.getContextPath()%>/CommentEmployee?id=" + idComment + "&action=" + action, true);
+                                                                        xhttp.send();
+                                                                    }
+                                                                }
+                                                                ;
+                                                                function getReplyComment(idComment) {
+
+                                                                    var idHidden = document.getElementById("idHiddent" + idComment);
+                                                                    idHidden.style.display = "inline";
+                                                                    var idshowMore = document.getElementById("showMore" + idComment);
+                                                                    idshowMore.style.display = "none";
+
+                                                                    var xhttp = new XMLHttpRequest();
+                                                                    xhttp.onreadystatechange = function () {
+                                                                        if (this.readyState == 4 && this.status == 200) {
+                                                                            document.getElementById("idReply" + idComment).innerHTML = this.responseText;
+                                                                        }
+                                                                    };
+                                                                    xhttp.open("GET", "<%= request.getContextPath()%>/CommentEmployee?idComment=" + idComment, true);
+                                                                    xhttp.send();
+                                                                }
+
+    </script>
+    <script type="text/javascript">
+        function myFunction(id) {
+            $('#' + id).modal('show');
+        }
+
+
+        var $star_rating = $('.star-rating .fa');
+
+        var SetRatingStar = function () {
+            return $star_rating.each(function () {
+                if (parseInt($star_rating.siblings('input.rating-value').val()) >= parseInt($(this).data('rating'))) {
+                    return $(this).removeClass('fa-star-o').addClass('fa-star');
+                } else {
+                    return $(this).removeClass('fa-star').addClass('fa-star-o');
+                }
+            });
+        };
+
+        $star_rating.on('click', function () {
+            $star_rating.siblings('input.rating-value').val($(this).data('rating'));
+            return SetRatingStar();
+        });
+
+        SetRatingStar();
+        $(document).ready(function () {
+
+        });
+
+        function checkUserRating(point) {
+
+            var idproject = document.getElementById('txtId').value;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    if (this.responseText == ('0')) {
+                        alert('Mời Bạn Đăng Nhập Để Đánh Giá !!!');
+                    }
+                    else if (this.responseText == '1') {
+                        alert('Bạn Đã Đánh Giá Dự Án Này !!!');
+                    } else if (this.responseText == '2') {
+                        alert('Đánh Giá Thành Công !!!');
+                    }
+                }
+            };
+            xhttp.open("GET", "Rating?idProject=" + idproject + "&point=" + point, true);
+            xhttp.send();
+        }
     </script>
     <!-- END SCRIPTS and INCLUDES-->
 </body>

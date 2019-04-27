@@ -86,7 +86,9 @@
                                                 <div class="info__list">
                                                     <div class="info__column">
                                                         <div class="info__item">
+
                                                             <div class="info__title">Thu nhập của tôi</div>
+
                                                             <div class="info__value info__value--succes"><span class="info__value-label"></span> ${sumMoney}</div>
                                                             <!--
                                                             <div class="info__actions"><a href="dashboard_payment.html" class="info__more">Add credits</a>
@@ -97,17 +99,21 @@
                                                     </div>
                                                     <div class="info__column">
                                                         <div class="info__item">
+
                                                             <div class="info__title">Giao dịch bất động sản</div>
                                                             <div class="info__value info__value--small"><span class="info__value-label"></span> ${estateTransaction}</div>
                                                         </div>
                                                         <div class="info__item">
                                                             <div class="info__title">Chi phí</div>
+
                                                             <div class="info__value info__value--small"><span class="info__value-label">RM</span> 15,330</div>
                                                         </div>
                                                     </div>
                                                     <div class="info__column">
                                                         <div class="info__item">
+
                                                             <div class="info__title">Doanh thu cho SGRealEstate24h bởi tôi</div>
+
                                                             <div class="info__value info__value--info">
                                                                 <span class="info__value-label"></span> ${sumMoneyCompany}
                                                                 <c:if test="${checkMoneyCompany == true}">

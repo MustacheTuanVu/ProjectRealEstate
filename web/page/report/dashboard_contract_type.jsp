@@ -90,7 +90,9 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
+
                                         <h2 class="widget__title">Danh sách báo cáo</h2>
+
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN Favorites-->
@@ -104,7 +106,9 @@
                                             <!-- Tab panes-->
                                             <div class="tab-content form-property__content">
                                                 <div id="basic" role="tabpanel" class="tab-pane active">
+
                                                     <a href="" class="control-label" >Báo cáo hợp đồng mua bán</a>
+
                                                 </div>
                                             </div>
                                         </section>
@@ -181,7 +185,9 @@
         function validation() {
             var typeName = document.getElementById('in-1').value;
             if (typeName.length < 6 || typeName.length > 50) {
+
                 document.getElementById('errTypeName').innerHTML = 'Tên loại hợp đồng phải từ 6 đến 50 kí tự !!!';
+
 
             }
             else {

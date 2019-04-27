@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
-        <meta charset="UTF-8">
         <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
@@ -171,28 +170,36 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
+
                                         <h2 class="widget__title">Thêm bất động sản mới</h2>
+
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN Favorites-->
                                         <section class="form-property form-property--dashboard">
                                             <!-- Nav tabs-->
                                             <ul role="tablist" class="nav form-property__tabs">
+
                                                 <li role="presentation" class="active"><a>Cơ bản</a></li>
                                                 <li role="presentation"><a>Hình ảnh</a></li>
                                                 <li role="presentation"><a>Tiện ích</a></li>
+
                                                 <!--
                                                 <li role="presentation"><a href="#Status" aria-controls="Status" role="tab" data-toggle="tab">Extra</a></li>
                                                 -->
                                             </ul>
                                             <!-- Tab panes-->
+
                                             <form action="<%=request.getContextPath()%>/EstateCreate" class="form form--flex form--property form--basic js-form-property-1">
+
                                                 <div class="tab-content form-property__content">
                                                     <div id="basic" role="tabpanel" class="tab-pane active">
                                                         <div class="row">
                                                             <div class="form-group form-group--description ${hasError}" id="estateNameForm">
+
                                                                 <label for="in-1" class="control-label">Tên bất động sản</label>
                                                                 <input onchange="validateFormCreateEstate()" id="estateName" required type="text" name="estateName" data-placeholder="---" value="Text" class="form-control">
+
                                                                 <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
                                                                     <div class="parsley-required">${message}</div>
                                                                 </div>
@@ -201,7 +208,9 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group" >
+
                                                                 <label for="in-15" class="control-label">Loại bất động sản</label>
+
                                                                 <select id="in-15" required name="estateTypeId" data-placeholder="---" class="form-control">
                                                                     <option label=" "></option>
                                                                     <c:forEach items="${estateTypeList}" var="estateTypeList">
@@ -210,7 +219,9 @@
                                                                 </select>
                                                             </div>
                                                             <div class="form-group" id="bedRoomForm">
+
                                                                 <label for="in-10" class="control-label">Số phòng ngủ</label>
+
                                                                 <select id="in-5" name="bedRoom" data-placeholder="Choose number..." required class="form-control js-in-select">
                                                                     <option value="0">0</option>
                                                                     <option value="1">1</option>
@@ -226,7 +237,9 @@
                                                                 </select>
                                                             </div>
                                                             <div class="form-group" id="bathRoomForm">
+
                                                                 <label for="in-10" class="control-label">Số phòng tắm</label>
+
                                                                 <select id="in-5" name="bathRoom" data-placeholder="Choose number..." required class="form-control js-in-select">
                                                                     <option value="0">0</option>
                                                                     <option value="1">1</option>
@@ -249,20 +262,25 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group" id="priceForm">
+
                                                                 <label for="in-10" class="control-label">Giá</label>
+
                                                                 <input onchange="validateFormCreateEstate()" id="price" type="number" name="price" placeholder="" required class="form-control">
                                                                 <div class="help-block filled" id="parsley-id-11">
                                                                     <div class="parsley-required" id="priceMessage"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group" id="areasForm">
+
                                                                 <label for="in-10" class="control-label">Diện tích</label>
+
                                                                 <input onchange="validateFormCreateEstate()" id="areas" type="number" name="areas" placeholder="" required class="form-control">
                                                                 <div class="help-block filled" id="parsley-id-11">
                                                                     <div class="parsley-required" id="areasMessage"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
+
                                                                 <label for="in-5" class="control-label">Hướng nhà</label>
                                                                 <select id="in-5" name="direction" data-placeholder="Choose a Direction..." required class="form-control js-in-select">
                                                                     <option label=" "></option>
@@ -286,25 +304,32 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-9" class="control-label">Năm xây dựng</label>
+
                                                                 <input name="yearBuild" type="text" id="in-datetime" value="01/01/2019" data-time-picker="false" data-single-picker="true" class="js-datetimerange form-control">
                                                             </div>
 
                                                             <div class="form-group" id="address1Form">
+
                                                                 <label for="in-6" class="control-label">Địa chỉ 1</label>
+
                                                                 <input onchange="validateFormCreateEstate()" id="address1" type="text" name="address1" required class="form-control">
                                                                 <div class="help-block filled" id="parsley-id-11">
                                                                     <div class="parsley-required" id="address1Message"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group" id="address2Form">
+
                                                                 <label for="in-6" class="control-label">Địa chỉ 2</label>
+
                                                                 <input onchange="validateFormCreateEstate()" id="address2" type="text" name="address2" required class="form-control">
                                                                 <div class="help-block filled" id="parsley-id-11">
                                                                     <div class="parsley-required" id="address2Message"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
+
                                                                 <label for="in-6" class="control-label">Quận</label>
+
                                                                 <select id="in-5" name="district" data-placeholder="Choose a District..." required class="form-control js-in-select">
                                                                     <option label=" "></option>
                                                                     <option value="1">1</option>
@@ -326,7 +351,9 @@
                                                                 </select>
                                                             </div>
                                                             <div class="form-group form-group--description" id="contentForm">
+
                                                                 <label for="in-6" class="control-label">Nội dung</label>
+
                                                                 <textarea onchange="validateFormCreateEstate()" id="content" name="estateDescription" rows="4" cols="50" class="form-control"></textarea>
                                                                 <div class="help-block filled" id="parsley-id-11">
                                                                     <div class="parsley-required" id="contentMessage"></div>
@@ -334,14 +361,18 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
+
                                                             <a href="#Photo" onclick="validateFormCreateEstate()" id="tabPhotos" aria-controls="Photo" class="form__submit" role="tab" data-toggle="tab">Next</a>
+
                                                         </div>
                                                     </div>
                                                     <div id="Photo" role="tabpanel" class="tab-pane">
                                                         <div class="listing--items listing--grid listing--photos">
                                                             <div class="listing__actions">
                                                                 <div class="listing__actions-border"></div>
+
                                                                 <h4 id="countimage" class="form__title js-form-title active">Bất động sản có 0/5 hình</h4>
+
                                                                 <input type="button" class="btn--action js-listing-add-photo" value="Add Photo" onclick="BrowseServer();" />
                                                             </div>
                                                             <div class="listing__list js-photos-list">
@@ -433,7 +464,9 @@
                                                         <!--<form class="form form--flex form--property form--extra js-form-property">-->
                                                         <div class="row">
                                                             <div class="form-group form-group--col-12 form-group--inline">
+
                                                                 <label class="control-label">Tiện ích</label>
+
                                                                 <ul class="form__check">
                                                                     <c:forEach items="${featuresList}" var="item">
                                                                         <li>
@@ -445,7 +478,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
+
                                                             <input type="submit" name="submit" value="Đồng ý" class="form__submit"/>
+
                                                         </div>
                                                         <!--</form>-->
                                                     </div>
@@ -471,12 +506,14 @@
                 <div role="document" class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
+
                             <h2 class="site__title">Thêm thành công</h2>
                         </div>
                         <div class="modal-body">
                             <h3>Bạn có muốn tiếp tục thêm bất động sản mới không ?</h3>
                             <button type="button" data-dismiss="modal" aria-label="Close" class="form__submit">Có</button>
                             <a href="<%=request.getContextPath()%>/EstateList?user=admin" class="form__submit">Không</a>
+
                         </div>
                     </div>
                 </div>

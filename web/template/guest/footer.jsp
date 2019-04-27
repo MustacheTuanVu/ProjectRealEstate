@@ -14,6 +14,7 @@
                     <h2 class="widget__title">Menu</h2>
                 </div>
                 <div class="widget__content">
+
                     <nav class="nav nav--footer">
                         <a href="<%=request.getContextPath()%>/index">Trang chủ</a>
                         <a href="<%=request.getContextPath()%>/EstateList?user=guest&estateStatus=all&estateType=all">Bất động sản</a>
@@ -24,17 +25,20 @@
                     <!-- end of block .nav-footer-->
                 </div>
             </div>
+
         </div>
         <!-- end of block .footer__col-first-->
         <div class="footer__col footer__col--second">
             <div class="widget js-widget widget--footer">
                 <div class="widget__header">
+
                     <h2 class="widget__title">Liên hệ</h2>
                 </div>
                 <div class="widget__content">
                     <section class="address address--footer">
                         <h4 class="address__headline">Văn phòng chúng tôi</h4>
                         <address class="address__main"><span>17/5 CMT8, Phường 3, Quận 10, Tp. Hồ Chí Minh</span><span>08 - 17 mon-fr</span><a href="tel:+442240052225">+1 202 555 0135</a><a href="tel:+442240052225">+1 202 555 0135</a><span>Fax: +1 202 555 0135</span><a href="mailto:hello@example.com">hello@example.com</a></address>
+
                     </section>
                     <!-- end of block .address-->
                 </div>
@@ -58,6 +62,7 @@
             </div>
         </div>
         <div class="clearfix"></div><span class="footer__copyright">&copy; 2019 SGEstate24h. All rights reserved</span>
+
         <!-- end of block .footer__copyright-->
     </div>
 </div>

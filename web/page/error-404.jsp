@@ -87,8 +87,10 @@
                     </div>
                     <div class="widget js-widget widget--landing widget--sep">
                         <div class="widget__header">
+
                             <h2 class="widget__title">404 Lỗi. Không tìm thấy trang.</h2>
                             <h5 class="widget__headline">Chúng tôi xin lỗi, trang bạn đang tìm kiếm hiện không có. Có thế nó đã bạn xóa hoặc được thay thế. Bạn có thể tìm kiếm mục khác.</h5>
+
                         </div>
                         <div class="widget__content">
                         </div>

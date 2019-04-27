@@ -261,6 +261,7 @@
                                                 <div class="widget__content">
                                                     <div class="datatable datatable--properties">
                                                         <div class="datatable__wrap">
+
                                                             <table id="example1" class="table table-bordered table-striped">
                                                                 <thead>
                                                                     <tr>
@@ -269,11 +270,13 @@
                                                                         <th>Price</th>
                                                                         <th>Status</th>
                                                                         <th>Details</th>
+
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                     <c:forEach items="${contractDetails}" var="item">
                                                                         <tr>
+
                                                                             <td>${item.estateId.address1} <br>
                                                                                 ${item.estateId.address2}
                                                                             </td>
@@ -282,6 +285,7 @@
                                                                             <td><strong> ${item.estateId.price} </strong></td>
                                                                             <td><strong>${item.contractId.status}</strong></td>
                                                                             <td>
+
                                                                                 <c:if test="${item.contractId.status != 'waitting for employee'}">
                                                                                     <a href="<%=request.getContextPath()%>/CreateContract?estateID=${item.estateId.id}&employeeID=${item.contractId.employeeId.id}" class="datatable__more">
                                                                                         View Details
@@ -318,6 +322,7 @@
                                                 <div class="widget__content">
                                                     <div class="datatable datatable--property">
                                                         <div class="datatable__wrap">
+
                                                             <table id="example2" class="table table-bordered table-striped">
                                                                 <thead>
                                                                     <tr>
@@ -329,12 +334,14 @@
                                                                         <td>BathRoom</td>
                                                                         <td>Price</td>
                                                                         <td>Status</td>
+
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                     <c:forEach items="${estateList}" var="item">
                                                                         <tr <c:if test="${item.estateStatus=='project'}">onclick="myFunction(${item.id})"</c:if>
                                                                                                                          <c:if test="${item.estateStatus!='project'}">style="background: #cccccc !important"</c:if>>
+
                                                                             <td>${item.id}</td>
                                                                             <td>${item.block}</td>
                                                                             <td>${item.floor}</td>
@@ -343,6 +350,7 @@
                                                                             <td>${item.bathRoom}</td>
                                                                             <td>${item.price}</td>
                                                                             <td>
+
                                                                                 <c:if test="${item.estateStatus=='project'}">
                                                                                     publish
                                                                                 </c:if>
@@ -545,6 +553,7 @@
                                                                                 $('#myModal').modal('${modal}');
                                                                             });
     </script>
+
     <!-- DATA TABES SCRIPT -->
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/dataTables.bootstrap.min.js"></script>

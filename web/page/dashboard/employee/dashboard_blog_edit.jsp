@@ -116,6 +116,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="in-article-title" class="control-label">Tiêu đề <span  style="color: red; padding-left: 10px" id="errTitle1"></span></label>
+
                                                     <input type="text" value="${post.postTilte}" name="title" id="in-article-title" required class="form-control">
                                                     
                                                 </div>

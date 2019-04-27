@@ -153,7 +153,7 @@
                                                                 <div role="document" class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">Ã—</span></button>
+                                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                                         </div>
                                                                         <div class="modal-body">
                                                                             <form action="<%=request.getContextPath()%>/FeatureEdit" class="form form--flex form--property form--basic js-form-property-1">
