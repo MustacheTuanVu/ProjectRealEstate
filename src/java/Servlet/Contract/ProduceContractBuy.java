@@ -254,11 +254,7 @@ public class ProduceContractBuy extends HttpServlet {
                 Logger.getLogger(ProduceContractBuy.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-        } else {
-            request.setAttribute("displayLogin", "block");
-            request.setAttribute("displayUser", "none");
-            response.sendRedirect(request.getContextPath()+"/LoginUser");
-        }
+        } 
         // END SESSION HEADER FONTEND //
     }
 

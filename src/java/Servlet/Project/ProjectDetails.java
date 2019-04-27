@@ -108,18 +108,7 @@ public class ProjectDetails extends HttpServlet {
         EstateJpaController estateControl = new EstateJpaController(utx, emf);
         request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
 
-        String id = request.getParameter("projectId");
-        Project find = projectControl.findProject(id);
         
-        List<String> estateIDList = estateControl.getEstateByProject(id);
-        List<Estate> estateList = new ArrayList<>();
-        
-        for (String string : estateIDList) {
-            estateList.add(estateControl.findEstate(string));
-        }
-        
-        int countProject = projectControl.getManagerByProjectCount(find.getManagerId().getManagerId());
-        int countEstate = estateControl.getEstateByProjectCount(id);
 
         RatingJpaController ratingController = new RatingJpaController(utx, emf);
         Controller.CommentJpaController commentController = new CommentJpaController(utx, emf);
@@ -175,14 +164,7 @@ public class ProjectDetails extends HttpServlet {
 
         countEstateUnSold = countEstate - countEstateSold;
         sumPriceUnSold = sumPrice - sumPriceSold;
-        String displayManager = "yes";
-        if (countProject != 0) {
-            int managerID = projectControl.getManagerByProject(Integer.parseInt(id));
-            request.setAttribute("manager", managerControl.findManager(managerID));
-            request.setAttribute("countProject", countProject);
-        } else {
-            displayManager = "no";
-        }
+        
 
         request.setAttribute("totalComment", countCommnet);
         request.setAttribute("listComment", listComment);
@@ -236,7 +218,7 @@ public class ProjectDetails extends HttpServlet {
         Entity.Comment comment = new Comment();
         Entity.ReplyComment reply = new ReplyComment();
         String role = null;
-
+        String idProject = null;
         // create comment 
         if (action.equals("comment")) {
             try {

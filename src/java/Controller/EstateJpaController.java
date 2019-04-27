@@ -549,8 +549,6 @@ public class EstateJpaController implements Serializable {
                         ret.add((String) query.getSingleResult());
                     }
                 }
-                
-                List<String> estateIDList = getEstateByEmployee(employeeID);
                 switch (status) {
                     case "waitting for employee":
                         for (String string : estateIDList) {
@@ -612,24 +610,7 @@ public class EstateJpaController implements Serializable {
         }
         return list1;
     }
-
-    public List<Estate> getEstateByFilter(List<Estate> estateID, String status, String keyword) {
-        System.out.println("status " + status);
-     public List<Estate> getEstateByFilter(List<Estate> estateID, String status) {
-     System.out.println("status " + status);
-     EntityManager em = getEntityManager();
-     List<Estate> list1 = new ArrayList<Estate>();
-     for (Estate estate : estateID) {
-     Query query = em.createNativeQuery("SELECT * FROM estate where "
-     + "id = '" + estate.getId() + "' AND "
-     + "estate_status LIKE '%" + status + "%'", Estate.class
-     );
-     if (query.getResultList().size()!=0) {
-     list1.add((Estate) query.getSingleResult());
-     } 
-     }
-     return list1;
-     }
+    
     public List<Estate> getEstateByFilter(List<Estate> estateID, String status, String keyword) {
         EntityManager em = getEntityManager();
         List<Estate> list1 = new ArrayList<Estate>();
@@ -773,7 +754,6 @@ public class EstateJpaController implements Serializable {
             String estateName,
             String direction,
             String district, // ALL
-            String district,
             String yearBuildFrom,
             String yearBuildTo,
             String bedRoomFrom,

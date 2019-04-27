@@ -70,13 +70,13 @@ public class RequestBuyList extends HttpServlet {
             ContractDetailsJpaController contractDetailsJpaController = new ContractDetailsJpaController(utx, emf);
             Controller.EstateJpaController estateController= new EstateJpaController(utx, emf);
             
-            List<ContractDetails> contracttDetailList = contractDetailsJpaController.getContractDetailsByEmployeeID(users.getEmployee().getId());
+            //List<ContractDetails> contracttDetailList = contractDetailsJpaController.getContractDetailsByEmployeeID(users.getEmployee().getId());
             
             List<Entity.Estate> listEstate=new ArrayList<>();
-            for (ContractDetails contracttDetailList1 : contracttDetailList) {
-                //Entity.Estate estate= new Estate();
-                listEstate.add(estateController.findEstate(contracttDetailList1.getEstateId().getId()));
-            }
+//            for (ContractDetails contracttDetailList1 : contracttDetailList) {
+//                //Entity.Estate estate= new Estate();
+//                listEstate.add(estateController.findEstate(contracttDetailList1.getEstateId().getId()));
+//            }
             
             request.setAttribute("estateList", listEstate);
             request.getRequestDispatcher("/page/dashboard/employee/dashboard_requestbuy_list.jsp").forward(request, response);

@@ -127,7 +127,7 @@ public class EstateDetails extends HttpServlet {
             request.setAttribute("employee", viewEmployeeAssignControl.findViewEmployeeAssign(employeeID));
         }else{
             displayEmployee = "no";
-
+        }
         request.setAttribute("estateList", estateControl.getEstateByTypeAndByPrice(find));
         request.setAttribute("displayEmployee", displayEmployee);
         request.setAttribute("find", find);

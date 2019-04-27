@@ -92,14 +92,6 @@ public class EstateCreate extends HttpServlet {
                 request.setAttribute("role", "employee");
                 session.setAttribute("image", user.getEmployee().getEmployeeImg());
                 
-                EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-                EntityManager em = emf.createEntityManager();
-
-                if (request.getParameter("submit") != null) {
-
-                session.setAttribute("name", user.getEmployee().getEmployeeName());
-                request.setAttribute("role", "employee");
-                session.setAttribute("image", user.getEmployee().getEmployeeImg());
 
                 EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
                 EntityManager em = emf.createEntityManager();
@@ -212,12 +204,6 @@ public class EstateCreate extends HttpServlet {
                         } catch (Exception ex) {
                             Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        
-                        String[] feature = request.getParameterValues("feature");
-                        FeaturesJpaController featuresStatusControl = new FeaturesJpaController(utx, emf);
-                        FeatureDetailsJpaController featureDetailsControl = new FeatureDetailsJpaController(utx, emf);
-                        
-                        if(feature != null){
 
                         String[] feature = request.getParameterValues("feature");
                         FeaturesJpaController featuresStatusControl = new FeaturesJpaController(utx, emf);
@@ -299,7 +285,7 @@ public class EstateCreate extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+processRequest(request, response);
 //        HttpSession session = request.getSession();
 //        Entity.Users user = (Entity.Users) session.getAttribute("user");
 //

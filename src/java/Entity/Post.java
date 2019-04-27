@@ -149,14 +149,6 @@ public class Post implements Serializable {
         this.commentList = commentList;
     }
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
