@@ -699,13 +699,13 @@ public class EstateJpaController implements Serializable {
 
     //REMEMBER 
     public List<Estate> getEstateInSiderBar(
-            String statusID,//
-            String typeID,//
+            String statusID,// ALL
+            String typeID,// ALL
             String sortConditions,//
             String sortTypes,
             String estateName,
             String direction,
-            String district,
+            String district, // ALL
             String yearBuildFrom,
             String yearBuildTo,
             String bedRoomFrom,
