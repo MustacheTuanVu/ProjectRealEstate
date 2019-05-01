@@ -78,7 +78,7 @@ public class EstateAutoCreate1 extends HttpServlet {
                             + "getBlock=yes&"
                             + "estateNumber=" + estateNumber + "");
                 }else{
-                    request.getRequestDispatcher("/page/dashboard/manager/dashboard_project_estate_new1.jsp").forward(request, response);
+                    request.getRequestDispatcher("/admin/page/dashboard/manager/create_estate_of_project_1.jsp").forward(request, response);
                 }
             } else {
                 response.sendRedirect(request.getContextPath() + "/LoginUser");

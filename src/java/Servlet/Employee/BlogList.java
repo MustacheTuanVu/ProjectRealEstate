@@ -71,7 +71,7 @@ public class BlogList extends HttpServlet {
 //            }
         request.setAttribute("listCat", catController.findCategoryEntities());
         request.setAttribute("listPost", postController.getPostByEmployee(user.getEmployee().getId().toString()));
-        request.getRequestDispatcher("/page/dashboard/employee/dashboard_blog.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin/page/dashboard/employee/blog.jsp").forward(request, response);
 
     }
 

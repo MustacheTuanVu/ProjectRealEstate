@@ -91,6 +91,11 @@
                                             <div class="col-md-4">
                                                 <h4>Quản lý nhà-đất</h4>
                                                 <hr>
+                                                <span class="fa fa-home"></span><a href="<%=request.getContextPath()%>/EstateCreate"> Thêm nhà đất</a>
+                                                <hr>
+                                                <span class="fa fa-home"></span><a href="#"> Danh sách nhà đất</a>
+                                                <hr>
+                                                <span class="fa fa-home"></span><a href="#"> Kiểm tra nhà đất</a>
                                                 <span class="fa fa-home"></span><a class="<c:if test="${active == 'CreateEstate'}">active</c:if>" href="<%=request.getContextPath()%>/EstateCreate1" data-toggle="collapse" data-target="#dashboard_dr">
                                                     Thêm nhà đất</a>
                                                 <hr>
@@ -111,6 +116,9 @@
                                                 <hr>
                                                 <span class="fa fa-list-ul"></span><a href="#"> Danh sách giao dịch</a>
                                                 <hr>
+                                                <span class="fa fa-users"></span><a href="#"> Danh sách khách hàng</a>
+                                                <hr>
+                                                <span class="fa fa-legal"></span><a href="#"> Danh sách hợp đồng</a>
                                                 <span class="fa fa-users"></span><a class="<c:if test="${active == 'CustomerOfEmployee'}">active</c:if>" href="<%=request.getContextPath()%>/CustomerOfEmployee" data-toggle="collapse" data-target="#dashboard_dr">
                                                     Danh sách khách hàng</a>
                                                 <hr>

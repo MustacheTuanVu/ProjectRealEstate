@@ -10,7 +10,9 @@
         // Bước 1: Lấy giá trị của username và password
         var estateName = document.getElementById('estateName').value;
         var garages = document.getElementById('garages').value;
+
         console.log("gara "+garages);
+
         var price = document.getElementById('price').value;
         var areas = document.getElementById('areas').value;
         var address1 = document.getElementById('address1').value;
@@ -19,6 +21,7 @@
 
         // Bước 2: Kiểm tra dữ liệu hợp lệ hay không
         if (estateName === "" || estateName.length<10) {
+
             document.getElementById('estateNameMessage').innerHTML = 'must more than 10 character';
             document.getElementById('estateNameForm').classList.add("has-error");
             

@@ -1,9 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -46,7 +47,7 @@
                 if (document.getElementById('imageup1st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
                     document.getElementById('image1st').value = fileUrl;
                     document.getElementById('imageup1st').src = fileUrl;
-                    document.getElementById('countimage').innerHTML = "Estate have 1/5 photo";
+                    document.getElementById('countimage').innerHTML = "Bất động sản có 1 đến 5 hình ảnh";
                 }
             }
         </script>
@@ -100,7 +101,7 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Add new Post</h2>
+                                        <h2 class="widget__title">Thêm bài viết mới</h2>
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN SECTION ARTICLE-->
@@ -108,7 +109,7 @@
                                             <div class="row">
                                                 <div class="form-group">
                                                     <input type="hidden"  name="txtID" />
-                                                    <label for="in-article-title" class="control-label">Your blog image <span id="errImg1" style="color: red; padding-left: 10px"></span> </label>
+                                                    <label for="in-article-title" class="control-label">Hình ảnh bài viết <span id="errImg1" style="color: red; padding-left: 10px"></span> </label>
 
                                                     <br/>
 
@@ -117,12 +118,15 @@
 
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="in-article-title" class="control-label">Title <span  style="color: red; padding-left: 10px" id="errTitle1"></span></label>
+                                                    <label for="in-article-title" class="control-label">Tiêu đề <span  style="color: red; padding-left: 10px" id="errTitle1"></span></label>
+
                                                     <input type="text" name="title" id="in-article-title" required class="form-control">
 
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="in-article-title" class="control-label">Category</label>
+
+                                                    <label for="in-article-title" class="control-label">Danh mục</label>
+
                                                     <select name="cat" id="in-2">
                                                         <c:forEach items="${list}" var="cat" >
                                                             <option value="${cat.categoryId}"  class="form-control">${cat.categoryName}</option> 
@@ -130,13 +134,17 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="in-article-title" class="control-label">Description <span style="color: red ; padding-left: 10px" id="errDes1"></span></label>
+
+                                                    <label for="in-article-title" class="control-label">Mô tả <span style="color: red ; padding-left: 10px" id="errDes1"></span></label>
+
                                                     <textarea id="txtDes" name="editor1" class="form-control js-ckeditor"></textarea>
 
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <button type="submit" class="form__submit">Save</button>
+
+                                                <button type="submit" class="form__submit">Lưu</button>
+
                                             </div>
                                         </form>
                                     </div>
@@ -150,7 +158,9 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title"> <strong>Same Name Blog Completed !!!</strong></h4>
+
+                            <h4 class="modal-title"> <strong>Lưu tên bài viết hoàn thành !!!</strong></h4>
+
                             <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
                         </div>
                     </div>
@@ -213,13 +223,15 @@
             txtDes = txtDes.replace(/^\s+|\s+$/g, "");
 
             if (txtImg.length === 0) {
-                document.getElementById('errImg1').innerHTML = 'Please select a picture !!!';
+
+                document.getElementById('errImg1').innerHTML = 'Vui lòng chọn hình ảnh !!!';
             }
             if (txtTitle.length > 51 || txtTitle.length < 5) {
-                document.getElementById('errTitle1').innerHTML = 'Title from 6 to 50 characters !!!';
+                document.getElementById('errTitle1').innerHTML = 'Tiêu đề phải từ 6 đến 50 kí tự !!!';
             }
             if (txtDes.length < 100) {
-                document.getElementById('errDes1').innerHTML = 'Descript must be more than 200 characters !!!';
+                document.getElementById('errDes1').innerHTML = 'Mô tả ít nhất 200 kí tự !!!';
+
             }
             else
                 return true;

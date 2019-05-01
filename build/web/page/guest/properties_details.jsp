@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -72,8 +72,10 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
-                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Estate Details</a></li>
+
+                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Trang chủ</a></li>
+                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Chi tiết bất động sản</a></li>
+
                     </ul>
                 </div>
             </nav>
@@ -87,12 +89,57 @@
                             <div class="property">
                                 <h1 class="property__title">${find.estateName}<span class="property__city">${find.address2}</span></h1>
                                 <div class="property__header">
-                                    <div class="property__price"><strong class="property__price-value">${find.price}</strong><span class="property__price-label">Inclusive TVA</span></div>
-                                    <h4 class="property__commision">Direction: <strong>${find.direction}</strong></h4>
+
+                                    <div class="property__price"><strong class="property__price-value">${find.price} VND</strong></div>
+                                    <!--
+                                    <h4 class="property__commision">Hướng nhà: <strong>${find.direction}</strong></h4>
+                                    -->
                                     <c:if test="${find.estateStatus == 'publish' || find.estateStatus == 'project'}">
                                         <div class="property__actions" style="display: ${displayRequest}">
-                                            <a href="<%=request.getContextPath()%>/CreateContract?estateID=${find.id}&employeeID=${employee.id}" class="btn--default"><i class="fa fa-refresh"></i>Request Buy</a>
-                                            <button type="button" class="btn--default"><i class="fa fa-star"></i>Contact</button>
+                                            <button type="button" data-toggle="modal" data-target="#myModal" class="btn--default"><i class="fa fa-star"></i>Liên hệ</button>
+                                            <div id="myModal" class="modal fade" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <h4 class="modal-title text-left">Liên hệ xem nhà</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form action="<%=request.getContextPath()%>/ProduceContractBuy" 
+                                                                  class="form form--flex form--profile js-form"
+                                                                  >
+                                                                <div id="form-block-1" class="form__block js-form-block">
+                                                                    <div class="row">
+                                                                        <div class="form-group">
+                                                                            <label for="in-1" class="control-label">Thời gian muốn xem nhà</label>
+                                                                            <input name="contactTime" type="text" id="in-datetime" data-time-picker="false" data-single-picker="true" class="js-datetimerange form-control">
+                                                                            <input name="employeeID" type="hidden" value="${employee.id}">
+                                                                            <input name="paymentAmount" type="hidden" value="${find.price}">
+                                                                            <input name="estateId" type="hidden" value="${find.id}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="form-block-3" class="form__block js-form-block">
+                                                                        <div class="row">
+                                                                            <div class="form-group form-group--description">
+                                                                                <label for="in-13" class="text-left control-label">Lời nhắn</label>
+                                                                                <textarea id="in-13" name="contactContext" required data-parsley-trigger="keyup" data-parsley-minlength="200" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 200 caracters long comment.." class="form-control form-control--description">${customer.customerContent}</textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <button type="submit" value="Save password" class="form__submit">Submit</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" value="produceContract" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </c:if>
                                 </div>
@@ -160,38 +207,44 @@
                                     </div>
                                 </div>
                                 <div class="property__info">
-                                    <div class="property__info-item">Property type: <strong> ${find.estateTypeId.typeName}</strong></div>
-                                    <div class="property__info-item">Status: <strong> ${find.estateStatusId.estateStatusName}</strong></div>
-                                    <div class="property__info-item">Year Build: <strong> <fmt:formatDate value="${find.yearBuild}" pattern="yyyy" /></strong></div>
-                                    <div class="property__info-item">Land Size: <strong> ${find.areas}m<sup>2</sup></strong></div>
+
+                                    <div class="property__info-item">Loại bất động sản: <strong> ${find.estateTypeId.typeName}</strong></div>
+                                    <div class="property__info-item">Trạng thái: <strong> ${find.estateStatusId.estateStatusName}</strong></div>
+                                    <div class="property__info-item">Năm xây dựng: <strong> <fmt:formatDate value="${find.yearBuild}" pattern="yyyy" /></strong></div>
+                                    <div class="property__info-item">Diện tích: <strong> ${find.areas}m<sup>2</sup></strong></div>
+
                                 </div>
                                 <div class="property__plan">
                                     <dl class="property__plan-item">
                                         <dt class="property__plan-icon">
-                                        <svg>
-                                        <use xlink:href="#icon-area"></use>
-                                        </svg>
+
+                                            <svg>
+                                            <use xlink:href="#icon-area"></use>
+                                            </svg>
                                         </dt>
-                                        <dd class="property__plan-title">Area</dd>
+                                        <dd class="property__plan-title">Diện tích</dd>
+
                                         <dd class="property__plan-value">${find.areas}m<sup>2</sup></dd>
                                     </dl>
                                     <dl class="property__plan-item">
                                         <dt class="property__plan-icon property__plan-icon--window">
-                                        <svg>
-                                        <use xlink:href="#icon-window"></use>
-                                        </svg>
+
+                                            <svg>
+                                            <use xlink:href="#icon-window"></use>
+                                            </svg>
                                         </dt>
-                                        <dd class="property__plan-title">Bedrooms</dd>
-                                        <dd class="property__plan-value">${find.bedRoom} room</dd>
+                                        <dd class="property__plan-title">Số phòng ngủ</dd>
+                                        <dd class="property__plan-value">${find.bedRoom} phòng</dd>
                                     </dl>
                                     <dl class="property__plan-item">
                                         <dt class="property__plan-icon property__plan-icon--bathrooms">
-                                        <svg>
-                                        <use xlink:href="#icon-bathrooms"></use>
-                                        </svg>
+                                            <svg>
+                                            <use xlink:href="#icon-bathrooms"></use>
+                                            </svg>
                                         </dt>
-                                        <dd class="property__plan-title">Bathrooms</dd>
-                                        <dd class="property__plan-value">${find.bathRoom} room</dd>
+                                        <dd class="property__plan-title">Số phòng tắm</dd>
+                                        <dd class="property__plan-value">${find.bathRoom} phòng</dd>
+
                                     </dl>
                                     <!--
                                     <dl class="property__plan-item">
@@ -206,16 +259,20 @@
                                     -->
                                     <dl class="property__plan-item">
                                         <dt class="property__plan-icon property__plan-icon--garage">
-                                        <svg>
-                                        <use xlink:href="#icon-garage"></use>
-                                        </svg>
+
+                                            <svg>
+                                            <use xlink:href="#icon-garage"></use>
+                                            </svg>
+
                                         </dt>
                                         <dd class="property__plan-title">Garages</dd>
                                         <dd class="property__plan-value">${find.garages}m<sup>2</sup></dd>
                                     </dl>
                                 </div>
                                 <div class="property__params">
-                                    <h4 class="property__subtitle">Feature</h4>
+
+                                    <h4 class="property__subtitle">Tiện tích</h4>
+
                                     <ul class="property__params-list property__params-list--options">
                                         <c:forEach items="${featureList}" var="item">
                                             <li>${item.featureName}</li>
@@ -223,13 +280,17 @@
                                     </ul>
                                 </div>
                                 <div class="property__description js-unhide-block">
-                                    <h4 class="property__subtitle">Description</h4>
+
+                                    <h4 class="property__subtitle">Mô tả</h4>
+
                                     <div class="property__description-wrap">
                                         <p>
                                             ${find.estateContent}
                                         </p>
                                     </div>
-                                    <button type="button" class="property__btn-more js-unhide">More information ...</button>
+
+                                    <button type="button" class="property__btn-more js-unhide">Xem thêm ...</button>
+
                                 </div>
                                 <!--                
                                 <div class="widget js-widget widget--details">
@@ -272,7 +333,7 @@
                                                     
                                                         <span class="properties__ribon properties__ribon--status properties__ribon--done">
                                                             <a data-toggle="modal" data-target="#${estate.id}"  href="" >
-                                                            So S�nh
+                                                            So S?h
                                                             </a>
                                                         </span>
 
@@ -297,7 +358,7 @@
                                                                                 <td><img src="${estate.image1st}" height="250px" width="500px"/></td>
                                                                             </tr>
                                                                             <tr >
-                                                                                <td colspan="3" >Th�ng Tin C? B?n</td>
+                                                                                <td colspan="3" >Th?g Tin C? B?n</td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td>Estate Name</td>
@@ -306,7 +367,7 @@
                                                                             </tr>
 
                                                                             <tr>
-                                                                                <td>T?ng Di?n T�ch (m<sup>2</sup>)</td>
+                                                                                <td>T?ng Di?n T?h (m<sup>2</sup>)</td>
                                                                                 <td>${find.areas}</td>
                                                                                 <td>${estate.areas}</td>
                                                                             </tr>
@@ -321,23 +382,23 @@
                                                                                 <td>${estate.garages}</td>
                                                                             </tr>
                                                                             <tr>
-                                                                                <td>Ph�ng T?m</td>
+                                                                                <td>Ph?g T?m</td>
                                                                                 <td>${find.bathRoom}</td>
                                                                                 <td>${estate.bathRoom}</td>
                                                                             </tr>
                                                                             <tr>
-                                                                                <td>Ph�ng Ng?</td>
+                                                                                <td>Ph?g Ng?</td>
                                                                                 <td>${find.bedRoom}</td>
                                                                                 <td>${estate.bedRoom}</td>
                                                                             </tr>
 
                                                                             <tr >
-                                                                                <td colspan="3">Th�ng Tin Chung</td>
+                                                                                <td colspan="3">Th?g Tin Chung</td>
                                                                             </tr>
                                                                             <tr >
                                                                                 <fmt:formatDate pattern="dd-MM-yyyy" value="${find.yearBuild}" var="date1"/>
                                                                                 <fmt:formatDate pattern="dd-MM-yyyy" value="${estate.yearBuild}" var="date2"/>
-                                                                                <td >N?m X�y D?ng</td>
+                                                                                <td >N?m X? D?ng</td>
                                                                                 <td >${date1}</td>
                                                                                 <td >${date2}</td>
                                                                             </tr>
@@ -400,14 +461,15 @@
                                     </c:forEach>
                                 </div>
                             </div>
-
                             <!-- end of block .property-->
                         </div>
                         <!-- END site-->
                         <!-- BEGIN SIDEBAR-->
                         <div class="sidebar">
                             <div class="widget js-widget widget--sidebar widget--first-no-head">
-                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Show agent</a>
+
+                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Xem nhân viên tư vấn</a>
+
                                 </div>
                                 <c:if test="${displayEmployee=='yes'}">
                                     <div class="widget__content">
@@ -417,21 +479,25 @@
                                             <div class="worker__photo">
                                                 <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${employee.id}" class="item-photo item-photo--static">
                                                     <img src="${employee.employeeImg}" alt="Christopher Pakulla" class="photo"/>
-                                                    <figure class="item-photo__hover"><span class="item-photo__more">View Details</span></figure>
+
+                                                    <figure class="item-photo__hover"><span class="item-photo__more">Xem chi tiết</span></figure>
                                                 </a>
                                             </div>
                                             <div class="worker__intro">
-                                                <button type="button" class="worker__show js-unhide">Contact agent</button>
+                                                <button type="button" class="worker__show js-unhide">Liên hệ nhân viên tư vấn</button>
                                                 <div class="worker__listings">
-                                                    <i class="worker__favorites worker__favorites--highlight"></i> My Listings -
-                                                    <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${employee.id}">${employee.expr1} estate</a></div>
+                                                    <i class="worker__favorites worker__favorites--highlight"></i> Danh sách của tôi -
+                                                    <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${employee.id}">${employee.expr1} bất động sản</a></div>
+
                                                 <!-- end of block .worker__listings-->
                                                 <div class="worker__intro-row">
                                                     <div class="worker__intro-col">
                                                         <div class="worker__contacts">
-                                                            <div class="tel"><span class="type">Tel.</span><a href="tel:${employee.employeePhone}" class="uri value">${employee.employeePhone}</a></div>
-                                                            <div class="email"><span class="type">Email</span><a href="mailto:${employee.employeeMail}" class="uri value">${employee.employeeMail}</a></div>
-                                                            <div class="skype"><span class="type">Address</span><a href="skype:Walkenboy?call" class="uri value"> ${employee.employeeAddress}</a></div>
+
+                                                            <div class="tel"><span class="type">Số điện thoại</span><a href="tel:${employee.employeePhone}" class="uri value">${employee.employeePhone}</a></div>
+                                                            <div class="email"><span class="type">Địa chỉ email</span><a href="mailto:${employee.employeeMail}" class="uri value">${employee.employeeMail}</a></div>
+                                                            <div class="skype"><span class="type">Địa chỉ</span><a href="skype:Walkenboy?call" class="uri value"> ${employee.employeeAddress}</a></div>
+
                                                         </div>
                                                         <!-- end of block .worker__contacts-->
                                                     </div>

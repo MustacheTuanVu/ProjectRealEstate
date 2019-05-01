@@ -100,7 +100,6 @@
                                                         <div class="form-group ">
                                                             <label class="control-label">Password</label>
                                                             <input type="password"  name="txtPass" id="register-pass-inline1" required class="form-control">
-                                                            
                                                             <div id="errPassRegister" ></div>
                                                         </div>
                                                     </div>

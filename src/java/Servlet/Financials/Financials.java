@@ -65,22 +65,22 @@ public class Financials extends HttpServlet {
             // count total customer of employee
             request.setAttribute("countCustomer", postController.getCountCustomerByEmployeeID(user.getEmployee().getId()));
             // count total Contract
-            request.setAttribute("countContract", estCon.countContract(user.getEmployee().getId()));
+            //request.setAttribute("countContract", estCon.countContract(user.getEmployee().getId()));
             
             
             // count total Money
-            request.setAttribute("countMoney", estCon.countMoney().toString());
+            //request.setAttribute("countMoney", estCon.countMoney().toString());
             // count total Transaction
-            request.setAttribute("countTransaction", estCon.countTransaction().toString());
+            //request.setAttribute("countTransaction", estCon.countTransaction().toString());
             
             // count total Customer
-            request.setAttribute("countCustomer", estCon.countCustomer().toString());
+           // request.setAttribute("countCustomer", estCon.countCustomer().toString());
             // count total Employee
-            request.setAttribute("countEmployee", estCon.countEmployee().toString());
+            //request.setAttribute("countEmployee", estCon.countEmployee().toString());
             // count total estate sold
-            request.setAttribute("countEstateSold", estCon.countEstateSold().toString());
+            //request.setAttribute("countEstateSold", estCon.countEstateSold().toString());
             // count total estate
-            request.setAttribute("countEstate", estCon.countEstate().toString());
+            //request.setAttribute("countEstate", estCon.countEstate().toString());
             request.getRequestDispatcher("/page/dashboard/employee/dashboard_financials.jsp").forward(request, response);
 
         } else {

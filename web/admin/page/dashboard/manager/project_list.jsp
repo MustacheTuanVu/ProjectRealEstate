@@ -571,9 +571,7 @@
                                                             <div class="pull-left inline-block dropdown">
                                                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="zmdi zmdi-more-vert txt-light"></i></a>
                                                                 <ul class="dropdown-menu bullet dropdown-menu-right"  role="menu">
-                                                                    <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i>Full Info</a></li>
-                                                                    <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-share" aria-hidden="true"></i>Send Message</a></li>
-                                                                    <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-trash" aria-hidden="true"></i>Follow</a></li>
+                                                                    <li role="presentation"><a href="<%= request.getContextPath()%>/EstateAutoCreate1?projectID=${project.projectId}" target="_blank" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i>Căn Hộ</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>

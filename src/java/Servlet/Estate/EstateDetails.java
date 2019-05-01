@@ -11,6 +11,7 @@ import Controller.EstateTypeJpaController;
 import Controller.FeatureDetailsJpaController;
 import Controller.FeaturesJpaController;
 import Controller.ViewEmployeeAssignJpaController;
+import Entity.Estate;
 import Controller.exceptions.RollbackFailureException;
 import Entity.Estate;
 import Entity.EstateStatus;
@@ -20,6 +21,8 @@ import Entity.Features;
 import Entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,9 +60,7 @@ public class EstateDetails extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        
-        
+
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
         Users users = (Users) session.getAttribute("user");
@@ -109,12 +110,10 @@ public class EstateDetails extends HttpServlet {
         request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
 
         String id = request.getParameter("estateID");
-        
-        
+
         List<String> featureIDList = featureDetailsJpaController.findFeatureDetailsByEstate(id);
         List<Features> featureList = new ArrayList<>();
-        
-        
+
         for (String string : featureIDList) {
             featureList.add(featuresJpaController.findFeatures(string));
         }
@@ -150,9 +149,6 @@ public class EstateDetails extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        
-//        String idEstate=request.getParameter("idEstate");
-//        System.out.println("id "+idEstate);
     }
 
     /**
@@ -230,9 +226,6 @@ public class EstateDetails extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(EstateDetails.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
     }
 
     /**

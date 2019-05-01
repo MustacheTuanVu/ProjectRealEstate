@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -79,44 +79,45 @@
                                 <div class="site__main">
                                     <div class="widget js-widget widget--dashboard">
                                         <div class="widget__header">
-                                            <h2 class="widget__title">YOU HAVE: </h2>
+                                            <h2 class="widget__title">Bạn có: </h2>
                                         </div>
                                         <div class="widget__content">
                                             <section class="info info--financials">
                                                 <div class="info__list">
                                                     <div class="info__column">
                                                         <div class="info__item">
-                                                            <div class="info__title">Total Request sale</div>
+                                                            <div class="info__title">Tổng yêu cầu cần bán</div>
                                                             <div class="info__value info__value--succes">
                                                                 <span class="info__value-label">
                                                                     
                                                                 </span> ${countContractWaitSale}</div>
-                                                            <div class="info__actions"><a href="/ContractOfEmployee1" class="info__more">View Request</a>
+                                                            <div class="info__actions"><a href="<%=request.getContextPath()%>/ContractOfEmployee1" class="info__more">Xem yêu cầu</a>
+
                                                                 
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="info__column">
                                                         <div class="info__item">
-                                                            <div class="info__title">Total Estate Wait</div>
+                                                            <div class="info__title">Tổng bất động sản đang chờ duyệt</div>
                                                             <div class="info__value info__value--succes">
                                                                 <span class="info__value-label">
                                                                     
                                                                 </span> ${countEstateWait}</div>
-                                                            <div class="info__actions"><a href="/EstateList?user=director&filter=waitting%20for%20director" class="info__more">
-                                                                    View Request</a>
+                                                            <div class="info__actions"><a href="<%=request.getContextPath()%>/EstateList?user=director&filter=waitting%20for%20director" class="info__more">
+                                                                    Xem yêu cầu</a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="info__column">
                                                         <div class="info__item">
-                                                            <div class="info__title">Total Project Wait</div>
+                                                            <div class="info__title">Tổng dự án đang chờ duyệt</div>
                                                             <div class="info__value info__value--succes">
                                                                 <span class="info__value-label">
                                                                     
                                                                 </span> ${countProjectWait}</div>
-                                                            <div class="info__actions"><a href="/ProjectList?user=director" class="info__more">
-                                                                    View Request</a>
+                                                            <div class="info__actions"><a href="<%=request.getContextPath()%>/ProjectList?user=director" class="info__more">
+                                                                    Xem yêu cầu</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -126,48 +127,48 @@
                                     </div>
                                     <div class="widget js-widget widget--dashboard">
                                         <div class="widget__header">
-                                            <h2 class="widget__title">Commission</h2>
+                                            <h2 class="widget__title">Thống kê</h2>
                                         </div>
                                         <div class="widget__content">
                                             <section class="info info--commission">
-                                                <h5 class="info__group-name">User Number:</h5>
+                                                <h5 class="info__group-name">Số người dùng:</h5>
                                                 <div class="info__list">
                                                     <div class="info__column">
                                                         <div class="info__item">
-                                                            <div class="info__title">Manager</div>
+                                                            <div class="info__title"> Nhân viên quản lý</div>
                                                             <div class="info__value info__value--small"><span class="info__value-label"></span> ${countManager}</div>
                                                         </div>
                                                     </div>
                                                     <div class="info__column">
                                                         <div class="info__item">
-                                                            <div class="info__title">Employee</div>
+                                                            <div class="info__title">Nhân viên tư vấn</div>
                                                             <div class="info__value info__value--small"><span class="info__value-label"></span> ${countEmployee}</div>
                                                         </div>
                                                     </div>
                                                     <div class="info__column">
                                                         <div class="info__item">
-                                                            <div class="info__title">Customer</div>
+                                                            <div class="info__title">Khách hàng</div>
                                                             <div class="info__value info__value--small"><span class="info__value-label"></span> ${countCustomer}</div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <h5 class="info__group-name">Unit Number:</h5>
+                                                <h5 class="info__group-name">Số căn nhà:</h5>
                                                 <div class="info__list">
                                                     <div class="info__column">
                                                         <div class="info__item">
-                                                            <div class="info__title">Project</div>
+                                                            <div class="info__title">Dự án</div>
                                                             <div class="info__value info__value--small"><span class="info__value-label"></span> ${countProject}</div>
                                                         </div>
                                                     </div>
                                                     <div class="info__column">
                                                         <div class="info__item">
-                                                            <div class="info__title">Estate</div>
+                                                            <div class="info__title">Bất động sản</div>
                                                             <div class="info__value info__value--small"><span class="info__value-label"></span> ${countEstate}</div>
                                                         </div>
                                                     </div>
                                                     <div class="info__column">
                                                         <div class="info__item">
-                                                            <div class="info__title">Blog</div>
+                                                            <div class="info__title">Tin tức</div>
                                                             <div class="info__value info__value--small"><span class="info__value-label"></span> ${countBlog}</div>
                                                         </div>
                                                     </div>

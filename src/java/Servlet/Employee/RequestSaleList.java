@@ -65,12 +65,12 @@ public class RequestSaleList extends HttpServlet {
             ContractDetailsJpaController contractDetailsJpaController = new ContractDetailsJpaController(utx, emf);
             Controller.EstateJpaController estateController= new EstateJpaController(utx, emf);
             
-            List<ContractDetails> contracttDetailList = contractDetailsJpaController.getContractDetailsByEmployeeIDSale(users.getEmployee().getId());
+            //List<ContractDetails> contracttDetailList = contractDetailsJpaController.getContractDetailsByEmployeeIDSale(users.getEmployee().getId());
             
             List<Entity.Estate> listEstate=new ArrayList<>();
-            for (ContractDetails contracttDetailList1 : contracttDetailList) {
-                listEstate.add(estateController.findEstate(contracttDetailList1.getEstateId().getId()));
-            }
+//            for (ContractDetails contracttDetailList1 : contracttDetailList) {
+//                listEstate.add(estateController.findEstate(contracttDetailList1.getEstateId().getId()));
+//            }
             
             request.setAttribute("estateList", listEstate);
             request.getRequestDispatcher("/page/dashboard/employee/dashboard_requestsale_list.jsp").forward(request, response);

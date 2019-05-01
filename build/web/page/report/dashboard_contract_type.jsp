@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -90,7 +90,9 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">List Report</h2>
+
+                                        <h2 class="widget__title">Danh sách báo cáo</h2>
+
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN Favorites-->
@@ -104,7 +106,9 @@
                                             <!-- Tab panes-->
                                             <div class="tab-content form-property__content">
                                                 <div id="basic" role="tabpanel" class="tab-pane active">
-                                                    <a href="" class="control-label" >Report Contract</a>
+
+                                                    <a href="" class="control-label" >Báo cáo hợp đồng mua bán</a>
+
                                                 </div>
                                             </div>
                                         </section>
@@ -181,7 +185,9 @@
         function validation() {
             var typeName = document.getElementById('in-1').value;
             if (typeName.length < 6 || typeName.length > 50) {
-                document.getElementById('errTypeName').innerHTML = 'Contract type name from 6 to 50 character !!!';
+
+                document.getElementById('errTypeName').innerHTML = 'Tên loại hợp đồng phải từ 6 đến 50 kí tự !!!';
+
 
             }
             else {

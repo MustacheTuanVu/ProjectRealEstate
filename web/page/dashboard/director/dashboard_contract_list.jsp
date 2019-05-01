@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -83,7 +83,7 @@
                                                 <form action="<%=request.getContextPath()%>/ContractOfEmployee">
                                                     <input type="hidden" name="user" value="employee">
                                                     <input type="text" name="searchInput" placeholder="Input Name" style="width: 500px;">
-                                                    <button type="submit" name="search" value="search" class="btn--link js-tags-rename">Search</button>
+                                                    <button type="submit" name="search" value="search" class="btn--link js-tags-rename">Tìm kiếm</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -96,11 +96,11 @@
                                             <table class="js-properties-table datatable__table">
                                                 <thead>
                                                     <tr>
-                                                        <th class="datatable__head-1">Location Address</th>
-                                                        <th class="datatable__head-2 datatable__head-sort">Customer</th>
-                                                        <th class="datatable__head-3 datatable__head-sort">Price</th>
-                                                        <th class="datatable__head-4 datatable__head-sort">Status</th>
-                                                        <th class="datatable__head-5">Details</th>
+                                                        <th class="datatable__head-1">Địa chỉ</th>
+                                                        <th class="datatable__head-2 datatable__head-sort">Khách hàng</th>
+                                                        <th class="datatable__head-3 datatable__head-sort">Giá</th>
+                                                        <th class="datatable__head-4 datatable__head-sort">Trạng thái</th>
+                                                        <th class="datatable__head-5">Chi tiết</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -138,22 +138,22 @@
                                                                                                 <a href="<%=request.getContextPath()%>/AgreeSaleRequest?estateID=${item.estateId.id}&employeeID=${employee.id}" class="item-photo item-photo--static">
                                                                                                     <img src="${employee.employeeImg}" alt="Lisa Wemert" class="photo"/>
                                                                                                     <figure class="item-photo__hover">
-                                                                                                        <span class="item-photo__more">Choice</span>
+                                                                                                        <span class="item-photo__more">Chọn</span>
                                                                                                     </figure>
                                                                                                 </a>
                                                                                             </div>
                                                                                             <div class="worker__intro">
                                                                                                 <h3 class="worker__name fn">${employee.employeeName}</h3>
-                                                                                                <div class="worker__post">Email: ${employee.employeeMail}</div>
-                                                                                                <div class="worker__post">Phone: ${employee.employeePhone}</div>
-                                                                                                <button type="button" class="worker__show js-unhide">Contact agent</button>
+                                                                                                <div class="worker__post">Địa chỉ email: ${employee.employeeMail}</div>
+                                                                                                <div class="worker__post">Điện thoại: ${employee.employeePhone}</div>
+                                                                                                <button type="button" class="worker__show js-unhide">Liên hệ nhân viên tư vấn</button>
                                                                                                 <!-- end of block .worker__listings-->
                                                                                             </div>
                                                                                             <div class="worker__descr">
                                                                                                 <p>${employee.employeeAddress}.</p>
                                                                                             </div>
                                                                                             <!-- end of block .worker__descr-->
-                                                                                            <a href="agent_profile.html" class="worker__more">more details</a>
+                                                                                            <a href="agent_profile.html" class="worker__more">Thêm</a>
                                                                                         </div>
                                                                                         <!-- end of block .worker-->
                                                                                     </div>

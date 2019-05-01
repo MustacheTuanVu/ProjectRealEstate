@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -88,23 +88,23 @@
                                                                     <a href="<%=request.getContextPath()%>/ManagerDetails?managerID=${item.manager.managerId}" class="item-photo item-photo--static">
                                                                         <img src="${item.manager.managerImg}" alt="Lisa Wemert" class="photo"/>
                                                                         <figure class="item-photo__hover">
-                                                                            <span class="item-photo__more">View</span>
+                                                                            <span class="item-photo__more">Xem</span>
                                                                         </figure>
                                                                     </a>
                                                                 </div>
                                                                 <div class="worker__intro">
                                                                     <h3 class="worker__name fn">${item.manager.managerName}</h3>
-                                                                    <div class="worker__post">Manager</div>
+                                                                    <div class="worker__post">Nhân viên quản lý</div>
                                                                     <div class="worker__post"></div>
-                                                                    <button type="button" class="worker__show js-unhide">Contact agent</button>
+                                                                    <button type="button" class="worker__show js-unhide">Liên hệ nhân viên tư vấn</button>
                                                                     <div class="worker__listings">
-                                                                        <i class="worker__favorites"></i> Username -<a href="#">${item.username}</a>
+                                                                        <i class="worker__favorites"></i> Tên đăng nhập -<a href="#">${item.username}</a>
                                                                     </div>
                                                                     <div class="worker__listings">
-                                                                        <i class="worker__favorites"></i> Mail -<a href="#">${item.manager.managerMail}</a>
+                                                                        <i class="worker__favorites"></i> Địa chỉ email -<a href="#">${item.manager.managerMail}</a>
                                                                     </div>
                                                                     <div class="worker__listings">
-                                                                        <i class="worker__favorites"></i> Phone -<a href="#">${item.manager.managerPhone}</a>
+                                                                        <i class="worker__favorites"></i> Số điện thoại -<a href="#">${item.manager.managerPhone}</a>
                                                                     </div>
                                                                     <!-- end of block .worker__listings-->
                                                                 </div>
@@ -118,23 +118,23 @@
                                                                     <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${item.employee.id}" class="item-photo item-photo--static">
                                                                         <img src="${item.employee.employeeImg}" alt="Lisa Wemert" class="photo"/>
                                                                         <figure class="item-photo__hover">
-                                                                            <span class="item-photo__more">View</span>
+                                                                            <span class="item-photo__more">Xem</span>
                                                                         </figure>
                                                                     </a>
                                                                 </div>
                                                                 <div class="worker__intro">
                                                                     <h3 class="worker__name fn">${item.employee.employeeName}</h3>
-                                                                    <div class="worker__post">Employee</div>
+                                                                    <div class="worker__post">Nhân viên tư vấn</div>
                                                                     <div class="worker__post"></div>
-                                                                    <button type="button" class="worker__show js-unhide">Contact agent</button>
+                                                                    <button type="button" class="worker__show js-unhide">Liên hệ nhân viên tư vấn</button>
                                                                     <div class="worker__listings">
-                                                                        <i class="worker__favorites"></i> Username -<a href="#">${item.username}</a>
+                                                                        <i class="worker__favorites"></i> Tên đăng nhập -<a href="#">${item.username}</a>
                                                                     </div>
                                                                     <div class="worker__listings">
-                                                                        <i class="worker__favorites"></i> Mail -<a href="#">${item.employee.employeeMail}</a>
+                                                                        <i class="worker__favorites"></i> Địa chỉ email -<a href="#">${item.employee.employeeMail}</a>
                                                                     </div>
                                                                     <div class="worker__listings">
-                                                                        <i class="worker__favorites"></i> Phone -<a href="#">${item.employee.employeePhone}</a>
+                                                                        <i class="worker__favorites"></i> Số điện thoại -<a href="#">${item.employee.employeePhone}</a>
                                                                     </div>
                                                                     <!-- end of block .worker__listings-->
                                                                 </div>

@@ -81,8 +81,6 @@ public class EstateCreate extends HttpServlet {
 
         HttpSession session = request.getSession();
         Entity.Users user = (Entity.Users) session.getAttribute("user");
-
-         System.out.println("1");
         if (user != null) {
             System.out.println("1.1");
             if (user.getRole().equals("employee")) {
@@ -93,6 +91,7 @@ public class EstateCreate extends HttpServlet {
                 session.setAttribute("name", user.getEmployee().getEmployeeName());
                 request.setAttribute("role", "employee");
                 session.setAttribute("image", user.getEmployee().getEmployeeImg());
+                
 
                 EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
                 EntityManager em = emf.createEntityManager();
@@ -225,6 +224,7 @@ public class EstateCreate extends HttpServlet {
                             }
                         }
 
+
                         AssignDetailsJpaController assignDetailsControl = new AssignDetailsJpaController(utx, emf);
                         AssignDetails assignDetails = new AssignDetails();
                         assignDetails.setEstateId(estate);
@@ -285,7 +285,7 @@ public class EstateCreate extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+processRequest(request, response);
 //        HttpSession session = request.getSession();
 //        Entity.Users user = (Entity.Users) session.getAttribute("user");
 //

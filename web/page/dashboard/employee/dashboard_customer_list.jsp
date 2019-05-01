@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>\
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
-        <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <meta charset="UTF-8">\
+        <title>Báo cáo danh sách khách hàng</title><!--[if IE]>\
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -80,7 +80,7 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">List Customer</h2>
+                                        <h2 class="widget__title">Danh sách khách hàng</h2>
                                      </div>
                                     
                                      <div class="widget__content">
@@ -90,7 +90,9 @@
                                                     <form action="<%=request.getContextPath()%>/CustomerOfEmployee">
                                                         <input type="hidden" name="user" value="employee">
                                                         <input type="text" name="searchInput" placeholder="Input Name" style="width: 500px;">
-                                                        <button type="submit" name="search" value="search" class="btn--link js-tags-rename">Search</button>
+
+                                                        <button type="submit" name="search" value="search" class="btn--link js-tags-rename">Tìm kiếm</button>
+
                                                     </form>
                                                 </div>
                                             </div>
@@ -101,28 +103,32 @@
                                     <div class="widget__content">
                                         <div class="datatable datatable--properties">
                                             <div class="datatable__wrap">
-                                                <table class="js-properties-table datatable__table">
+
+                                                <table id="example1" class="table table-bordered table-striped">
                                                     <thead>
                                                         <tr>
-                                                            <th class="datatable__head-1">Name</th>
-                                                            <th class="datatable__head-2 datatable__head-sort">Mail</th>
-                                                            <th class="datatable__head-3 datatable__head-sort">Address</th>
-                                                            <th class="datatable__head-4 datatable__head-sort">Phone</th>
-                                                            <th class="datatable__head-5">Details</th>
+                                                            <th>Tên</th>
+                                                            <th>Địa chỉ email</th>
+                                                            <th>Địa chỉ</th>
+                                                            <th>Điện thoại</th>
+                                                            <th>Chi tiết</th>
+
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <c:forEach items="${customerList}" var="item">
                                                         <tr>
-                                                            <td class="datatable__cell-1">${item.customerName} <br>
+
+                                                            <td>${item.customerName} <br>
                                                             </td>
-                                                            <td class="datatable__cell-2">${item.mail}
+                                                            <td>${item.mail}
                                                             </td>
-                                                            <td class="datatable__cell-3"> ${item.customerAddress}</td>
-                                                            <td class="datatable__cell-4">${item.phone}</td>
-                                                            <td class="datatable__cell-5">
+                                                            <td> ${item.customerAddress}</td>
+                                                            <td>${item.phone}</td>
+                                                            <td>
                                                                 <a href="<%=request.getContextPath()%>/EstateListOfCustomer_Employee?customerID=${item.id}" class="datatable__more">
-                                                                        View Details
+                                                                        Xem chi tiết
+
                                                                     </a>
                                                             </td>
                                                         </tr>    
@@ -134,7 +140,9 @@
                                                 <div role="document" class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">�</span></button>
+
+                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+
                                                         </div>
                                                         <div class="modal-body"></div>
                                                     </div>
@@ -162,15 +170,19 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Estate <strong>"${name}"</strong> Exist !</h4>
+
+                            <h4 class="modal-title">Bất động sản <strong>"${name}"</strong> đã tồn tại !</h4>
                         </div>
                         <div class="modal-body">
-                            <p>This Estate Exits. It appear at <br>
+                            <p>Bất động sản này đã tồn tại. Nó xuất hiện ở <br>
+
                                 <strong>${add1} - ${add2}</strong></p>
                             <img src="${img}" alt="error">
                         </div>
                         <div class="modal-footer">
-                            <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${id}" class="btn btn-default" >View This Estate</a>
+
+                            <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${id}" class="btn btn-default" >Xem bất động sản này</a>
+
                         </div>
                     </div>
 
@@ -183,10 +195,12 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 style="text-align: center; color: red" class="modal-title">Transaction Fail</h4>
+
+                            <h4 style="text-align: center; color: red" class="modal-title">Giao dịch thất bại</h4>
                         </div>
                         <div class="modal-body">
-                            <p style="text-align: center; color: red"><strong>transaction not enough</strong></p>
+                            <p style="text-align: center; color: red"><strong>Giao dịch không đủ</strong></p>
+
                             <img src="<%=request.getContextPath()%>/assets/media-demo/fail.jpg" alt="error" width="225" height="255">
                             </div>
                     </div>
@@ -200,7 +214,9 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Transaction Success</h4>
+
+                            <h4 class="modal-title">Giao dịch thành conhg6</h4>
+
                         </div>
                         <div class="modal-body">
                             <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" alt="error">
@@ -261,6 +277,29 @@
             $('#myModalShow').modal('${modalTranOke}');
             $('#myModalFail').modal('${modalTranFail}');
             $('#myModal').modal('${modal}');
+        });
+    </script>
+    
+    <!-- DATA TABES SCRIPT -->
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/buttons.bootstrap.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/jszip.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/pdfmake.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/vfs_fonts.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#example1').DataTable({
+                "order": [[0, "desc"]],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
+            });
         });
     </script>
 </body>

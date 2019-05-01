@@ -6,6 +6,8 @@
 package Servlet.Contract;
 
 import Controller.ContractDetailsJpaController;
+import Controller.EmployeeJpaController;
+import Controller.EstateTypeJpaController;
 import Controller.ContractJpaController;
 import Controller.EmployeeJpaController;
 import Controller.EstateTypeJpaController;
@@ -50,7 +52,6 @@ public class ContractOfEmployee extends HttpServlet {
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
         Users users = (Users) session.getAttribute("user");
-
         if (users != null) {
             request.setAttribute("users", "user");
             request.setAttribute("displayLogin", "none");
@@ -71,33 +72,54 @@ public class ContractOfEmployee extends HttpServlet {
             //Customer customer = customerControl.findCustomer(users.getId());
             Entity.Employee employee = employeeControl.findEmployee(users.getEmployee().getId());
 
+            //String keyword=(request.getParameter("searchInput")!=null)? request.getParameter("searchInput"):"";
             List<Entity.ContractDetails> listDetails = contractDetailsControl.getContractDetailsByContractID(employee.getId());
-            List<Entity.ContractDetails> listDetails1 = new ArrayList<ContractDetails>();
-
-            //|| !request.getParameter("action").equals("all")
-            if (request.getParameter("action") != null) {
-                String key = request.getParameter("action");
-                String key2 = null;
-                switch (request.getParameter("action")) {
-                    case "khaosat":
-                        key = "waitting for employee";
-                        key2 = "none";
-                        break;
-                    case "choban":
-                        key = "done";
-                        key2 = "my request sale";
-                        break;
-                }
+            if (request.getParameter("searchInput") == "" || request.getParameter("searchInput") == null) {
+                request.setAttribute("contractDetails", listDetails);
+            } else {
+                List<Entity.ContractDetails> listDetails1 = new ArrayList<ContractDetails>();
                 for (ContractDetails listDetail : listDetails) {
-                    if (listDetail.getContractId().getStatus().contains(key) && listDetail.getContractId().getContractDetails().contains(key2)) {
-                        listDetails1.add(listDetail);
+                    if (listDetail.getContractId().getCustomerId().getCustomerName().contains(request.getParameter("searchInput"))) {
+                        System.out.println("name 1 " + listDetail.getContractId().getCustomerId().getCustomerName());
+                        System.out.println("name key " + request.getParameter("searchInput"));
+                        request.setAttribute("role", "customer");
+                        session.setAttribute("image", users.getEmployee().getEmployeeImg());
+
+                        /*-----------------------------------------------------------*/
+                        //Customer customer = customerControl.findCustomer(users.getId());
+                        //|| !request.getParameter("action").equals("all")
+                        if (request.getParameter("action") != null) {
+                            String key = request.getParameter("action");
+                            String key2 = null;
+                            switch (request.getParameter("action")) {
+                                case "khaosat":
+                                    key = "waitting for employee";
+                                    key2 = "none";
+                                    break;
+                                case "choban":
+                                    key = "done";
+                                    key2 = "my request sale";
+                                    break;
+                            }
+                            for (ContractDetails listDetaila : listDetails) {
+                                if (listDetaila.getContractId().getStatus().contains(key) && listDetaila.getContractId().getContractDetails().contains(key2)) {
+                                    listDetails1.add(listDetaila);
+                                }
+                            }
+                            request.setAttribute("contractDetails", listDetails1);
+                        }
+
+                        request.setAttribute("employee", employee);
+
+                        request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
+                        request.getRequestDispatcher("/admin/page/dashboard/employee/contract.jsp").forward(request, response);
+
+                    } else {
+
+                        request.setAttribute("contractDetails", listDetails);
                     }
                 }
-                request.setAttribute("contractDetails", listDetails1);
-            } else {
 
-                    request.setAttribute("contractDetails", listDetails);
-                
             }
 
             request.setAttribute("countEstateWait", contractController.countEstateWait((users.getEmployee().getId())));

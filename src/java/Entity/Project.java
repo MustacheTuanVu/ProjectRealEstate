@@ -33,10 +33,11 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Project.findAll", query = "SELECT p FROM Project p")})
 public class Project implements Serializable {
     @OneToMany(mappedBy = "idProject")
+    private List<LoveProject> loveProjectList;
+    @OneToMany(mappedBy = "idProject")
     private List<Comment> commentList;
     @OneToMany(mappedBy = "idProject")
     private List<Rating> ratingList;
-
     @Size(max = 2147483647)
     @Column(name = "project_content")
     private String projectContent;
@@ -305,6 +306,14 @@ public class Project implements Serializable {
 
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
+    }
+
+    public List<LoveProject> getLoveProjectList() {
+        return loveProjectList;
+    }
+
+    public void setLoveProjectList(List<LoveProject> loveProjectList) {
+        this.loveProjectList = loveProjectList;
     }
     
 }

@@ -9,6 +9,7 @@ import Controller.exceptions.IllegalOrphanException;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
+import Entity.Contract;
 import Entity.ContractDetails;
 import java.io.Serializable;
 import javax.persistence.Query;

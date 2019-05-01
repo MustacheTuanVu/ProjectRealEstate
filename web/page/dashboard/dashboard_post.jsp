@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
-        <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title>
+        <!--[if IE]>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
         <!-- Loading Source Sans Pro font that is used in this theme-->
@@ -81,11 +81,10 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Add new Payment</h2>
+                                        <h2 class="widget__title">Thêm phương thức thanh toán</h2>
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN Favorites-->
-
                                     </div>
                                 </div>
                                 <div class="widget js-widget widget--dashboard">
@@ -101,11 +100,11 @@
                                                     <table class="js-properties-table datatable__table">
                                                         <thead>
                                                             <tr>
-                                                                <th class="datatable__head-1">Title</th>
-                                                                <th class="datatable__head-2 ">Category</th>
-                                                                <th class="datatable__head-3">Employee</th>
+                                                                <th class="datatable__head-1">Tiêu đề</th>
+                                                                <th class="datatable__head-2 ">Danh mục</th>
+                                                                <th class="datatable__head-3">Nhân viên quản lý</th>
 
-                                                                <th class="datatable__head-5">Delete</th>
+                                                                <th class="datatable__head-5">Xóa</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -135,7 +134,6 @@
                                                                                         <label for="in-article-title" class="control-label">Post ID</label>
                                                                                         <input type="text" value="${item.postId}" name="title" id="in-article-title" required class="form-control">
                                                                                     </div>
-                                                                                    <div class="form-group">
                                                                                         <label for="in-article-title" class="control-label">Title</label>
                                                                                         <input type="text" value="${item.postTilte}" name="title" id="in-article-title" required class="form-control">
                                                                                     </div>

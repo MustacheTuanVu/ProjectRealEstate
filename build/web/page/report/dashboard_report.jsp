@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -91,7 +92,9 @@
                                
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Report Contract</h2>
+
+                                        <h2 class="widget__title">Báo cáo hợp đồng mua bán</h2>
+
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN Favorites-->
@@ -105,15 +108,19 @@
                                                         <div role="document" class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">�</span></button>
+
+                                                                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <form onsubmit="return validation()" action="<%=request.getContextPath()%>/ContractTypeEdit" method="POST" class="form form--flex form--property form--basic js-form-property-1">
                                                                         <div class="row">
                                                                             <div class="form-group form-group--description ${hasErrorEdit}">
-                                                                                <label for="in-1" class="control-label">Contract Type ID</label>
+
+                                                                                <label for="in-1" class="control-label">Loại hợp đồng ID</label>
                                                                                 <input id="in-1" required type="text" name="txtID" value="${id}" class="form-control" readonly="true">
-                                                                                <label for="in-2" class="control-label">Contract Type Name</label>
+                                                                                <label for="in-2" class="control-label">Tên loại hợp đồng</label>
+
                                                                                 <input id="in-2" required type="text" name="txtType" data-placeholder="---" value="${featureName}" class="form-control">
 
                                                                                 <div class="help-block filled" id="parsley-id-11" style="display: ${displayEdit}">
@@ -123,7 +130,9 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
-                                                                            <button class="form__submit" type="submit">Submit</button>
+
+                                                                            <button class="form__submit" type="submit">Đồng ý</button>
+
                                                                         </div>
                                                                     </form>
                                                                 </div>
@@ -205,7 +214,9 @@
         function validation() {
             var typeName = document.getElementById('in-1').value;
             if (typeName.length<6 || typeName.length>50) {
-                document.getElementById('errTypeName').innerHTML = 'Contract type name from 6 to 50 character !!!';
+
+                document.getElementById('errTypeName').innerHTML = 'Tên loại hợp dồng phải từ 6 đến 50 kí tự !!!';
+
                 
             }
             else {

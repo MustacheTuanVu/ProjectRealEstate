@@ -36,7 +36,7 @@
             <i class="zmdi zmdi-more"></i>
         </li>
         <li>
-            <a class="<c:if test="${active == 'CreateEstate'}">active</c:if>" href="<%=request.getContextPath()%>/EstateCreate1" data-toggle="collapse" data-target="#dashboard_dr">
+            <a class="<c:if test="${active == 'CreateEstate'}">active</c:if>" href="<%=request.getContextPath()%>/EstateCreate" data-toggle="collapse" data-target="#dashboard_dr">
                 <div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i>
                     <span class="right-nav-text">Thêm nhà đất</span>
                 </div>

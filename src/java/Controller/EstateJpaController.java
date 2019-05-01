@@ -524,7 +524,6 @@ public class EstateJpaController implements Serializable {
 
     // cuong edit
     // cuong add
-    
     public List<String> getEstateByEmployeeFilter(String employeeID, String status) {
         EntityManager em = getEntityManager();
         try {
@@ -534,12 +533,22 @@ public class EstateJpaController implements Serializable {
                 query = em.createNativeQuery("SELECT id FROM estate where "
                         + "estate_status LIKE '%" + status + "%'"
                 );
+                System.out.println(query);
                 if (query.getResultList().size() != 0) {
                     ret.addAll((List<String>) query.getResultList());
                 }
             } else {
-                
                 List<String> estateIDList = getEstateByEmployee(employeeID);
+                for (String string : estateIDList) {
+                    query = em.createNativeQuery("SELECT id FROM estate where "
+                            + "id = '" + string + "' AND "
+                            + "estate_status LIKE '%" + status + "%'"
+                    );
+                    System.out.println(query);
+                    if (query.getResultList().size() != 0) {
+                        ret.add((String) query.getSingleResult());
+                    }
+                }
                 switch (status) {
                     case "waitting for employee":
                         for (String string : estateIDList) {
@@ -580,30 +589,28 @@ public class EstateJpaController implements Serializable {
                         }
                         break;
                 }
-
             }
             return ret;
         } finally {
             em.close();
         }
     }
-
-    /*
-     public List<Estate> getEstateByFilter(List<Estate> estateID, String status) {
-     System.out.println("status " + status);
-     EntityManager em = getEntityManager();
-     List<Estate> list1 = new ArrayList<Estate>();
-     for (Estate estate : estateID) {
-     Query query = em.createNativeQuery("SELECT * FROM estate where "
-     + "id = '" + estate.getId() + "' AND "
-     + "estate_status LIKE '%" + status + "%'", Estate.class
-     );
-     if (query.getResultList().size()!=0) {
-     list1.add((Estate) query.getSingleResult());
-     } 
-     }
-     return list1;
-     }*/
+    public List<Estate> getEstateByFilter(List<Estate> estateID, String status) {
+        System.out.println("status " + status);
+        EntityManager em = getEntityManager();
+        List<Estate> list1 = new ArrayList<Estate>();
+        for (Estate estate : estateID) {
+            Query query = em.createNativeQuery("SELECT * FROM estate where "
+                    + "id = '" + estate.getId() + "' AND "
+                    + "estate_status LIKE '%" + status + "%'", Estate.class
+            );
+            if (query.getResultList().size()!=0) {
+                list1.add((Estate) query.getSingleResult());
+            } 
+        }
+        return list1;
+    }
+    
     public List<Estate> getEstateByFilter(List<Estate> estateID, String status, String keyword) {
         EntityManager em = getEntityManager();
         List<Estate> list1 = new ArrayList<Estate>();
@@ -640,11 +647,13 @@ public class EstateJpaController implements Serializable {
                             + "id = '" + string + "' AND "
                             + "(address1 LIKE '%" + address + "%' OR address2 LIKE '%" + address + "%')"
                     );
+                    System.out.println(query);
                     if (query.getResultList().size() != 0) {
                         ret.add((String) query.getSingleResult());
                     }
                 }
             }
+            System.out.println(ret.size());
             return ret;
         } finally {
             em.close();
@@ -744,7 +753,7 @@ public class EstateJpaController implements Serializable {
             String sortTypes,
             String estateName,
             String direction,
-            String district,
+            String district, // ALL
             String yearBuildFrom,
             String yearBuildTo,
             String bedRoomFrom,
@@ -763,6 +772,7 @@ public class EstateJpaController implements Serializable {
 
             if (statusID.equals("all")) {
                 if (district.equals("all")) {
+                    System.out.println("query 1 run");
                     query = em.createNativeQuery(
                             "SELECT * FROM estate where "
                             + "estate_name LIKE '%" + estateName + "%' AND "
@@ -779,6 +789,7 @@ public class EstateJpaController implements Serializable {
                             + "estate_status = 'publish' "
                             + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
                 } else {
+                    System.out.println("query 2 run");
                     query = em.createNativeQuery(
                             "SELECT * FROM estate where "
                             + "estate_name LIKE '%" + estateName + "%' AND "
@@ -797,6 +808,7 @@ public class EstateJpaController implements Serializable {
                 }
             } else if (typeID.equals("all")) {
                 if (district.equals("all")) {
+                    System.out.println("query 3 run");
                     query = em.createNativeQuery(
                             "SELECT * FROM estate where "
                             + "estate_name LIKE '%" + estateName + "%' AND "
@@ -813,6 +825,7 @@ public class EstateJpaController implements Serializable {
                             + "estate_status = 'publish' "
                             + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
                 } else {
+                    System.out.println("query 4 run");
                     query = em.createNativeQuery(
                             "SELECT * FROM estate where "
                             + "estate_name LIKE '%" + estateName + "%' AND "
@@ -831,6 +844,7 @@ public class EstateJpaController implements Serializable {
                 }
             } else {
                 if (district.equals("all")) {
+                    System.out.println("query 5 run");
                     query = em.createNativeQuery(
                             "SELECT * FROM estate where "
                             + "estate_name LIKE '%" + estateName + "%' AND "
@@ -847,6 +861,7 @@ public class EstateJpaController implements Serializable {
                             + "estate_status = 'publish' "
                             + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
                 } else {
+                    System.out.println("query 6 run");
                     query = em.createNativeQuery(
                             "SELECT * FROM estate where "
                             + "estate_name LIKE '%" + estateName + "%' AND "
@@ -867,6 +882,7 @@ public class EstateJpaController implements Serializable {
             /*------------------*/
             if (statusID.equals("all") && typeID.equals("all")) {
                 if (district.equals("all")) {
+                    System.out.println("query test 1 run");
                     query = em.createNativeQuery(
                             "SELECT * FROM estate where "
                             + "estate_name LIKE '%" + estateName + "%' AND "
@@ -883,6 +899,7 @@ public class EstateJpaController implements Serializable {
                             + "estate_status = 'publish' "
                             + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
                 } else {
+                    System.out.println("query test 2 run");
                     query = em.createNativeQuery(
                             "SELECT * FROM estate where "
                             + "estate_name LIKE '%" + estateName + "%' AND "
@@ -900,6 +917,7 @@ public class EstateJpaController implements Serializable {
                             + "ORDER BY " + sortConditions + " " + sortTypes + "", Estate.class);
                 }
             }
+            System.out.println("check: " + query);
             List<Estate> ret = query.getResultList();
             return ret;
         } finally {

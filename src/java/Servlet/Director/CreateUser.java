@@ -159,7 +159,7 @@ public class CreateUser extends HttpServlet {
         // BEGIN NAVBAR HEADER FONTEND //
         List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();
         request.setAttribute("estateTypeList", estateTypeList);
-        request.getRequestDispatcher("/page/dashboard/director/dashboard_create_user.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin/page/dashboard/director/create_user.jsp").forward(request, response);
         // END NAVBAR HEADER FONTEND //
     }
 

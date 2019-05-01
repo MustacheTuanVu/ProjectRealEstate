@@ -113,8 +113,7 @@ public class EstateEdit extends HttpServlet {
                     String modal = "hidden";
                     modal = request.getParameter("modal");
                     request.setAttribute("modal", modal);
-
-                    request.getRequestDispatcher("/page/dashboard/employee/dashboard_estate_edit.jsp").forward(request, response);
+                    request.getRequestDispatcher("/admin/page/dashboard/employee/edit_estate.jsp").forward(request, response);
                 }
             } else {
                 response.sendRedirect(request.getContextPath() + "/LoginUser");
@@ -150,165 +149,137 @@ public class EstateEdit extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        EntityManager em = emf.createEntityManager();
+        EstateJpaController estateControl = new EstateJpaController(utx, emf);
+        ContractDetailsJpaController contractDetailsJpaController = new ContractDetailsJpaController(utx, emf);
+        ContractJpaController contractJpaController = new ContractJpaController(utx, emf);
+        TransactionsJpaController transactionsJpaController = new TransactionsJpaController(utx, emf);
+        FeeJpaController feeJpaController = new FeeJpaController(utx, emf);
+
+        String estateName = request.getParameter("estateName");
+        String estateTypeId = request.getParameter("estateTypeId");
+        EstateType estateType = em.getReference(EstateType.class, estateTypeId);
+
+        String estateDescription = request.getParameter("estateDescription"); //NOTE
+        String estateContent = estateDescription;
+
+        int bedRoom = Integer.parseInt(request.getParameter("bedRoom"));
+        int bathRoom = Integer.parseInt(request.getParameter("bathRoom"));
+        Double garages = Double.parseDouble(request.getParameter("garages"));
+        Double price = Double.parseDouble(request.getParameter("price"));
+        Double areas = Double.parseDouble(request.getParameter("areas"));
+
+        String image1st = request.getParameter("image1st"); //NOTE
+        String image2st = request.getParameter("image2st"); //NOTE
+        String image3st = request.getParameter("image3st"); //NOTE
+        String image4st = request.getParameter("image4st"); //NOTE
+        String image5st = request.getParameter("image5st"); //NOTE
+
+        String direction = request.getParameter("direction");
+
+        String yearBuild = request.getParameter("yearBuild"); //NOTE
+
+        int estateStatusId = Integer.valueOf(request.getParameter("estateStatusId")); //NOTE
+        EstateStatus estateStatus = em.getReference(EstateStatus.class, estateStatusId);
+
+        Estate estate = estateControl.findEstate(request.getParameter("estateID"));
+        estate.setEstateName(estateName);
+        estate.setEstateTypeId(estateType);
+        estate.setBedRoom(bedRoom);
+        estate.setBathRoom(bathRoom);
+        estate.setGarages(garages);
+        estate.setPrice(price);
+        estate.setAreas(areas);
+        estate.setEstateDescription(estateDescription);
+        estate.setEstateContent(estateContent);
+        estate.setImage1st(image1st);
+        estate.setImage2st(image2st);
+        estate.setImage3st(image3st);
+        estate.setImage4st(image4st);
+        estate.setImage5st(image5st);
+        estate.setDirection(direction);
+        estate.setDistrict(request.getParameter("district"));
+        if (estate.getContractDetails() != null) {
+            estate.setEstateStatus("publish");
+        }else{
+            estate.setEstateStatus("waitting for director edit");
+        }
+        
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        Date day;
         try {
-            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-            EntityManager em = emf.createEntityManager();
-            EstateJpaController estateControl = new EstateJpaController(utx, emf);
-            ContractJpaController contractJpaController = new ContractJpaController(utx, emf);
-            TransactionsJpaController transactionsJpaController = new TransactionsJpaController(utx, emf);
-            FeeJpaController feeJpaController = new FeeJpaController(utx, emf);
-            
-            String estateName = request.getParameter("estateName");
-            String estateTypeId = request.getParameter("estateTypeId");
-            EstateType estateType = em.getReference(EstateType.class, estateTypeId);
-            
-            String estateDescription = request.getParameter("estateDescription"); //NOTE
-            String estateContent = estateDescription;
-            
-            int bedRoom = Integer.parseInt(request.getParameter("bedRoom"));
-            int bathRoom = Integer.parseInt(request.getParameter("bathRoom"));
-            Double garages = Double.parseDouble(request.getParameter("garages"));
-            Double price = Double.parseDouble(request.getParameter("price"));
-            Double areas = Double.parseDouble(request.getParameter("areas"));
-            String address1 =request.getParameter("address1");
-            String address2 =request.getParameter("address2");
-            
-            String image1st = request.getParameter("image1st"); //NOTE
-            String image2st = request.getParameter("image2st"); //NOTE
-            String image3st = request.getParameter("image3st"); //NOTE
-            String image4st = request.getParameter("image4st"); //NOTE
-            String image5st = request.getParameter("image5st"); //NOTE
-            
-            String direction = request.getParameter("direction");
-            
-            String yearBuild = request.getParameter("yearBuild"); //NOTE
-            
-            int estateStatusId = Integer.valueOf(request.getParameter("estateStatusId")); //NOTE
-            EstateStatus estateStatus = em.getReference(EstateStatus.class, estateStatusId);
-            
-            
-            Estate estate = estateControl.findEstate(request.getParameter("estateID"));
-            estate.setEstateName(estateName);
-            estate.setEstateTypeId(estateType);
-            estate.setBedRoom(bedRoom);
-            estate.setBathRoom(bathRoom);
-            estate.setGarages(garages);
-            estate.setPrice(price);
-            estate.setAreas(areas);
-            estate.setAddress1(address1);
-            estate.setAddress2(address2);
-            estate.setEstateDescription(estateDescription);
-            estate.setEstateContent(estateContent);
-            estate.setImage1st(image1st);
-            estate.setImage2st(image2st);
-            estate.setImage3st(image3st);
-            estate.setImage4st(image4st);
-            estate.setImage5st(image5st);
-            estate.setDirection(direction);
-            estate.setDistrict(request.getParameter("district"));
-            if (estate.getContractDetails() != null) {
-                estate.setEstateStatus("publish");
-            }else{
-                estate.setEstateStatus("waitting for director edit");
-            }
-            
-            
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-            
-            String a=request.getParameter("yearBuild");
-            Date day;
-            day=sdf.parse(a);
+            day = sdf.parse(yearBuild);
+            estate.setYearBuild(day);
+        } catch (ParseException ex) {
+            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        SimpleDateFormat sdff = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        Date date = new Date();
+        try {
+            estate.setDateAdd(sdff.parse(date.toString()));
+        } catch (ParseException ex) {
+            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        estate.setEstateStatusId(estateStatus);
+        try {
+            estateControl.edit(estate);
+            response.sendRedirect(request.getContextPath() + "/EstateList?user=employee");
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        String[] feature = request.getParameterValues("feature");
+        FeaturesJpaController featuresStatusControl = new FeaturesJpaController(utx, emf);
+        FeatureDetailsJpaController featureDetailsControl = new FeatureDetailsJpaController(utx, emf);
+        List<Integer> featureDetailsID = featureDetailsControl.findEstatesByFeature(request.getParameter("estateID"));
+
+        for (Integer integer : featureDetailsID) {
             try {
-                day = sdf.parse(yearBuild);
-                estate.setYearBuild(day);
-            } catch (ParseException ex) {
-                Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            SimpleDateFormat sdff = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-            Date date = new Date();
-            try {
-                estate.setDateAdd(sdff.parse(date.toString()));
-            } catch (ParseException ex) {
-                Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            estate.setEstateStatusId(estateStatus);
-            try {
-                estateControl.edit(estate);
-                response.sendRedirect(request.getContextPath() + "/EstateList?user=employee");
+                featureDetailsControl.destroy(integer);
             } catch (RollbackFailureException ex) {
-                Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
-                Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            String[] feature = request.getParameterValues("feature");
-            FeaturesJpaController featuresStatusControl = new FeaturesJpaController(utx, emf);
-            FeatureDetailsJpaController featureDetailsControl = new FeatureDetailsJpaController(utx, emf);
-            List<Integer> featureDetailsID = featureDetailsControl.findEstatesByFeature(request.getParameter("estateID"));
-            
-            for (Integer integer : featureDetailsID) {
+        }
+
+        if (request.getParameterValues("feature") != null) {
+            for (String string : feature) {
+                FeatureDetails featureDetails = new FeatureDetails();
+                featureDetails.setEstateId(estate);
+                featureDetails.setFeatureId(featuresStatusControl.findFeatures(string));
                 try {
-                    featureDetailsControl.destroy(integer);
+                    featureDetailsControl.create(featureDetails);
+                } catch (RollbackFailureException ex) {
+                    Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        if (estate.getContractDetails() != null) {
+            if (transactionsJpaController.getTransactionByContractIDSale(estate.getContractDetails().getContractId().getId()) == 0) {
+                Contract contract = contractJpaController.findContract(estate.getContractDetails().getContractId().getId());
+                contract.setStatus("done");
+                contract.setContractDetails("my request sale");
+                try {
+                    contractJpaController.edit(contract);
                 } catch (RollbackFailureException ex) {
                     Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception ex) {
                     Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
-            if (request.getParameterValues("feature") != null) {
-                for (String string : feature) {
-                    FeatureDetails featureDetails = new FeatureDetails();
-                    featureDetails.setEstateId(estate);
-                    featureDetails.setFeatureId(featuresStatusControl.findFeatures(string));
-                    try {
-                        featureDetailsControl.create(featureDetails);
-                    } catch (RollbackFailureException ex) {
-                        Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (Exception ex) {
-                        Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-            
-            if (estate.getContractDetails() != null) {
-                if (transactionsJpaController.getTransactionByContractIDSale(estate.getContractDetails().getContractId().getId()) == 0) {
-                    Contract contract = contractJpaController.findContract(estate.getContractDetails().getContractId().getId());
-                    contract.setStatus("done");
-                    contract.setContractDetails("my request sale");
-                    try {
-                        contractJpaController.edit(contract);
-                    } catch (RollbackFailureException ex) {
-                        Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (Exception ex) {
-                        Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    
-                    Transactions transactions = new Transactions();
-                    transactions.setCustomerOffered(contract.getCustomerId());
-                    transactions.setContractId(contract);
-                    try {
-                        transactions.setTransactionsDate((sdff.parse(date.toString())));
-                    } catch (ParseException ex) {
-                        Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    transactions.setMoney(contract.getPaymentAmount() * feeJpaController.findFee(1).getFeeEstate() / 100);
-                    transactions.setTransactionsNote("request sale");
-                    try {
-                        transactionsJpaController.create(transactions);
-                    } catch (RollbackFailureException ex) {
-                        Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (Exception ex) {
-                        Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                
-            }
-        } catch (ParseException ex) {
-            Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
         }
+                    
+        
     }
 
     /**

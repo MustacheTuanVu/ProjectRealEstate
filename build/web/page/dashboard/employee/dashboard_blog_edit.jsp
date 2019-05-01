@@ -1,9 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -46,7 +47,7 @@
                 if (document.getElementById('imageup1st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
                     document.getElementById('image1st').value = fileUrl;
                     document.getElementById('imageup1st').src = fileUrl;
-                    document.getElementById('countimage').innerHTML = "Estate have 1/5 photo";
+                    document.getElementById('countimage').innerHTML = "Bất động sản có từ 1 đến 5 hình ảnh";
                 }
             }
         </script>
@@ -100,7 +101,7 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Edit Blog</h2>
+                                        <h2 class="widget__title">Sửa bài viết</h2>
                                     </div>
                                     <div class="widget__content">
                                         <!-- BEGIN SECTION ARTICLE-->
@@ -108,18 +109,19 @@
                                             <div class="row">
                                                 <div class="form-group">
                                                     <input type="hidden" value="${post.postId}" name="txtID" />
-                                                        <label for="in-article-title" class="control-label">Your blog image <span id="errImg1" style="color: red; padding-left: 10px"></span> </label>
+                                                        <label for="in-article-title" class="control-label">Hình ảnh bài viết <span id="errImg1" style="color: red; padding-left: 10px"></span> </label>
                                                         <img src="${post.postImage}" onclick="BrowseServer1()" id="imageup1st" alt="avatar" width="208" height="208">
                                                     <input type="hidden" value="${post.postImage}" id="image1st" name="txtImg"/>
                                                     <br/>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="in-article-title" class="control-label">Title <span  style="color: red; padding-left: 10px" id="errTitle1"></span></label>
+                                                    <label for="in-article-title" class="control-label">Tiêu đề <span  style="color: red; padding-left: 10px" id="errTitle1"></span></label>
+
                                                     <input type="text" value="${post.postTilte}" name="title" id="in-article-title" required class="form-control">
                                                     
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="in-article-title" class="control-label">Category</label>
+                                                    <label for="in-article-title" class="control-label">Danh mục</label>
                                                     <select name="cat" id="in-2">
                                                         <c:forEach items="${list}" var="cat" >
                                                             <option value="${cat.categoryId}" ${cat.categoryId==item.postCategory.categoryId ? 'selected' : ''}  class="form-control">${cat.categoryName}</option> 
@@ -127,13 +129,13 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="in-article-title" class="control-label">Description <span style="color: red ; padding-left: 10px" id="errDes1"></span></label>
+                                                    <label for="in-article-title" class="control-label">Mô tả <span style="color: red ; padding-left: 10px" id="errDes1"></span></label>
                                                     <textarea id="txtDes" name="editor1" class="form-control js-ckeditor">${post.postContent}</textarea>
                                                     
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <button type="submit" class="form__submit">Save</button>
+                                                <button type="submit" class="form__submit">Lưu</button>
                                             </div>
                                         </form>
                                     </div>
@@ -158,7 +160,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title text-center text-success">Change Password</h4>
+                            <h4 class="modal-title text-center text-success">Thay đổi mật khẩu</h4>
                         </div>
                         <div class="modal-body">
                             <h4 class="modal-title text-center text-success" style="text-align: center">${nameLogin}</h4>
@@ -195,13 +197,13 @@
             txtTitle=txtTitle.replace(/^\s+|\s+$/g, "");
             txtDes=txtDes.replace(/^\s+|\s+$/g, "");
             if (txtImg.length === 0) {
-                document.getElementById('errImg1').innerHTML='Please select a picture !!!';
+                document.getElementById('errImg1').innerHTML='Vui lòng chọn hình ảnh!!!';
             } else
             if (txtTitle.length > 51 || txtTitle.length <5) {
-                document.getElementById('errTitle1').innerHTML='Title from 6 to 50 characters !!!';
+                document.getElementById('errTitle1').innerHTML='Tiêu đề phải từ 6 đến 50 kí tự !!!';
             }else
             if (txtDes.length < 100 ) {
-                document.getElementById('errDes1').innerHTML='Descript must be more than 200 characters !!!';
+                document.getElementById('errDes1').innerHTML='Mô tả ít nhất 200 kí tự !!!';
             }
             else
                 return true;

@@ -182,31 +182,29 @@
                             <div  class="panel-wrapper collapse in">
                                 <div  class="panel-body">
                                     <div class="row">
-                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=waitting to transaction" >
-                                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="panel panel-default card-view pa-0">
-                                                    <div class="panel-wrapper collapse in">
-                                                        <div class="panel-body pa-0">
-                                                            <div class="sm-data-box bg-red">
-                                                                <div class="container-fluid">
-                                                                    <div class="row">
-                                                                        <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-                                                                            <span class="txt-light block counter"><span class="counter-anim">${countContractWaitSale}</span></span>
-                                                                            <a  class="weight-500 uppercase-font txt-light block font-13">
-                                                                                Đang đợi giao dịch
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                                            <div class="panel panel-default card-view pa-0">
+                                                <div class="panel-wrapper collapse in">
+                                                    <div class="panel-body pa-0">
+                                                        <div class="sm-data-box bg-red">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
+                                                                        <span class="txt-light block counter"><span class="counter-anim">${countContractWaitSale}</span></span>
+                                                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=waitting to transaction" class="weight-500 uppercase-font txt-light block font-13">
+                                                                            Đang đợi giao dịch
                                                                             </a>
-                                                                        </div>
-                                                                        <div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
-                                                                            <i class="fa fa-home txt-light data-right-rep-icon"></i>
-                                                                        </div>
-                                                                    </div>	
-                                                                </div>
+                                                                    </div>
+                                                                    <div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
+                                                                        <i class="fa fa-home txt-light data-right-rep-icon"></i>
+                                                                    </div>
+                                                                </div>	
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </a>
+                                        </div>
                                         <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=waitting for employee" >
                                             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                                                 <div class="panel panel-default card-view pa-0">
@@ -302,7 +300,6 @@
                                             <button type="submit" name="search" value="search" class="btn btn-default">Search</button>
                                         </form>    
                                     </div>
-
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -378,6 +375,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="pull-right">
+                                                            <a class="pull-left inline-block mr-15" href="#">
+                                                                <i class="zmdi zmdi-edit txt-light"></i>
+                                                            </a>
                                                             <a onclick="loadCheckBox(${estate.id})" data-toggle="modal" data-target="#${estate.id}" class="pull-left inline-block mr-15" href="" >
                                                                 <i class="zmdi zmdi-edit txt-light" ></i>
                                                             </a>
@@ -738,6 +738,11 @@
                                                             <div class="emp-detail pl-15 pr-15">
                                                                 <div class="mb-5">
                                                                     <span class="inline-block capitalize-font mr-5">Địa chỉ:</span>
+                                                                    <span class="txt-dark">${estate.address1} <br> ${estate.address2}</span>
+                                                                </div>
+                                                                <div>
+                                                                    <span class="inline-block capitalize-font mr-5">Giá bán:</span>
+                                                                    <span class="txt-dark">12000 VND</span>
                                                                     <span class="txt-dark"> ${estate.address2}</span>
                                                                 </div>
                                                                 <div>

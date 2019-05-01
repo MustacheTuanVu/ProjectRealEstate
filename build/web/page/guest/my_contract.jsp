@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>Báo cáo hợp đồng của tôi</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -72,8 +72,10 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
-                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Estate Details</a></li>
+
+                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Trang chủ</a></li>
+                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Chi tiết bất động sản</a></li>
+
                     </ul>
                 </div>
             </nav>
@@ -84,8 +86,10 @@
                         <!-- BEGIN site-->
                         <div class="site site--main">
                             <header class="site__header">
-                                <h1 class="site__title">My profile</h1>
-                                <h2 class="site__headline">Add and edit listing information</h2>
+
+                                <h1 class="site__title">Trang cá nhân</h1>
+                                <h2 class="site__headline">Thêm và sửa thông tin danh sách</h2>
+
                             </header>
                             <div class="site__panel">
                                 <span class="site__header-text">
@@ -97,52 +101,62 @@
                                     <div class="widget__content">
                                         <div class="datatable datatable--properties">
                                             <div class="datatable__wrap">
-                                                <table class="js-properties-table datatable__table">
+
+                                                <table id="example1" class="table table-bordered table-striped">
                                                     <thead>
                                                         <tr>
-                                                            <th class="datatable__head-1">Location Address</th>
-                                                            <th class="datatable__head-2 datatable__head-sort">Employee</th>
-                                                            <th class="datatable__head-3 datatable__head-sort">Price</th>
-                                                            <th class="datatable__head-5 datatable__head-sort">Note</th>
-                                                            <th class="datatable__head-6 datatable__head-sort">Status</th>
-                                                            <th class="datatable__head-7">Details</th>
+                                                            <th>Đại chỉ</th>
+                                                            <th>Nhân viên tư vấn</th>
+                                                            <th>Giá</th>
+                                                            <th>Trạng thái</th>
+                                                            <th>Chi tiết</th>
+
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <c:forEach items="${contractDetails}" var="item">
-                                                        <tr>
-                                                            <td class="datatable__cell-1">${item.estateId.address1} <br>
-                                                                                            ${item.estateId.address2}
-                                                            </td>
-                                                            <td class="datatable__cell-1"><strong>${item.contractId.employeeId.employeeName}</strong>
-                                                            </td>
-                                                            <td class="datatable__cell-2"><strong>${item.contractId.paymentAmount}</strong></td>
-                                                            <td class="datatable__cell-2">
-                                                                <c:if test="${item.contractId.contractDetails == 'my request sale'  && item.contractId.status != 'done'}">
-                                                                    <strong>${item.contractId.contractDetails}</strong>
-                                                                </c:if>
-                                                                <c:if test="${item.contractId.contractDetails == 'my request sale'  && item.contractId.status == 'done'}">
-                                                                    <strong>sale success</strong>
-                                                                </c:if>
-                                                                <c:if test="${item.contractId.contractDetails != 'my request sale'}">
-                                                                    <strong>${item.contractId.status}</strong>
-                                                                </c:if>
-                                                            </td>
-                                                            <td class="datatable__cell-2"><strong>${item.contractId.status}</strong></td>
-                                                            <td class="datatable__cell-5">
-                                                                <c:if test="${item.contractId.status != 'waitting for employee'}">
-                                                                    <a href="<%=request.getContextPath()%>/CreateContract?estateID=${item.estateId.id}&employeeID=${item.contractId.employeeId.id}" class="datatable__more">
-                                                                        View Details
-                                                                    </a>
-                                                                </c:if>
-                                                                <c:if test="${item.contractId.status == 'waitting for employee'}">
-                                                                    <span class="datatable__more" style="color: red">Access Deny View !</span>
-                                                                </c:if>
-                                                                
-                                                            </td>
-                                                        </tr>    
+
+                                                            <tr>
+                                                                <td>${item.estateId.address1} <br>
+                                                                    ${item.estateId.address2}
+                                                                </td>
+                                                                <td><strong>${item.contractId.employeeId.employeeName}</strong>
+                                                                </td>
+                                                                <td><strong>${item.contractId.paymentAmount} VND</strong></td>
+                                                                <td>
+                                                                    <c:if test="${item.contractId.contractDetails == 'my request sale'  && item.contractId.status != 'done'}">
+                                                                        <strong>${item.contractId.contractDetails}</strong>
+                                                                    </c:if>
+                                                                    <c:if test="${item.contractId.contractDetails == 'my request sale'  && item.contractId.status == 'done'}">
+                                                                        <strong>Đăng bán thành công</strong>
+                                                                    </c:if>
+                                                                    <c:if test="${item.contractId.contractDetails != 'my request sale'}">
+                                                                        <c:if test="${item.contractId.status == 'waitting for employee'}">
+                                                                            <strong>Đang chờ nhân viên tư vấn</strong>
+                                                                        </c:if>
+                                                                        <c:if test="${item.contractId.status == 'waitting to transaction'}">
+                                                                            <strong>Đang chờ nhân viên tư vấn</strong>
+                                                                        </c:if>
+                                                                    </c:if>
+                                                                    <c:if test="${item.contractId.contractDetails == 'request sale success'  && item.contractId.status == 'done'}">
+                                                                        <strong>Mua thành công</strong>
+                                                                    </c:if>
+                                                                </td>
+                                                                <td>
+                                                                    <c:if test="${item.contractId.status != 'waitting for employee'}">
+                                                                        <a href="<%=request.getContextPath()%>/CreateContract?estateID=${item.estateId.id}&employeeID=${item.contractId.employeeId.id}" class="datatable__more">
+                                                                            View Details
+                                                                        </a>
+                                                                    </c:if>
+                                                                    <c:if test="${item.contractId.status == 'waitting for employee'}">
+                                                                        <span class="datatable__more" style="color: red">Từ chối xem !</span>
+                                                                    </c:if>
+
+                                                                </td>
+                                                            </tr>    
                                                         </c:forEach>
-                                                        
+
+
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -150,7 +164,9 @@
                                                 <div role="document" class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">�</span></button>
+
+                                                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+
                                                         </div>
                                                         <div class="modal-body"></div>
                                                     </div>
@@ -165,7 +181,9 @@
                         <!-- BEGIN SIDEBAR-->
                         <div class="sidebar">
                             <div class="widget js-widget widget--sidebar widget--first-no-head">
-                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Show profile</a>
+
+                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Xem trang cá nhân</a>
+
                                 </div>
                                 <div class="widget__content">
                                     <!-- BEGIN WORKER PROFILE-->
@@ -175,13 +193,15 @@
                                             <div class="worker__avatar">
                                                 <img src="${customer.customerImg}" alt="avatar" width="208" height="208">
                                             </div>
-                                            <button class="worker__avatar-upload">Upload your profile picture</button>
+
+                                            <button class="worker__avatar-upload">Cập nhập ảnh đại diện</button>
                                         </div>
                                         <nav class="worker__nav">
                                             <ul>
-                                                <li><a href="<%=request.getContextPath()%>/MyListing">My listing</a></li>
-                                                <li><a href="<%=request.getContextPath()%>/DashboardUser">My Profile</a></li>
-                                                <li><a href="<%=request.getContextPath()%>/MyContract">My Contract</a></li>
+                                                <li><a href="<%=request.getContextPath()%>/MyListing">Danh sách của tôi</a></li>
+                                                <li><a href="<%=request.getContextPath()%>/DashboardUser">Trang cá nhân</a></li>
+                                                <li><a href="<%=request.getContextPath()%>/MyContract">Hợp đồng của tôi</a></li>
+
                                             </ul>
                                         </nav>
                                         <!-- end of block .worker__nav-->
@@ -218,6 +238,7 @@
     versions that are verified to work with our theme. Normally, you should not edit that file.
     -->
     <!-- build:jsvendor-->
+
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/vendor.js"></script>
     <!-- endbuild-->
     <!--
@@ -244,5 +265,28 @@
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
     <!-- END SCRIPTS and INCLUDES-->
+
+    <!-- DATA TABES SCRIPT -->
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/buttons.bootstrap.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/jszip.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/pdfmake.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/vfs_fonts.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/assets/datatables/extensions/Buttons/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#example1').DataTable({
+                "order": [[0, "desc"]],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+    </script>
 </body>
 </html>

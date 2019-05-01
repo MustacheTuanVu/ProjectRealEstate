@@ -9,7 +9,7 @@
 <html>
     <head lang="en">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -76,8 +76,10 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
-                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Estate Details</a></li>
+
+                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Trang chủ</a></li>
+                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Chi tiết bất động sản</a></li>
+
                     </ul>
                 </div>
             </nav>
@@ -88,8 +90,10 @@
                         <!-- BEGIN site-->
                         <div class="site site--main">
                             <header class="site__header">
-                                <h1 class="site__title"><span class="title-thin">Contract</span> Details</h1>
-                                <h2 class="site__headline">Produce Contract</h2>
+
+                                <h1 class="site__title"><span class="title-thin">Hợp đồng</span>>Chi tiết</h1>
+                                <h2 class="site__headline">Hợp đồng</h2>
+
                             </header>
                             <div class="site__panel">
                                 <span class="site__header-text">
@@ -102,16 +106,20 @@
                                         <c:if test="${estate.estateStatus != 'waitting to transaction'}">
                                             <a 
                                                 href="<%=request.getContextPath()%>/ProduceContractBuy?employeeID=${employee.id}&paymentAmount=${estate.price}&estateId=${estate.id}" 
-                                                class="button__action ui__button ui__button--1">ACCEPT
+
+                                                class="button__action ui__button ui__button--1">Chấp nhận
+
                                             </a>
                                         </c:if>
                                         <div class="row">
                                             <div class="col-md-5">
-                                                <button onclick="showContract()" class="button__default">Show Contract</button>
-                                                <button onclick="showDescription()" class="button__default">Show Description</button>
+
+                                                <button onclick="showContract()" class="button__default">Xem hợp đồng</button>
+                                                <button onclick="showDescription()" class="button__default">Xem mô tả</button>
                                             </div>
                                             <div class="col-md-5">
-                                                <button onclick="checkTransaction()" class="button__default" style="display: ${displayTransaction}">Check Transaction</button>
+                                                <button onclick="checkTransaction()" class="button__default" style="display: ${displayTransaction}">Kiểm tra giao dịch</button>
+
                                             </div>
                                             
                                             
@@ -120,84 +128,114 @@
                                     <div class="widget__content" id="section-1">
                                         <section class="info info--statistics">
                                             <div class="info__about">
-                                                <h4 class="info__about-title">Personal Detail</h4>
+
+                                                <h4 class="info__about-title">Chi tiết cá nhân</h4>
+
                                                 <div class="info__table-wrap">
                                                     <table class="table info__table">
                                                         <thead>
                                                             <tr>
-                                                                <th>Title</th>
-                                                                <th>Description</th>
-                                                                <th>Status</th>
+
+                                                                <th>Tiêu đề</th>
+                                                                <th>Mô tả</th>
+                                                                <th>Trạng thái</th>
+
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <tr class="bg-info">
-                                                                <td>Customer</td>
+
+                                                                <td>Khách hàng</td>
+
                                                                 <td>${customer.customerName}</td>
                                                                 <td></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Customer Address</td>
+
+                                                                <td>Địa chỉ khách hàng</td>
+
                                                                 <td>${customer.customerAddress}</td>
                                                                 <td></td>
                                                             </tr>
                                                             <tr class="bg-info">
-                                                                <td>Employee</td>
+
+                                                                <td>Nhân viên tư vấn</td>
+
                                                                 <td>${employee.employeeName}</td>
                                                                 <td></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Employee Address</td>
+
+                                                                <td>Địa chỉ nhân viên tư vấn</td>
+
                                                                 <td>${employee.employeeAddress}</td>
                                                                 <td></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Employee Company</td>
-                                                                <td>RealEstate24h</td>
+
+                                                                <td>Nhân viên tư vấn</td>
+                                                                <td>SGEstate24h</td>
+
                                                                 <td></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                <h4 class="info__about-title">Estate Detail 
-                                                    <br> Price: ${estate.price} VND</h4>
+
+                                                <h4 class="info__about-title">Chi tiết bất động sản 
+                                                    <br> Price: ${estate.price}</h4>
+
                                                 <div class="info__table-wrap">
                                                     <table class="table info__table">
                                                         <thead>
                                                             <tr>
-                                                                <th>Category</th>
-                                                                <th>No. of Listing</th>
-                                                                <th>Status</th>
+
+                                                                <th>Danh mục</th>
+                                                                <th>Danh sách</th>
+                                                                <th>Trạng thái</th>
+
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td>Estate ID</td>
+
+                                                                <td>Bất động sản ID</td>
+
                                                                 <td>${estate.id}</td>
                                                                 <td class="text-danger">${estate.estateStatus}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Estate Name</td>
+
+                                                                <td>Tên bất động sản</td>
+
                                                                 <td>${estate.estateName}</td>
                                                                 <td></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Address 1</td>
+
+                                                                <td>Địa chỉ 1</td>
+
                                                                 <td>${estate.address1}</td>
                                                                 <td></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Address 2</td>
+
+                                                                <td>Địa chỉ 2</td>
+
                                                                 <td>${estate.address2}</td>
                                                                 <td></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Areas</td>
+
+                                                                <td>Diện tích</td>
+
                                                                 <td>${estate.areas}</td>
                                                                 <td></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Image</td>
+
+                                                                <td>Hình ảnh</td>
+
                                                                 <td><img src="${estate.image1st}" alt="image" width="270" height="175"></td>
                                                                 <td></td>
                                                             </tr>
@@ -231,15 +269,19 @@
                                         <section class="info info--statistics">
                                             <div class="info__about">
                                                 <h4 class="info__about-title">
-                                                    Contract Detail
-                                                    <button onclick="window.print()" class="button__action ui__button ui__button--1">Print</button>
+
+                                                    Chi tiết hợp đồng
+                                                    <button onclick="window.print()" class="button__action ui__button ui__button--1">In</button>
+
                                                 </h4>
                                                 <div id="section-to-print" class="maincontent textview">
                                                     <table style="width: 100%;" border="0" cellspacing="0" cellpadding="8" align="center">
                                                         <tbody>
                                                             <tr>
                                                                 <td valign="top" width="277">
-                                                                    <p align="center"><strong>CÔNG TY REALESTATE24H</strong> </p>
+
+                                                                    <p align="center"><strong>CÔNG TY SGESTATE24H</strong> </p>
+
                                                                     <p align="center">&nbsp;</p>
                                                                 </td>
                                                                 <td valign="top" width="374">
@@ -264,12 +306,16 @@
                                                     <p>- Căn cứ vào đơn đăng ký quảng cáo BĐS của Ông/Bà: ${employee.employeeName}...... Ngày <fmt:formatDate value="${find.dateAdd}" pattern="dd" /> tháng <fmt:formatDate value="${find.dateAdd}" pattern="MM" /> năm <fmt:formatDate value="${find.dateAdd}" pattern="yyyy" /> </p>
                                                     <p style="text-align: justify;">Hôm nay, ngày………………………., tại……………….. chúng tôi gồm:</p>
                                                     <p style="text-align: justify;"><strong>ĐƠN VỊ NHẬN DỊCH VỤ (BÊN A)</strong></p>
-                                                    <p style="text-align: justify;"><strong>CÔNG TY REALESTATE24H</strong></p>
+
+                                                    <p style="text-align: justify;"><strong>CÔNG TY SGESTATE24H</strong></p>
+
                                                     <p style="text-align: justify;">Địa chỉ: ${employee.employeeAddress} </p>
                                                     <p style="text-align: justify;">VPGD: Công Ty ReakEstate24h</p>
                                                     <p style="text-align: justify;">Điện thoại: ${employee.employeePhone} </p>
                                                     <p style="text-align: justify;">Email: ${employee.employeeMail} </p>
-                                                    <p style="text-align: justify;">Đại diện: Công Ty ReakEstate24h </p>
+
+                                                    <p style="text-align: justify;">Đại diện: Công Ty SGEstate24h </p>
+
                                                     <p style="text-align: justify;">Chức vụ: Nhân viên </p>
                                                     <p style="text-align: justify;"><strong>BÊN THUÊ (BÊN B)</strong></p>
                                                     <p style="text-align: justify;">Họ tên: ${customer.customerName} </p>
@@ -283,7 +329,9 @@
                                                     <p style="text-align: justify;">- Hướng nhà: ${estate.direction} </p>
                                                     <p style="text-align: justify;">- Loại nhà/đất: ${estate.estateTypeId.typeName}</p>
                                                     <p style="text-align: justify;">&nbsp;Số phòng ngủ: ${estate.bedRoom}</p>
-                                                    <p style="text-align: justify;">&nbsp;Số phòng WC: ${estate.bathRoom} Gara ô tô: ${estate.garages}m2</p>
+
+                                                    <p style="text-align: justify;">&nbsp;Số phòng WC: ${estate.bathRoom} Garage ô tô: ${estate.garages}m2</p>
+
                                                     <p style="text-align: justify;">-&nbsp;Tiện nghi:......................................................................................................</p>
                                                     <p style="text-align: justify;">- Tình trạng pháp lý: ${estate.estateStatus} </p>
                                                     <p style="text-align: justify;">- Hiện trạng: Đang ở <img src="https://i.vietnamdoc.net/data/image/2013/Thang07/03/ovuong1.jpg" alt="" width="13" height="14" data-i="1">&nbsp;&nbsp;Cho thuê <img src="https://i.vietnamdoc.net/data/image/2013/Thang07/03/ovuong1.jpg" alt="" width="13" height="14" data-i="2">&nbsp;&nbsp;Khác:&nbsp;&nbsp;&nbsp;&nbsp;</p>
@@ -346,16 +394,20 @@
                                     <div class="widget__content" id="section-3" style="display: none;">
                                         <section class="info info--statistics">
                                             <div class="info__about">
-                                                <h4 class="info__about-title">Check Transaction</h4>
+
+                                                <h4 class="info__about-title">Kiểm tra giao dịch</h4>
                                             </div>
                                             <div class="info__about">
                                                 <form action="<%=request.getContextPath()%>/CreateContract" method="POST">
-                                                    <label>Money</label>
+                                                    <label>Số tiền</label>
+
                                                     <input type="number" name="money" placeholder="0000000">
                                                     <input type="hidden" name="price" value="${estate.price}">
                                                     <input type="hidden" name="customer" value="${customer.id}">
                                                     <input type="hidden" name="contract" value="${contract.id}">
-                                                    <button type="submit" class="button__default">Submit</button>
+
+                                                    <button type="submit" class="button__default">Đồng ý</button>
+
                                                 </form>
                                             </div>
                                         </section>

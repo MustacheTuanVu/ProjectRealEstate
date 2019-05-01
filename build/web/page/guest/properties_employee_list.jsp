@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -71,8 +71,10 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
-                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Agents listing</a></li>
+
+                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Trang chủ</a></li>
+                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Danh sách nhân viên tư vấn</a></li>
+
                     </ul>
                 </div>
             </nav>
@@ -83,10 +85,12 @@
                         <!-- BEGIN site-->
                         <section class="site site--main">
                             <header class="site__header">
-                                <h3 class="site__title">Agents listing</h3>
-                                <h4 class="site__headline">Our team of agents consists of <strong class="text-danger">${employeeListCount}</strong> persons</h4>
+
+                                <h3 class="site__title">Danh sách nhân viên tư vấn</h3>
+                                <h4 class="site__headline">Đội ngũ nhân viên tư vấn của chúng tôi bao gồm <strong class="text-danger">${employeeListCount}</strong> người</h4>
                             </header>
-                            <div class="site__panel"><span class="site__header-text">Our team of agents are ready to help you reach your real estate goals by making your needs our number one priority. We recognize you have a choice when it comes to working with a real estate professional.</span></div>
+                            <div class="site__panel"><span class="site__header-text">Đội ngũ nhân viên tư vấn của chúng tôi sẵn sàng giúp bạn đạt được mục tiêu bất động sản bằng cách làm cho nhu cầu của bạn trở thành ưu tiên số một của chúng tôi. Chúng tôi nhận ra bạn có một sự lựa chọn khi làm việc với một chuyên gia bất động sản.</span></div>
+
                             <div class="site__main">
                                 <div class="widget js-widget widget--main">
                                     <div class="widget__content">
@@ -98,22 +102,28 @@
                                                             <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${item.id}" class="item-photo item-photo--static">
                                                                 <img src="${item.employeeImg}" alt="Lisa Wemert" class="photo"/>
                                                                 <figure class="item-photo__hover">
-                                                                    <span class="item-photo__more">View</span>
+
+                                                                    <span class="item-photo__more">Xem</span>
+
                                                                 </figure>
                                                             </a>
                                                         </div>
                                                         <div class="worker__intro">
                                                             <h3 class="worker__name fn">${item.employeeName}</h3>
                                                             <div class="worker__post">${item.employeeMail}</div>
-                                                            <button type="button" class="worker__show js-unhide">Contact agent</button>
-                                                            <div class="worker__listings"><i class="worker__favorites"></i> My Listings -<a href="agent_profile.html">${item.expr1}</a></div>
+
+                                                            <button type="button" class="worker__show js-unhide">Liên hệ nhân viên tư vấn</button>
+                                                            <div class="worker__listings"><i class="worker__favorites"></i> Danh sách của tôi -<a href="agent_profile.html">${item.expr1}</a></div>
+
                                                             <!-- end of block .worker__listings-->
                                                         </div>
                                                         <div class="worker__descr">
                                                             <p>${item.employeeContent}.</p>
                                                         </div>
                                                         <!-- end of block .worker__descr-->
-                                                        <a href="agent_profile.html" class="worker__more">more details</a>
+
+                                                        <a href="agent_profile.html" class="worker__more">Thêm chi tiết</a>
+
                                                     </div>
                                                     <!-- end of block .worker-->
                                                 </div>

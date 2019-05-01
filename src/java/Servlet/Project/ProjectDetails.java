@@ -5,11 +5,21 @@
  */
 package Servlet.Project;
 
+
 import Controller.CommentJpaController;
 import Controller.EstateJpaController;
 import Controller.EstateTypeJpaController;
 import Controller.ManagerJpaController;
 import Controller.ProjectJpaController;
+import Controller.ViewEmployeeAssignJpaController;
+import Entity.Estate;
+import Entity.Manager;
+import Entity.Project;
+import Entity.Users;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import Controller.RatingJpaController;
 import Controller.ReplyCommentJpaController;
 import Controller.exceptions.RollbackFailureException;
@@ -91,12 +101,15 @@ public class ProjectDetails extends HttpServlet {
             request.setAttribute("displayUser", "none");
         }
         // END SESSION HEADER FONTEND //
-
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
         ProjectJpaController projectControl = new ProjectJpaController(utx, emf);
         ManagerJpaController managerControl = new ManagerJpaController(utx, emf);
         EstateJpaController estateControl = new EstateJpaController(utx, emf);
+        request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
+
+        
+
         RatingJpaController ratingController = new RatingJpaController(utx, emf);
         Controller.CommentJpaController commentController = new CommentJpaController(utx, emf);
         Controller.ReplyCommentJpaController replyController = new ReplyCommentJpaController(utx, emf);
@@ -126,12 +139,21 @@ public class ProjectDetails extends HttpServlet {
         Double sumPriceUnSold = 0.0;
         for (Estate estate : estateList) {
             sumPrice = sumPrice + estate.getPrice();
-            if (estate.getEstateStatusId().getEstateStatusName().equals("Saled")) {
+            if(estate.getEstateStatusId().getEstateStatusName().equals("Saled")){
                 countEstateSold = countEstateSold + 1;
                 sumPriceSold = sumPriceSold + estate.getPrice();
             }
         }
-
+        countEstateUnSold = countEstate - countEstateSold;
+        sumPriceUnSold = sumPrice - sumPriceSold;
+        String displayManager = "yes";
+        if(countProject != 0){
+            int managerID = projectControl.getManagerByProject(Integer.parseInt(id));
+            request.setAttribute("manager", managerControl.findManager(managerID));
+            request.setAttribute("countProject", countProject);
+        }else{
+            displayManager = "no";
+        }
         // cuong add 
         countCommnet = commentController.countCommentAcceptProject(id).getIdComment();
         List<Comment> listComment = commentController.getCommentByIdPost_Project(id);
@@ -142,14 +164,7 @@ public class ProjectDetails extends HttpServlet {
 
         countEstateUnSold = countEstate - countEstateSold;
         sumPriceUnSold = sumPrice - sumPriceSold;
-        String displayManager = "yes";
-        if (countProject != 0) {
-            int managerID = projectControl.getManagerByProject(Integer.parseInt(id));
-            request.setAttribute("manager", managerControl.findManager(managerID));
-            request.setAttribute("countProject", countProject);
-        } else {
-            displayManager = "no";
-        }
+        
 
         request.setAttribute("totalComment", countCommnet);
         request.setAttribute("listComment", listComment);
@@ -163,7 +178,6 @@ public class ProjectDetails extends HttpServlet {
         request.setAttribute("displayManager", displayManager);
         request.setAttribute("find", find);
         request.getRequestDispatcher("/page/guest/project_details.jsp").forward(request, response);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -189,7 +203,6 @@ public class ProjectDetails extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    String idProject = null;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -205,7 +218,7 @@ public class ProjectDetails extends HttpServlet {
         Entity.Comment comment = new Comment();
         Entity.ReplyComment reply = new ReplyComment();
         String role = null;
-
+        String idProject = null;
         // create comment 
         if (action.equals("comment")) {
             try {
@@ -310,7 +323,6 @@ public class ProjectDetails extends HttpServlet {
 
             }
         }
-
     }
 
     /**

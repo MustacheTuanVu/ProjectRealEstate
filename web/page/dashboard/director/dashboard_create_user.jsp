@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -81,22 +81,22 @@
                                         <div id="basic" role="tabpanel" class="tab-pane active">
                                             <div class="row">
                                                 <div class="form-group form-group--description ${hasError}">
-                                                    <label for="in-1" class="control-label">Full Name</label>
+                                                    <label for="in-1" class="control-label">Tên đầy đủ</label>
                                                     <input id="in-1" required type="text" name="fullName" data-placeholder="---" value="Text" class="form-control">
                                                     <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
                                                         <div class="parsley-required">${message}</div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="in-6" class="control-label">Position</label>
+                                                    <label for="in-6" class="control-label">Chức vụ</label>
                                                     <select id="in-5" name="userRole"  required class="form-control js-in-select">
-                                                        <option value="employee">employee</option>
-                                                        <option value="manager">manager</option>
+                                                        <option value="employee">Nhân viên tư vấn</option>
+                                                        <option value="manager">Nhân viên quản lý</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <button type="submit" name="submit" value="submit" class="form__submit">Submit</button>
+                                                <button type="submit" name="submit" value="submit" class="form__submit">Đồng ý</button>
                                             </div>
                                         </div>
                                     </div>

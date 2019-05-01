@@ -75,7 +75,7 @@ public class EstateAutoCreate extends HttpServlet {
                 EstateTypeJpaController estateType = new EstateTypeJpaController(utx, emf);
                 List<EstateType> estateTypeList = estateType.findEstateTypeEntities();
                 request.setAttribute("estateTypeList", estateTypeList);
-                
+
                 EstateJpaController estateControl = new EstateJpaController(utx, emf);
                 ProjectJpaController projectJpaController = new ProjectJpaController(utx, emf);
                 ProjectDetailsJpaController detailsJpaController = new ProjectDetailsJpaController(utx, emf);
@@ -202,7 +202,7 @@ public class EstateAutoCreate extends HttpServlet {
                         }
                     }
                 }
-                request.getRequestDispatcher("/page/dashboard/manager/dashboard_project_estate_new.jsp").forward(request, response);
+                request.getRequestDispatcher("/admin/page/dashboard/manager/create_estate_of_project.jsp").forward(request, response);
             } else {
                 response.sendRedirect(request.getContextPath() + "/LoginUser");
             }

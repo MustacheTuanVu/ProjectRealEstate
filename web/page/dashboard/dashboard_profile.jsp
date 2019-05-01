@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -67,8 +68,8 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ul>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Home</a></li>
-                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">My profile</a></li>
+                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Tragn chủ</a></li>
+                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Trang cá nhân</a></li>
                     </ul>
                 </div>
             </nav>
@@ -78,8 +79,8 @@
                     <div class="row">
                         <div class="site site--main">
                             <header class="site__header">
-                                <h1 class="site__title">My profile</h1>
-                                <h2 class="site__headline">Add and edit listing information</h2>
+                                <h1 class="site__title">Trang cá nhân</h1>
+                                <h2 class="site__headline">Thêm và sửa thông tin</h2>
                             </header>
                             <div class="site__panel"><span class="site__header-text">Flexible configuration and editing forms, add and edit listing information, photos and location of the position</span></div>
                             <div class="site__main">
@@ -92,7 +93,7 @@
                                             <div id="form-block-1" class="form__block js-form-block">
                                                 <div class="form__check form__check--agent">
                                                     <input type="checkbox" name="agent" id="in-agent" class="in-checkbox">
-                                                    <label for="in-agent" class="in-label">I am an agent</label>
+                                                    <label for="in-agent" class="in-label">Tôi là nhân viên tư vấn</label>
                                                 </div>
                                                 <div class="row">
                                                     <div class="form-group">
@@ -100,42 +101,42 @@
                                                         <input id="in-1" value="${list.id}" readonly="true" name="txtID" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="in-2" class="control-label">Your Name</label>
+                                                        <label for="in-2" class="control-label">Tên</label>
                                                         <input id="in-2" value="${list.customerName}" required name="txtName" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="in-3" class="control-label">Indentity Card</label>
+                                                        <label for="in-3" class="control-label">Số CMND</label>
                                                         <input id="in-3" value="${list.customerIndentityCard}" required name="txtCard" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="in-4" class="control-label">Address</label>
+                                                        <label for="in-4" class="control-label">Đại chỉ</label>
                                                         <input id="in-4" value="${list.customerAddress}" required name="txtAddress" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                         <!-- end of block .form-property__control-->
                                                     </div>
                                                 </div>
                                             </div>
                                             <header class="form__header">
-                                                <h3 data-rel="#form-block-2" class="form__title js-form-title">Contact</h3>
+                                                <h3 data-rel="#form-block-2" class="form__title js-form-title">Liên hệ</h3>
                                             </header>
                                             <div id="form-block-2" class="form__block js-form-block">
                                                 <div class="row">
                                                     <div class="form-group">
-                                                        <label for="in-11" class="control-label">Phone</label>
+                                                        <label for="in-11" class="control-label">Điện thoại</label>
                                                         <input id="in-11" name="txtPhone" value="${list.phone}" type="text" required value="adam.svenson@realtyspace.com" class="form-control">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="in-12" class="control-label">Email</label>
+                                                        <label for="in-12" class="control-label">Địa chỉ email</label>
                                                         <input id="in-12" name="txtMail" value="${list.mail}" type="email" placeholder="" required value="adam.svenson@realtyspace.com" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
                                             <header class="form__header">
-                                                <h3 data-rel="#form-block-3" class="form__title js-form-title">About me</h3>
+                                                <h3 data-rel="#form-block-3" class="form__title js-form-title">Về tôi</h3>
                                             </header>
                                             <div id="form-block-3" class="form__block js-form-block">
                                                 <div class="row">
                                                     <div class="form-group form-group--description">
-                                                        <label for="in-13" class="control-label">Description</label>
+                                                        <label for="in-13" class="control-label">Mô tả</label>
                                                         <textarea id="in-13" name="txtContent" required data-parsley-trigger="keyup" data-parsley-minlength="200" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 200 caracters long comment.." class="form-control form-control--description">${list.customerContent}</textarea>
                                                     </div>
                                                 </div>
@@ -147,26 +148,26 @@
                                         <hr>
                                         <form method="POST" action="EditUser" class="form form--flex js-form">
                                             <header class="form__header">
-                                                <h3 data-rel="#form-block-5" class="form__title js-form-title">Change your password</h3>
+                                                <h3 data-rel="#form-block-5" class="form__title js-form-title">Thay đổi mật khẩu</h3>
                                             </header>
                                             <div id="form-block-5" class="form__block js-form-block">
                                                 <div class="row">
                                                     <div class="col-sm-12 col-md-6 col-lg-4">
                                                         <div class="row">
                                                             <div class="form-group">
-                                                                <label for="in-14" class="control-label">Current Password</label>
+                                                                <label for="in-14" class="control-label">Mật khẩu hiện tại</label>
                                                                 <input id="in-14" required name="txtOldPass" data-placeholder="---" value="" class="form-control">
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="form-group">
-                                                                <label for="in-15" class="control-label">New Password</label>
+                                                                <label for="in-15" class="control-label">Mật khẩu mới</label>
                                                                 <input id="in-15" required name="txtNewPass" data-placeholder="---" value="" class="form-control">
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="form-group">
-                                                                <label for="in-16" class="control-label">Confirm New Password</label>
+                                                                <label for="in-16" class="control-label">Xác nhận mật khẩu mới</label>
                                                                 <input id="in-16" required name="txtConfirm" data-placeholder="---" value="" class="form-control">
                                                             </div>
                                                         </div>
@@ -178,7 +179,7 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <button class="form__submit">Save password</button>
+                                                <button class="form__submit">Nhớ mật khẩu</button>
                                             </div>
                                         </form>
                                     </div>
@@ -187,7 +188,7 @@
                         </div>
                         <div class="sidebar">
                             <div class="widget js-widget widget--sidebar widget--first-no-head">
-                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Show profile</a>
+                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Xem trang cá nhân</a>
                                 </div>
                                 <div class="widget__content">
                                     <!-- BEGIN WORKER PROFILE-->
@@ -204,9 +205,9 @@
                                         </div>
                                         <nav class="worker__nav">
                                             <ul>
-                                                <li><a href="my_listings.html">My Estate</a></li>
-                                                <li><a href="my_profile.html">My Profile</a></li>
-                                                <li><a href="my_profile.html">My Contract</a></li>
+                                                <li><a href="my_listings.html">Bất động sản của tôi</a></li>
+                                                <li><a href="my_profile.html">Trang cá nhân</a></li>
+                                                <li><a href="my_profile.html">Danh sách hợp đồng của tôi</a></li>
                                             </ul>
                                         </nav>
                                         <!-- end of block .worker__nav-->
@@ -217,7 +218,7 @@
                             </div>
                             <div class="widget js-widget widget--sidebar widget--dark">
                                 <div class="widget__header">
-                                    <h2 class="widget__title">Our agents</h2>
+                                    <h2 class="widget__title">Nhân viên tư vấn của chúng tôi</h2>
                                     <h5 class="widget__headline">Find your apartment or house on the exact key parameters.</h5><a class="widget__btn js-widget-btn widget__btn--toggle">Show worker</a>
                                 </div>
                                 <div class="widget__content">

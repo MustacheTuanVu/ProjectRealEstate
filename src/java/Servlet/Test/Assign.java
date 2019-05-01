@@ -71,9 +71,9 @@ public class Assign extends HttpServlet {
             ResultSet resultSet = preparedStatement.executeQuery();
            // JSONArray jsonArray = new JSONArray();
             while (resultSet.next()) {
-                jsonArray.put(resultSet.getString("country"));
+                //jsonArray.put(resultSet.getString("country"));
             }
-            out.println(jsonArray);
+            //out.println(jsonArray);
         } catch (ClassNotFoundException e) {
             System.out.println(e.getMessage());
         } catch (SQLException e) {

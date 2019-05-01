@@ -35,10 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Post.findAll", query = "SELECT p FROM Post p")})
 public class Post implements Serializable {
-
     @OneToMany(mappedBy = "idPost")
     private List<Comment> commentList;
-    
     private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "post_id", nullable = false)

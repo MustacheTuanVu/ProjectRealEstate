@@ -6,14 +6,14 @@
 
 <!-- cuong add -->
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -89,13 +89,13 @@
                             <div class="site__main">
                                 <div class="widget js-widget widget--dashboard">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Blog List</h2> 
+                                        <h2 class="widget__title">Danh sách bài viết</h2> 
 
                                         <%
                                             Entity.Users user = (Entity.Users) session.getAttribute("user");
                                             if (user.getRole().equals("employee")) {
                                         %>     
-                                        <a href="<%=request.getContextPath()%>/CreateBlog" class="widget__btn js-widget-btn widget__btn--action">Add New Blog</a>
+                                        <a href="<%=request.getContextPath()%>/CreateBlog" class="widget__btn js-widget-btn widget__btn--action">Thêm bài viết mới</a>
                                         <%
                                             }
                                         %>
@@ -114,8 +114,8 @@
                                                                 if (user.getRole().equals("employee")) {
                                                             %>    
                                                             <div class="article__actions">
-                                                                <a href="<%= request.getContextPath()%>/EditBlog?id=${item.postId}&action=edit" class="article__link"  >Edit</a>
-                                                                <a onclick="return (confirm('Are You Sure !!!'))" href="<%= request.getContextPath()%>/EditBlog?id=${item.postId}&action=delete" class="article__link">Delete</a>
+                                                                <a href="<%= request.getContextPath()%>/EditBlog?id=${item.postId}&action=edit" class="article__link"  >Sửa</a>
+                                                                <a onclick="return (confirm('Are You Sure !!!'))" href="<%= request.getContextPath()%>/EditBlog?id=${item.postId}&action=delete" class="article__link">Xóa</a>
                                                             </div>
                                                             <%
                                                                 }
@@ -126,7 +126,7 @@
                                                             <c:set var="string1" value="${item.postContent}" />
                                                             <div class="article__intro">
                                                                 ${fn:substring(string1,0, 100)}...</strong></p>
-                                                            </div><a href="<%=request.getContextPath()%>/BlogDetails?id=${item.postId}" class="article__more">Read more</a>
+                                                            </div><a href="<%=request.getContextPath()%>/BlogDetails?id=${item.postId}" class="article__more">Xem thêm</a>
                                                         </div>
                                                     </article>
                                                     <!-- end of block .article__item-->
@@ -157,7 +157,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title"> <strong>${action} Blog Completed !!!</strong></h4>
+                            <h4 class="modal-title"> <strong>${action} Bài viết hoàn thành !!!</strong></h4>
                             <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
                         </div>
                     </div>
@@ -171,10 +171,10 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 style="text-align: center; color: red" class="modal-title">Transaction Fail</h4>
+                            <h4 style="text-align: center; color: red" class="modal-title">Giao dịch bị lỗi</h4>
                         </div>
                         <div class="modal-body">
-                            <p style="text-align: center; color: red"><strong>transaction not enough</strong></p>
+                            <p style="text-align: center; color: red"><strong>Giao dịch không đủ</strong></p>
                             <img src="<%=request.getContextPath()%>/assets/media-demo/fail.jpg" alt="error" width="225" height="255">
                         </div>
                     </div>
@@ -188,7 +188,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Transaction Success</h4>
+                            <h4 class="modal-title">Giao dịch thành công</h4>
                         </div>
                         <div class="modal-body">
                             <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" alt="error">

@@ -20,7 +20,14 @@
                 <li class="nav__item"><a href="<%=request.getContextPath()%>/DashboardStatistics" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-dashboard"></use>
-                        </svg>Statistics</a>
+
+                        </svg>Thống kê</a>
+                </li>
+                <li class="nav__item"><a href="<%=request.getContextPath()%>/EditFee" class="nav__link">
+                        <svg class="nav__icon">
+                        <use xlink:href="#icon-dashboard"></use>
+                        </svg>Phí</a>
+
                 </li>
                 <li class="nav__item">
                     <hr class="nav__separator">
@@ -29,14 +36,18 @@
                     <a href="<%=request.getContextPath()%>/CreateUser" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Create Staff
+
+                        </svg>Tạo nhân viên
+
                     </a>
                 </li>
                 <li class="nav__item">
                     <a href="<%=request.getContextPath()%>/StaffList" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Staff List
+
+                        </svg>Danh sách nhân viên
+
                     </a>
                 </li>
                 <li class="nav__item">
@@ -46,14 +57,18 @@
                     <a href="<%=request.getContextPath()%>/ContractOfEmployee1" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Request Sale List
+
+                        </svg>Danh sách yêu cầu bán
+
                     </a>
                 </li>
                 <li class="nav__item">
                     <a href="<%=request.getContextPath()%>/EstateList?user=director&filter=waitting%20for%20director" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Estate Waitting List
+
+                        </svg>Danh sách bất động sản chờ duyệt
+
                     </a>
                 </li>
                 <li class="nav__item">
@@ -63,7 +78,9 @@
                     <a href="<%=request.getContextPath()%>/ProjectList?user=director" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Project Waitting List
+
+                        </svg>Danh sách dự án chờ duyệt
+
                     </a>
                 </li>
             </ul>

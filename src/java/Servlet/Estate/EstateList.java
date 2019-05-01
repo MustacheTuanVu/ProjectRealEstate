@@ -267,6 +267,7 @@ public class EstateList extends HttpServlet {
             }else{
                 request.setAttribute("active", "DashboardDirector");
                 request.setAttribute("estateList", estateList);
+                System.out.println("123");
                 request.getRequestDispatcher("/admin/page/dashboard/director/estate_waiting_dash.jsp").forward(request, response);
             }
         }

@@ -36,24 +36,26 @@ public class DashboardManager extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        // BEGIN SESSION HEADER FONTEND //
-       HttpSession session = request.getSession();
+
+        
+        HttpSession session = request.getSession();
         Entity.Users user = (Entity.Users) session.getAttribute("user");
         if (user != null) {
-            if(user.getRole().equals("manager")){
+            if (user.getRole().equals("manager")) {
                 session.setAttribute("name", user.getManager().getManagerName());
                 request.setAttribute("role", "manager");
                 session.setAttribute("image", user.getManager().getManagerImg());
-                request.setAttribute("active","Manager");
+                request.setAttribute("active", "Manager");
                 request.getRequestDispatcher("/admin/page/dashboard/manager/index.jsp").forward(request, response);
-            }else{
-                response.sendRedirect(request.getContextPath()+"/admin");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/admin");
             }
-        }else{
-            response.sendRedirect(request.getContextPath()+"/admin");
+        } else {
+            response.sendRedirect(request.getContextPath() + "/admin");
         }
     }
 
