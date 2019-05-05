@@ -15,6 +15,7 @@
             <ul class="navbar__nav">
                 <li class="navbar__item"><a href="<%=request.getContextPath()%>" class="navbar__link">Trang chủ</a></li>
                 <li class="navbar__item"><a href="<%=request.getContextPath()%>/EstateList?user=guest" class="navbar__link">Danh sách bất động sản</a></li>
+
                 <li class="navbar__item js-dropdown">
                     <a class="navbar__link">Dashboard
                         <svg class="navbar__arrow">

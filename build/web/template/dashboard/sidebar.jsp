@@ -25,14 +25,14 @@
                     <a href="<%=request.getContextPath()%>/EstateTypeList" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Estate Type
+                        </svg>Loại bất động sản
                     </a>
                 </li>
                 <li class="nav__item">
                     <a href="dashboard_property_new.html" class="nav__link active">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Add Listing
+                        </svg>Thêm bất động sản
                     </a>
                 </li>
                 <li class="nav__item">
@@ -45,14 +45,14 @@
                     <a href="<%=request.getContextPath()%>/ContractTypeList" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Contract Type
+                        </svg>Loại hợp đồng
                     </a>
                 </li>
                 <li class="nav__item">
                     <a href="<%=request.getContextPath()%>/PaymentList" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-add-listing"></use>
-                        </svg>Payment
+                        </svg>Phương thức thanh toán
                     </a>
                 </li>
                 <li class="nav__item">
@@ -65,48 +65,48 @@
                 <li class="nav__item"><a href="dashboard_profile.html" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-user-admin"></use>
-                        </svg>Profile</a></li>
+                        </svg>Trang cá nhân</a></li>
                 <li class="nav__item"><a href="dashboard_activity.html" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-clock"></use>
-                        </svg>Activity Log</a></li>
+                        </svg>Hoạt động</a></li>
                 <li class="nav__item">
                     <hr class="nav__separator">
                 </li>
                 <li class="nav__item"><a href="dashboard_favorites_listings.html" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-favorite-listings"></use>
-                        </svg>Favorite Listings</a></li>
+                        </svg>Bất động sản yêu thích</a></li>
                 <li class="nav__item"><a href="dashboard_favorites_agents.html" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-favorite-agents"></use>
-                        </svg>Favorite Agents</a></li>
+                        </svg>Nhân viên tư vấn yêu thích</a></li>
                 <li class="nav__item"><a href="dashboard_favorites_search.html" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-favorite-search"></use>
-                        </svg>Favorite search</a></li>
+                        </svg>Tìm kiếm thường xuyên</a></li>
                 <li class="nav__item">
                     <hr class="nav__separator">
                 </li>
                 <li class="nav__item"><a href="dashboard_financials.html" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-financials"></use>
-                        </svg>Financials</a></li>
+                        </svg>Báo cáo tài chính</a></li>
                 <li class="nav__item"><a href="dashboard_statistics.html" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-statistics"></use>
-                        </svg>Statistics</a></li>
+                        </svg>Thống kê</a></li>
                 <li class="nav__item">
                     <hr class="nav__separator">
                 </li>
                 <li class="nav__item"><a href="dashboard_property.html" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-property-edit"></use>
-                        </svg>Property management</a></li>
+                        </svg>Quản lý bất động sản</a></li>
                 <li class="nav__item"><a href="dashboard_blog.html" class="nav__link">
                         <svg class="nav__icon">
                         <use xlink:href="#icon-blog-edit"></use>
-                        </svg>Blog Management</a></li>
+                        </svg>Quản lý bài viết</a></li>
             </ul>
         </nav>
     </div>

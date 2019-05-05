@@ -7,42 +7,41 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <div class="container">
-    <div class="navbar__row js-navbar-row"><a href="index.html" class="navbar__brand">
+    <div class="navbar__row js-navbar-row"><a href="<%=request.getContextPath()%>" class="navbar__brand">
             <svg class="navbar__brand-logo">
             <use xlink:href="#icon-logo"></use>
             </svg></a>
         <div id="navbar-collapse-1" class="navbar__wrap">
             <ul class="navbar__nav">
-                <li class="navbar__item js-dropdown"><a class="navbar__link">Home
+                <li class="navbar__item"><a href="<%=request.getContextPath()%>" class="navbar__link">Trang chủ</a></li>
+                <li class="navbar__item"><a href="<%=request.getContextPath()%>/EstateList?user=guest" class="navbar__link">Danh sách bất động sản</a></li>
+
+                <li class="navbar__item js-dropdown">
+                    <a class="navbar__link">Dashboard
                         <svg class="navbar__arrow">
                         <use xlink:href="#icon-arrow-right"></use>
-                        </svg></a>
-                    <div role="menu" class="js-dropdown-menu navbar__dropdown navbar__dropdown--colls-1">
+                        </svg>
+                    </a>
+                    <div role="menu" class="js-dropdown-menu navbar__dropdown navbar__dropdown--colls-2">
                         <button class="navbar__back js-navbar-submenu-back">
                             <svg class="navbar__arrow">
                             <use xlink:href="#icon-arrow-left"></use>
-                            </svg>Back
+                            </svg>Trở về
                         </button>
                         <div class="navbar__submenu">
                             <ul class="navbar__subnav">
-                                <li class="navbar__subitem"><a href="index.html" class="navbar__sublink js-navbar-sublink">Banner & Search</a></li>
-                                <li class="navbar__subitem"><a href="index_slider.html" class="navbar__sublink js-navbar-sublink">Property slider</a></li>
-                                <li class="navbar__subitem"><a href="index_projects.html" class="navbar__sublink js-navbar-sublink">Property projects</a></li>
-                                <li class="navbar__subitem"><a href="index_slider_search.html" class="navbar__sublink js-navbar-sublink">Slider & Search</a></li>
-                                <li class="navbar__subitem"><a href="index_slider_auth.html" class="navbar__sublink js-navbar-sublink">Slider & Authorization</a></li>
-                                <li class="navbar__subitem"><a href="index_vmap_light.html" class="navbar__sublink js-navbar-sublink">Google Map & Light search</a></li>
-                                <li class="navbar__subitem"><a href="index_vmap_dark.html" class="navbar__sublink js-navbar-sublink">Google Map & Dark search</a></li>
-                                <li class="navbar__subitem"><a href="index_hmap_light.html" class="navbar__sublink js-navbar-sublink">Google Map & Horizontal search</a></li>
-                                <li class="navbar__subitem"><a href="feature_map_leaflet.html" class="navbar__sublink js-navbar-sublink">Openstreet Map & Filter</a></li>
-                                <li class="navbar__subitem"><a href="feature_vmap_fullscreen.html" class="navbar__sublink js-navbar-sublink">Fullscreen Google Map</a></li>
+                                <li class="navbar__subitem"><a href="<%=request.getContextPath()%>/EstateList?user=admin" class="navbar__sublink js-navbar-sublink">Quản lý bất động sản</a></li>
                             </ul>
                         </div>
                     </div>
                 </li>
-                <li class="navbar__item js-dropdown"><a class="navbar__link">Properties
+                <!--
+                <li class="navbar__item js-dropdown">
+                    <a class="navbar__link">Properties
                         <svg class="navbar__arrow">
                         <use xlink:href="#icon-arrow-right"></use>
-                        </svg></a>
+                        </svg>
+                    </a>
                     <div role="menu" class="js-dropdown-menu navbar__dropdown navbar__dropdown--colls-2">
                         <button class="navbar__back js-navbar-submenu-back">
                             <svg class="navbar__arrow">
@@ -84,10 +83,12 @@
                         </div>
                     </div>
                 </li>
-                <li class="navbar__item js-dropdown"><a class="navbar__link">Agents
+                <li class="navbar__item js-dropdown">
+                    <a class="navbar__link">Agents
                         <svg class="navbar__arrow">
                         <use xlink:href="#icon-arrow-right"></use>
-                        </svg></a>
+                        </svg>
+                    </a>
                     <div role="menu" class="js-dropdown-menu navbar__dropdown">
                         <button class="navbar__back js-navbar-submenu-back">
                             <svg class="navbar__arrow">
@@ -152,10 +153,12 @@
                         </div>
                     </div>
                 </li>
-                <li class="navbar__item js-dropdown"><a class="navbar__link">User
+                <li class="navbar__item js-dropdown">
+                    <a class="navbar__link">User
                         <svg class="navbar__arrow">
                         <use xlink:href="#icon-arrow-right"></use>
-                        </svg></a>
+                        </svg>
+                    </a>
                     <div role="menu" class="js-dropdown-menu navbar__dropdown navbar__dropdown--colls-2">
                         <button class="navbar__back js-navbar-submenu-back">
                             <svg class="navbar__arrow">
@@ -180,10 +183,12 @@
                         </div>
                     </div>
                 </li>
-                <li class="navbar__item js-dropdown"><a class="navbar__link">Blog
+                <li class="navbar__item js-dropdown">
+                    <a class="navbar__link">Blog
                         <svg class="navbar__arrow">
                         <use xlink:href="#icon-arrow-right"></use>
-                        </svg></a>
+                        </svg>
+                    </a>
                     <div role="menu" class="js-dropdown-menu navbar__dropdown navbar__dropdown--colls-1">
                         <button class="navbar__back js-navbar-submenu-back">
                             <svg class="navbar__arrow">
@@ -199,10 +204,12 @@
                         </div>
                     </div>
                 </li>
-                <li class="navbar__item js-dropdown"><a class="navbar__link">Pages
+                <li class="navbar__item js-dropdown">
+                    <a class="navbar__link">Pages
                         <svg class="navbar__arrow">
                         <use xlink:href="#icon-arrow-right"></use>
-                        </svg></a>
+                        </svg>
+                    </a>
                     <div role="menu" class="js-dropdown-menu navbar__dropdown navbar__dropdown--colls-1">
                         <button class="navbar__back js-navbar-submenu-back">
                             <svg class="navbar__arrow">
@@ -238,8 +245,11 @@
                         </div>
                     </div>
                 </li>
-                <li class="navbar__item"><a href="contacts.html" class="navbar__link">Contacts</a></li>
-                <li class="navbar__item js-dropdown"><a class="navbar__link">Dashboard
+                <li class="navbar__item">
+                    <a href="contacts.html" class="navbar__link">Contacts</a>
+                </li>
+                <li class="navbar__item js-dropdown">
+                    <a class="navbar__link">Dashboard
                         <svg class="navbar__arrow">
                         <use xlink:href="#icon-arrow-right"></use>
                         </svg></a>
@@ -267,10 +277,12 @@
                         </div>
                     </div>
                 </li>
-                <li class="navbar__item js-dropdown"><a class="navbar__link">UI
+                <li class="navbar__item js-dropdown">
+                    <a class="navbar__link">UI
                         <svg class="navbar__arrow">
                         <use xlink:href="#icon-arrow-right"></use>
-                        </svg></a>
+                        </svg>
+                    </a>
                     <div role="menu" class="js-dropdown-menu navbar__dropdown navbar__dropdown--right navbar__dropdown--colls-2">
                         <button class="navbar__back js-navbar-submenu-back">
                             <svg class="navbar__arrow">
@@ -296,10 +308,12 @@
                         </div>
                     </div>
                 </li>
-                <li class="navbar__item navbar__item--mob js-dropdown"><a class="navbar__link">Language
+                <li class="navbar__item navbar__item--mob js-dropdown">
+                    <a class="navbar__link">Language
                         <svg class="navbar__arrow">
                         <use xlink:href="#icon-arrow-right"></use>
-                        </svg></a>
+                        </svg>
+                    </a>
                     <div role="menu" class="js-dropdown-menu navbar__dropdown navbar__dropdown--right">
                         <button class="navbar__back js-navbar-submenu-back">
                             <svg class="navbar__arrow">
@@ -316,7 +330,8 @@
                         </div>
                     </div>
                 </li>
-                <li class="navbar__item navbar__item--mob js-dropdown"><a class="navbar__link">Currency
+                <li class="navbar__item navbar__item--mob js-dropdown">
+                    <a class="navbar__link">Currency
                         <svg class="navbar__arrow">
                         <use xlink:href="#icon-arrow-right"></use>
                         </svg></a>
@@ -335,7 +350,8 @@
                         </div>
                     </div>
                 </li>
-                <li class="navbar__item navbar__item--mob js-dropdown"><a class="navbar__link">Measures
+                <li class="navbar__item navbar__item--mob js-dropdown">
+                    <a class="navbar__link">Measures
                         <svg class="navbar__arrow">
                         <use xlink:href="#icon-arrow-right"></use>
                         </svg></a>
@@ -355,6 +371,7 @@
                     </div>
                 </li>
             </ul>
+            -->
             <!-- end of block  navbar__nav-->
         </div>
     </div>

@@ -2,11 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-
         <group>
-            <file>file:/G:/ProjectBDS/ProjectRealEstate/web/page/dashboard/dashboard_contract_type.jsp</file>
-            <file>file:/G:/ProjectBDS/ProjectRealEstate/src/java/com/ckfinder/connector/ConnectorServlet.java</file>
-            <file>file:/G:/ProjectBDS/ProjectRealEstate/web/index.html</file>
+            <file>file:/G:/ProjectBDS/ProjectRealEstate/web/WEB-INF/config.xml</file>
+            <file>file:/G:/ProjectBDS/ProjectRealEstate/web/page/validate/validate_edit_profile.jsp</file>
+            <file>file:/G:/ProjectBDS/ProjectRealEstate/src/java/Servlet/Employee/EditEmployee.java</file>
+            <file>file:/G:/ProjectBDS/ProjectRealEstate/web/admin/page/dashboard/employee/info_employee.jsp</file>
+            <file>file:/G:/ProjectBDS/ProjectRealEstate/web/admin/page/dashboard/manager/info_manager.jsp</file>
         </group>
     </open-files>
 </project-private>

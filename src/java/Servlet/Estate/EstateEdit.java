@@ -113,7 +113,6 @@ public class EstateEdit extends HttpServlet {
                     String modal = "hidden";
                     modal = request.getParameter("modal");
                     request.setAttribute("modal", modal);
-
                     request.getRequestDispatcher("/admin/page/dashboard/employee/edit_estate.jsp").forward(request, response);
                 }
             } else {
@@ -277,27 +276,10 @@ public class EstateEdit extends HttpServlet {
                 } catch (Exception ex) {
                     Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
-                Transactions transactions = new Transactions();
-                transactions.setCustomerOffered(contract.getCustomerId());
-                transactions.setContractId(contract);
-                try {
-                    transactions.setTransactionsDate((sdff.parse(date.toString())));
-                } catch (ParseException ex) {
-                    Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                transactions.setMoney(contract.getPaymentAmount() * feeJpaController.findFee(1).getFeeEstate() / 100);
-                transactions.setTransactionsNote("request sale");
-                try {
-                    transactionsJpaController.create(transactions);
-                } catch (RollbackFailureException ex) {
-                    Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
-
         }
+                    
+        
     }
 
     /**

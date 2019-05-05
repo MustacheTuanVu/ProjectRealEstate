@@ -17,10 +17,10 @@
 	Configure the location of uploaded files. See the following article for more details:
 	http://docs.cksource.com/CKFinder_2.x/Developers_Guide/Java/Configuration/baseURL_and_baseDir
 	-->
-	<baseDir>D:/abc/ProjectRealEstate/web/CKFinderJava/userfiles/</baseDir>
+	<baseDir>G:/ProjectBDS/ProjectRealEstate/web/CKFinderJava/userfiles/</baseDir>
         <baseURL>http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/</baseURL>
-	<licenseKey></licenseKey>
-	<licenseName></licenseName>
+	<licenseKey>AG2VAABH99MEWQG7E2KS7CT4Q8BMHBV7</licenseKey>
+	<licenseName>RealEstate24h</licenseName>
 	<!--
 	Set the maximum size of uploaded images. If an uploaded image is larger, it
 	gets scaled down proportionally. Set to 0 to disable this feature.
@@ -94,12 +94,12 @@
 			<folder>/</folder>
 			<folderView>true</folderView>
 			<folderCreate>true</folderCreate>
-			<folderRename>true</folderRename>
-			<folderDelete>true</folderDelete>
+			<folderRename>false</folderRename>
+			<folderDelete>false</folderDelete>
 			<fileView>true</fileView>
 			<fileUpload>true</fileUpload>
-			<fileRename>true</fileRename>
-			<fileDelete>true</fileDelete>
+			<fileRename>false</fileRename>
+			<fileDelete>false</fileDelete>
 		</accessControl>
 	</accessControls>
 	<thumbs>
