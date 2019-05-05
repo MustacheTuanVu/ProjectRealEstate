@@ -187,7 +187,7 @@
                                         <div class="property__info-item">Năm xây dựng: <strong> <fmt:formatDate value="${find.yearBuild}" pattern="yyyy" /></strong></div>
                                         <div class="property__info-item">Ngày: <strong> <fmt:formatDate value="${find.dateAdd}" pattern="dd/MM/yyyy" /></strong></div>
 
-                                        <div class="property__info-item">Rating : 
+                                        <div class="property__info-item">Đánh Giá :${countRating} Lượt
                                             <div class="star-rating">
                                                 <span onclick="checkUserRating(1)" class="fa fa-star-o" data-rating="1"></span>
                                                 <span onclick="checkUserRating(2)" class="fa fa-star-o" data-rating="2"></span>

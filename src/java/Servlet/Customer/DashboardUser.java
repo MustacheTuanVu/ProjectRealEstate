@@ -131,7 +131,7 @@ public class DashboardUser extends HttpServlet {
         if (!txtOldPass.equals(oldPass)) {
             System.out.println("new Pass " + txtOldPass);
             System.out.println("old pass " + oldPass);
-            message = "Old Password Incorrect !!!";
+            message = "Mật Khẩu Cũ Không Đúng !!!";
             display = "block";
             hasError = "has-error";
             request.setAttribute("message", message);
@@ -148,7 +148,7 @@ public class DashboardUser extends HttpServlet {
                 user.setRole(("customer"));
                 userCon.edit(user);
                 session.invalidate();
-                System.out.println("Edit Completed");
+                
                 response.sendRedirect(request.getContextPath() + "/LoginUser");
             } catch (RollbackFailureException ex) {
                 Logger.getLogger(DashboardUser.class.getName()).log(Level.SEVERE, null, ex);

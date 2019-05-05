@@ -160,12 +160,12 @@ public class ProjectDetails extends HttpServlet {
         for (Comment listComment1 : listComment) {
             countCommnet += replyController.countReplyCommentAccept(listComment1.getIdComment()).getIdReply();
         }
-        System.out.println("count " + countCommnet);
+     
 
         countEstateUnSold = countEstate - countEstateSold;
         sumPriceUnSold = sumPrice - sumPriceSold;
         
-
+        request.setAttribute("countRating", projectControl.countRating(id));
         request.setAttribute("totalComment", countCommnet);
         request.setAttribute("listComment", listComment);
         request.setAttribute("estateList", estateList);

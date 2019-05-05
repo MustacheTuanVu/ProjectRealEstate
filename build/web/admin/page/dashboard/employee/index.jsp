@@ -131,11 +131,11 @@
                                             <div class="col-md-4">
                                                 <h4>Quản lý bài viết</h4>
                                                 <hr>
-                                                <span class="fa fa-pencil"></span><a href="#"> Tạo bài viết</a>
+                                                <span class="fa fa-pencil"></span><a href="<%=request.getContextPath()%>/CreateBlog"> Tạo bài viết</a>
                                                 <hr>
-                                                <span class="fa fa-files-o"></span><a href="#"> Danh sách bài viết</a>
+                                                <span class="fa fa-files-o"></span><a href="<%=request.getContextPath()%>/BlogList"> Danh sách bài viết</a>
                                                 <hr>
-                                                <span class="fa fa-comment"></span><a href="#"> Comment chờ duyệt</a>
+                                                <span class="fa fa-comment"></span><a href="<%=request.getContextPath()%>"> Comment chờ duyệt</a>
                                                 <hr>
                                             </div>
                                         </div>

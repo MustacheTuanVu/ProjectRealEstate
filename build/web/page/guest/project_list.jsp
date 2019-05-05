@@ -166,7 +166,6 @@
                                                                 </figure>
                                                             </a>
                                                             <span class="properties__ribon">Dự án</span>
-
                                                             <span class="properties__ribon properties__ribon--status properties__ribon--done">${item.projectStatus}</span>
                                                         </div>
                                                         <!-- end of block .properties__thumb-->

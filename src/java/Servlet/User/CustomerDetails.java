@@ -102,7 +102,7 @@ public class CustomerDetails extends HttpServlet {
                     Controller.CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
                     String id = request.getParameter("txtID");
                     Entity.Customer customer = customerControl.findCustomer(Integer.valueOf(id));
-
+                    System.out.println("customer "+customer);
                     customer.setCustomerName(request.getParameter("txtName"));
                     customer.setCustomerIndentityCard(request.getParameter("txtCard"));
                     customer.setCustomerAddress(request.getParameter("txtAddress"));

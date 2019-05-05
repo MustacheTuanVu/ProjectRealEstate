@@ -5,6 +5,7 @@
  */
 package Servlet.Project;
 
+import Controller.ContractJpaController;
 import Controller.CustomerJpaController;
 import Controller.EstateJpaController;
 import Controller.EstateStatusJpaController;
@@ -125,6 +126,8 @@ public class ProjectList extends HttpServlet {
         request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
         String user = request.getParameter("user");
         if(user.equals("guest")){
+            Controller.ContractJpaController con= new ContractJpaController(utx, emf);
+           
             request.getRequestDispatcher("/page/guest/project_list.jsp").forward(request, response);
         }else if(user.equals("manager")){
             users.getManager().getManagerId();
@@ -147,7 +150,7 @@ public class ProjectList extends HttpServlet {
             }
             
             request.setAttribute("projectList", projectsList);
-            request.getRequestDispatcher("admin/page/dashboard/manager/project_list.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/page/dashboard/manager/project_list.jsp").forward(request, response);
         }else if(user.equals("director")){
             if(!users.getRole().equals("director")){
                 users.getManager().getManagerId();

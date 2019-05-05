@@ -377,5 +377,14 @@ public class ProjectJpaController implements Serializable {
             em.close();
         }
     }
+    
+    // cuong add
+    public int countRating(String idProject){
+        EntityManager em=getEntityManager();
+        Query q=em.createNativeQuery("select count(*) from rating where id_project like '"+idProject+"'");
+        
+        System.out.println("count rating "+q.getSingleResult());
+        return (int) q.getSingleResult();
+    }
 
 }

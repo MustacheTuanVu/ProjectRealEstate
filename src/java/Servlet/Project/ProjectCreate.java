@@ -92,6 +92,9 @@ public class ProjectCreate extends HttpServlet {
                         String image5st = request.getParameter("image5st"); //NOTE
 
                         String addresss = request.getParameter("address");
+                        
+                        Entity.Project p=new Project();
+                       
 
                         String yearBuild = request.getParameter("yearBuild"); //NOTE
 

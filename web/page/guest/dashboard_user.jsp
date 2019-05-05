@@ -124,35 +124,34 @@
                                         <form method="POST" action="CustomerDetails" class="form form--flex form--profile js-form">
                                             <header class="form__header">
 
-                                                <h3 data-rel="#form-block-1" class="form__title js-form-title">Trang cá nhân của tôi</h3>
+                                                <h3 data-rel="#form-block-1" class="form__title js-form-title">Thông Tin Cơ Bản</h3>
 
                                             </header>
                                             <div id="form-block-1" class="form__block js-form-block">
                                                 <div class="row">
-                                                    <div class="form-group">
-                                                        <label for="in-1" class="control-label">ID</label>
-                                                        <input id="in-1" value="${customer.id}" readonly name="txtID" data-placeholder="---" value="Lara Group Agency" class="form-control">
-                                                    </div>
+                                                    
+                                                    <input id="in-1" type="hidden" value="${customer.id}" readonly name="txtID" data-placeholder="---"  class="form-control">
+                                                   
                                                     <div class="form-group">
 
                                                         <label for="in-2" class="control-label">Tên</label>
-                                                        <input id="in-2" value="${customer.customerName}" required name="txtName" data-placeholder="---" value="Lara Group Agency" class="form-control">
+                                                        <input id="in-2" value="${customer.customerName}" readonly="true" name="txtName" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="in-3" class="control-label">Số thẻ CMND</label>
-                                                        <input id="in-3" value="${customer.customerIndentityCard}" required name="txtCard" data-placeholder="---" value="Lara Group Agency" class="form-control">
+                                                        <input id="in-3" value="${customer.customerIndentityCard}" readonly="true" name="txtCard" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="in-4" class="control-label">Địa chỉ</label>
 
-                                                        <input id="in-4" value="${customer.customerAddress}" required name="txtAddress" data-placeholder="---" value="Lara Group Agency" class="form-control">
+                                                        <input id="in-4" value="${customer.customerAddress}" readonly="true" name="txtAddress" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                         <!-- end of block .form-property__control-->
                                                     </div>
                                                 </div>
                                             </div>
                                             <header class="form__header">
 
-                                                <h3 data-rel="#form-block-2" class="form__title js-form-title">Hợp đồng</h3>
+                                                <h3 data-rel="#form-block-2" class="form__title js-form-title">Liên Hệ</h3>
 
                                             </header>
                                             <div id="form-block-2" class="form__block js-form-block">
@@ -171,7 +170,7 @@
                                             </div>
                                             <header class="form__header">
 
-                                                <h3 data-rel="#form-block-3" class="form__title js-form-title">Về tôi</h3>
+                                                <h3 data-rel="#form-block-3" class="form__title js-form-title">Giới Thiệu </h3>
 
                                             </header>
                                             <div id="form-block-3" class="form__block js-form-block">
@@ -187,7 +186,7 @@
                                             <div class="row">
                                                 <input type="hidden" value="${customer.customerImg}" id="image1st" name="txtImg"/>
 
-                                                <button class="form__submit">Lưu mật khẩu</button>
+                                                <button class="form__submit">Lưu Thay Đổi</button>
 
                                             </div>
                                         </form>
@@ -267,12 +266,11 @@
                                                 <img src="${customer.customerImg}" id="imageup1st" alt="avatar" width="208" height="208">
                                             </div>
 
-                                            <input type="button" onclick="BrowseServer1()" class="worker__avatar-upload" value="CẬp nhập hình đại diện">
+                                            <input type="button" onclick="BrowseServer1()" class="worker__avatar-upload" value="Cập nhập hình đại diện">
                                         </div>
                                         <nav class="worker__nav">
                                             <ul>
-                                                <li><a href="<%=request.getContextPath()%>/MyListing">Danh sách bất động sản</a></li>
-                                                <li><a href="<%=request.getContextPath()%>/DashboardUser">Trang cá nhân</a></li>
+                                                <li><a href="<%=request.getContextPath()%>/MyListing">Danh sách Nhà Đất</a></li>
                                                 <li><a href="<%=request.getContextPath()%>/MyContract">Hợp đồng của tôi</a></li>
 
                                             </ul>

@@ -151,41 +151,41 @@
                                 </div>
                             </div>
                         </div>
-                                            
-                                            <div id="myModalFail" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
 
-                            <h4 class="modal-title"> <strong>Lưu tên bài viết hoàn thành !!!</strong></h4>
-
-                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-                                            
-                               <!--             
                         <div id="myModalFail" class="modal fade" role="dialog">
                             <div class="modal-dialog">
-
-                                 Modal content
+                                <!-- Modal content-->
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 style="text-align: center; color: red" class="modal-title">Create Blog Fail</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p style="text-align: center; color: red"><strong>Choose a new Title or choose Category another !!!</strong></p>
-                                        <img src="<%=request.getContextPath()%>/assets/media-demo/fail.jpg" alt="error" width="225" height="255">
+
+                                        <h4 class="modal-title"> <strong>Lưu tên bài viết hoàn thành !!!</strong></h4>
+
+                                        <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
                                     </div>
                                 </div>
 
                             </div>
-                        </div> -->
+                        </div>
+
+                        <!--             
+                 <div id="myModalFail" class="modal fade" role="dialog">
+                     <div class="modal-dialog">
+
+                          Modal content
+                         <div class="modal-content">
+                             <div class="modal-header">
+                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                 <h4 style="text-align: center; color: red" class="modal-title">Create Blog Fail</h4>
+                             </div>
+                             <div class="modal-body">
+                                 <p style="text-align: center; color: red"><strong>Choose a new Title or choose Category another !!!</strong></p>
+                                 <img src="<%=request.getContextPath()%>/assets/media-demo/fail.jpg" alt="error" width="225" height="255">
+                             </div>
+                         </div>
+
+                     </div>
+                 </div> -->
                         <!-- END LISTING-->
                         <!-- BEGIN SIDEBAR-->
                         <div class="sidebar sidebar--dashboard">

@@ -74,7 +74,7 @@ public class CreateBlog extends HttpServlet {
             String myModalFail = (request.getParameter("myModalFail") != null) ? request.getParameter("myModalFail") : "";
             request.setAttribute("myModalFail", myModalFail);
             request.setAttribute("list", catController.findCategoryEntities());
-            request.getRequestDispatcher("/page/dashboard/employee/dashboard_blog_new.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/page/dashboard/employee/create_blog.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

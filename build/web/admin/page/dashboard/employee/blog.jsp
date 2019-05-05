@@ -6,6 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -30,9 +32,27 @@
 
         <!-- Custom CSS -->
         <link href="<%=request.getContextPath()%>/admin/dist/css/style.css" rel="stylesheet" type="text/css">
-
-
-
+        <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
+        <script type="text/javascript">
+            function BrowseServer1() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField1;
+                finder.popup();
+            }
+            function SetFileField1(fileUrl) {
+                document.getElementById('image1st').value = fileUrl;
+                document.getElementById('imageup1st').src = fileUrl;
+            }
+            function SetFileField(fileUrl) {
+                var countimage = 0;
+                if (document.getElementById('imageup1st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image1st').value = fileUrl;
+                    document.getElementById('imageup1st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Bất động sản có 1 đến 5 hình ảnh";
+                }
+            }
+        </script>
     </head>
     <body>
         <!-- Preloader -->
@@ -77,37 +97,87 @@
 
                     <!-- Row -->
                     <div class="row">
-                        <c:forEach  items="${listPost}" var="item" >
-                            <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
-                                <div class="panel panel-default card-view pa-0">
-                                    <div class="panel-wrapper collapse in">
-                                        <div class="panel-body pa-0">
-                                            <article class="col-item">
-                                                <div class="photo">
-                                                    <div class="options">
-                                                        <a href="add-products.html" class="font-18 txt-grey mr-10 pull-left"><i class="zmdi zmdi-edit"></i></a>
-                                                        <a href="javascript:void(0);" class="font-18 txt-grey pull-left sa-warning"><i class="zmdi zmdi-close"></i></a>
-                                                    </div>
-
-                                                    <a href="javascript:void(0);"> <img src="dist/img/chair.jpg" class="img-responsive" alt="Product Image" /> </a>
-                                                </div>
-                                                <div class="info">
-                                                    <h6 class="text-warning">Circle chair</h6>
-                                                    <div class="product-rating inline-block">
-                                                        <a href="javascript:void(0);" class="font-12 txt-success zmdi zmdi-star mr-0"></a><a href="javascript:void(0);" class="font-12 txt-success zmdi zmdi-star mr-0"></a><a href="javascript:void(0);" class="font-12 txt-success zmdi zmdi-star mr-0"></a><a href="javascript:void(0);" class="font-12 txt-success zmdi zmdi-star mr-0"></a><a href="javascript:void(0);" class="font-12 txt-success zmdi zmdi-star-outline mr-0"></a>
-                                                    </div>
-                                                    <span class="head-font block text-warning font-16">$150</span>
-                                                </div>
-                                            </article>
-                                        </div>
-                                    </div>	
-                                </div>	
+                        <div class="panel panel-default card-view">
+                            <div class="panel-heading">
+                                <div class="pull-left">
+                                    <h3 class="txt-dark">
+                                        Danh Sách Bài Viết:
+                                    </h3>
+                                    
+                                </div>
+                                <div class="clearfix"></div>
                             </div>
-                        </c:forEach>
+                                        <div class="panel-wrapper collapse in">
+                                <div class="panel-body">
+                                    <div class="table-wrap">
+                                        <div class="table-responsive">
+                                            <table id="datable_1" class="table table-hover display  pb-30">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tiêu Đề</th>
+                                                        <th>Thể Loại</th>
+                                                        <th>Hình Ảnh</th>
+                                                        <th>Ngày Viết</th>
+                                                        <th>Chi tiết</th>
+                                                    </tr>
+                                                </thead>
+                                                <c:forEach items="${listPost}" var="item">
+                                                    <tr>
+                                                        <c:set var="string1" value="${item.postTilte}" />
+                                                        <td>${fn:substring(string1,0, 35)}... <br>
+                                                        </td>
+                                                        <td>${item.postCategory.categoryName}
+                                                        </td>
+                                                        <td> <img src="${item.postImage}" alt="estateImage" style="height: 100px; width: 100px"></td>
+                                                        <fmt:formatDate value="${item.postDate}" pattern="dd-MM-yyyy" var="day" />
+                                                        <td>${day}</td>
+                                                        <td>
+                                                            <a href="<%=request.getContextPath()%>/EditBlog?idPost=${item.postId}&action=edit" class="btn btn-primary">
+                                                                Xem Chi Tiết
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
                     </div>
                     <!-- /Row -->
                 </div>
+                <div id="modal"  class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
 
+                                <h4 class="modal-title"> <strong>Tạo Bài Viết Thành Công !!!</strong></h4>
+
+                                <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="modalEdit"  class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                <h4 class="modal-title"> <strong>Lưu Thay Đổi Thành Công !!!</strong></h4>
+
+                                <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
                 <!-- Footer -->
                 <footer class="footer container-fluid pl-30 pr-30">
                     <div class="row">
@@ -127,8 +197,50 @@
         <!-- JavaScript -->
 
         <!-- jQuery -->
+
+
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/jquery/dist/jquery.min.js"></script>
 
+        <script src="//cdn.ckeditor.com/4.5.6/standard-all/ckeditor.js"></script>
+        <script>
+            // Note: in this sample we use CKEditor with two extra plugins:
+            // - uploadimage to support pasting and dragging images,
+            // - image2 (instead of image) to provide images with captions.
+            // Additionally, the CSS style for the editing area has been slightly modified to provide responsive images during editing.
+            // All these modifications are not required by CKFinder, they just provide better user experience.
+            if (typeof CKEDITOR !== 'undefined') {
+                CKEDITOR.addCss('img {max-width:100%; height: auto;}');
+                var editor = CKEDITOR.replace('editor1', {
+                    extraPlugins: 'uploadimage,image2',
+                    removePlugins: 'image',
+                    height: 350
+                });
+
+                // Just call CKFinder.setupCKEditor and pass the CKEditor instance as the first argument.
+                // The second parameter (optional), is the path for the CKFinder installation (default = "/ckfinder/").
+                // NOTE POINT
+                CKFinder.setupCKEditor(editor, {basePath: '<%=request.getContextPath()%>/ckfinder/'});
+
+                // It is also possible to pass an object with selected CKFinder properties as a second argument.
+                // CKFinder.setupCKEditor( editor, { basePath : '../', skin : 'v1' } ) ;
+            } else {
+                document.getElementById('description').innerHTML = '<div class="tip-a tip-a-alert">This sample requires working Internet connection to load CKEditor from CDN.</div>'
+            }
+        </script>
+        <script type="text/javascript" >
+            function BrowseServer()
+            {
+                // You can use the "CKFinder" class to render CKFinder in a page:
+                var finder = new CKFinder();
+                finder.basePath = '../';	// The path for the installation of CKFinder (default = "/ckfinder/").
+                finder.selectActionFunction = SetFileField;
+                finder.popup();
+            }
+            function SetFileField(fileUrl)
+            {
+                document.getElementById('xFilePath').value = fileUrl;
+            }
+        </script>
         <!-- Bootstrap Core JavaScript -->
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
@@ -173,11 +285,10 @@
         <script src="<%=request.getContextPath()%>/admin/dist/js/dashboard-data.js"></script>
         <script type="text/javascript">
             $(window).on('load', function () {
-                $('#myModalDelete').modal('${modalDelete}');
-                $('#myModal').modal('${modal}');
+                $('#modal').modal('${modal}');
+                $('#modalEdit').modal('${modalEdit}');
             });
         </script>
-
     </body>
 
 </html>

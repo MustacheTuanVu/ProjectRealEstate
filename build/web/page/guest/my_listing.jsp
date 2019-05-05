@@ -182,11 +182,11 @@
                                                                         href="<%=request.getContextPath()%>/EstateDetails?estateID=${item.estateId.id}" 
                                                                     </c:if>
                                                                     <c:if test="${item.contractId.status == 'waitting for employee'}">
-                                                                        href="" 
+                                                                        
                                                                     </c:if>
                                                                     class="item-photo">
 
-                                                                    <img src="${item.estateId.image1st}" alt="" style="width: 270px !important; height: 175px !important" width="270px" height="175px"/>
+                                                                    <img src="${item.estateId.image1st}" alt="" style="width: 270px !important; height: 175px !important " width="270px" height="175px"/>
                                                                     <figure class="item-photo__hover item-photo__hover--params">
                                                                         <span class="properties__params">Phòng ngủ - ${item.estateId.bedRoom} room</span>
                                                                         <span class="properties__params">Phòng tắm - ${item.estateId.bathRoom} room</span>
@@ -271,12 +271,9 @@
                                             <div class="worker__avatar">
                                                 <img src="${customer.customerImg}" alt="avatar" width="208" height="208">
                                             </div>
-
-                                            <button class="worker__avatar-upload">Cập nhập hình đại diện</button>
                                         </div>
                                         <nav class="worker__nav">
                                             <ul>
-                                                <li><a href="<%=request.getContextPath()%>/MyListing">Danh sách bất động sản cửa tôi</a></li>
                                                 <li><a href="<%=request.getContextPath()%>/DashboardUser">Trang cá nhân</a></li>
                                                 <li><a href="<%=request.getContextPath()%>/MyContract">Hợp đồng của tôi</a></li>
 

@@ -193,15 +193,11 @@
                                             <div class="worker__avatar">
                                                 <img src="${customer.customerImg}" alt="avatar" width="208" height="208">
                                             </div>
-
-                                            <button class="worker__avatar-upload">Cập nhập ảnh đại diện</button>
                                         </div>
                                         <nav class="worker__nav">
                                             <ul>
-                                                <li><a href="<%=request.getContextPath()%>/MyListing">Danh sách của tôi</a></li>
+                                                <li><a href="<%=request.getContextPath()%>/MyListing">Danh sách Nhà Đất</a></li>
                                                 <li><a href="<%=request.getContextPath()%>/DashboardUser">Trang cá nhân</a></li>
-                                                <li><a href="<%=request.getContextPath()%>/MyContract">Hợp đồng của tôi</a></li>
-
                                             </ul>
                                         </nav>
                                         <!-- end of block .worker__nav-->

@@ -387,18 +387,22 @@ public class CustomerJpaController implements Serializable {
             em.close();
         }
     }
-	public List<Customer> findCustomerByEMployeeID(int employeeID) {
-        EntityManager em = getEntityManager();
-        try { // select * from customer where id = (SELECT DISTINCT customer_id from contract where employee_id = 3)
-            Query query = em.createNativeQuery("SELECT * FROM customer where "
-                    + "id = (SELECT DISTINCT customer_id from contract where employee_id = '"+employeeID+"') "
-                    ,Customer.class);
-            List<Customer> ret = (List<Customer>) query.getResultList();
-            return ret;
-        } finally {
-            em.close();
+	public List<Customer> findCustomerByEMployeeID(int idEmployee) {
+        EntityManager em=getEntityManager();
+        Query q=null;
+        List<Integer> listIDCustomer = new ArrayList<>();
+        List<Customer> listCustomer = new ArrayList<>();
+        q=em.createNativeQuery("select distinct c.customer_id from contract c where c.employee_id="+idEmployee);
+        listIDCustomer=q.getResultList();
+        
+        for (Integer listIDCustomer1 : listIDCustomer) {
+            System.out.println("id customer "+listIDCustomer1);
+            q=em.createNativeQuery("select * from customer where id="+listIDCustomer1,Customer.class);
+            listCustomer.add((Customer) q.getSingleResult());
         }
+        return listCustomer;
     }
+        
 
     public Object findByIdUser(Users users) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

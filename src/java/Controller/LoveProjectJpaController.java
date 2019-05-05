@@ -220,5 +220,11 @@ public class LoveProjectJpaController implements Serializable {
             em.close();
         }
     }
-    
+    // cuong add
+    public List<LoveProject> getListByIdUser(int idUser){
+        EntityManager em=getEntityManager();
+        Query q=em.createNativeQuery("select * from love_project where id_user ="+idUser,LoveProject.class);
+                
+        return q.getResultList();
+    }
 }
