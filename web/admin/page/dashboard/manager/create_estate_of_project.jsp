@@ -416,7 +416,11 @@
                 console.log("id " + idEstate);
                 xhttp.open("GET", "EstateDetails?idEstate=" + idEstate, true);
                 xhttp.send();
+            };
+            function autoFiledInput(){
+                var a=document.getElementById('').value;
             }
+         
         </script>
         <!-- jQuery -->
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/jquery/dist/jquery.min.js"></script>

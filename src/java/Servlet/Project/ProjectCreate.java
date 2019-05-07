@@ -75,7 +75,6 @@ public class ProjectCreate extends HttpServlet {
                     EntityManager em = emf.createEntityManager();
 
                     if (request.getParameter("submit") != null) {
-                        System.out.println(" 3");
                         ProjectJpaController projectControl = new ProjectJpaController(utx, emf);
 
                         String projectName = request.getParameter("projectName");
@@ -97,7 +96,7 @@ public class ProjectCreate extends HttpServlet {
                        
 
                         String yearBuild = request.getParameter("yearBuild"); //NOTE
-
+                        System.out.println("year biult "+yearBuild);
                         int indexID = 1;
                         String projectID = "1";
 
@@ -131,16 +130,18 @@ public class ProjectCreate extends HttpServlet {
                             project.setImage4st(image4st);
                             project.setImage5st(image5st);
                             project.setProjectAddress(addresss);
-                            project.setStatus("waitting for director create");
-                            project.setProjectStatus("waitting for director create");
+                            project.setStatus("publish");
+                            project.setProjectStatus("publish");
                             project.setDistrict(request.getParameter("district"));
                             project.setManagerId(user.getManager());
 
-                            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                            //SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                             Date day;
                             try {
                                 day = sdf.parse(yearBuild);
                                 project.setYearBuild(day);
+                                
                             } catch (ParseException ex) {
                                 Logger.getLogger(ProjectCreate.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -155,7 +156,6 @@ public class ProjectCreate extends HttpServlet {
 
                             try {
                                 projectControl.create(project);
-                                System.out.println("create completed !!!");
                                 response.sendRedirect(request.getContextPath() + "/ProjectList?user=manager&modal=show");
                             } catch (RollbackFailureException ex) {
                                 Logger.getLogger(ProjectCreate.class.getName()).log(Level.SEVERE, null, ex);
@@ -209,7 +209,7 @@ public class ProjectCreate extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+//        processRequest(request, response);
     }
 
     /**

@@ -103,11 +103,11 @@
                                     <h3 class="txt-dark">
                                         Danh Sách Bài Viết:
                                     </h3>
-                                    
+
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-                                        <div class="panel-wrapper collapse in">
+                            <div class="panel-wrapper collapse in">
                                 <div class="panel-body">
                                     <div class="table-wrap">
                                         <div class="table-responsive">
@@ -129,7 +129,7 @@
                                                         <td>${item.postCategory.categoryName}
                                                         </td>
                                                         <td> <img src="${item.postImage}" alt="estateImage" style="height: 100px; width: 100px"></td>
-                                                        <fmt:formatDate value="${item.postDate}" pattern="dd-MM-yyyy" var="day" />
+                                                            <fmt:formatDate value="${item.postDate}" pattern="dd-MM-yyyy" var="day" />
                                                         <td>${day}</td>
                                                         <td>
                                                             <a href="<%=request.getContextPath()%>/EditBlog?idPost=${item.postId}&action=edit" class="btn btn-primary">
@@ -143,7 +143,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
                     <!-- /Row -->

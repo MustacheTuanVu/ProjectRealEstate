@@ -171,120 +171,7 @@
                     <!-- /Title -->
 
                     <!-- Row -->
-                    <div class="row">
-                        <div class="panel panel-default card-view">
-                            <div class="panel-heading">
-                                <div class="pull-left">
-                                    <h3 class="txt-dark">
-                                        Tổng quan
-                                    </h3>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div  class="panel-wrapper collapse in">
-                                <div  class="panel-body">
-                                    <div class="row">
-                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=waitting to transaction" >
-                                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="panel panel-default card-view pa-0">
-                                                    <div class="panel-wrapper collapse in">
-                                                        <div class="panel-body pa-0">
-                                                            <div class="sm-data-box bg-red">
-                                                                <div class="container-fluid">
-                                                                    <div class="row">
-                                                                        <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-                                                                            <span class="txt-light block counter"><span class="counter-anim">${countContractWaitSale}</span></span>
-                                                                            <a  class="weight-500 uppercase-font txt-light block font-13">
-                                                                                Đang đợi giao dịch
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
-                                                                            <i class="fa fa-home txt-light data-right-rep-icon"></i>
-                                                                        </div>
-                                                                    </div>	
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=waitting for employee" >
-                                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="panel panel-default card-view pa-0">
-                                                    <div class="panel-wrapper collapse in">
-                                                        <div class="panel-body pa-0">
-                                                            <div class="sm-data-box bg-yellow">
-                                                                <div class="container-fluid">
-                                                                    <div class="row">
-                                                                        <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-                                                                            <span class="txt-light block counter"><span class="counter-anim">${countEstateWait}</span></span>
-                                                                            <span class="weight-500 uppercase-font txt-light block"> 
-                                                                                Đang đợi nhân viên tư vấn
-                                                                            </span>
-                                                                        </div>
-                                                                        <div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
-                                                                            <i class="fa fa-home txt-light data-right-rep-icon"></i>
-                                                                        </div>
-                                                                    </div>	
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                                            <div class="panel panel-default card-view pa-0">
-                                                <div class="panel-wrapper collapse in">
-                                                    <div class="panel-body pa-0">
-                                                        <div class="sm-data-box bg-green">
-                                                            <div class="container-fluid">
-                                                                <div class="row">
-                                                                    <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-                                                                        <span class="txt-light block counter"><span class="counter-anim">${countProjectWait}</span></span>
-                                                                        <span class="weight-500 uppercase-font txt-light block"> 
-                                                                            Đang chờ bán
-                                                                        </span>
-                                                                    </div>
-                                                                    <div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
-                                                                        <i class="fa fa-home txt-light data-right-rep-icon"></i>
-                                                                    </div>
-                                                                </div>	
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                                            <div class="panel panel-default card-view pa-0">
-                                                <div class="panel-wrapper collapse in">
-                                                    <div class="panel-body pa-0">
-                                                        <div class="sm-data-box bg-blue">
-                                                            <div class="container-fluid">
-                                                                <div class="row">
-                                                                    <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-                                                                        <span class="txt-light block counter"><span class="counter-anim">${countProjectWait}</span></span>
-                                                                        <span class="weight-500 uppercase-font txt-light block"> 
-                                                                            Đã bán
-                                                                        </span>
-                                                                    </div>
-                                                                    <div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
-                                                                        <i class="fa fa-home txt-light data-right-rep-icon"></i>
-                                                                    </div>
-                                                                </div>	
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                     <!-- /Row -->
 
                     <!-- Row -->
@@ -398,41 +285,73 @@
                                                                                 </div>
                                                                                 <div class="panel-wrapper collapse in">
                                                                                     <div class="panel-body">
-                                                                                        <form method="POST" action="<%=request.getContextPath()%>/ProjectEdit?id=${project.projectId}" class="form form--flex form--property form--basic js-form-property-1">
+                                                                                        <form method="POST" onsubmit="return checkOnSubmit()" action="<%=request.getContextPath()%>/ProjectEdit?id=${project.projectId}" class="form form--flex form--property form--basic js-form-property-1">
                                                                                             <h3><span class="head-font capitalize-font">Thông tin cơ bản</span></h3>
 
                                                                                             <div class="row">
                                                                                                 <div class="col-md-6">
                                                                                                     <div class="form-group">
-                                                                                                        <label class="control-label mb-10">Tên Dự Án</label>
-                                                                                                        <input value="${project.projectName}" id="in-1" required type="text" name="projectName" data-placeholder="---" class="form-control">
+                                                                                                        <label class="control-label mb-10">Tên Dự Án</label>&nbsp<span style="color: red">*</span>&nbsp&nbsp <span id="errorName" style="color: red"></span>
+                                                                                                        <input onkeyup="return checkValidateName()" value="${project.projectName}" id="in-1" type="text" name="projectName" data-placeholder="---" class="form-control">
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div class="col-md-6">
                                                                                                     <div class="form-group">
-                                                                                                        <label class="control-label mb-10">Số Block</label>
-                                                                                                        <input id="in-10" value="${project.blockNumber}" type="number" name="blockNumber" placeholder="" required class="form-control">
+                                                                                                        <label class="control-label mb-10">Số Block</label>&nbsp<span style="color: red">*</span>
+                                                                                                        <select name="blockNumber" class="form-control">
+                                                                                                            <option value="1" ${project.blockNumber=='1' ?'selected':''} >1</option>
+                                                                                                            <option value="2" ${project.blockNumber=='2' ?'selected':''} >2</option>
+                                                                                                            <option value="3" ${project.blockNumber=='3' ?'selected':''} >3</option>
+                                                                                                            <option value="4" ${project.blockNumber=='4' ?'selected':''} >4</option>
+                                                                                                            <option value="5" ${project.blockNumber=='5' ?'selected':''} >5</option>
+                                                                                                            <option value="6" ${project.blockNumber=='6' ?'selected':''} >6</option>
+                                                                                                            <option value="7" ${project.blockNumber=='7' ?'selected':''} >7</option>
+                                                                                                            <option value="8" ${project.blockNumber=='8' ?'selected':''} >8</option>
+                                                                                                            <option value="9" ${project.blockNumber=='9' ?'selected':''} >9</option>
+                                                                                                            <option value="10" ${project.blockNumber=='10' ?'selected':''} >10</option>
+                                                                                                        </select>
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div class="col-md-6">
                                                                                                     <div class="form-group">
-                                                                                                        <label class="control-label mb-10">Địa Chỉ</label>
-                                                                                                        <input id="in-6" value="${project.projectAddress}" type="text" name="address" required class="form-control">
+                                                                                                        <label class="control-label mb-10">Địa Chỉ</label>&nbsp<span style="color: red">*</span>&nbsp&nbsp<span id="errorAddress" style="color: red"></span>
+                                                                                                        <input onkeyup="return checkValidateAddress()" id="in-6" value="${project.projectAddress}" type="text" name="address" class="form-control">
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div class="col-md-6">
                                                                                                     <div class="form-group">
-                                                                                                        <label class="control-label mb-10">Số Tầng</label>
-                                                                                                        <input id="in-10" value="${project.floorNumber}" type="number" name="floorNumber" placeholder="" required class="form-control">
+                                                                                                        <label class="control-label mb-10">Số Tầng</label>&nbsp<span style="color: red">*</span>
+                                                                                                        <select id="in-10" name="floorNumber" class="form-control">
+                                                                                                            <option value="1" ${project.floorNumber=='1' ?'selected':''}>1</option>
+                                                                                                            <option value="2" ${project.floorNumber=='2' ?'selected':''}>2</option>
+                                                                                                            <option value="3" ${project.floorNumber=='3' ?'selected':''}>3</option>
+                                                                                                            <option value="4" ${project.floorNumber=='4' ?'selected':''}>4</option>
+                                                                                                            <option value="5" ${project.floorNumber=='5' ?'selected':''}>5</option>
+                                                                                                            <option value="6" ${project.floorNumber=='6' ?'selected':''}>6</option>
+                                                                                                            <option value="7" ${project.floorNumber=='7' ?'selected':''}>7</option>
+                                                                                                            <option value="8" ${project.floorNumber=='8' ?'selected':''}>8</option>
+                                                                                                            <option value="9" ${project.floorNumber=='9' ?'selected':''}>9</option>
+                                                                                                            <option value="10" ${project.floorNumber=='10' ?'selected':''}>10</option>
+                                                                                                            <option value="11" ${project.floorNumber=='11' ?'selected':''}>11</option>
+                                                                                                            <option value="12" ${project.floorNumber=='12' ?'selected':''}>12</option>
+                                                                                                            <option value="13" ${project.floorNumber=='13' ?'selected':''}>13</option>
+                                                                                                            <option value="14" ${project.floorNumber=='14' ?'selected':''}>14</option>
+                                                                                                            <option value="15" ${project.floorNumber=='15' ?'selected':''}>15</option>
+                                                                                                            <option value="16" ${project.floorNumber=='16' ?'selected':''}>16</option>
+                                                                                                            <option value="17" ${project.floorNumber=='17' ?'selected':''}>17</option>
+                                                                                                            <option value="18" ${project.floorNumber=='18' ?'selected':''}>18</option>
+                                                                                                            <option value="19" ${project.floorNumber=='19' ?'selected':''}>19</option>
+                                                                                                            <option value="20" ${project.floorNumber=='20' ?'selected':''}>20</option>
+                                                                                                        </select>
                                                                                                     </div>
 
                                                                                                 </div>
                                                                                                 <div class="col-md-6">
                                                                                                     <div class="form-group">
                                                                                                         <div class="form-group">
-                                                                                                            <fmt:formatDate var="day" value="${project.yearBuild}" pattern="dd-MM-yyyy"/>
-                                                                                                            <label class="control-label mb-10">Thời Gian Hoàn Thành</label>
-                                                                                                            <input value="${day}" name="yearBuild" type="text" id="in-datetime" value="01/01/2019" data-time-picker="false" data-single-picker="true" class="js-datetimerange form-control">
+                                                                                                            <fmt:formatDate var="day" value="${project.yearBuild}" pattern="yyyy-MM-dd"/>
+                                                                                                            <label class="control-label mb-10">Thời Gian Hoàn Thành</label>&nbsp<span style="color: red">*</span>&nbsp&nbsp <span id="errorYear" style="color: red"></span>
+                                                                                                            <input type="date" value="${day}" onchange="return checkValidateYear()" name="yearBuild" id="in-datetime1" class="js-datetimerange form-control" />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -452,7 +371,7 @@
                                                                                                             <div class="panel-body pa-0">
                                                                                                                 <article class="col-item">
                                                                                                                     <div class="photo">
-                                                                                                                        <input id="image1st" name="image1st" type="hidden"/>
+                                                                                                                        <input id="image1st" value="${project.image1st}" name="image1st" type="hidden"/>
                                                                                                                         <a onclick="BrowseServer1();"> 
                                                                                                                             <c:if test="${project.image1st== ''}" >
                                                                                                                                 <img width="240" height="160" id="imageup1st" name="imageup1st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
@@ -473,7 +392,7 @@
                                                                                                             <div class="panel-body pa-0">
                                                                                                                 <article class="col-item">
                                                                                                                     <div class="photo">
-                                                                                                                        <input id="image2st" name="image2st" type="hidden"/>
+                                                                                                                        <input id="image2st" value="${project.image2st}" name="image2st" type="hidden"/>
                                                                                                                         <a onclick="BrowseServer2();"> 
                                                                                                                             <c:if test="${project.image2st== ''}" >
                                                                                                                                 <img width="240" height="160" id="imageup2st" name="imageup2st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
@@ -494,7 +413,7 @@
                                                                                                             <div class="panel-body pa-0">
                                                                                                                 <article class="col-item">
                                                                                                                     <div class="photo">
-                                                                                                                        <input id="image3st" name="image3st" type="hidden"/>
+                                                                                                                        <input id="image3st" value="${project.image3st}" name="image3st" type="hidden"/>
                                                                                                                         <a onclick="BrowseServer3();"> 
                                                                                                                             <c:if test="${project.image3st== ''}" >
                                                                                                                                 <img width="240" height="160" id="imageup3st" name="imageup3st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
@@ -515,7 +434,7 @@
                                                                                                             <div class="panel-body pa-0">
                                                                                                                 <article class="col-item">
                                                                                                                     <div class="photo">
-                                                                                                                        <input id="image4st" name="image4st" type="hidden"/>
+                                                                                                                        <input id="image4st" value="${project.image4st}" name="image4st" type="hidden"/>
                                                                                                                         <a onclick="BrowseServer4();"> 
                                                                                                                             <c:if test="${project.image4st== ''}" >
                                                                                                                                 <img width="240" height="160" id="imageup4st" name="imageup4st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
@@ -536,7 +455,7 @@
                                                                                                             <div class="panel-body pa-0">
                                                                                                                 <article class="col-item">
                                                                                                                     <div class="photo">
-                                                                                                                        <input id="image5st" name="image5st" type="hidden"/>
+                                                                                                                        <input id="image5st" value="${project.image5st}" name="image5st" type="hidden"/>
                                                                                                                         <a onclick="BrowseServer5();"> 
                                                                                                                             <c:if test="${project.image5st== ''}" >
                                                                                                                                 <img width="240" height="160" id="imageup5st" name="imageup5st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
@@ -552,7 +471,7 @@
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
-                                                                                            <input type="submit" name="submit" value="Cập Nhật" class="btn btn--default"/>
+                                                                                            <input type="submit"  name="submit" value="Cập Nhật" class="btn btn--default"/>
                                                                                             <input type="button" data-dismiss="modal"  value="Thoát" class="btn btn--default"/>
                                                                                         </form>
                                                                                     </div>
@@ -565,13 +484,17 @@
                                                             </div>
 
                                                             <!-- end modal -->
-                                                            <a class="pull-left inline-block mr-15" href="#">
+                                                            <a class="pull-left inline-block mr-15" onclick="return confirm('Bạn Có Muốn Xóa Dự Án !!!')" href="<%= request.getContextPath()%>/ProjectDelete?projectID=${project.projectId}">
                                                                 <i class="zmdi zmdi-delete txt-light"></i>
                                                             </a>
                                                             <div class="pull-left inline-block dropdown">
                                                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="zmdi zmdi-more-vert txt-light"></i></a>
                                                                 <ul class="dropdown-menu bullet dropdown-menu-right"  role="menu">
-                                                                    <li role="presentation"><a href="<%= request.getContextPath()%>/EstateAutoCreate1?projectID=${project.projectId}" target="_blank" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i>Căn Hộ</a></li>
+                                                                    <li role="presentation">
+                                                                        <a href="<%= request.getContextPath()%>/EstateAutoCreate1?projectID=${project.projectId}" target="_blank" role="menuitem">
+                                                                            <i class="icon wb-reply" aria-hidden="true"></i>Tạo Căn Hộ
+                                                                        </a>
+                                                                    </li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -626,6 +549,22 @@
                         </div>
                     </div>
                 </div>
+                <div id="modal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                <h4 class="modal-title"> <strong>Thao Tác Thành Công !!!</strong></h4>
+
+                                <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                
 
                 <!-- Footer -->
                 <footer class="footer container-fluid pl-30 pr-30">
@@ -704,7 +643,91 @@
         <script src="<%=request.getContextPath()%>/admin/dist/js/init.js"></script>
         <script src="<%=request.getContextPath()%>/admin/dist/js/dashboard-data.js"></script>
 
+        <script>
+            function checkValidateName() {
+                var projectName = document.getElementById('in-1').value;
+                var errorName = document.getElementById('errorName');
+                var closeblank = new RegExp(/\s+/g);
+                projectName = projectName.replace(/\s+/g, " ");
+                // projectName = projectName.replace(/^\s+|\s+$/g, "");
+                if (projectName.length < 10 || projectName.length > 200) {
+                    errorName.innerHTML = 'Tên Dự Án Từ 10 Đến 200 Ký Tự !!!';
+                    return false;
+                } else {
+                    document.getElementById('in-1').value=projectName;
+                    errorName.innerHTML = '';
+                    
+                    return true;
+                }
+            }
+            function checkValidateAddress() {
+                var projectName = document.getElementById('in-6').value;
+                var errorName = document.getElementById('errorAddress');
+                var closeblank = new RegExp(/\s+/g);
+                projectName = projectName.replace(/\s+/g, " ");
+               // projectName = projectName.replace(/^\s+|\s+$/g, "");
+                if (projectName.length < 10 || projectName.length > 200) {
+                    errorName.innerHTML = 'Địa Chỉ Dự Án Từ 10 Đến 200 Ký Tự !!!';
+                    return false;
+                } else {
+                    document.getElementById('in-6').value=projectName;
+                    console.log('123' + projectName);
+                    errorName.innerHTML = '';
+                    return true;
+                }
+            }
+            function checkValidateYear() {
+                var projectName = document.getElementById('in-datetime1').value;
+                var errorName = document.getElementById('errorYear');
+                if (projectName == '') {
+                    errorName.innerHTML = 'Mời Bạn Chọn Ngày !!!';
+                    return false;
+                } else {
+                    errorName.innerHTML = '';
+                    return true;
+                }
+            }
+            function checkOnSubmit() {
+                var projectName = document.getElementById('in-1').value;
+                var errorName = document.getElementById('errorName');
 
+                var projectAddress = document.getElementById('in-6').value;
+                var errorAddress = document.getElementById('errorAddress');
+
+                var projectDate = document.getElementById('in-datetime1').value;
+                var errorDate = document.getElementById('errorYear');
+
+                var tam;
+
+                if (projectName == '') {
+                    errorName.innerHTML = 'Tên Dự Án Từ 10 Đến 200 Ký Tự !!!';
+                }
+                if (projectAddress == '') {
+                    errorAddress.innerHTML = 'Địa Chỉ Dự Án Từ 10 Đến 200 Ký Tự !!!';
+                }
+                if (projectDate == '') {
+                    errorDate.innerHTML = 'Mời Bạn Chọn Ngày !!!';
+
+                } else {
+                    tam = confirm('Bạn Có Muốn Lưu Thay Đổi !!!');
+                    if (tam) {
+                        document.getElementById('in-6').value=projectAddress.replace(/^\s+|\s+$/g, "");
+                        document.getElementById('in-1').value=projectName.replace(/^\s+|\s+$/g, "");
+                        return true;
+                    }
+                    return false;
+
+                }
+                return false;
+            }
+        </script>
+        <script type="text/javascript">
+            $(window).on('load', function () {
+                $('#modal').modal('${modal}');
+                $('#modalEdit').modal('${modalEdit}');
+                
+            });
+        </script>
     </body>
 
 </html>

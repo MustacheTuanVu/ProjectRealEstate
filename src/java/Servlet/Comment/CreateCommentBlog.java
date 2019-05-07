@@ -3,24 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet.Employee;
+package Servlet.Comment;
 
-import Controller.CategoryJpaController;
 import Controller.CommentJpaController;
-import Controller.PostJpaController;
 import Controller.ReplyCommentJpaController;
 import Controller.exceptions.RollbackFailureException;
 import Entity.Comment;
 import Entity.Post;
-import Entity.Project;
 import Entity.ReplyComment;
+import Servlet.Employee.BlogDetails;
 import Servlet.Project.ProjectDetails;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
@@ -36,8 +33,8 @@ import javax.transaction.UserTransaction;
  *
  * @author Cuong
  */
-@WebServlet(name = "BlogDetails", urlPatterns = {"/BlogDetails"})
-public class BlogDetails extends HttpServlet {
+@WebServlet(name = "CreateCommentBlog", urlPatterns = {"/CreateCommentBlog"})
+public class CreateCommentBlog extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,65 +45,21 @@ public class BlogDetails extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    UserTransaction utx;
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        HttpSession session = request.getSession();
-        Entity.Users user = (Entity.Users) session.getAttribute("user");
-
-        if (user != null) {
-            if (user.getRole().equals("employee")) {
-
-            request.setAttribute("users", "user");
-            request.setAttribute("displayLogin", "none");
-            request.setAttribute("displayUser", "block");
-            session.setAttribute("name", user.getEmployee().getEmployeeName());
-            request.setAttribute("role", "employee");
-            session.setAttribute("image", user.getEmployee().getEmployeeImg());
-            }else
-            if (user.getRole().equals("customer")) {
-
-            request.setAttribute("users", "user");
-            request.setAttribute("displayLogin", "none");
-            request.setAttribute("displayUser", "block");
-            session.setAttribute("name", user.getCustomer().getCustomerName());
-            request.setAttribute("role", "customer");
-            session.setAttribute("image", user.getCustomer().getCustomerImg());
-            }
-            /*-----------------------------------------------------------*/
-        } else {
-            request.setAttribute("displayLogin", "block");
-            request.setAttribute("displayUser", "none");
-            //response.sendRedirect(request.getContextPath() + "/LoginUser");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CreateCommentBlog</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet CreateCommentBlog at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-        
-         int idPost=Integer.valueOf(request.getParameter("id"));
-         int countCommnet = 0;
-            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-            Controller.PostJpaController postController = new PostJpaController(utx, emf);
-            Controller.CategoryJpaController catControler= new CategoryJpaController(utx, emf);
-            Controller.CommentJpaController commentController = new CommentJpaController(utx, emf);
-        Controller.ReplyCommentJpaController replyController = new ReplyCommentJpaController(utx, emf);
-            
-            countCommnet = commentController.countCommentAcceptBlog(idPost).getIdComment();
-        List<Comment> listComment = commentController.getCommentByIdPost_Blog(Integer.valueOf(idPost));
-        for (Comment listComment1 : listComment) {
-            countCommnet += replyController.countReplyCommentAccept(listComment1.getIdComment()).getIdReply();
-        }
-            
-            String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "";
-            request.setAttribute("modal", modal);
-
-            request.setAttribute("totalComment", countCommnet);
-            request.setAttribute("listComment", listComment);
-            request.setAttribute("listCount", postController.getPostByCategory1());
-            request.setAttribute("listCat", catControler.findCategoryEntities());
-            request.setAttribute("post", postController.findPost(idPost));
-            request.getRequestDispatcher("/page/dashboard/employee/dashboard_blog_details.jsp").forward(request, response);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -132,11 +85,13 @@ public class BlogDetails extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    UserTransaction utx;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        // processRequest(request, response);
-        HttpSession session = request.getSession();
+        
+         HttpSession session = request.getSession();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String a = format.format(new Date());
         EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
@@ -146,12 +101,10 @@ public class BlogDetails extends HttpServlet {
         Entity.Comment comment = new Comment();
         Entity.ReplyComment reply = new ReplyComment();
         String role = null;
-        String idProject = null;
+        String idProject = request.getParameter("txtIDPost");;
         // create comment 
         if (action.equals("comment")) {
-            System.out.println("comment 13 123 ");
             try {
-                idProject = request.getParameter("txtIDPost");
                 comment.setIdPost(new Post(Integer.valueOf(request.getParameter("txtIDPost"))));
                 comment.setContent(request.getParameter("txtComment"));
                 comment.setDateComment(format.parse(a));
@@ -165,8 +118,7 @@ public class BlogDetails extends HttpServlet {
                         comment.setStatusComment("wait");
 
                         commentController.create(comment);
-                        System.out.println("create Completed pót comment !!!");
-                        response.sendRedirect(request.getContextPath() + "/ProjectDetails?projectId=" + idProject+"modal=show");
+                        response.sendRedirect(request.getContextPath() + "/BlogDetails?id=" + idProject+"&modal=show");
                     } catch (RollbackFailureException ex) {
                         Logger.getLogger(BlogDetails.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (Exception ex) {
@@ -187,8 +139,7 @@ public class BlogDetails extends HttpServlet {
                     comment.setIdUser(user);
                     comment.setRoleComment(role);
                     commentController.create(comment);
-                    System.out.println("create Completed pót !!!");
-                    response.sendRedirect(request.getContextPath() + "/ProjectDetails?projectId=" + idProject+"modal=show");
+                    response.sendRedirect(request.getContextPath() + "/BlogDetails?id=" + idProject+"&modal=show");
                 }
             } catch (ParseException ex) {
                 Logger.getLogger(BlogDetails.class.getName()).log(Level.SEVERE, null, ex);
@@ -216,6 +167,7 @@ public class BlogDetails extends HttpServlet {
                     reply.setStatusReply("wait");
 
                     replyController.create(reply);
+                    response.sendRedirect(request.getContextPath() + "/BlogDetails?id=" + idProject+"&modal=show");
                 } catch (Exception ex) {
                     Logger.getLogger(ProjectDetails.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -244,12 +196,12 @@ public class BlogDetails extends HttpServlet {
 
                 try {
                     replyController.create(reply);
+                    response.sendRedirect(request.getContextPath() + "/BlogDetails?id=" + idProject+"&modal=show");
                 } catch (RollbackFailureException ex) {
                     Logger.getLogger(BlogDetails.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception ex) {
                     Logger.getLogger(BlogDetails.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("id_reply " + reply.getIdReply());
 
                 //response.sendRedirect(request.getContextPath() + "/ProjectDetails?projectId=" + idProject);
 

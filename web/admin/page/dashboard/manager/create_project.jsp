@@ -4,6 +4,7 @@
     Author     : kiems
 --%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -175,139 +176,172 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="panel panel-default card-view">
-                               
+
                                 <div class="panel-wrapper collapse in">
                                     <div class="panel-body">
-                                        <form method="POST" action="<%=request.getContextPath()%>/ProjectCreate" class="form form--flex form--property form--basic js-form-property-1">
-                                            
-                                                <h3><span class="head-font capitalize-font">Thông tin cơ bản</span></h3>
-                                                
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label class="control-label mb-10">Tên Dự Án</label>
-                                                                <input id="in-1" required type="text" name="projectName" data-placeholder="---" class="form-control">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label class="control-label mb-10">Số Block</label>
-                                                                <input id="in-10" type="number" name="blockNumber" placeholder="" required class="form-control">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label class="control-label mb-10">Địa Chỉ</label>
-                                                                <input id="in-6" type="text" name="address" required class="form-control">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label class="control-label mb-10">Số Tầng</label>
-                                                                <input id="in-10" type="number" name="floorNumber" placeholder="" required class="form-control">
-                                                            </div>
+                                        <form onsubmit="return checkOnSubmit()" action="<%=request.getContextPath()%>/ProjectCreate" class="form form--flex form--property form--basic js-form-property-1">
 
+                                            <h3><span class="head-font capitalize-font">Thông tin cơ bản</span></h3>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label mb-10">Tên Dự Án</label>&nbsp<span style="color: red">*</span>&nbsp&nbsp <span id="errorName" style="color: red"></span>
+                                                        <input id="in-1" onkeyup="return checkValidateName()"  type="text" name="projectName" data-placeholder="---" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label mb-10">Số Block</label>&nbsp<span style="color: red">*</span>
+                                                        <select name="blockNumber" class="form-control">
+                                                            <option value="1" >1</option>
+                                                            <option value="2" >2</option>
+                                                            <option value="3" >3</option>
+                                                            <option value="4" >4</option>
+                                                            <option value="5" >5</option>
+                                                            <option value="6" >6</option>
+                                                            <option value="7" >7</option>
+                                                            <option value="8" >8</option>
+                                                            <option value="9" >9</option>
+                                                            <option value="10" >10</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label mb-10">Địa Chỉ</label>&nbsp<span style="color: red">*</span>&nbsp&nbsp<span id="errorAddress" style="color: red"></span>
+                                                        <input id="in-6" onkeyup="return checkValidateAddress()" type="text" name="address"  class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label mb-10">Số Tầng</label>&nbsp<span style="color: red">*</span>
+                                                        <select id="in-10" name="floorNumber" class="form-control">
+                                                            <option value="1" >1</option>
+                                                            <option value="2" >2</option>
+                                                            <option value="3" >3</option>
+                                                            <option value="4" >4</option>
+                                                            <option value="5" >5</option>
+                                                            <option value="6" >6</option>
+                                                            <option value="7" >7</option>
+                                                            <option value="8" >8</option>
+                                                            <option value="9" >9</option>
+                                                            <option value="10" >10</option>
+                                                            <option value="11" >11</option>
+                                                            <option value="12" >12</option>
+                                                            <option value="13" >13</option>
+                                                            <option value="14" >14</option>
+                                                            <option value="15" >15</option>
+                                                            <option value="16" >16</option>
+                                                            <option value="17" >17</option>
+                                                            <option value="18" >18</option>
+                                                            <option value="19" >19</option>
+                                                            <option value="20" >20</option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <fmt:formatDate var="day" value="${project.yearBuild}" pattern="dd-MM-yyyy"/>
+                                                            <label class="control-label mb-10">Thời Gian Hoàn Thành</label> &nbsp<span style="color: red">*</span>&nbsp&nbsp <span id="errorYear" style="color: red"></span>
+                                                            <input type="date" onchange="return checkValidateYear()" name="yearBuild" id="in-datetime1" class="js-datetimerange form-control" />
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <div class="form-group">
-                                                                    <label class="control-label mb-10">Thời Gian Hoàn Thành</label>
-                                                                    <input name="yearBuild" type="text" id="in-datetime" value="01/01/2019" data-time-picker="false" data-single-picker="true" class="js-datetimerange form-control">
-                                                                </div>
-                                                            </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <label class="control-label mb-10">Giới Thiệu Dự Án</label>
+                                                            <textarea id="in-6" name="projectContent" rows="4" cols="50" class="form-control"></textarea>
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <div class="form-group">
-                                                                    <label class="control-label mb-10">Giới Thiệu Dự Án</label>
-                                                                    <textarea id="in-6" name="projectContent" rows="4" cols="50" class="form-control"></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                       
+                                                    </div>
+                                                </div>
+
                                                 <h3><span class="head-font capitalize-font">Hình ảnh</span></h3>
-                                                        <div class="col-md-4">
-                                                            <div class="panel panel-default card-view pa-0">
-                                                                <div class="panel-wrapper collapse in">
-                                                                    <div class="panel-body pa-0">
-                                                                        <article class="col-item">
-                                                                            <div class="photo">
-                                                                                <input id="image1st" name="image1st" type="hidden"/>
-                                                                                <a onclick="BrowseServer1();"> 
-                                                                                    <img width="240" height="160" id="imageup1st" name="imageup1st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
-                                                                                </a>
-                                                                            </div>
-                                                                        </article>
+                                                <div class="col-md-4">
+                                                    <div class="panel panel-default card-view pa-0">
+                                                        <div class="panel-wrapper collapse in">
+                                                            <div class="panel-body pa-0">
+                                                                <article class="col-item">
+                                                                    <div class="photo">
+                                                                        <input id="image1st" name="image1st" type="hidden"/>
+                                                                        <a onclick="BrowseServer1();"> 
+                                                                            <img width="240" height="160" id="imageup1st" name="imageup1st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
+                                                                        </a>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="panel panel-default card-view pa-0">
-                                                                <div class="panel-wrapper collapse in">
-                                                                    <div class="panel-body pa-0">
-                                                                        <article class="col-item">
-                                                                            <div class="photo">
-                                                                                <input id="image2st" name="image2st" type="hidden"/>
-                                                                                <a onclick="BrowseServer2();"> 
-                                                                                    <img width="240" height="160" id="imageup2st" name="imageup2st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
-                                                                                </a>
-                                                                            </div>
-                                                                        </article>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="panel panel-default card-view pa-0">
-                                                                <div class="panel-wrapper collapse in">
-                                                                    <div class="panel-body pa-0">
-                                                                        <article class="col-item">
-                                                                            <div class="photo">
-                                                                                <input id="image3st" name="image3st" type="hidden"/>
-                                                                                <a onclick="BrowseServer3();"> 
-                                                                                    <img width="240" height="160" id="imageup3st" name="imageup3st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
-                                                                                </a>
-                                                                            </div>
-                                                                        </article>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="panel panel-default card-view pa-0">
-                                                                <div class="panel-wrapper collapse in">
-                                                                    <div class="panel-body pa-0">
-                                                                        <article class="col-item">
-                                                                            <div class="photo">
-                                                                                <input id="image4st" name="image4st" type="hidden"/>
-                                                                                <a onclick="BrowseServer4();"> 
-                                                                                    <img width="240" height="160" id="imageup4st" name="imageup4st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
-                                                                                </a>
-                                                                            </div>
-                                                                        </article>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="panel panel-default card-view pa-0">
-                                                                <div class="panel-wrapper collapse in">
-                                                                    <div class="panel-body pa-0">
-                                                                        <article class="col-item">
-                                                                            <div class="photo">
-                                                                                <input id="image5st" name="image5st" type="hidden"/>
-                                                                                <a onclick="BrowseServer5();"> 
-                                                                                    <img width="240" height="160" id="imageup5st" name="imageup5st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
-                                                                                </a>
-                                                                            </div>
-                                                                        </article>
-                                                                    </div>
-                                                                </div>
+                                                                </article>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                <input type="submit" name="submit" value="Tạo Dự Án" class="btn btn--default"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="panel panel-default card-view pa-0">
+                                                        <div class="panel-wrapper collapse in">
+                                                            <div class="panel-body pa-0">
+                                                                <article class="col-item">
+                                                                    <div class="photo">
+                                                                        <input id="image2st" name="image2st" type="hidden"/>
+                                                                        <a onclick="BrowseServer2();"> 
+                                                                            <img width="240" height="160" id="imageup2st" name="imageup2st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
+                                                                        </a>
+                                                                    </div>
+                                                                </article>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="panel panel-default card-view pa-0">
+                                                        <div class="panel-wrapper collapse in">
+                                                            <div class="panel-body pa-0">
+                                                                <article class="col-item">
+                                                                    <div class="photo">
+                                                                        <input id="image3st" name="image3st" type="hidden"/>
+                                                                        <a onclick="BrowseServer3();"> 
+                                                                            <img width="240" height="160" id="imageup3st" name="imageup3st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
+                                                                        </a>
+                                                                    </div>
+                                                                </article>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="panel panel-default card-view pa-0">
+                                                        <div class="panel-wrapper collapse in">
+                                                            <div class="panel-body pa-0">
+                                                                <article class="col-item">
+                                                                    <div class="photo">
+                                                                        <input id="image4st" name="image4st" type="hidden"/>
+                                                                        <a onclick="BrowseServer4();"> 
+                                                                            <img width="240" height="160" id="imageup4st" name="imageup4st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
+                                                                        </a>
+                                                                    </div>
+                                                                </article>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="panel panel-default card-view pa-0">
+                                                        <div class="panel-wrapper collapse in">
+                                                            <div class="panel-body pa-0">
+                                                                <article class="col-item">
+                                                                    <div class="photo">
+                                                                        <input id="image5st" name="image5st" type="hidden"/>
+                                                                        <a onclick="BrowseServer5();"> 
+                                                                            <img width="240" height="160" id="imageup5st" name="imageup5st" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" alt="Product Image" /> 
+                                                                        </a>
+                                                                    </div>
+                                                                </article>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="submit" name="submit" value="Tạo Dự Án" class="btn btn--primary"/>
                                         </form>
                                     </div>
                                 </div>
@@ -334,6 +368,7 @@
         <!-- /#wrapper -->
 
         <!-- JavaScript -->
+
 
         <!-- jQuery -->
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/jquery/dist/jquery.min.js"></script>
@@ -372,6 +407,84 @@
 
         <!-- Init JavaScript -->
         <script src="<%=request.getContextPath()%>/admin/dist/js/init.js"></script>
+        <script>
+                                                                            function checkValidateName() {
+                                                                                var projectName = document.getElementById('in-1').value;
+                                                                                var errorName = document.getElementById('errorName');
+                                                                                var closeblank = new RegExp(/\s+/g);
+                                                                                projectName = projectName.replace(/\s+/g, " ");
+                                                                                //projectName = projectName.replace(/^\s+|\s+$/g, "");
+                                                                                if (projectName.length < 10 || projectName.length > 200) {
+                                                                                    errorName.innerHTML = 'Tên Dự Án Từ 10 Đến 200 Ký Tự !!!';
+                                                                                    return false;
+                                                                                } else {
+                                                                                    document.getElementById('in-1').value=projectName;
+                                                                                    errorName.innerHTML = '';
+                                                                                    return true;
+                                                                                }
+                                                                            }
+                                                                            function checkValidateAddress() {
+                                                                                var projectName = document.getElementById('in-6').value;
+                                                                                var errorName = document.getElementById('errorAddress');
+                                                                                var closeblank = new RegExp(/\s+/g);
+                                                                                projectName = projectName.replace(/\s+/g, " ");
+                                                                               // projectName = projectName.replace(/^\s+|\s+$/g, "");
+                                                                                if (projectName.length < 10 || projectName.length > 200) {
+                                                                                    errorName.innerHTML = 'Địa Chỉ Dự Án Từ 10 Đến 200 Ký Tự !!!';
+                                                                                    return false;
+                                                                                } else {
+                                                                                    document.getElementById('in-6').value=projectName;
+                                                                                    errorName.innerHTML = '';
+                                                                                    return true;
+                                                                                }
+                                                                            }
+                                                                            function checkValidateYear() {
+                                                                                var projectName = document.getElementById('in-datetime1').value;
+                                                                                var errorName = document.getElementById('errorYear');
+                                                                                if (projectName == '') {
+                                                                                    errorName.innerHTML = 'Mời Bạn Chọn Ngày !!!';
+                                                                                    return false;
+                                                                                } else {
+                                                                                    errorName.innerHTML = '';
+                                                                                    return true;
+                                                                                }
+                                                                            }
+                                                                            function checkOnSubmit() {
+                                                                                var projectName = document.getElementById('in-1').value;
+                                                                                var errorName = document.getElementById('errorName');
+
+                                                                                var projectAddress = document.getElementById('in-6').value;
+                                                                                var errorAddress = document.getElementById('errorAddress');
+
+                                                                                var projectDate = document.getElementById('in-datetime1').value;
+                                                                                var errorDate = document.getElementById('errorYear');
+
+                                                                                    var tam;
+                                                                                if (projectName == '') {
+                                                                                    errorName.innerHTML = 'Tên Dự Án Từ 10 Đến 200 Ký Tự !!!';
+                                                                                }
+                                                                                if (projectAddress == '') {
+                                                                                    errorAddress.innerHTML = 'Địa Chỉ Dự Án Từ 10 Đến 200 Ký Tự !!!';
+                                                                                }
+                                                                                if (projectDate == '') {
+                                                                                    errorDate.innerHTML = 'Mời Bạn Chọn Ngày !!!';
+
+                                                                                } else {
+                                                                                    tam = confirm('Bạn Có Muốn Tạo Dự Án !!!');
+                                                                                    if (tam) {
+                                                                                        document.getElementById('in-6').value = projectAddress.replace(/^\s+|\s+$/g, "");
+                                                                                        document.getElementById('in-1').value = projectName.replace(/^\s+|\s+$/g, "");
+                                                                                        return true;
+                                                                                    }
+                                                                                    return false;
+                                                                                    }
+                                                                                    return false;
+                                                                            }
+
+
+
+
+        </script>
     </body>
 
 </html>

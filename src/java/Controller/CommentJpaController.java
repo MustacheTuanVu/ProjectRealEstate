@@ -239,6 +239,14 @@ public class CommentJpaController implements Serializable {
                 + "' and status_comment like 'accept'", Comment.class);
         return q.getResultList();
     }
+    // cuong add
+    public List<Comment> getCommentByIdPost_Blog(int id) {
+        EntityManager em = getEntityManager();
+        Query q = em.createNativeQuery("select * from comment where id_post ='"
+                + id
+                + "' and status_comment like 'accept'", Comment.class);
+        return q.getResultList();
+    }
 
     // cuong add
 
@@ -253,6 +261,13 @@ public class CommentJpaController implements Serializable {
         EntityManager em = getEntityManager();
         
         Query q = em.createNativeQuery("select count(*) as id_comment from comment where id_project=" + idCom + " and status_comment like 'accept'", Comment.class);
+        return (Comment) q.getSingleResult();
+    }
+    // cuong add
+    public Comment countCommentAcceptBlog(int idCom) {
+        EntityManager em = getEntityManager();
+        
+        Query q = em.createNativeQuery("select count(*) as id_comment from comment where id_post=" + idCom + " and status_comment like 'accept'", Comment.class);
         return (Comment) q.getSingleResult();
     }
     // cuong add

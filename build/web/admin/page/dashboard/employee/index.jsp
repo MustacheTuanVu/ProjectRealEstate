@@ -93,9 +93,7 @@
                                                 <hr>
                                                 <span class="fa fa-home"></span><a href="<%=request.getContextPath()%>/EstateCreate"> Thêm nhà đất</a>
                                                 <hr>
-                                                <span class="fa fa-home"></span><a href="#"> Danh sách nhà đất</a>
-                                                <hr>
-                                                <span class="fa fa-home"></span><a href="#"> Kiểm tra nhà đất</a>
+                                                
                                                 <span class="fa fa-home"></span><a class="<c:if test="${active == 'CreateEstate'}">active</c:if>" href="<%=request.getContextPath()%>/EstateCreate1" data-toggle="collapse" data-target="#dashboard_dr">
                                                     Thêm nhà đất</a>
                                                 <hr>
@@ -118,7 +116,6 @@
                                                 <hr>
                                                 <span class="fa fa-users"></span><a href="#"> Danh sách khách hàng</a>
                                                 <hr>
-                                                <span class="fa fa-legal"></span><a href="#"> Danh sách hợp đồng</a>
                                                 <span class="fa fa-users"></span><a class="<c:if test="${active == 'CustomerOfEmployee'}">active</c:if>" href="<%=request.getContextPath()%>/CustomerOfEmployee" data-toggle="collapse" data-target="#dashboard_dr">
                                                     Danh sách khách hàng</a>
                                                 <hr>
@@ -135,7 +132,7 @@
                                                 <hr>
                                                 <span class="fa fa-files-o"></span><a href="<%=request.getContextPath()%>/BlogList"> Danh sách bài viết</a>
                                                 <hr>
-                                                <span class="fa fa-comment"></span><a href="<%=request.getContextPath()%>"> Comment chờ duyệt</a>
+                                                <span class="fa fa-comment"></span><a href="<%=request.getContextPath()%>/ListCommentWait"> Comment chờ duyệt</a>
                                                 <hr>
                                             </div>
                                         </div>

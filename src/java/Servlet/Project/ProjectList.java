@@ -135,7 +135,10 @@ public class ProjectList extends HttpServlet {
             List<Project> projectsList = new ArrayList<>();
             
             String search = (request.getParameter("search") != null) ? request.getParameter("search") : "";
-            
+            String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "";
+            String modalEdit = (request.getParameter("modalEdit") != null) ? request.getParameter("modalEdit") : "";
+            request.setAttribute("modalEdit", modalEdit);
+            request.setAttribute("modal", modal);
             if(search.equals("search")){
                 String searchInput = (request.getParameter("searchInput") != null) ? request.getParameter("searchInput") : "";
                 List<String> projectIDListSearch = projectControl.getProjectByManagerSearch(

@@ -5,9 +5,10 @@
 --%>
 
 
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -32,9 +33,7 @@
 
         <!-- Custom CSS -->
         <link href="<%=request.getContextPath()%>/admin/dist/css/style.css" rel="stylesheet" type="text/css">
-        <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
-      
-        
+
 
 
     </head>
@@ -88,33 +87,34 @@
                                     </h3>
                                     <div class="input-group">
                                         <form action="<%=request.getContextPath()%>/EstateAutoCreate1" >
-                                                <div  style="display: ${getBlock}">
-                                                    
-                                                        <label for="in-1" class="control-label">Tên Block</label>
-                                                        <input type="hidden" name="projectID" value="${projectID}">
-                                                        <input id="in-1" required type="text" name="block" data-placeholder="---" class="form-control">
-                                                        <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
-                                                            <div class="parsley-required"></div>
-                                                        </div>
-                                                  
-                                                    
-                                                        <label for="in-1" class="control-label">Số Căn Hộ Của Từng Tầng</label>
-                                                        <input id="in-1" required type="number" name="estateNumber" data-placeholder="---" class="form-control">
-                                                        <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
-                                                            <div class="parsley-required">${message}</div>
-                                                        </div>
-                                                    </div>
-                                                
-                                                <div >
-                                                    <button type="submit" name="getBlock" value="yes" class="form__submit">Xác Nhận</button>
+                                            <div  style="display: ${getBlock}">
+
+                                                <label for="in-1" class="control-label">Tên Block</label>
+                                                <input type="hidden" name="projectID" value="${projectID}">
+                                                <input id="in-1" required type="text" name="block" data-placeholder="---" class="form-control">
+                                                <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
+                                                    <div class="parsley-required"></div>
                                                 </div>
-                                            </form>  
+
+
+                                                <label for="in-1" class="control-label">Số Căn Hộ Của Từng Tầng</label>
+                                                <input id="in-1" required type="number" name="estateNumber" data-placeholder="---" class="form-control">
+                                                <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
+                                                    <div class="parsley-required">${message}</div>
+                                                </div>
+                                            </div>
+
+                                            <div >
+                                                <button type="submit" name="getBlock" value="yes" class="form__submit">Xác Nhận</button>
+                                            </div>
+                                        </form>  
                                     </div>
 
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
                            
+
                         </div>
                     </div>
                 </div>
@@ -153,7 +153,6 @@
         <!-- jQuery -->
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/jquery/dist/jquery.min.js"></script>
 
-        <!-- Bootstrap Core JavaScript -->
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
         <!-- Data table JavaScript -->
@@ -195,7 +194,12 @@
         <!-- Init JavaScript -->
         <script src="<%=request.getContextPath()%>/admin/dist/js/init.js"></script>
         <script src="<%=request.getContextPath()%>/admin/dist/js/dashboard-data.js"></script>
-
+        <script type="text/javascript">
+            $(window).on('load', function () {
+                $('#modal').modal('${modal}');
+                $('#modalEdit').modal('${modalEdit}');
+            });
+        </script>
 
     </body>
 

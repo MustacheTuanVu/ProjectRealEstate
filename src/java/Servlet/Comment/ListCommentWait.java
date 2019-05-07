@@ -66,7 +66,7 @@ public class ListCommentWait extends HttpServlet {
         request.setAttribute("listReply", replyController.getReplyWait());
         request.setAttribute("listCommet", commentController.getCommentWait());
         
-        request.getRequestDispatcher("/page/dashboard/employee/dashboard_comment.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin/page/dashboard/employee/comment_waiting.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

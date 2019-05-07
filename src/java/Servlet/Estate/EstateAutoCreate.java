@@ -131,7 +131,7 @@ public class EstateAutoCreate extends HttpServlet {
                             for (int y = 1; y <= Integer.parseInt(request.getParameter("typeNumberFloorF" + i + "Type" + j)); y++) {
                                 index = index + 1;
                                 Estate estate = new Estate();
-                                estate.setId("B" + block + "F" + i + "R" + index);
+                                estate.setId(projectID + block + "F" + i + "R" + index);
                                 estate.setEstateName("Room " + estate.getId() + " Type" + j);
                                 estate.setEstateTypeId(estateTypeJpaController.findEstateType("PR"));
                                 estate.setEstateDescription(project.getProjectContent());

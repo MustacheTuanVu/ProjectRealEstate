@@ -120,8 +120,8 @@ public class CreateProject extends HttpServlet {
                 pro.setProjectAddress(request.getParameter("addressProject"));
                 //pro.setProjectArea(Double.valueOf(request.getParameter("projectArea")));
                 pro.setProjectName(request.getParameter("projectName"));
-                pro.setProjectStatus("Waiting for Director");
-                pro.setStatus("Waiting for Director");
+                pro.setProjectStatus("publish");
+                pro.setStatus("publish");
                 pro.setImage1st(request.getParameter("image1st"));
                 pro.setImage2st(request.getParameter("image2st"));
                 pro.setImage3st(request.getParameter("image3st"));
@@ -129,7 +129,7 @@ public class CreateProject extends HttpServlet {
                 pro.setImage5st(request.getParameter("image5st"));
 
                 proCon.create(pro);
-                System.out.println("Create Project Completed !!!");
+                response.sendRedirect("/ProjectList?user=manager");
             } catch (RollbackFailureException ex) {
                 Logger.getLogger(CreateProject.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {

@@ -44,6 +44,8 @@ public class CommentAction extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             
+            System.out.println("lít comment "+request.getParameter("Comment"));
+            
             EntityManagerFactory em= (EntityManagerFactory) getServletContext().getAttribute("emf");
             
             String action=request.getParameter("action");

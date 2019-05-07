@@ -6,9 +6,11 @@
 package Servlet.Estate;
 
 import Controller.EstateTypeJpaController;
+import Controller.ProjectJpaController;
 import Entity.EstateType;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -58,15 +60,17 @@ public class EstateAutoCreate1 extends HttpServlet {
                 request.setAttribute("role", "manager");
                 session.setAttribute("image", user.getManager().getManagerAddress());
                 EstateTypeJpaController estateType = new EstateTypeJpaController(utx, emf);
+                Controller.ProjectJpaController projectController = new ProjectJpaController(utx, emf);
                 List<EstateType> estateTypeList = estateType.findEstateTypeEntities();
                 request.setAttribute("estateTypeList", estateTypeList);
 
+                
                 String block = null;
                 String estateNumber = null;
                 String estateNumbers = null;
                 String projectID = request.getParameter("projectID");
+                Entity.Project project = projectController.findProject(projectID);
                 request.setAttribute("projectID", projectID);
-                System.out.println(projectID);
                 if (request.getParameter("getBlock") != null) {
                     block = request.getParameter("block");
                     estateNumber = request.getParameter("estateNumber");
@@ -77,7 +81,16 @@ public class EstateAutoCreate1 extends HttpServlet {
                             + "estateNumbers=" + estateNumbers + "&"
                             + "getBlock=yes&"
                             + "estateNumber=" + estateNumber + "");
-                }else{
+                } else {
+
+                    List<String> blockList = new ArrayList<>();
+                    int tam=65;
+                    for (int i = 0; i < project.getBlockNumber(); i++) {
+                        String b=String.valueOf((char)tam++);
+                        blockList.add(b);
+    
+                    }
+                    request.setAttribute("listBlock", blockList);
                     request.getRequestDispatcher("/admin/page/dashboard/manager/create_estate_of_project_1.jsp").forward(request, response);
                 }
             } else {

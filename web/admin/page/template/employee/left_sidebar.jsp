@@ -118,7 +118,16 @@
         <li>
             <a class="<c:if test="${active == 'CategoryList'}">active</c:if>" href="<%=request.getContextPath()%>/CategoryList?user=employee" data-toggle="collapse" data-target="#dashboard_dr">
                 <div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i>
-                    <span class="right-nav-text">Category</span>
+                    <span class="right-nav-text">Thể Loại</span>
+                </div>
+                <div class="clearfix"> 
+                </div>
+            </a>
+        </li>
+        <li>
+            <a class="<c:if test="${active == 'CategoryList'}">active</c:if>" href="<%=request.getContextPath()%>/ListCommentWait?user=employee" data-toggle="collapse" data-target="#dashboard_dr">
+                <div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i>
+                    <span class="right-nav-text">Comment Chờ Duyệt</span>
                 </div>
                 <div class="clearfix"> 
                 </div>
