@@ -17,6 +17,8 @@ import javax.persistence.criteria.Root;
 import Entity.Users;
 import Entity.Post;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
@@ -246,6 +248,32 @@ public class CommentJpaController implements Serializable {
                 + id
                 + "' and status_comment like 'accept'", Comment.class);
         return q.getResultList();
+    }
+    // cuong add
+    public void updateStatusComentDeleteByID(int id) {
+        try {
+            Entity.Comment comment=findComment(id);
+            comment.setStatusComment("delete");
+            
+            edit(comment);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(CommentJpaController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(CommentJpaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    // cuong add
+    public void updateStatusComentAcceptByID(int id) {
+        try {
+            Entity.Comment comment=findComment(id);
+            comment.setStatusComment("accept");
+            
+            edit(comment);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(CommentJpaController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(CommentJpaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // cuong add

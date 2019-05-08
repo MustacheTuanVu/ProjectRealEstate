@@ -4,11 +4,13 @@
     Author     : kiems
 --%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <title>SGEstate24h</title>
@@ -85,7 +87,7 @@
                             <div class="panel-heading">
                                 <div class="pull-left">
                                     <h3 class="txt-dark">
-                                        Danh sách Comment Chờ Duyệt: <input onclick="deleteCommnet()" type="button" value="Xóa" id="btnXoa"/> <input value="Duyệt" type="button" id="btnDuyet"/>
+                                        Danh sách Comment Chờ Duyệt: <input onclick="deleteCommnet(this)" type="button" value="Xóa" id="btnXoa"/> <input onclick="deleteCommnet(this)" value="Duyệt" type="button" id="btnDuyet"/>
                                     </h3>
                                 </div>
                                 <div class="clearfix"></div>
@@ -102,7 +104,7 @@
                                                         <th>Nội Dung</th>
                                                         <th>Loại </th>
 
-                                                        <th>Chi Tiết</th>
+                                                        <th>Ngày Bình Luận</th>
                                                     </tr>
                                                 </thead>
 
@@ -120,23 +122,18 @@
                                                         </c:if>
                                                         <td><textarea rows="5" cols="40">${item.content}</textarea>
                                                         </td>
-                                                        <td> Comment &nbsp;${item.idComment}</td>
+                                                        <td> Bình Luận</td>
 
                                                         <td>
-
-                                                            <a class="btn btn-primary" onclick="return (confirm('Bạn Muốn Duyệt Comment !!!'))" href="<%=request.getContextPath()%>/CommentAction?action=acceptComment&id=${item.idComment}" class="form__submit">
-                                                                Duyệt
-                                                            </a>
-                                                            <a class="btn btn-primary" onclick="return (confirm('Bạn Muốn Xóa Comment !!!'))" href="<%=request.getContextPath()%>/CommentAction?action=deleteComment&id=${item.idComment}" class="form__submit">
-                                                                Xóa
-                                                            </a>
+                                                            <fmt:formatDate pattern="dd-MM-yyyy" value="${item.dateComment}" var="day"/>
+                                                            ${day}
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
                                                 <c:forEach items="${listReply}" var="item">
                                                     <tr>
                                                         <td>
-                                                            <input type="checkbox" id="ckbReply" name="ckbReply" value="${item.idComment}" />
+                                                            <input type="checkbox" id="ckbReply" name="ckbReply" value="${item.idReply}" />
                                                         </td>
                                                         <c:if test="${item.roleReply=='guest'}">
                                                             <td>${item.emailReply}</td>
@@ -144,18 +141,13 @@
                                                         <c:if test="${item.roleReply=='customer'}">
                                                             <td>${item.idUser.customer.customerName}</td>
                                                         </c:if>
-                                                        <td><textarea rows="5" cols="30">${item.content}</textarea>
+                                                        <td><textarea rows="5" cols="40">${item.content}</textarea>
                                                         </td>
-                                                        <td> Trả Lời Comment</td>
+                                                        <td> Trả Lời Bình Luận</td>
 
                                                         <td>
-
-                                                            <a class="btn btn-primary" onclick="return (confirm('Bạn Muốn Duyệt Comment !!!'))" href="<%=request.getContextPath()%>/CommentAction?action=acceptComment&id=${item.idComment}" class="form__submit">
-                                                                Duyệt
-                                                            </a>
-                                                            <a class="btn btn-primary" onclick="return (confirm('Bạn Muốn Xóa Comment !!!'))" href="<%=request.getContextPath()%>/CommentAction?action=deleteComment&id=${item.idComment}" class="form__submit">
-                                                                Xóa
-                                                            </a>
+                                                            <fmt:formatDate pattern="dd-MM-yyyy" value="${item.dateReply}" var="day"/>
+                                                            ${day}
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -234,36 +226,54 @@
         <script src="<%=request.getContextPath()%>/admin/dist/js/dashboard-data.js"></script>
 
         <script>
-                                                                function deleteCommnet() {
-
-
-                                                                    var xhttp = new XMLHttpRequest();
-                                                                    xhttp.onreadystatechange = function () {
-                                                                        // get lít comment
-                                                                        var comment = document.getElementsByName('ckbCommnet')
-                                                                        var reply = document.getElementById('ckbReply')
-
-                                                                        var listComment = new Array();
-                                                                        for (var i = 0; i < comment.length; i++) {
-                                                                            if (comment[i].checked === true) {
-                                                                                listComment[i] = comment[i].value;
-                                                                                console.log(listComment[i]);
-                                                                            }
-                                                                        }
-
-                                                                        if (this.readyState == 4 && this.status == 200) {
-                                                                            //document.getElementById("demo").innerHTML = this.responseText;
-                                                                            alert('Xóa Thành Công !!!');
-                                                                        }
-                                                                    };
-                                                                    xhttp.open("GET", "CommentAction?Comment=" + listComment, true);
-                                                                    xhttp.send();
-
-                                                                }
+                                            function deleteCommnet(action) {
+                                                var action1 = action.value
+                                                var comment = document.getElementsByName('ckbCommnet');
+                                                var reply = document.getElementsByName('ckbReply');
+                                                var dem = 0;
+                                                var a = null;
+                                                var b = null;
+                                                var listComment = new Array();
+                                                for (var i = 0; i < comment.length; i++) {
+                                                    if (comment[i].checked === true) {
+                                                        listComment[i] = comment[i].value;
+                                                        dem++;
+                                                    }
+                                                }
+                                                var listReply = new Array();
+                                                for (var i = 0; i < reply.length; i++) {
+                                                    if (reply[i].checked === true) {
+                                                        listReply[i] = reply[i].value;
+                                                        dem++;
+                                                    }
+                                                }
+                                                if (dem === 0) {
+                                                    alert('Bạn Chưa Chọn !!!');
+                                                    return;
+                                                }
+                                                if (action1 === ('Xóa')) {
+                                                    a = confirm('Bạn Muốn Xóa ' + dem + ' Bình Luận !!!');
+                                                    b = 'Xóa Thành Công !!!';
+                                                }
+                                                else {
+                                                    action1 = 'Duyet';
+                                                    a = confirm('Bạn Muốn Duyệt ' + dem + ' Bình Luận !!!');
+                                                    b = 'Duyệt Thành Công !!!';
+                                                }
+                                                if (a == true) {
+                                                    var xhttp = new XMLHttpRequest();
+                                                    xhttp.onreadystatechange = function () {
+                                                        if (this.readyState == 4 && this.status == 200) {
+                                                            //document.getElementById("demo").innerHTML = this.responseText;
+                                                            alert(b);
+                                                            window.location.reload();
+                                                        }
+                                                    };
+                                                    xhttp.open("POST", "CommentAction?action=" + action1 + "&Comment=" + listComment + "&Reply=" + listReply, true);
+                                                    xhttp.send();
+                                                }
+                                            }
         </script>
-
-
     </body>
-
 </html>
 
