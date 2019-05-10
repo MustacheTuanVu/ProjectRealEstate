@@ -7,6 +7,7 @@ package Servlet.User;
 
 import Controller.CustomerJpaController;
 import Controller.EmployeeJpaController;
+import Controller.ManagerJpaController;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.RollbackFailureException;
 import Entity.Customer;
@@ -127,7 +128,7 @@ public class CustomerDetails extends HttpServlet {
             case "employee":
                 try {
                     EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-                    Controller.EmployeeJpaController employeeControl = new EmployeeJpaController(utx, emf);
+                    EmployeeJpaController employeeControl = new EmployeeJpaController(utx, emf);
                     String id = request.getParameter("txtID");
                     Entity.Employee employee = employeeControl.findEmployee(Integer.valueOf(id));
 
@@ -144,6 +145,34 @@ public class CustomerDetails extends HttpServlet {
                     System.out.println("Edit Completed !!!");
 
                     response.sendRedirect(request.getContextPath() + "/EditEmployee");
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(CustomerDetails.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (RollbackFailureException ex) {
+                    Logger.getLogger(CustomerDetails.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(CustomerDetails.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            case "manager":
+                // tang trung add
+                try {
+                    EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+                    ManagerJpaController managerControl = new ManagerJpaController(utx, emf);
+                    String id = request.getParameter("txtID");
+                    Entity.Manager manager = managerControl.findManager(Integer.valueOf(id));
+
+                    manager.setManagerName(request.getParameter("txtName"));
+                    manager.setManagerIndentityCard(request.getParameter("txtCard"));
+                    manager.setManagerAddress(request.getParameter("txtAddress"));
+                    manager.setManagerPhone(request.getParameter("txtPhone"));
+                    manager.setManagerMail(request.getParameter("txtMail"));
+                    manager.setManagerContent(request.getParameter("txtContent"));
+
+                    managerControl.edit(manager);
+
+                    System.out.println("Edit Completed !!!");
+
+                    response.sendRedirect(request.getContextPath() + "/EditManager");
                 } catch (NonexistentEntityException ex) {
                     Logger.getLogger(CustomerDetails.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (RollbackFailureException ex) {
