@@ -231,15 +231,23 @@
                                             <div class="form-group">
                                                 <label for="in-keyword" class="control-label">Quận</label>
                                                 <select name="DistrictF" id="in-contract-type" data-placeholder="---" class="form-control">
-                                                    <option value="all">Ất cả</option>
+                                                    <option value="all">Tất cả</option>
                                                     <option value="1">1</option>
-                                                    <option value="West">Tây</option>
-                                                    <option value="South">Nam</option>
-                                                    <option value="North">Bắc</option>
-                                                    <option value="South">Đông Nam</option>
-                                                    <option value="South">Tây Nam</option>
-                                                    <option value="North-West">Tây Bắc</option>
-                                                    <option value="North-West">Đông Bắc</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="Bình Thạnh">Binh Thanh</option>
+                                                    <option value="Thủ Đức">Thu Duc</option>
+                                                    <option value="Gò Vấp">Go Vap</option>
+                                                    <option value="Hóc Môn">Hoc Mon</option>
 
                                                 </select>
                                             </div>

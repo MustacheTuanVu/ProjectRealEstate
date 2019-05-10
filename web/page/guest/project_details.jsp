@@ -116,12 +116,6 @@
                                 <div class="clearfix"></div>
 
                                 <div class="property__slider">
-
-                                    <div class="property__ribon">Dự án</div>
-
-                                    <div class="property__ribon property__ribon--status property__ribon--done">
-                                        ${find.projectStatus}
-                                    </div>
                                     <div id="properties-thumbs" class="slider slider--small js-slider-thumbs">
                                         <div class="slider__block js-slick-slider">
                                             <div class="slider__item slider__item--0"><a href="${find.image1st}" data-size="1740x960" data-gallery-index='0' class="slider__img js-gallery-item"><img data-lazy="${find.image1st}" src="<%=request.getContextPath()%>/assets/img/lazy-image.jpg" alt="" style="width: 100%; height: 480px"></a></div>
@@ -180,84 +174,98 @@
                                     </div>
                                 </div>      
                                 <div class="widget js-widget widget--details">
-                                    <div class="property__info">
-
-                                        <div class="property__info-item">Quận: <strong> ${find.district}</strong></div>
-                                        <div class="property__info-item">Trạng thái: <strong> ${find.projectStatus}</strong></div>
-                                        <div class="property__info-item">Năm xây dựng: <strong> <fmt:formatDate value="${find.yearBuild}" pattern="yyyy" /></strong></div>
-                                        <div class="property__info-item">Ngày: <strong> <fmt:formatDate value="${find.dateAdd}" pattern="dd/MM/yyyy" /></strong></div>
-
-                                        <div class="property__info-item">Rating : 
-                                            <div class="star-rating">
-                                                <span onclick="checkUserRating(1)" class="fa fa-star-o" data-rating="1"></span>
-                                                <span onclick="checkUserRating(2)" class="fa fa-star-o" data-rating="2"></span>
-                                                <span onclick="checkUserRating(3)" class="fa fa-star-o" data-rating="3"></span>
-                                                <span onclick="checkUserRating(4)" class="fa fa-star-o" data-rating="4"></span>
-                                                <span onclick="checkUserRating(5)" class="fa fa-star-o" data-rating="5"></span>
-                                                <input type="hidden" name="whatever1" class="rating-value" value="${point}">
-                                            </div>
-                                        </div>
-                                        <div class="property__info-item">Status: <strong> ${find.projectStatus}</strong></div>
-                                        <div class="property__info-item">Year build: <strong> <fmt:formatDate value="${find.yearBuild}" pattern="yyyy" /></strong></div>
-                                        <div class="property__info-item">Date add: <strong> <fmt:formatDate value="${find.dateAdd}" pattern="dd/MM/yyyy" /></strong></div>
-
-                                    </div>
+                                    
                                     <div class="property__plan">
                                         <dl class="property__plan-item">
                                             <dt class="property__plan-icon">
-
-                                                <svg>
-                                                <use xlink:href="#icon-area"></use>
-                                                </svg>
-                                            </dt>
-                                            <dd class="property__plan-title">Số Block</dd>
-
                                             <svg>
                                             <use xlink:href="#icon-area"></use>
                                             </svg>
                                             </dt>
-                                            <dd class="property__plan-title">Block Number</dd>
-
+                                            <dd class="property__plan-title">Số Block</dd>
                                             <dd class="property__plan-value">${find.blockNumber}</dd>
                                         </dl>
                                         <dl class="property__plan-item">
                                             <dt class="property__plan-icon property__plan-icon--window">
 
-                                                <svg>
-                                                <use xlink:href="#icon-window"></use>
-                                                </svg>
+                                            <svg>
+                                            <use xlink:href="#icon-window"></use>
+                                            </svg>
                                             </dt>
                                             <dd class="property__plan-title">Số tầng</dd>
 
                                             <dd class="property__plan-value">${find.floorNumber}</dd>
                                         </dl>
                                         <dl class="property__plan-item">
+                                            <dt class="property__plan-icon property__plan-icon--window">
+
+                                            <svg>
+                                            <use xlink:href="#icon-arrow-left"></use>
+                                            </svg>
+                                            </dt>
+                                            <dd class="property__plan-title">Trạng thái:</dd>
+
+                                            <dd class="property__plan-value">
+                                                <c:choose>
+                                                    <c:when test="${find.projectStatus == 'publish'}">
+                                                        Đang Mở Bán
+                                                    </c:when>
+                                                    <c:when test="${find.projectStatus == 'waitting for director' ||
+                                                                    find.projectStatus == 'waitting for director delete'
+                                                            }">
+                                                        Đang Mở Bán
+                                                    </c:when>
+
+                                                </c:choose>
+                                            </dd>
+                                        </dl>
+                                        <dl class="property__plan-item">
                                             <dt class="property__plan-icon property__plan-icon--bathrooms">
 
-                                                <svg>
-                                                <use xlink:href="#icon-bathrooms"></use>
-                                                </svg>
+                                            <svg>
+                                            <use xlink:href="#icon-bathrooms"></use>
+                                            </svg>
                                             </dt>
-                                            <dd class="property__plan-title">Tên bất động sản</dd>
+                                            <dd class="property__plan-title">Tổng Số Căn Hộ</dd>
 
                                             <dd class="property__plan-value">${countEstate}</dd>
                                         </dl>
                                         <dl class="property__plan-item">
                                             <dt class="property__plan-icon property__plan-icon--garage">
 
-                                                <svg>
-                                                <use xlink:href="#icon-garage"></use>
-                                                </svg>
+                                            <svg>
+                                            <use xlink:href="#icon-garage"></use>
+                                            </svg>
                                             </dt>
-                                            <dd class="property__plan-title">Đơn vị</dd>
+                                            <dd class="property__plan-title">Năm Xây Dựng</dd>
 
-                                            <dd class="property__plan-value">${sumPrice} USD</dd>
+                                            <dd class="property__plan-value"><fmt:formatDate value="${find.yearBuild}" pattern="yyyy" /></dd>
+                                        </dl>
+                                        <dl class="property__plan-item">
+                                            <dt class="property__plan-icon property__plan-icon--garage">
+
+                                            <svg>
+                                            <use xlink:href="#icon-arrow-right"></use>
+                                            </svg>
+                                            </dt>
+                                            <dd class="property__plan-title">Đánh Giá :${countRating} Lượt</dd>
+
+                                            <dd class="property__plan-value">
+                                                <span class="star-rating">
+                                                    <span onclick="checkUserRating(1)" class="fa fa-star-o" data-rating="1"></span>
+                                                    <span onclick="checkUserRating(2)" class="fa fa-star-o" data-rating="2"></span>
+                                                    <span onclick="checkUserRating(3)" class="fa fa-star-o" data-rating="3"></span>
+                                                    <span onclick="checkUserRating(4)" class="fa fa-star-o" data-rating="4"></span>
+                                                    <span onclick="checkUserRating(5)" class="fa fa-star-o" data-rating="5"></span>
+                                                    <input type="hidden" name="whatever1" class="rating-value" value="${point}">
+                                                </span>
+                                            </dd>
                                         </dl>
                                     </div>
                                 </div>
                                 <div class="widget js-widget widget--details">
                                     <div class="widget__header">
-                                        <h2 class="widget__title">Projects Specification & Unit Specifications</h2>
+                                        <h2 class="widget__title">Thông số kỹ thuật dự án & Thông số kỹ thuật đơn vị</h2>
                                     </div>
                                     <div class="widget__content">
                                         <div class="datatable datatable--property">
@@ -265,14 +273,14 @@
                                                 <table class="js-property-table datatable__table table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <td class="datatable__head-1">No.</td>
+                                                            <td class="datatable__head-1">Căn Hộ</td>
                                                             <td class="datatable__head-2 datatable__head-sort">Block</td>
 
                                                             <td class="datatable__head-3 datatable__head-sort">Tầng</td>
-                                                            <td class="datatable__head-4 datatable__head-sort">Diện tích</td>
+                                                            <td class="datatable__head-4 datatable__head-sort">Diện tích(M<sup>2</sup>)</td>
                                                             <td class="datatable__head-5 datatable__head-sort">Phòng ngủ</td>
                                                             <td class="datatable__head-6 datatable__head-sort">Phòng tắm</td>
-                                                            <td class="datatable__head-7 datatable__head-sort">Giá</td>
+                                                            <td class="datatable__head-7 datatable__head-sort">Giá (VNĐ)</td>
                                                             <td class="datatable__head-8 datatable__head-sort">Trạng thái</td>
 
                                                         </tr>
@@ -281,9 +289,9 @@
                                                         <c:forEach items="${estateList}" var="item">
                                                             <tr <c:if test="${item.estateStatus=='project'}">onclick="myFunction(${item.id})"</c:if>
 
-                                                                                                             <c:if test="${item.estateStatus!='project'}">style="background: #cccccc !important"</c:if>>
+                                                                <c:if test="${item.estateStatus!='project'}">style="background: #cccccc !important"</c:if>>
 
-                                                                <td class="datatable__cell datatable__cell--5">${item.id}</td>
+                                                                    <td class="datatable__cell datatable__cell--5">${item.id}</td>
                                                                 <td class="datatable__cell datatable__cell--5">${item.block}</td>
                                                                 <td class="datatable__cell datatable__cell--5">${item.floor}</td>
                                                                 <td class="datatable__cell datatable__cell--5">${item.areas}</td>
@@ -292,9 +300,11 @@
                                                                 <td class="datatable__cell datatable__cell--5">${item.price}</td>
                                                                 <td class="datatable__cell datatable__cell--5">
                                                                     <c:if test="${item.estateStatus=='project'}">
-                                                                        publish
+                                                                        Đang Mở Bán
                                                                     </c:if>
-                                                                    ${item.estateStatus}
+                                                                    <c:if test="${item.estateStatus=='Saled'}">
+                                                                        Đã Bán
+                                                                    </c:if>
                                                                 </td>
                                                             </tr>
                                                         <div id="${item.id}" tabindex="-1" role="dialog" class="modal fade">
@@ -332,28 +342,28 @@
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
 
-                                                                                                <a>Diện tích: </a>${item.areas}
+                                                                                                <a>Diện tích </a>${item.areas}
 
                                                                                             </div>
                                                                                         </li>
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
 
-                                                                                                <a>Phòng ngủ: </a>${item.bedRoom}
+                                                                                                <a>Phòng ngủ </a>${item.bedRoom}
 
                                                                                             </div>
                                                                                         </li>
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
 
-                                                                                                <a>Phòng tắm: </a>${item.bathRoom}
+                                                                                                <a>Phòng tắm </a>${item.bathRoom}
 
                                                                                             </div>
                                                                                         </li>
                                                                                         <li class="activity__item">
                                                                                             <div class="activity__title">
 
-                                                                                                <a>Giá: </a>${item.price}
+                                                                                                <a>Giá  </a>${item.price}
 
                                                                                             </div>
                                                                                         </li>
@@ -361,6 +371,7 @@
                                                                                             <div class="activity__title">
 
                                                                                                 <a>Trạng thái: </a>${item.estateStatus}
+
 
                                                                                             </div>
                                                                                         </li>
@@ -396,11 +407,11 @@
                                         <div class="info info--property">
                                             <div class="info__column">
                                                 <div class="info__donut">
-                                                    <canvas id="property-statistics-units" class="info__chart" width="300" height="300" style="width: 300px !important; height: 300px !important;"></canvas>
+                                                    <canvas  id="property-statistics-units" class="info__chart" width="300" height="300" style=" text-align: center; "></canvas>
 
-                                                    <div class="info__total">Tổng số căn hộ<br> 
+                                                    <div class="info__total">Tổng Căn Hộ Mở Bán<br> 
 
-                                                        <strong id="getUnit" class="info__total-value">${countEstate}</strong>
+                                                        <strong id="getUnit" class="info__total-value">${countEstateUnSold}</strong>
                                                     </div>
                                                 </div>
 
@@ -417,10 +428,12 @@
                                             </div>
                                             <div class="info__column">
                                                 <div class="info__donut">
-                                                    <canvas id="property-statistics-price" class="info__chart" width="300" height="300" style="width: 300px !important; height: 300px !important;"></canvas>
+                                                    <canvas id="property-statistics-price" class="info__chart" width="300" height="300" style=""></canvas>
 
                                                     <div class="info__total">Tổng giá <br>  
-                                                        <strong class="info__total-value">${sumPrice}</strong> </div>
+                                                        <strong class="info__total-value">${sumPrice}</strong><br>
+                                                        VNĐ
+                                                    </div>
                                                 </div>
                                                 <ul class="info__legend">
                                                     <li class="info__legend-item info__legend-item--blue">Tổng giá căn hộ đã bán <br> 
@@ -439,7 +452,7 @@
                             <!-- cuong add ****************** -->
 
                             <div class="comment">
-                                <h3 class="comment__headline">Comments (${totalComment})</h3>
+                                <h3 class="comment__headline">Tổng Bình Luận (${totalComment})</h3>
                                 <div class="comment__wrap">
 
                                     <!--  cuong add -->
@@ -463,13 +476,13 @@
                                                             <button class="comment__item-btn" onclick="deleteCommentOrReply(${listComment.idComment}, 'comment')" >Delete</button>
                                                         </div>
                                                         <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
-                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.employee.employeeName}</span><span class="comment__date">${dateComment}</span>
+                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.employee.employeeName} - <strong>Admin</strong></span><span class="comment__date">${dateComment}</span>
                                                             <div class="comment__content">
                                                                 <p>${listComment.content}</p>
                                                             </div>
-                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
-                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
-                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Trả Lời</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Hiện</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Ẩn</button>
                                                         </div>
                                                     </c:if>
                                                     <!-- login employee and display info customer -->
@@ -483,9 +496,9 @@
                                                             <div class="comment__content">
                                                                 <p>${listComment.content}</p>
                                                             </div>
-                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
-                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
-                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Trả Lời</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Hiện</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Ẩn</button>
                                                         </div>
                                                     </c:if>
                                                     <!-- login employee and display info guest -->
@@ -499,9 +512,9 @@
                                                             <div class="comment__content">
                                                                 <p>${listComment.content}</p>
                                                             </div>
-                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
-                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
-                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Trả Lời</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Hiện</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Ẩn</button>
                                                         </div>
                                                     </c:if>
 
@@ -513,13 +526,13 @@
                                                         <div class="comment__avatar"><img width="64px" height="64px" src="${listComment.idUser.employee.employeeImg}" alt=""></div>
 
                                                         <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
-                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.employee.employeeName}</span><span class="comment__date">${dateComment}</span>
+                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.employee.employeeName} - <strong>Admin</strong></span><span class="comment__date">${dateComment}</span>
                                                             <div class="comment__content">
                                                                 <p>${listComment.content}</p>
                                                             </div>
-                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
-                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
-                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Trả Lời</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Hiện</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Ẩn</button>
                                                         </div>
                                                     </c:if>
                                                     <!-- login other and display info customer -->
@@ -531,9 +544,9 @@
                                                             <div class="comment__content">
                                                                 <p>${listComment.content}</p>
                                                             </div>
-                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
-                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
-                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Trả Lời</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Hiện</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Ẩn</button>
                                                         </div>
                                                     </c:if>
                                                     <!-- login other and display info guest -->
@@ -545,9 +558,9 @@
                                                             <div class="comment__content">
                                                                 <p>${listComment.content}</p>
                                                             </div>
-                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
-                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
-                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Trả Lời</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Hiện</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Ẩn</button>
                                                         </div>
                                                     </c:if>
                                                     <%
@@ -560,13 +573,13 @@
                                                         <div class="comment__avatar"><img width="64px" height="64px" src="${listComment.idUser.employee.employeeImg}" alt=""></div>
 
                                                         <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
-                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.employee.employeeName}</span><span class="comment__date">${dateComment}</span>
+                                                        <div class="comment__info"><span class="comment__author">${listComment.idUser.employee.employeeName} - <strong>Admin</strong></span><span class="comment__date">${dateComment}</span>
                                                             <div class="comment__content">
                                                                 <p>${listComment.content}</p>
                                                             </div>
-                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
-                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
-                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Trả Lời</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Hiện</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Ẩn</button>
                                                         </div>
                                                     </c:if>
                                                     <!-- no login and display info customer -->
@@ -578,9 +591,9 @@
                                                             <div class="comment__content">
                                                                 <p>${listComment.content}</p>
                                                             </div>
-                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
-                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
-                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Trả Lời</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Hiện</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Ẩn</button>
                                                         </div>
                                                     </c:if>
                                                     <!-- no login and display info guest -->
@@ -592,9 +605,9 @@
                                                             <div class="comment__content">
                                                                 <p>${listComment.content}</p>
                                                             </div>
-                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Reply</button>
-                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Show More</button>
-                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Hidden</button>
+                                                            <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Trả Lời</button>
+                                                            <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Hiện</button>
+                                                            <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Ẩn</button>
                                                         </div>
                                                     </c:if>
                                                     <% }%>
@@ -611,6 +624,7 @@
                                     </ul>
                                     <div class="comment__footer">
                                         <!-- BEGIN PAGINATION-->
+                                        <!--  Phân Trang
                                         <nav class="listing__pagination">
                                             <ul class="pagination-custom">
                                                 <li><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span><span class="sr-only">Previous</span></a></li>
@@ -624,35 +638,36 @@
                                                 <li><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span><span class="sr-only">Next</span></a></li>
                                             </ul>
                                         </nav>
+                                        -->
                                         <!-- END PAGINATION-->
 
                                         <div class="comment__form" >
                                             <!-- form thu 1 -->
                                             <div id="formReply" style="display: none">
                                                 <div class="comment__form js-form-comment-wrap">
-                                                    <h3 class="comment__form-title">Reply comment</h3>
-                                                    <form method="POST" action="<%=request.getContextPath()%>/ProjectDetails?action=reply" class="form form--flex js-parsley form--comment"><span class="comment__form-headline">Your email address will not be published. Required fields are marked *</span>
+                                                    <h3 class="comment__form-title">Để lại một bình luận</h3>
+                                                    <form method="POST" action="<%=request.getContextPath()%>/ProjectDetails?action=reply" class="form form--flex js-parsley form--comment">
                                                         <div class="row">
                                                             <input type="hidden"  name="txtIdComment" id="txtIdComment" />
                                                             <%
                                                                 if (session.getAttribute("user") == null) {
                                                             %>
                                                             <div class="form-group form-group--col-6">
-                                                                <label for="in-comment-name" class="form__label control-label required">Your Name</label>
+                                                                <label for="in-comment-name" class="form__label control-label required">Họ Tên <span style="color: red"> *</span></label>
                                                                 <input type="text" name="txtNameReply" id="in-comment-name" required class="form-control form__in form__in--text">
                                                             </div>
                                                             <div class="form-group form-group--col-6">
-                                                                <label for="in-comment-email" class="form__label control-label">E-mail</label>
+                                                                <label for="in-comment-email" class="form__label control-label">Địa Chỉ Mail <span style="color: red"> *</span></label>
                                                                 <input type="email" name="txtEmailReply" id="in-comment-email" required class="form-control form__in form__in--text">
                                                             </div>
                                                             <% }%>
                                                             <div class="form-group">
-                                                                <label for="in-comment-message" class="form__label control-label">Message</label>
+                                                                <label for="in-comment-message" class="form__label control-label">Nôi Dung <span style="color: red"> *</span></label>
                                                                 <textarea id="in-comment-message" name="txtReplyContent" required class="form-control form__in form__in--textarea"></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="row row--buttons">
-                                                            <button type="submit" id="btnPost" class="form__submit" >Post comment</button>
+                                                            <button type="submit" id="btnPost" class="form__submit" >Gửi</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -662,9 +677,9 @@
                                             <!-- end of block .comment__form-->
                                         </div>
                                         <!-- form thu 2 -->
-                                        <h3 class="comment__form-title">Leave a comment</h3>
+                                        <h3 class="comment__form-title">Để lại một bình luận</h3>
                                         <div class="comment__form">
-                                            <form method="POST" action="<%=request.getContextPath()%>/ProjectDetails?action=comment" class="form form--flex js-parsley form--comment"><span class="comment__form-headline">Your email address will not be published. Required fields are marked *</span>
+                                            <form method="POST" action="<%=request.getContextPath()%>/ProjectDetails?action=comment" class="form form--flex js-parsley form--comment">
                                                 <div class="row">
                                                     <input type="hidden" name="txtIDProject" value="${find.projectId}" />
                                                     <%
@@ -672,21 +687,21 @@
                                                     %>
                                                     <div class="form-group form-group--col-6">
 
-                                                        <label for="in-comment-name" class="form__label control-label required">Your Name</label>
+                                                        <label for="in-comment-name" class="form__label control-label required">Họ Tên <span style="color: red"> *</span></label>
                                                         <input name="txtNameComment" type="text" id="in-comment-name" required class="form-control form__in form__in--text">
                                                     </div>
                                                     <div class="form-group form-group--col-6">
-                                                        <label for="in-comment-email" class="form__label control-label">E-mail</label>
+                                                        <label for="in-comment-email" class="form__label control-label"> Địa Chỉ Mail <span style="color: red"> *</span></label>
                                                         <input type="email" name="txtEmailComment" id="in-comment-email" required class="form-control form__in form__in--text">
                                                     </div>
                                                     <% }%>
                                                     <div class="form-group">
-                                                        <label for="in-comment-message" class="form__label control-label">Message</label>
+                                                        <label for="in-comment-message" class="form__label control-label">Nội Dung <span style="color: red"> *</span></label>
                                                         <textarea id="in-comment-message" name="txtComment" required class="form-control form__in form__in--textarea"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="row row--buttons">
-                                                    <button type="submit" id="btnPost" class="form__submit" >Post comment</button>
+                                                    <button type="submit" id="btnPost" class="form__submit" >Gửi</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -728,20 +743,14 @@
                                                 <div class="worker__intro-row">
                                                     <div class="worker__intro-col">
                                                         <div class="worker__contacts">
-
-                                                            <div class="tel"><span class="type">Số điện thoại</span><a href="tel:${manager.managerPhone}" class="uri value">${manager.managerPhone}</a></div>
-                                                            <div class="email"><span class="type">Địa chỉ email</span><a href="mailto:${manager.managerMail}" class="uri value">${manager.managerMail}</a></div>
-                                                            <div class="skype"><span class="type">Địa chỉ</span><a href="skype:Walkenboy?call" class="uri value"> ${manager.managerAddress}</a></div>
-
+                                                            <h3>Thông Tin Liên Hệ</h3>
+                                                            <div class="tel"> ${manager.managerPhone}</div>
+                                                            <div class="email">${manager.managerMail}</a></div>
                                                         </div>
                                                         <!-- end of block .worker__contacts-->
                                                     </div>
                                                 </div>
-                                                <div class="worker__intro-row">
-                                                    <div class="worker__descr">
-                                                        <p>${manager.managerContent}</p>
-                                                    </div>
-                                                </div>
+
                                             </div>
                                             <div class="clearfix"></div>
                                         </div>
@@ -822,7 +831,7 @@
                                                                 ;
                                                                 function deleteCommentOrReply(idComment, action) {
 
-                                                                    var result = confirm('Are You Sure Delete Comment !!!');
+                                                                    var result = confirm('Bạn Có Muốn Xóa Bình Luận !!!');
                                                                     if (result == true) {
                                                                         var xhttp = new XMLHttpRequest();
                                                                         xhttp.onreadystatechange = function () {

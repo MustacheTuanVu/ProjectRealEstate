@@ -180,7 +180,7 @@
                                     <div class="panel-body">
                                         <div class="col-md-12">
                                             <!-- start form -->
-                                            <form method="POST" action="CustomerDetails" class="form form--flex form--property form--basic js-form-property-1">
+                                            <form onsubmit="return KiemTraBatBuoc()" method="POST" action="CustomerDetails" class="form form--flex form--property form--basic js-form-property-1">
 
                                                 <div id="form-block-1" class="form__block js-form-block">
 
@@ -193,15 +193,17 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="in-2" class="control-label mb-10 text-left">Họ Tên</label>
-                                                            <input  id="in-2" value="${customer.managerName}" readonly required name="txtName" data-placeholder="---" value="Lara Group Agency" class="form-control">
+                                                            <input  id="in-2" value="${customer.managerName}"  required name="txtName" data-placeholder="---" value="Lara Group Agency" class="form-control">
+                                                            <span id="tb-hoten"></span>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="in-3" class="control-label mb-10 text-left">CMND</label>
-                                                            <input <c:if test="${customer.managerIndentityCard != 'wait'}"> readonly </c:if> id="in-3" value="${customer.managerIndentityCard}" required name="txtCard" data-placeholder="---" value="Lara Group Agency" class="form-control">
+                                                            <input <c:if test="${customer.managerIndentityCard != 'wait'}"> </c:if> id="in-3" value="${customer.managerIndentityCard}" required name="txtCard" data-placeholder="---" value="Lara Group Agency" class="form-control">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="in-4" class="control-label mb-10 text-left">Địa Chỉ</label>
                                                                 <input id="in-4" value="${customer.managerAddress}" required name="txtAddress" data-placeholder="---" value="Lara Group Agency" class="form-control">
+                                                            <span id="tb-diachi"></span>
                                                             <!-- end of block .form-property__control-->
                                                         </div>
                                                     </div>
@@ -214,15 +216,17 @@
                                                         <div class="form-group">
                                                             <label for="in-11" class="control-label mb-10 text-left">Điện Thoại</label>
                                                             <input id="in-11" name="txtPhone" value="${customer.managerPhone}" type="text" required value="adam.svenson@realtyspace.com" class="form-control">
+                                                            <span id="tb-dienthoai"></span>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="in-12" class="control-label mb-10 text-left">Email</label>
                                                             <input id="in-12" name="txtMail" value="${customer.managerMail}" type="email" placeholder="" required value="adam.svenson@realtyspace.com" class="form-control">
+                                                            <span id="tb-email"></span>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <header class="form__header">
-                                                    <h3 data-rel="#form-block-3" class="form__title js-form-title">Giới Thiệu</h3>
+                                                    <h3 data-rel="#form-block-3" class="form__title js-form-title">Giới Thiệu Bản Thân</h3>
                                                 </header>
                                                 <div id="form-block-3" class="form__block js-form-block">
                                                     <div class="row">
@@ -270,7 +274,8 @@
                                                         </div>
                                                         <div class="col-sm-12 col-md-6 col-lg-8">
                                                             <h5>HINT</h5>
-                                                            <p>Password hint. A reminder to you of how you made up your password. Some systems let you enter a password hint so that if you forget your password, the hint will be displayed to help jog your memory. For example, if your password is your child's birthday, you might use "Alfred" or "Nicole" as a reminder.</p>
+                                                            <p> Gợi ý mật khẩu. Một lời nhắc nhở cho bạn về cách bạn tạo mật khẩu của bạn. Một số hệ thống cho phép bạn nhập một gợi ý mật khẩu để nếu bạn quên mật khẩu, gợi ý sẽ được hiển thị để giúp chạy bộ nhớ của bạn. Ví dụ: nếu mật khẩu của bạn là ngày sinh nhật của con bạn, bạn có thể sử dụng "Alfred" hoặc "Nicole" làm lời nhắc.
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -344,7 +349,73 @@
 
         <!-- Init JavaScript -->
         <script src="<%=request.getContextPath()%>/admin/dist/js/init.js"></script>
+
+        <script type="text/javascript">
+                                               var TB_SPACE = "Vui lòng nhập vào kí tự";
+                                               var TB_KITU = "Vui lòng nhập số kí tự trong khoảng";
+                                               var TB_SO = "Vui lòng kiểm tra số điện thoại";
+                                               var TB_Email = "Vui lòng kiểm tra lại email";
+                                               function KiemTraSoKiTu(idTextBox, idThongBao, minLength,
+                                                       maxLength, thongBao) {
+                                                   //alert('OK2'); 
+                                                   // var giaTri = $(idTextBox).val();
+                                                   var giaTri = document.getElementById(idTextBox).value;
+                                                   var tag = document.getElementById(idThongBao);
+                                                   if (giaTri.length < minLength || giaTri.length > maxLength) {
+                                                       tag.style.display = "block";
+                                                       tag.innerHTML = thongBao + " " + minLength + "> " + maxLength;
+                                                       return false;
+                                                   } else {
+                                                       tag.style.display = "none";
+                                                       return true;
+                                                   }
+                                               }
+                                               function KiemTraSoDienThoai(idTextBox, idThongBao, thongBao) {
+                                                   var giaTri = document.getElementById(idTextBox).value;
+                                                   var tag = document.getElementById(idThongBao);
+                                                   var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+                                                   if (vnf_regex.test(giaTri)) {
+                                                       tag.style.display = "none";
+                                                       return true;
+                                                   } else {
+                                                       tag.style.display = "block";
+                                                       tag.innerHTML = thongBao;
+                                                       return false;
+                                                   }
+                                               }
+                                               function KiemTraEmail(idTextBox, idThongBao, thongBao) {
+                                                   var patt = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                                                   var giaTri = $('#' + idTextBox).val();
+                                                   console.log(giaTri);
+                                                   var tag = document.getElementById(idThongBao);
+                                                   if (patt.test(giaTri)) {
+                                                       tag.style.display = "none";
+                                                       return true;
+                                                   } else {
+                                                       tag.style.display = "block";
+                                                       tag.innerHTML = thongBao;
+                                                       return false;
+                                                   }
+                                               }
+                                               function KiemTraBatBuoc() {
+                                                   if (KiemTraSoKiTu('in-2', 'tb-hoten', 5, 20, TB_KITU)
+                                                           && KiemTraSoKiTu('in-4', 'tb-diachi', 20, 100, TB_KITU)
+                                                           && KiemTraSoDienThoai('in-11', 'tb-dienthoai', TB_SO)
+                                                           && KiemTraEmail('in-12', 'tb-email', TB_Email)) {
+                                                       return true;
+                                                   } else {
+                                                       return false;
+                                                   }
+                                               }
+//            $('#btnLuu').click(function(){{
+//                 KiemTraSoKiTu('in-2', 'tb-hoten', 5, 15, TB_SPACE);
+//                 alert('OK');
+//            })
+                                               //document.getElementById("btnLuu").addEventListener("click",function(){
+                                               //alert('OK');
+                                               //KiemTraSoKiTu('in-2', 'tb-hoten', 5, 15, TB_SPACE);
+                                               //});
+        </script>
     </body>
 
 </html>
-

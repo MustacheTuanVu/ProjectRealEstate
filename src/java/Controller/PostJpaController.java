@@ -332,5 +332,13 @@ public class PostJpaController implements Serializable {
         Query q=em.createNativeQuery("select count(x.customer_id) from (select distinct(customer_id) from contract where employee_id='"+empId+"') x");
         return   q.getSingleResult();
     }
+    // cuong add
+    public List<Post> searchPostByFilter(int key,String dateTu,String DateDen,int idCat){
+        EntityManager em = getEntityManager();
+        Query q=em.createNativeQuery("select * from post where post_date >'"+dateTu+"' and post_date < '"+DateDen+"' and post_category = "+idCat+" and employee="+key);
+        
+        
+        return q.getResultList();
+    }
     
 }

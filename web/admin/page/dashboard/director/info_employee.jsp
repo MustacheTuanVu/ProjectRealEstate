@@ -142,7 +142,7 @@
             <!-- /Top Menu Items -->
 
             <!-- Left Sidebar Menu -->
-            <%@ include file="/admin/page/template/employee/left_sidebar.jsp" %>
+            <%@ include file="/admin/page/template/director/left_sidebar.jsp" %>
             <!-- /Left Sidebar Menu -->
 
             <!-- Right Sidebar Menu -->
@@ -163,7 +163,7 @@
                         <!-- Breadcrumb -->
                         <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                             <ol class="breadcrumb">
-                                <li><a href="<%=request.getContextPath()%>/Employee">Admin</a></li>
+                                <li><a href="<%=request.getContextPath()%>/Admin">Admin</a></li>
                                 <li><a href="<%=request.getContextPath()%>/EditEmployee">Thông Tin Cá Nhân</a></li>
                             </ol>
                         </div>
@@ -252,6 +252,7 @@
                                                 <div id="form-block-5" class="form__block js-form-block">
                                                     <div class="row">
                                                         <div class="col-sm-12 col-md-6 col-lg-4">
+                                                            <input name="txtID" type="hidden" value="${customer.id}">
                                                             <div class="row">
                                                                 <div class="form-group ${hasError}">
                                                                     <label for="in-14" class="control-label mb-10 text-left">Mật Khẩu Hiện Tại</label>

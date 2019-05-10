@@ -60,15 +60,18 @@ public class BlogList extends HttpServlet {
 
         String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "";
         request.setAttribute("modal", modal);
+        String modalEdit = (request.getParameter("modalEdit") != null) ? request.getParameter("modalEdit") : "";
+        request.setAttribute("modalEdit", modalEdit);
         String action = (request.getParameter("action") != null) ? request.getParameter("action") : "";
         request.setAttribute("action", action);
+        
+        System.out.println("action "+action);
 
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         Controller.PostJpaController postController = new PostJpaController(utx, emf);
         Controller.CategoryJpaController catController = new CategoryJpaController(utx, emf);
-//            if(request.getParameter("modal")!=null){
-//                request.setAttribute("modal", request.getParameter("modal"));
-//            }
+
+        
         request.setAttribute("listCat", catController.findCategoryEntities());
         request.setAttribute("listPost", postController.getPostByEmployee(user.getEmployee().getId().toString()));
         request.getRequestDispatcher("/admin/page/dashboard/employee/blog.jsp").forward(request, response);
@@ -101,7 +104,36 @@ public class BlogList extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        
+        HttpSession session= request.getSession();
+        Entity.Users user= (Entity.Users) session.getAttribute("user");
+        EntityManagerFactory emf=(EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.PostJpaController postController= new PostJpaController(utx, emf);
+        Controller.CategoryJpaController catController = new CategoryJpaController(utx, emf);
+        
+        if (request.getParameter("cat")== null && request.getParameter("dateTu")== null && request.getParameter("dateDen")== null) {
+            request.setAttribute("listCat", catController.findCategoryEntities());
+        request.setAttribute("listPost", postController.getPostByEmployee(user.getEmployee().getId().toString()));
+        request.getRequestDispatcher("/admin/page/dashboard/employee/blog.jsp").forward(request, response);
+        }else{
+            int cat= Integer.valueOf(request.getParameter("cat"));
+        String dateTu=request.getParameter("dateTu");
+        String dateDen=request.getParameter("dateDen");
+        
+        
+        //postController.searchPostByFilter(key, dateTu, dateDen, cat);
+       
+        request.setAttribute("listCat", catController.findCategoryEntities());
+        request.setAttribute("listPost", postController.searchPostByFilter(user.getEmployee().getId(), dateTu, dateDen, cat));
+        request.getRequestDispatcher("/admin/page/dashboard/employee/blog.jsp").forward(request, response);
+        }
+        
+        
+        
+        
+        
+        
     }
 
     /**

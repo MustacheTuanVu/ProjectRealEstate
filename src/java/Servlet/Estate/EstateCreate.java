@@ -6,6 +6,7 @@
 package Servlet.Estate;
 
 import Controller.AssignDetailsJpaController;
+import Controller.EmployeeJpaController;
 import Controller.EstateJpaController;
 import Controller.EstateStatusJpaController;
 import Controller.EstateTypeJpaController;
@@ -14,6 +15,7 @@ import Controller.FeaturesJpaController;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
 import Entity.AssignDetails;
+import Entity.Employee;
 import Entity.Estate;
 import Entity.EstateStatus;
 import Entity.EstateType;
@@ -24,8 +26,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -83,15 +87,14 @@ public class EstateCreate extends HttpServlet {
         Entity.Users user = (Entity.Users) session.getAttribute("user");
         if (user != null) {
             System.out.println("1.1");
-            if (user.getRole().equals("employee")) {
+            if (user.getRole().equals("director")) {
                 request.setAttribute("user", "user");
                 request.setAttribute("displayLogin", "none");
                 request.setAttribute("displayUser", "block");
 
-                session.setAttribute("name", user.getEmployee().getEmployeeName());
-                request.setAttribute("role", "employee");
-                session.setAttribute("image", user.getEmployee().getEmployeeImg());
-                
+                session.setAttribute("name", "Boss");
+                request.setAttribute("role", "director");
+                session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
 
                 EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
                 EntityManager em = emf.createEntityManager();
@@ -124,7 +127,7 @@ public class EstateCreate extends HttpServlet {
 
                     String direction = request.getParameter("direction");
                     String block = "none";
-                    String address1 = request.getParameter("address1");
+                    String address1 = "aaaaa";
                     String address2 = request.getParameter("address2");
 
                     String yearBuild = request.getParameter("yearBuild"); //NOTE
@@ -161,7 +164,13 @@ public class EstateCreate extends HttpServlet {
                         estate.setBedRoom(bedRoom);
                         estate.setBathRoom(bathRoom);
                         estate.setGarages(garages);
-                        estate.setPrice(price);
+                        
+                        if(estateStatusId == 1){
+                            estate.setPrice(price * 1000000);
+                        }else if(estateStatusId == 2){
+                            estate.setPrice(price * 1000000000);
+                        }
+                        
                         estate.setAreas(areas);
                         estate.setEstateDescription(estateDescription);
                         estate.setEstateContent(estateContent);
@@ -174,10 +183,10 @@ public class EstateCreate extends HttpServlet {
                         estate.setBlock(block);
                         estate.setAddress1(address1);
                         estate.setAddress2(address2);
-                        estate.setEstateStatus("waitting for director create");
+                        estate.setEstateStatus("publish");
                         estate.setDistrict(request.getParameter("district"));
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
                         Date day;
                         try {
                             day = sdf.parse(yearBuild);
@@ -224,11 +233,12 @@ public class EstateCreate extends HttpServlet {
                             }
                         }
 
-
                         AssignDetailsJpaController assignDetailsControl = new AssignDetailsJpaController(utx, emf);
                         AssignDetails assignDetails = new AssignDetails();
                         assignDetails.setEstateId(estate);
-                        assignDetails.setEmployeeId(user.getEmployee());
+                        int employeeID = Integer.parseInt(request.getParameter("employeeID"));
+                        EmployeeJpaController employeeJpaController = new EmployeeJpaController(utx, emf);
+                        assignDetails.setEmployeeId(employeeJpaController.findEmployee(employeeID));
                         try {
                             assignDetails.setDateTo(sdff.parse(date.toString()));
                         } catch (ParseException ex) {
@@ -258,11 +268,43 @@ public class EstateCreate extends HttpServlet {
                     List<Features> featuresList = featuresStatusControl.findFeaturesEntities();
                     request.setAttribute("featuresList", featuresList);
 
+                    EmployeeJpaController employeeJpaController = new EmployeeJpaController(utx, emf);
+                    request.setAttribute("employeeList", employeeJpaController.findEmployeeEntities());
+
+                    /*-------------------------------------------------*/
+                    List<Employee> employeeList = employeeJpaController.findEmployeeEntities();
+                    Map<String, Integer> countEstateByEmployee = new HashMap<>();
+                    for (Employee employee : employeeList) {
+                        int size = 0;
+                        size = employeeJpaController.getEstatePublicByEmployeeID(employee.getId()).size();
+                        countEstateByEmployee.put(
+                                employee.getId().toString(),
+                                size
+                        );
+                    }
+                    request.setAttribute("countEstateByEmployee", countEstateByEmployee);
+                    request.setAttribute("countEstateByEmployeeSize", countEstateByEmployee.size());
+                    /*-------------------------------------------------*/
+
+                    /*-------------------------------------------------*/
+                    List<Employee> employeeList2 = employeeJpaController.findEmployeeEntities();
+                    Map<String, Integer> countEstateSoldByEmployee = new HashMap<>();
+                    for (Employee employee : employeeList2) {
+                        int size = 0;
+                        size = employeeJpaController.getEstateSoldByEmployeeID(employee.getId()).size();
+                        countEstateSoldByEmployee.put(
+                                employee.getId().toString(),
+                                size
+                        );
+                    }
+                    request.setAttribute("countEstateSoldByEmployee", countEstateSoldByEmployee);
+                    request.setAttribute("countEstateSoldByEmployeeSize", countEstateSoldByEmployee.size());
+
                     String modal = "hidden";
                     modal = request.getParameter("modal");
                     request.setAttribute("modal", modal);
                     System.out.println("ooooooooooooo");
-                    request.getRequestDispatcher("/admin/page/dashboard/employee/create_estate.jsp").forward(request, response);
+                    request.getRequestDispatcher("/admin/page/dashboard/director/create_estate.jsp").forward(request, response);
                 }
                 System.out.println("5");
             } else {
@@ -285,7 +327,7 @@ public class EstateCreate extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-processRequest(request, response);
+        processRequest(request, response);
 //        HttpSession session = request.getSession();
 //        Entity.Users user = (Entity.Users) session.getAttribute("user");
 //

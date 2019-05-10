@@ -9,11 +9,7 @@ import Controller.CategoryJpaController;
 import Controller.PostJpaController;
 import Controller.exceptions.RollbackFailureException;
 import Entity.Category;
-import Entity.Employee;
-import Entity.Post;
-import Entity.Users;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
@@ -60,7 +56,7 @@ public class EditBlog extends HttpServlet {
                 /*-----------------------------------------------------------*/
 
                 String action = request.getParameter("action");
-                int idPost = Integer.valueOf(request.getParameter("id"));
+                int idPost = Integer.valueOf(request.getParameter("idPost"));
                 EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
                 Controller.PostJpaController postController = new PostJpaController(utx, emf);
 
@@ -69,7 +65,7 @@ public class EditBlog extends HttpServlet {
                         Controller.CategoryJpaController catController = new CategoryJpaController(utx, emf);
                         request.setAttribute("list", catController.findCategoryEntities());
                         request.setAttribute("post", postController.findPost(idPost));
-                        request.getRequestDispatcher("/page/dashboard/employee/dashboard_blog_edit.jsp").forward(request, response);
+                        request.getRequestDispatcher("/admin/page/dashboard/employee/edit_blog.jsp").forward(request, response);
                         break;
                     case "delete":
                         postController.destroy(idPost);
@@ -121,7 +117,8 @@ public class EditBlog extends HttpServlet {
             Entity.Users user = (Entity.Users) session.getAttribute("user");
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             Controller.PostJpaController postController = new PostJpaController(utx, emf);
-            Entity.Post post = postController.findPost(Integer.valueOf(request.getParameter("txtID")));
+            
+            Entity.Post post = postController.findPost(Integer.valueOf(request.getParameter("idPost")));
 
             //post.setEmployee(new Employee(user.getEmployee().getId()));
             post.setPostCategory(new Category(Integer.valueOf(request.getParameter("cat"))));
@@ -130,9 +127,8 @@ public class EditBlog extends HttpServlet {
             post.setPostTilte(request.getParameter("title"));
 
             postController.edit(post);
-            System.out.println("Edit Completed !!!");
 
-            response.sendRedirect(request.getContextPath() + "/BlogList?action=Edit&modal=show");
+            response.sendRedirect(request.getContextPath() + "/BlogList?action=Edit&modalEdit=show");
         } catch (RollbackFailureException ex) {
             Logger.getLogger(EditBlog.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

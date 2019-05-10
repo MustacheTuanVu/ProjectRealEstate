@@ -190,7 +190,7 @@
 
                                     </span>
                                 </c:if>
-                                <c:if test="${PriceFrom !='0' || PriceTo !='500000'}">
+                                <c:if test="${PriceFrom !='0' || PriceTo !='10000000000'}">
                                     <span class="listing__param-item">
                                         <span class="glyphicon glyphicon-filter"></span>
 
@@ -249,7 +249,7 @@
 
                                                                 </figure>
                                                             </a>
-                                                            <span class="properties__ribon">For ${estate.estateStatusId.estateStatusName}</span>
+                                                            <span class="properties__ribon">${estate.estateStatusId.estateStatusName}</span>
                                                             <span class="properties__ribon properties__ribon--status properties__ribon--done">${estate.estateTypeId.typeName}</span>
                                                         </div>
                                                         <!-- end of block .properties__thumb-->
@@ -258,8 +258,6 @@
                                                                     <span class="properties__address-street">${estate.estateName}</span>
                                                                     <span class="properties__address-city">${estate.address2}</span></a>
                                                                 <div class="properties__offer">
-
-                                                                    <!--
                                                                     <div class="properties__offer-column">
                                                                         <div class="properties__offer-label">Hướng nhà</div>
 
@@ -267,15 +265,22 @@
                                                                             <strong> ${estate.direction}</strong>
                                                                         </div>
                                                                     </div>
-
-                                                                    -->
                                                                     <div class="properties__offer-column">
                                                                         <div class="properties__offer-label">Giá</div>
-                                                                        <div class="properties__offer-value"><strong>${estate.price} VND</strong>
-                                                                                <c:if test = "${estate.estateStatusId.estateStatusName == 'Rent'}">
+                                                                        <c:set var="price" value="${estate.price}"/>
+                                                                        <c:set var="priceRent" value="${price/1000000}"/>
+                                                                        <c:set var="priceSale" value="${price/1000000000}"/>
+                                                                        <c:if test = "${estate.estateStatusId.estateStatusName == 'Cho thuê'}">
+                                                                            <div class="properties__offer-value">
+                                                                                <strong>${priceRent} Triệu VND</strong>
                                                                                 <span class="properties__offer-period">/tháng</span>
-                                                                            </c:if>
-                                                                        </div>
+                                                                            </div>
+                                                                        </c:if>
+                                                                        <c:if test = "${estate.estateStatusId.estateStatusName == 'Bán'}">
+                                                                            <div class="properties__offer-value">
+                                                                                <strong>${priceSale} Tỷ VND</strong>
+                                                                            </div>
+                                                                        </c:if>
                                                                     </div>
                                                                 </div>
                                                                 <div class="properties__params--mob"><a href="#" class="properties__more">Xem chi tiết</a><span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
@@ -362,10 +367,10 @@
                                                     <option value="10">10</option>
                                                     <option value="11">11</option>
                                                     <option value="12">12</option>
-                                                    <option value="Binh Thanh">Binh Thanh</option>
-                                                    <option value="Thu Duc">Thu Duc</option>
-                                                    <option value="Go Vap">Go Vap</option>
-                                                    <option value="Hoc Mon">Hoc Mon</option>
+                                                    <option value="Bình Thạnh">Binh Thanh</option>
+                                                    <option value="Thủ Đức">Thu Duc</option>
+                                                    <option value="Gò Vấp">Go Vap</option>
+                                                    <option value="Hóc Môn">Hoc Mon</option>
 
                                                 </select>
                                             </div>
@@ -441,7 +446,7 @@
                                                 </div>
                                                 <div class="form__inputs js-search-inputs">
                                                     <input name="PriceFrom" type="text" id="in-area-from" placeholder="From" value="0" data-input-type="from" class="form-control js-field-range">
-                                                    <input name="PriceTo" type="text" id="in-area-to" placeholder="To" value="500000"  data-input-type="to" class="form-control js-field-range">
+                                                    <input name="PriceTo" type="text" id="in-area-to" placeholder="To" value="10000000000"  data-input-type="to" class="form-control js-field-range">
                                                 </div>
                                             </div>
                                             <div class="form-group">

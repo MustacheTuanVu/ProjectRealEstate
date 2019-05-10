@@ -545,4 +545,72 @@ public class EmployeeJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public String checkDuplicateCard(String card){
+        EntityManager em = getEntityManager();
+        try {
+            Query query1 = em.createNativeQuery("SELECT count(*) FROM employee where "
+                    + "employee_indentity_card='" + card + "'");
+            Query query2 = em.createNativeQuery("SELECT count(*) FROM manager where "
+                    + "manager_indentity_card='" + card + "'");
+            int ret = ((int) query1.getSingleResult()) + ((int) query2.getSingleResult());
+            if(ret != 0){
+                return "CMND "+card+" đã tồn tại";
+            }
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public String checkDuplicatePhone(String phone){
+        EntityManager em = getEntityManager();
+        try {
+            Query query1 = em.createNativeQuery("SELECT count(*) FROM employee where "
+                    + "employee_phone='" + phone + "'");
+            Query query2 = em.createNativeQuery("SELECT count(*) FROM manager where "
+                    + "manager_phone='" + phone + "'");
+            int ret = ((int) query1.getSingleResult()) + ((int) query2.getSingleResult());
+            if(ret != 0){
+                return "Số điện thoại "+phone+" đã tồn tại";
+            }
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public String checkDuplicateAddress(String address){
+        EntityManager em = getEntityManager();
+        try {
+            Query query1 = em.createNativeQuery("SELECT count(*) FROM employee where "
+                    + "employee_address='" + address + "'");
+            Query query2 = em.createNativeQuery("SELECT count(*) FROM manager where "
+                    + "manager_address='" + address + "'");
+            int ret = ((int) query1.getSingleResult()) + ((int) query2.getSingleResult());
+            if(ret != 0){
+                return "Địa chỉ "+address+" đã tồn tại";
+            }
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public String checkDuplicateEmail(String email){
+        EntityManager em = getEntityManager();
+        try {
+            Query query1 = em.createNativeQuery("SELECT count(*) FROM employee where "
+                    + "employee_mail='" + email + "'");
+            Query query2 = em.createNativeQuery("SELECT count(*) FROM manager where "
+                    + "manager_mail='" + email + "'");
+            int ret = ((int) query1.getSingleResult()) + ((int) query2.getSingleResult());
+            if(ret != 0){
+                return "Email "+email+" đã tồn tại";
+            }
+            return null;
+        } finally {
+            em.close();
+        }
+    }
 }

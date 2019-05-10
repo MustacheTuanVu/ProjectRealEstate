@@ -63,7 +63,7 @@ public class MyListing extends HttpServlet {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
             EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
-            Customer customer = customerControl.findCustomer(users.getId());
+            Customer customer = customerControl.findCustomer(users.getCustomer().getId());
             
             /*-----------------------------------------------------------*/
             

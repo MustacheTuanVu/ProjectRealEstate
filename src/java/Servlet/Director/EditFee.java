@@ -113,7 +113,7 @@ public class EditFee extends HttpServlet {
         // BEGIN NAVBAR HEADER FONTEND //
         List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();
         request.setAttribute("estateTypeList", estateTypeList);
-        request.getRequestDispatcher("/page/dashboard/director/dashboard_fee.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin/page/dashboard/director/dashboard_fee.jsp").forward(request, response);
         // END NAVBAR HEADER FONTEND //
     }
 

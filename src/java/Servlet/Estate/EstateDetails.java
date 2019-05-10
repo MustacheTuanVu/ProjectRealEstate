@@ -166,7 +166,7 @@ public class EstateDetails extends HttpServlet {
             //processRequest(request, response);
             String idEstate =(request.getParameter("idEstate"));
             
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
             
             EntityManagerFactory emf= (EntityManagerFactory) getServletContext().getAttribute("emf");
             Controller.EstateJpaController estateController= new EstateJpaController(utx, emf);

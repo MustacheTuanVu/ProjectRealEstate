@@ -152,6 +152,34 @@ public class CustomerDetails extends HttpServlet {
                     Logger.getLogger(CustomerDetails.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
+            case "director":
+                try {
+                    EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+                    Controller.EmployeeJpaController employeeControl = new EmployeeJpaController(utx, emf);
+                    String id = request.getParameter("txtID");
+                    Entity.Employee employee = employeeControl.findEmployee(Integer.valueOf(id));
+
+                    employee.setEmployeeName(request.getParameter("txtName"));
+                    employee.setEmployeeIndentityCard(request.getParameter("txtCard"));
+                    employee.setEmployeeAddress(request.getParameter("txtAddress"));
+                    employee.setEmployeePhone(request.getParameter("txtPhone"));
+                    employee.setEmployeeMail(request.getParameter("txtMail"));
+                    employee.setEmployeeContent(request.getParameter("txtContent"));
+                    employee.setEmployeeImg(request.getParameter("txtImg"));
+
+                    employeeControl.edit(employee);
+
+                    System.out.println("Edit Completed !!!");
+
+                    response.sendRedirect(request.getContextPath() + "/EditEmployee?employeeID="+id);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(CustomerDetails.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (RollbackFailureException ex) {
+                    Logger.getLogger(CustomerDetails.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(CustomerDetails.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
         }
 
     }
