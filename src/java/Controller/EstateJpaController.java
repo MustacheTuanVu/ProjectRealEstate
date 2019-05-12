@@ -932,4 +932,10 @@ public class EstateJpaController implements Serializable {
         System.out.println("dem "+q.getFirstResult());
         return q.getFirstResult();
     }
+    // cuong add 
+    public int checkInforUser(String idUser){
+        EntityManager em=getEntityManager();
+        Query q=em.createNativeQuery("select count (id) from customer where user_id="+idUser);
+        return q.getFirstResult();
+    }
 }

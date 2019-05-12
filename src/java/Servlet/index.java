@@ -5,6 +5,7 @@
  */
 package Servlet;
 
+import Controller.EstateJpaController;
 import Controller.EstateTypeJpaController;
 import Entity.EstateType;
 import java.io.IOException;
@@ -36,13 +37,20 @@ public class index extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
         Entity.Users user = (Entity.Users) session.getAttribute("user");
+        
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.EstateJpaController estateControl = new EstateJpaController(utx, emf);
+        
+        EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
+        
         if (user != null) {
             request.setAttribute("user", "user");
             request.setAttribute("displayLogin", "none");
@@ -64,21 +72,30 @@ public class index extends HttpServlet {
                     session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
                     break;
                 case "customer":
-                    session.setAttribute("name", user.getCustomer().getCustomerName());
-                    request.setAttribute("role", "customer");
-                    session.setAttribute("image", user.getCustomer().getCustomerImg());
-                    break;
+                    if (estateControl.checkInforUser(user.getId().toString()) == 1) {
+                        session.setAttribute("name", user.getCustomer().getCustomerName());
+                        request.setAttribute("role", "customer");
+                        session.setAttribute("image", user.getCustomer().getCustomerImg());
+                        break;
+                    } else {
+                        session.setAttribute("name", user.getUsername());
+                        request.setAttribute("role", "customer");
+                        // session.setAttribute("image", user.getCustomer().getCustomerImg());
+                        break;
+                    }
+
             }
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
         }
         // END SESSION HEADER FONTEND //
-        
+
         // BEGIN NAVBAR HEADER FONTEND //
-        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
+        String modal = (request.getParameter("modal") != null ? request.getParameter("modal") : "");
+        String modal1 = (request.getParameter("modal1") != null ? request.getParameter("modal1") : "");
         List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();
+        request.setAttribute("modal", modal);
         request.setAttribute("estateTypeList", estateTypeList);
         request.getRequestDispatcher("/index.jsp").forward(request, response);
         // END NAVBAR HEADER FONTEND //
@@ -110,7 +127,7 @@ public class index extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       // processRequest(request, response);
     }
 
     /**

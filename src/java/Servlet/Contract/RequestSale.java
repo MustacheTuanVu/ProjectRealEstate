@@ -61,6 +61,11 @@ public class RequestSale extends HttpServlet {
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
         Users users = (Users) session.getAttribute("user");
+        
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.EstateJpaController estateControl = new EstateJpaController(utx, emf);
+        
+        
         if (users != null) {
             request.setAttribute("user", "user");
             request.setAttribute("displayLogin", "none");
@@ -82,18 +87,33 @@ public class RequestSale extends HttpServlet {
                     session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
                     break;
                 case "customer":
-                    session.setAttribute("name", users.getCustomer().getCustomerName());
-                    request.setAttribute("role", "customer");
-                    session.setAttribute("image", users.getCustomer().getCustomerImg());
-                    break;
+                     if (estateControl.checkInforUser(users.getId().toString()) == 1) {
+                        session.setAttribute("name", users.getCustomer().getCustomerName());
+                        request.setAttribute("role", "customer");
+                        session.setAttribute("image", users.getCustomer().getCustomerImg());
+                        break;
+                    } else {
+                        session.setAttribute("name", users.getUsername());
+                        request.setAttribute("role", "customer");
+                        // session.setAttribute("image", user.getCustomer().getCustomerImg());
+                        break;
+                    }
             }
 
             // BEGIN EMPLOYEE LIST SHOW//
-            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
 
-            request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
-            request.getRequestDispatcher("/page/guest/request_sale.jsp").forward(request, response);
+            int check = Integer.valueOf(estateControl.checkInforUser(users.getId().toString()));
+            System.out.println("check " + check);
+            System.out.println("idUser " + users.getId());
+            if (check == 1) {
+
+                request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
+                request.getRequestDispatcher("/page/guest/request_sale.jsp").forward(request, response);
+            } else {
+                response.sendRedirect(request.getContextPath() + "/index?modal=show");
+            }
+
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
@@ -138,7 +158,7 @@ public class RequestSale extends HttpServlet {
         EstateStatus estateStatus = estateStatusControl.findEstateStatus(Integer.parseInt(request.getParameter("estateStatus")));
 
         Fee fee = feeControl.findFee(1);
-        
+
         String address1 = request.getParameter("address1");
         String address2 = request.getParameter("address2");
         String price = request.getParameter("price");
@@ -188,7 +208,6 @@ public class RequestSale extends HttpServlet {
         ContractJpaController contractControl = new ContractJpaController(utx, emf);
         ContractTypeJpaController contractTypeControl = new ContractTypeJpaController(utx, emf);
         PaymentFrequencyJpaController paymentFrequencyControl = new PaymentFrequencyJpaController(utx, emf);
-        
 
         Customer customer = users.getCustomer();
         Contract contract = new Contract();
@@ -197,7 +216,7 @@ public class RequestSale extends HttpServlet {
         contract.setContractDetails("none");
         contract.setPaymentFrequency(paymentFrequencyControl.findPaymentFrequency(Integer.parseInt("1")));
         contract.setFeePrecentage(feeControl.findFee(Integer.parseInt("1")).getFeeEstate());
-        contract.setPaymentAmount(Double.parseDouble(price) * fee.getFeeEstate()/100);
+        contract.setPaymentAmount(Double.parseDouble(price) * fee.getFeeEstate() / 100);
         contract.setDocumentUrl("wait");
         contract.setStatus("waitting for employee");
 
@@ -225,16 +244,15 @@ public class RequestSale extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(ProduceContractBuy.class.getName()).log(Level.SEVERE, null, ex);
         }
+}
 
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
+/**
+ * Returns a short description of the servlet.
+ *
+ * @return a String containing servlet description
+ */
+@Override
+        public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Realty Space - Real Estate Responsive HTML Theme</title><!--[if IE]>
+        <title>SGEstate24h - Real Estate Responsive HTML Theme</title><!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, shrink-to-fit=no">
         <meta name="format-detection" content="telephone=no">
@@ -28,8 +29,31 @@
         <!--[if lt IE 11]>
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
         <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
+        <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
+        <script type="text/javascript">
+            function BrowseServer1() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField1;
+                finder.popup();
+            }
+            function SetFileField1(fileUrl) {
+                document.getElementById('image1st').value = fileUrl;
+                document.getElementById('imageup1st').src = fileUrl;
+            }
+            function SetFileField(fileUrl) {
+                var countimage = 0;
+                if (document.getElementById('imageup1st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image1st').value = fileUrl;
+                    document.getElementById('imageup1st').src = fileUrl;
+
+                    document.getElementById('countimage').innerHTML = "Bất động sản có từ 1 đến 5 hình";
+
+                }
+            }
+        </script>
     </head>
-    <body class="index menu-default hover-default scroll-animation">
+    <body class="my_profile menu-default hover-default compact my_profile">
         <!--
         SVG icons from sprite-inline.svg
         They are inlined in order to make them work,
@@ -54,195 +78,212 @@
     <!-- endinject -->
     <div class="box js-box">
         <!-- BEGIN HEADER-->
-        <header class="header header--overlay header--dark">
+        <header class="header header--brand">
             <%@ include file="/template/guest/header.jsp" %>
         </header>
         <!-- END HEADER-->
 
         <!-- BEGIN NAVBAR-->
         <div id="header-nav-offset"></div>
-        <nav id="header-nav" class="navbar navbar--header navbar--overlay">
+        <nav id="header-nav" class="navbar navbar--header">
             <%@ include file="/template/guest/navbar.jsp" %>
         </nav>
         <!-- END NAVBAR-->
         <div class="site-wrap js-site-wrap">
-            <!-- BEGIN CENTER SECTION-->
-            <div class="widget js-widget">
-                <div class="widget__content">
-                    <div class="banner js-banner banner--wide">
-                        <div style="background-image: url(&quot;assets/media-demo/banner/banner-1.jpg&quot;);" class="banner__item">
-                            <div class="map map--index map--banner">
-                                <div class="map__buttons">
-                                    <button type="button" class="map__change-map js-map-btn">Property Map</button>
-                                </div>
-                                <div class="map__wrap">
-                                    <div data-infobox-theme="white" class="map__view js-map-index-canvas"></div>
-                                </div>
+            <!-- BEGIN BREADCRUMBS-->
+            <nav class="breadcrumbs">
+                <div class="container">
+                    <ul>
+
+                        <li class="breadcrumbs__item"><a href="<%=request.getContextPath()%>/index" class="breadcrumbs__link">Trang chủ</a></li>
+                        <li class="breadcrumbs__item"><a href="" class="breadcrumbs__link">Chi tiết bất động sản</a></li>
+
+                    </ul>
+                </div>
+            </nav>
+            <!-- END BREADCRUMBS-->
+            <div class="center">
+                <div class="container">
+                    <div class="row">
+                        <!-- BEGIN site-->
+                        <div class="site site--main">
+                            <header class="site__header">
+
+                                <h1 class="site__title">Trang cá nhân của tôi</h1>
+                                <h2 class="site__headline">Thêm và sửa thông tin</h2>
+
+                            </header>
+                            <div class="site__panel">
+                                <span class="site__header-text">
+
+                                </span>
                             </div>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="banner__caption">
-                                        <h1 class="banner__title">The Best Way to Find Your Perfect Home</h1>
-                                        <h3 class="banner__subtitle">With over 700,000 active listings, Realtyspace has the largest inventory of apartments in the United States.</h3><span class="banner__btn">Get started</span>
-                                        <div class="banner__arrow-circle">?</div>
-                                        <svg class="banner__arrow-end js-arrow-end">
-                                        <use xlink:href="#icon-arrow-end"></use>
-                                        </svg>
-                                        <div class="banner__arrow">
-                                            <svg id="banner-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                 viewBox="0 0 774 284" enable-background="new 0 0 774 284" xml:space="preserve">
-                                            <path  fill="none" stroke-width="2" stroke-miterlimit="10" stroke-dasharray="0,2004.009" d="M220.6,239.6
-                                                   c-3.6-15.5-17.5-27.1-34.1-27.1h-150c-19.3,0-35,15.7-35,35c0,19.3,15.7,35,35,35c0,0,88,0,150,0c169,0,244.9-7.5,291-19
-                                                   c41.3-10.2,114.1-33.7,118-83c4.2-53.5-59.4-67.5-102-54c-47.2,15-52.3,78.2,1,90c58.1,12.9,169.6-53.6,274.7-210"/>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div class="banner__search">
-                                        <h4 class="banner__sidebar-title">The Best Way to Find Your Perfect Home</h4>
-                                        <!-- BEGIN SEARCH-->
-                                        <form action="<%=request.getContextPath()%>/EstateList" class="form form--flex form--search js-search-form form--banner-sidebar">
-                                            <div class="row">
-                                                <div class="form-group">
-                                                    <label for="in-keyword" class="control-label">Keyword</label>
-                                                    <input name="keywordF" type="text" id="in-keyword" placeholder="Text" class="form-control">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="in-keyword" class="control-label">Type</label>
-                                                    <select name="estateType" id="in-contract-type" data-placeholder="---" class="form-control">
-                                                        <option value="all">All</option>
-                                                        <c:forEach items="${estateTypeList}" var="item">
-                                                            <option value="${item.id}">${item.typeName}</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="in-keyword" class="control-label">Status</label>
-                                                    <select name="estateStatus" id="in-contract-type" class="form-control">
-                                                        <option value="all">All</option>
-                                                        <option value="2">Sale</option>
-                                                        <option value="1">Rent</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="in-keyword" class="control-label">Direction</label>
-                                                    <select name="DirectionF" id="in-contract-type" data-placeholder="---" class="form-control">
-                                                        <option label=" "></option>
-                                                        <option value="East">East</option>
-                                                        <option value="West">West</option>
-                                                        <option value="South">South</option>
-                                                        <option value="North">North</option>
-                                                        <option value="South">South-East</option>
-                                                        <option value="South">South-West</option>
-                                                        <option value="North-West">North-West</option>
-                                                        <option value="North-West">North-East</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="in-keyword" class="control-label">District</label>
-                                                    <select name="DistrictF" id="in-contract-type" data-placeholder="---" class="form-control">
-                                                        <option value="all">all</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                        <option value="6">6</option>
-                                                        <option value="7">7</option>
-                                                        <option value="8">8</option>
-                                                        <option value="9">9</option>
-                                                        <option value="10">10</option>
-                                                        <option value="11">11</option>
-                                                        <option value="12">12</option>
-                                                        <option value="Binh Thanh">Binh Thanh</option>
-                                                        <option value="Thu Duc">Thu Duc</option>
-                                                        <option value="Go Vap">Go Vap</option>
-                                                        <option value="Hoc Mon">Hoc Mon</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form__mode">
-                                                        <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
+                            <div class="site__main">
+                                <div class="widget js-widget widget--main">
+                                    <div class="widget__content">
+                                        <form method="POST" action="CreateCustomer" class="form form--flex form--profile js-form">
+                                            <header class="form__header">
+
+                                                <h3 data-rel="#form-block-1" class="form__title js-form-title">Thông Tin Cơ Bản</h3>
+
+                                            </header>
+                                            <div id="form-block-1" class="form__block js-form-block">
+                                                <div class="row">
+                                                    
+                                                    <input id="in-1" type="hidden"  name="txtID" data-placeholder="---"  class="form-control">
+                                                   
+                                                    <div class="form-group">
+
+                                                        <label for="in-2" class="control-label">Tên</label>
+                                                        <input id="in-2"  name="txtName" data-placeholder="---"  class="form-control">
                                                     </div>
-                                                    <label for="range_year" class="control-label">Year Build</label>
-                                                    <div class="form__ranges">
-                                                        <input id="range_year" class="js-search-range form__ranges-in">
+                                                    <div class="form-group">
+                                                        <label for="in-3" class="control-label">Số thẻ CMND</label>
+                                                        <input id="in-3"  name="txtCard" data-placeholder="---"  class="form-control">
                                                     </div>
-                                                    <div class="form__inputs js-search-inputs">
-                                                        <input name="BuildFrom" type="text" id="in-price-from" placeholder="0" value="1945" data-input-type="from" class="form-control js-field-range">
-                                                        <input name="BuildTo" type="text" id="in-price-to" placeholder="10"  value="2020"  data-input-type="to" class="form-control js-field-range">
+                                                    <div class="form-group">
+                                                        <label for="in-4" class="control-label">Địa chỉ</label>
+
+                                                        <input id="in-4"  name="txtAddress" data-placeholder="---"  class="form-control">
+                                                        <!-- end of block .form-property__control-->
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form__mode">
-                                                        <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
-                                                    </div>
-                                                    <label for="range_bedroom" class="control-label">Bed room</label>
-                                                    <div class="form__ranges">
-                                                        <input id="range_bedroom" class="js-search-range form__ranges-in">
-                                                    </div>
-                                                    <div class="form__inputs js-search-inputs">
-                                                        <input name="BedFrom" type="text" id="in-price-from" placeholder="0"  value="0"  data-input-type="from" class="form-control js-field-range">
-                                                        <input name="BedTo" type="text" id="in-price-to" placeholder="10"  value="10"  data-input-type="to" class="form-control js-field-range">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form__mode">
-                                                        <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
-                                                    </div>
-                                                    <label for="range_bathroom" class="control-label">Bath room</label>
-                                                    <div class="form__ranges">
-                                                        <input id="range_bathroom" class="js-search-range form__ranges-in">
-                                                    </div>
-                                                    <div class="form__inputs js-search-inputs">
-                                                        <input name="BathFrom" type="text" id="in-price-from" placeholder="0" value="0" data-input-type="from" class="form-control js-field-range">
-                                                        <input name="BathTo" type="text" id="in-price-to" placeholder="10" value="10" data-input-type="to" class="form-control js-field-range">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form__mode">
-                                                        <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
-                                                    </div>
-                                                    <label for="range_area" class="control-label">Area</label>
-                                                    <div class="form__ranges">
-                                                        <input id="range_area" class="js-search-range form__ranges-in">
-                                                    </div>
-                                                    <div class="form__inputs js-search-inputs">
-                                                        <input name="AreaFrom" type="text" id="in-area-from" placeholder="From" value="0" data-input-type="from" class="form-control js-field-range">
-                                                        <input name="AreaTo" type="text" id="in-area-to" placeholder="To" value="2000"  data-input-type="to" class="form-control js-field-range">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form__mode">
-                                                        <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
-                                                    </div>
-                                                    <label for="range_price" class="control-label">Price</label>
-                                                    <div class="form__ranges">
-                                                        <input id="range_price" class="js-search-range form__ranges-in">
-                                                    </div>
-                                                    <div class="form__inputs js-search-inputs">
-                                                        <input name="PriceFrom" type="text" id="in-area-from" placeholder="From" value="0" data-input-type="from" class="form-control js-field-range">
-                                                        <input name="PriceTo" type="text" id="in-area-to" placeholder="To" value="500000"  data-input-type="to" class="form-control js-field-range">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="in-datetime" class="control-label">Date Range</label>
-                                                    <input name="dateRange" type="text" id="in-datetime" data-start-date="01/01/2019" data-end-date="12/12/2020" data-time-picker="true" data-single-picker="false" class="js-datetimerange form-control">
-                                                </div>
-                                                <div class="form-group">
-                                                    <input name="user" type="hidden" id="in-keyword" value="guest" class="form-control">
-                                                </div>
-                                                <div class="form__buttons form__buttons--double">
-                                                    <button type="button" class="form__reset js-form-reset">Reset</button>
-                                                    <input type="submit" value="filter" name="filter" class="form__submit"/>
                                                 </div>
                                             </div>
+                                            <header class="form__header">
+
+                                                <h3 data-rel="#form-block-2" class="form__title js-form-title">Liên Hệ</h3>
+
+                                            </header>
+                                            <div id="form-block-2" class="form__block js-form-block">
+                                                <div class="row">
+                                                    <div class="form-group">
+
+                                                        <label for="in-11" class="control-label">Điện thoại</label>
+                                                        <input id="in-11" name="txtPhone"  type="text" required  class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="in-12" class="control-label">Địa chỉ email</label>
+
+                                                        <input id="in-12" name="txtMail"  type="email" placeholder="" required  class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <header class="form__header">
+
+                                                <h3 data-rel="#form-block-3" class="form__title js-form-title">Giới Thiệu </h3>
+
+                                            </header>
+                                            <div id="form-block-3" class="form__block js-form-block">
+                                                <div class="row">
+                                                    <div class="form-group form-group--description">
+
+                                                        <label for="in-13" class="control-label">Mô tả</label>
+
+                                                        <textarea id="in-13" name="txtContent" required data-parsley-trigger="keyup" data-parsley-minlength="200" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 200 caracters long comment.." class="form-control form-control--description">${customer.customerContent}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <input type="hidden"  id="image1st" name="txtImg"/>
+
+                                                <button class="form__submit">Lưu Thay Đổi</button>
+
+                                            </div>
                                         </form>
-                                        <!-- end of block-->
-                                        <!-- END SEARCH-->
+                                        <hr>
+                                        <form method="POST" onsubmit="return checkPass()" action="DashboardUser" class="form form--flex">
+                                            <header class="form__header">
+
+                                                <h3 data-rel="#form-block-5" class="form__title js-form-title">Thay đổi mật khấu</h3>
+
+                                            </header>
+                                            <div id="form-block-5" class="form__block js-form-block">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-6 col-lg-4">
+                                                        <div class="row">
+
+                                                            <div class="form-group ${hasError}">
+
+                                                                <label for="in-14" class="control-label">Mật khầu hiện tại</label>
+
+                                                                <input id="in-14" type="password" required name="txtOldPass" data-placeholder="---" value="" class="form-control">
+                                                                <div class="help-block filled" id="parsley-id-11" style="display: ${display}">
+                                                                    <div class="parsley-required">${message}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+
+                                                            <div class="form-group" id="txtNewPass">
+
+                                                                <label for="in-15"  class="control-label">Mật khẩu mới</label>
+
+                                                                <input id="in-15" type="password" required name="txtNewPass" data-placeholder="---" value="" class="form-control">
+                                                                <div id="errPass" class="parsley-required"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group">
+
+                                                                <label for="in-16" class="control-label">Xác nhận lại mật khẩu</label>
+
+                                                                <input id="in-16" type="password" required name="txtConfirm" data-placeholder="---" value="" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-8">
+                                                        <h5>HINT</h5>
+
+                                                        <p>Gợi ý mật khẩu. Một lời nhắc nhở cho bạn về cách bạn tạo mật khẩu của bạn. Một số hệ thống cho phép bạn nhập một gợi ý mật khẩu để nếu bạn quên mật khẩu, gợi ý sẽ được hiển thị để giúp chạy bộ nhớ của bạn. Ví dụ: nếu mật khẩu của bạn là ngày sinh nhật của con bạn, bạn có thể sử dụng "Alfred" hoặc "Nicole" làm lời nhắc.</p>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+
+                                                <button type="submit" value="Save password" class="form__submit">Lưu thay đổi</button>
+
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- END site-->
+                        <!-- BEGIN SIDEBAR-->
+                        <div class="sidebar">
+                            <div class="widget js-widget widget--sidebar widget--first-no-head">
+
+                                <div class="widget__header"><a class="widget__btn js-widget-btn widget__btn--toggle">Xem trang cá nhân</a>
+
+                                </div>
+                                <div class="widget__content">
+                                    <!-- BEGIN WORKER PROFILE-->
+                                    <div class="worker sidebar-advanced">
+                                        <h3 class="worker__name">${customer.customerName}</h3>
+                                        <div class="worker__photo">
+                                            <div class="worker__avatar">
+                                                <img src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" id="imageup1st" alt="avatar" width="208" height="208">
+                                            </div>
+
+                                            <input type="button" onclick="BrowseServer1()" class="worker__avatar-upload" value="Cập nhập hình đại diện">
+                                        </div>
+                                        <nav class="worker__nav">
+                                            <ul>
+                                                <li><a href="<%=request.getContextPath()%>/MyListing">Danh sách Nhà Đất</a></li>
+                                                <li><a href="<%=request.getContextPath()%>/MyContract">Hợp đồng của tôi</a></li>
+
+                                            </ul>
+                                        </nav>
+                                        <!-- end of block .worker__nav-->
+                                    </div>
+                                    <!-- end of block .worker__item-->
+                                    <!-- END WORKER PROFILE-->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END SIDEBAR-->
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
@@ -250,32 +291,9 @@
             <!-- BEGIN AFTER CENTER SECTION-->
             <!-- END AFTER CENTER SECTION-->
             <!-- BEGIN FOOTER-->
-            <div id="modal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title"> <strong>Bạn Cần<a href="<%=request.getContextPath()%>/DashboardUser" > Bổ Sung Thông Tin Cá Nhân</a> Trước Khi Đăng Bán !!!</strong></h4>
-                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="modal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title"> <strong>Bạn Đã Bổ Sung Thông Tin Cá Nhân Thành Công !!!</strong></h4>
-                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <footer class="footer">
-                <%@ include file="/template/guest/footer.jsp" %>
+                <%@ include file="/template/footer.jsp" %>
             </footer>
             <!-- end of block .footer-->
             <!-- END FOOTER-->
@@ -292,6 +310,43 @@
     -->
     <!-- build:jsvendor-->
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/vendor.js"></script>
+    <script type="text/javascript">
+
+                                                function checkPass()
+                                                {
+
+                                                    var newPass = document.getElementById('in-15').value;
+                                                    var confirmPass = document.getElementById('in-16').value;
+                                                    if (newPass !== confirmPass) {
+                                                        document.getElementById('txtNewPass').classList.add("has-error");
+                                                        document.getElementById('txtNewPass').classList.remove("has-success");
+                                                        document.getElementById('txtNewPass').classList.add("has-error");
+
+                                                        document.getElementById('errPass').innerHTML = 'Mật khẩu mới và mật khẩu xác nhận không khớp !!! ';
+
+                                                        console.log(document.getElementById('txtNewPass').classList);
+                                                        return false;
+                                                    } else {
+                                                        console.log("true");
+                                                        return true;
+                                                    }
+                                                    return false;
+                                                }
+
+                                                function BrowseServer()
+                                                {
+                                                    // You can use the "CKFinder" class to render CKFinder in a page:
+                                                    var finder = new CKFinder();
+                                                    finder.basePath = '../';	// The path for the installation of CKFinder (default = "/ckfinder/").
+                                                    finder.selectActionFunction = SetFileField;
+                                                    finder.popup();
+                                                }
+                                                function SetFileField(fileUrl)
+                                                {
+                                                    document.getElementById('xFilePath').value = fileUrl;
+                                                }
+
+    </script>
     <!-- endbuild-->
     <!--
     This file is used for demonstration purposes and contains example property items, that are mostly used to
@@ -316,12 +371,6 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/assets/js/demo.js"></script>
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
-
-    <script type="text/javascript">
-        $(window).on('load', function () {
-            $('#modal').modal('${modal}');
-        });
-    </script>
     <!-- END SCRIPTS and INCLUDES-->
 </body>
 </html>

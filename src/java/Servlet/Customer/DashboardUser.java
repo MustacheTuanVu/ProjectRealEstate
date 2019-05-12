@@ -6,6 +6,7 @@
 package Servlet.Customer;
 
 import Controller.CustomerJpaController;
+import Controller.EstateJpaController;
 import Controller.EstateTypeJpaController;
 import Controller.UsersJpaController;
 import Controller.exceptions.RollbackFailureException;
@@ -49,13 +50,20 @@ public class DashboardUser extends HttpServlet {
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
         Users users = (Users) session.getAttribute("user");
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.EstateJpaController estateController = new EstateJpaController(utx, emf);
         if (users != null) {
             request.setAttribute("users", "user");
             request.setAttribute("displayLogin", "none");
             request.setAttribute("displayUser", "block");
-            session.setAttribute("name", users.getCustomer().getCustomerName());
-            request.setAttribute("role", "customer");
-            session.setAttribute("image", users.getCustomer().getCustomerImg());
+            if (estateController.checkInforUser(users.getId().toString()) == 1) {
+                session.setAttribute("name", users.getCustomer().getCustomerName());
+                request.setAttribute("role", "customer");
+                session.setAttribute("image", users.getCustomer().getCustomerImg());
+            } else {
+                session.setAttribute("name", users.getUsername());
+                request.setAttribute("role", "customer");
+            }
 
             /*-----------------------------------------------------------*/
             String message = (request.getParameter("message") != null) ? request.getParameter("message") : "";
@@ -64,16 +72,23 @@ public class DashboardUser extends HttpServlet {
             request.setAttribute("message", message);
             request.setAttribute("display", display);
             request.setAttribute("hasError", hasError);
-            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+
             CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
             EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
-            Customer customer = customerControl.findCustomer(users.getCustomer().getId());
 
-            request.setAttribute("customer", customer);
+            if (estateController.checkInforUser(users.getId().toString()) == 1) {
+                Customer customer = customerControl.findCustomer(users.getCustomer().getId());
+                request.setAttribute("customer", customer);
+            }
             request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
             switch (users.getRole()) {
                 case "customer":
-                    request.getRequestDispatcher("/page/guest/dashboard_user.jsp").forward(request, response);
+                    if (estateController.checkInforUser(users.getId().toString()) == 1) {
+                        request.getRequestDispatcher("/page/guest/dashboard_user.jsp").forward(request, response);
+                    }else{
+                        request.getRequestDispatcher("/page/guest/dashboard_user_create.jsp").forward(request, response);
+                    }
+                    
                     break;
                 case "employee":
                     request.getRequestDispatcher("/page/guest/dashboard_infor_employee.jsp").forward(request, response);
@@ -148,7 +163,7 @@ public class DashboardUser extends HttpServlet {
                 user.setRole(("customer"));
                 userCon.edit(user);
                 session.invalidate();
-                
+
                 response.sendRedirect(request.getContextPath() + "/LoginUser");
             } catch (RollbackFailureException ex) {
                 Logger.getLogger(DashboardUser.class.getName()).log(Level.SEVERE, null, ex);

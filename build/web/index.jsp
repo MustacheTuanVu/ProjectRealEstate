@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
@@ -250,6 +250,30 @@
             <!-- BEGIN AFTER CENTER SECTION-->
             <!-- END AFTER CENTER SECTION-->
             <!-- BEGIN FOOTER-->
+            <div id="modal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"> <strong>Bạn Cần<a href="<%=request.getContextPath()%>/DashboardUser" > Bổ Sung Thông Tin Cá Nhân</a> Trước Khi Đăng Bán !!!</strong></h4>
+                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="modal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"> <strong>Bạn Đã Bổ Sung Thông Tin Cá Nhân Thành Công !!!</strong></h4>
+                            <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <footer class="footer">
                 <%@ include file="/template/guest/footer.jsp" %>
             </footer>
@@ -293,7 +317,11 @@
     <!-- endbuild--><!-- inject:ga  -->
     <!-- endinject -->
 
-
+    <script type="text/javascript">
+        $(window).on('load', function () {
+            $('#modal').modal('${modal}');
+        });
+    </script>
     <!-- END SCRIPTS and INCLUDES-->
 </body>
 </html>
