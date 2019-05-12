@@ -203,7 +203,25 @@
                     </div>
                 </footer>
                 <!-- /Footer -->
+                <div id="ModalCreate" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
 
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">SUCCESS !</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Bạn đã tạo một danh mục bất động sản thành công.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
             <!-- /Main Content -->
 
@@ -260,7 +278,7 @@
         <script type="text/javascript">
             $(window).on('load', function () {
                 $('#myModalDelete').modal('${modalDelete}');
-                $('#myModal').modal('${modal}');
+                $('#ModalCreate').modal('${showModalCreate}');
             });
         </script>
 

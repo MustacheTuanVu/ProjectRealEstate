@@ -71,7 +71,7 @@ public class CommentEmployee extends HttpServlet {
         Controller.ReplyCommentJpaController replyController = new ReplyCommentJpaController(utx, em);
 
         List<Entity.ReplyComment> reply = replyController.getReplyComment(idCom);
-        SimpleDateFormat format= new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format= new SimpleDateFormat("dd-MM-yyyy");
 
         String table = "";
         if (session.getAttribute("user") != null) {
@@ -84,9 +84,9 @@ public class CommentEmployee extends HttpServlet {
                                 + "<div class=comment__item-body js-comment-item>"
                                 + "<div class=comment__avatar><img width=\"64px\" height=\"64px\" src="+reply1.getIdUser().getEmployee().getEmployeeImg()+" ></div>"
                                 + "<div class=comment__item-right>"
-                                + "<button class=\"comment__item-btn\" onclick=\"deleteCommentOrReply("+reply1.getIdReply()+", 'reply')\" >Delete</button>"
+                                + "<button class=\"comment__item-btn\" onclick=\"deleteCommentOrReply("+reply1.getIdReply()+", 'reply')\" >Xóa</button>"
                                 + "</div>"
-                                + "<div class=comment__info><span class=comment__author>" + reply1.getIdUser().getEmployee().getEmployeeName() + "</span><span class=comment__date>"+format.format(reply1.getDateReply())+"</span>"
+                                + "<div class=comment__info><span class=comment__author>" + reply1.getIdUser().getEmployee().getEmployeeName() + "&nbsp-Admin</span><span class=comment__date>"+format.format(reply1.getDateReply())+"</span>"
                                 + "<div class=comment__content>"
                                 + "<p >" + reply1.getContent() + "</p>"
                                 + "</div>"
@@ -138,7 +138,7 @@ public class CommentEmployee extends HttpServlet {
                                 + "<div class=comment__avatar><img width=\"64px\" height=\"64px\" src=" + reply1.getIdUser().getEmployee().getEmployeeImg() + " ></div>"
                                 + "<div class=comment__item-right>"
                                 + "</div>"
-                                + "<div class=comment__info><span class=comment__author>" + reply1.getIdUser().getEmployee().getEmployeeName() + "</span><span class=comment__date>"+format.format(reply1.getDateReply())+"</span>"
+                                + "<div class=comment__info><span class=comment__author>" + reply1.getIdUser().getEmployee().getEmployeeName() + "&nbsp-Admin</span><span class=comment__date>"+format.format(reply1.getDateReply())+"</span>"
                                 + "<div class=comment__content>"
                                 + "<p >" + reply1.getContent() + "</p>"
                                 + "</div>"
@@ -190,7 +190,7 @@ public class CommentEmployee extends HttpServlet {
                             + "<div class=comment__avatar><img width=\"64px\" height=\"64px\" src=" + reply1.getIdUser().getEmployee().getEmployeeImg() + " ></div>"
                             + "<div class=comment__item-right>"
                             + "</div>"
-                            + "<div class=comment__info><span class=comment__author>" + reply1.getIdUser().getEmployee().getEmployeeName() + "</span><span class=comment__date>"+format.format(reply1.getDateReply())+"</span>"
+                            + "<div class=comment__info><span class=comment__author>" + reply1.getIdUser().getEmployee().getEmployeeName() + "&nbsp-Admin</span><span class=comment__date>"+format.format(reply1.getDateReply())+"</span>"
                             + "<div class=comment__content>"
                             + "<p >" + reply1.getContent() + "</p>"
                             + "</div>"

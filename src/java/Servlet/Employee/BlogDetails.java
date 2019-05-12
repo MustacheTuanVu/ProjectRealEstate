@@ -6,9 +6,23 @@
 package Servlet.Employee;
 
 import Controller.CategoryJpaController;
+import Controller.CommentJpaController;
 import Controller.PostJpaController;
+import Controller.ReplyCommentJpaController;
+import Controller.exceptions.RollbackFailureException;
+import Entity.Comment;
+import Entity.Post;
+import Entity.Project;
+import Entity.ReplyComment;
+import Servlet.Project.ProjectDetails;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -70,10 +84,24 @@ public class BlogDetails extends HttpServlet {
         }
         
          int idPost=Integer.valueOf(request.getParameter("id"));
+         int countCommnet = 0;
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             Controller.PostJpaController postController = new PostJpaController(utx, emf);
             Controller.CategoryJpaController catControler= new CategoryJpaController(utx, emf);
+            Controller.CommentJpaController commentController = new CommentJpaController(utx, emf);
+        Controller.ReplyCommentJpaController replyController = new ReplyCommentJpaController(utx, emf);
+            
+            countCommnet = commentController.countCommentAcceptBlog(idPost).getIdComment();
+        List<Comment> listComment = commentController.getCommentByIdPost_Blog(Integer.valueOf(idPost));
+        for (Comment listComment1 : listComment) {
+            countCommnet += replyController.countReplyCommentAccept(listComment1.getIdComment()).getIdReply();
+        }
+            
+            String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "";
+            request.setAttribute("modal", modal);
 
+            request.setAttribute("totalComment", countCommnet);
+            request.setAttribute("listComment", listComment);
             request.setAttribute("listCount", postController.getPostByCategory1());
             request.setAttribute("listCat", catControler.findCategoryEntities());
             request.setAttribute("post", postController.findPost(idPost));
@@ -108,6 +136,125 @@ public class BlogDetails extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        // processRequest(request, response);
+        HttpSession session = request.getSession();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String a = format.format(new Date());
+        EntityManagerFactory em = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.CommentJpaController commentController = new CommentJpaController(utx, em);
+        Controller.ReplyCommentJpaController replyController = new ReplyCommentJpaController(utx, em);
+        String action = request.getParameter("action");
+        Entity.Comment comment = new Comment();
+        Entity.ReplyComment reply = new ReplyComment();
+        String role = null;
+        String idProject = null;
+        // create comment 
+        if (action.equals("comment")) {
+            System.out.println("comment 13 123 ");
+            try {
+                idProject = request.getParameter("txtIDPost");
+                comment.setIdPost(new Post(Integer.valueOf(request.getParameter("txtIDPost"))));
+                comment.setContent(request.getParameter("txtComment"));
+                comment.setDateComment(format.parse(a));
+
+                // not login and comment
+                if (session.getAttribute("user") == null) {
+                    try {
+                        comment.setRoleComment("guest");
+                        comment.setEmailComment(request.getParameter("txtEmailComment"));
+                        comment.setNameComment(request.getParameter("txtNameComment"));
+                        comment.setStatusComment("wait");
+
+                        commentController.create(comment);
+                        System.out.println("create Completed pót comment !!!");
+                        response.sendRedirect(request.getContextPath() + "/ProjectDetails?projectId=" + idProject+"modal=show");
+                    } catch (RollbackFailureException ex) {
+                        Logger.getLogger(BlogDetails.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception ex) {
+                        Logger.getLogger(BlogDetails.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    Entity.Users user = (Entity.Users) session.getAttribute("user");
+                    switch (user.getRole()) {
+                        case "employee":
+                            role = "employee";
+                            comment.setStatusComment("accept");
+                            break;
+                        case "customer":
+                            role = "customer";
+                            comment.setStatusComment("wait");
+                            break;
+                    }
+                    comment.setIdUser(user);
+                    comment.setRoleComment(role);
+                    commentController.create(comment);
+                    System.out.println("create Completed pót !!!");
+                    response.sendRedirect(request.getContextPath() + "/ProjectDetails?projectId=" + idProject+"modal=show");
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(BlogDetails.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (RollbackFailureException ex) {
+                Logger.getLogger(BlogDetails.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(BlogDetails.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else // reply comment
+        if (action.equals("reply")) {
+
+            reply.setIdComment(new Comment(Integer.valueOf(request.getParameter("txtIdComment"))));
+            reply.setContent(request.getParameter("txtReplyContent"));
+            try {
+                reply.setDateReply(format.parse(a));
+            } catch (ParseException ex) {
+                Logger.getLogger(ProjectDetails.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (session.getAttribute("user") == null) {
+                try {
+                    reply.setEmailReply(request.getParameter("txtEmailReply"));
+                    reply.setNameReply(request.getParameter("txtNameReply"));
+                    reply.setRoleReply("guest");
+                    reply.setStatusReply("wait");
+
+                    replyController.create(reply);
+                } catch (Exception ex) {
+                    Logger.getLogger(ProjectDetails.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                Entity.Users user = (Entity.Users) session.getAttribute("user");
+                switch (user.getRole()) {
+                    case "employee":
+                        role = "employee";
+                        reply.setStatusReply("accept");
+                        break;
+                    case "customer":
+                        role = "customer";
+                        reply.setStatusReply("wait");
+                        break;
+                }
+                reply.setIdUser(user);
+                reply.setRoleReply(role);
+
+                System.out.println("id_comment " + reply.getIdComment());
+                System.out.println("id_user " + reply.getIdUser());
+                System.out.println("[content] " + reply.getContent());
+                System.out.println("date_reply " + reply.getDateReply());
+                System.out.println("status_reply " + reply.getStatusReply());
+                System.out.println("role_reply " + reply.getRoleReply());
+                System.out.println("role_reply " + reply.getRoleReply());
+
+                try {
+                    replyController.create(reply);
+                } catch (RollbackFailureException ex) {
+                    Logger.getLogger(BlogDetails.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(BlogDetails.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("id_reply " + reply.getIdReply());
+
+                //response.sendRedirect(request.getContextPath() + "/ProjectDetails?projectId=" + idProject);
+
+            }
+        }
     }
 
     /**

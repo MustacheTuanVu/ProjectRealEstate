@@ -98,7 +98,7 @@
             <i class="zmdi zmdi-more"></i>
         </li>
         <li>
-            <a class="<c:if test="${active == 'CreateEstate'}">active</c:if>" href="<%=request.getContextPath()%>/EstateCreate" data-toggle="collapse" data-target="#dashboard_dr">
+            <a class="<c:if test="${active == 'CreateBlog'}">active</c:if>" href="<%=request.getContextPath()%>/CreateBlog" data-toggle="collapse" data-target="#dashboard_dr">
                 <div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i>
                     <span class="right-nav-text">Viết bài</span>
                 </div>
@@ -107,7 +107,7 @@
             </a>
         </li>
         <li>
-            <a class="<c:if test="${active == 'CreateEstate'}">active</c:if>" href="<%=request.getContextPath()%>/EstateCreate" data-toggle="collapse" data-target="#dashboard_dr">
+            <a class="<c:if test="${active == 'BlogList'}">active</c:if>" href="<%=request.getContextPath()%>/BlogList" data-toggle="collapse" data-target="#dashboard_dr">
                 <div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i>
                     <span class="right-nav-text">Bài viết</span>
                 </div>
@@ -119,6 +119,15 @@
             <a class="<c:if test="${active == 'CategoryList'}">active</c:if>" href="<%=request.getContextPath()%>/CategoryList?user=employee" data-toggle="collapse" data-target="#dashboard_dr">
                 <div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i>
                     <span class="right-nav-text">Category</span>
+                </div>
+                <div class="clearfix"> 
+                </div>
+            </a>
+        </li>
+        <li>
+            <a class="<c:if test="${active == 'CategoryList'}">active</c:if>" href="<%=request.getContextPath()%>/ListCommentWait?user=employee" data-toggle="collapse" data-target="#dashboard_dr">
+                <div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i>
+                    <span class="right-nav-text">Comment Chờ Duyệt</span>
                 </div>
                 <div class="clearfix"> 
                 </div>

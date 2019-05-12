@@ -90,6 +90,7 @@ public class EstateAutoCreate extends HttpServlet {
                 String block = request.getParameter("block");
                 int estateNumber = Integer.parseInt(request.getParameter("estateNumber"));
                 int estateNumbers = Integer.parseInt(request.getParameter("estateNumbers"));
+
                 String projectID = request.getParameter("projectID");
                 request.setAttribute("block", block);
                 request.setAttribute("estateNumber", estateNumber);
@@ -131,7 +132,7 @@ public class EstateAutoCreate extends HttpServlet {
                             for (int y = 1; y <= Integer.parseInt(request.getParameter("typeNumberFloorF" + i + "Type" + j)); y++) {
                                 index = index + 1;
                                 Estate estate = new Estate();
-                                estate.setId("B" + block + "F" + i + "R" + index);
+                                estate.setId(projectID + block + "F" + i + "R" + index);
                                 estate.setEstateName("Room " + estate.getId() + " Type" + j);
                                 estate.setEstateTypeId(estateTypeJpaController.findEstateType("PR"));
                                 estate.setEstateDescription(project.getProjectContent());
@@ -185,6 +186,7 @@ public class EstateAutoCreate extends HttpServlet {
                                 }
                                 /*-----------------------------------------------------------------------------------*/
                                 ProjectDetails projectDetails = new ProjectDetails();
+                                projectDetails.setBlockNumber(Integer.valueOf(request.getParameter("numBlock")));
                                 projectDetails.setEstateId(estate);
                                 projectDetails.setPrjectId(project);
                                 try {
@@ -202,7 +204,7 @@ public class EstateAutoCreate extends HttpServlet {
                         }
                     }
                 }
-                request.getRequestDispatcher("/page/dashboard/manager/dashboard_project_estate_new.jsp").forward(request, response);
+                request.getRequestDispatcher("/admin/page/dashboard/manager/create_estate_of_project.jsp").forward(request, response);
             } else {
                 response.sendRedirect(request.getContextPath() + "/LoginUser");
             }

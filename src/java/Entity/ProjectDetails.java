@@ -29,6 +29,8 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "ProjectDetails.findAll", query = "SELECT p FROM ProjectDetails p")})
 public class ProjectDetails implements Serializable {
+    @Column(name = "block_number")
+    private Integer blockNumber;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -96,6 +98,14 @@ public class ProjectDetails implements Serializable {
     @Override
     public String toString() {
         return "Entity.ProjectDetails[ projectDetailId=" + projectDetailId + " ]";
+    }
+
+    public Integer getBlockNumber() {
+        return blockNumber;
+    }
+
+    public void setBlockNumber(Integer blockNumber) {
+        this.blockNumber = blockNumber;
     }
     
 }

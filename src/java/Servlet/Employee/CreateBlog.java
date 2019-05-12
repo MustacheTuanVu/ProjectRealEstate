@@ -74,7 +74,7 @@ public class CreateBlog extends HttpServlet {
             String myModalFail = (request.getParameter("myModalFail") != null) ? request.getParameter("myModalFail") : "";
             request.setAttribute("myModalFail", myModalFail);
             request.setAttribute("list", catController.findCategoryEntities());
-            request.getRequestDispatcher("/page/dashboard/employee/dashboard_blog_new.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/page/dashboard/employee/create_blog.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -90,6 +90,9 @@ public class CreateBlog extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
+        
+        
     }
 
     /**
@@ -115,21 +118,23 @@ public class CreateBlog extends HttpServlet {
             Entity.Post post = new Post();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
+            post.setPostCategory(new Category(Integer.valueOf(request.getParameter("cat"))));
+            post.setPostTilte(request.getParameter("title"));
 
             post.setEmployee(new Employee(user.getEmployee().getId()));
-            post.setPostCategory(new Category(Integer.valueOf(request.getParameter("cat"))));
             post.setPostContent(request.getParameter("editor1"));
             post.setPostImage(request.getParameter("txtImg"));
-            post.setPostTilte(request.getParameter("title"));
             post.setPostDate(format.parse(format.format(date)));
 
-            if (postController.checkPostByNameAndCat(Integer.valueOf(request.getParameter("cat")), request.getParameter("title")) == 0) {
-                postController.create(post);
+            postController.create(post);
                 System.out.println("Create Completed !!!");
                 response.sendRedirect(request.getContextPath() + "/BlogList?action=Create&modal=show");
-            } else {
-                response.sendRedirect(request.getContextPath() + "/CreateBlog?myModalFail=show");
-            }
+            
+//            if (postController.checkPostByNameAndCat(Integer.valueOf(request.getParameter("cat")), request.getParameter("title")) == 0) {
+//                
+//            } else {
+//                response.sendRedirect(request.getContextPath() + "/CreateBlog?myModalFail=show");
+//            }
         } catch (RollbackFailureException ex) {
             Logger.getLogger(CreateBlog.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

@@ -124,6 +124,58 @@ public class EstateEdit extends HttpServlet {
                     request.setAttribute("modal", modal);
                     request.getRequestDispatcher("/admin/page/dashboard/director/estate_edit.jsp").forward(request, response);
                 }
+            } else if (user.getRole().equals("employee")) {
+                session.setAttribute("name", user.getEmployee().getEmployeeName());
+                    session.setAttribute("employeeID", user.getEmployee().getId());
+                    request.setAttribute("role", "employee");
+                    session.setAttribute("image", user.getEmployee().getEmployeeImg());
+                
+                request.setAttribute("user", "user");
+                request.setAttribute("displayLogin", "none");
+                request.setAttribute("displayUser", "block");
+
+                EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+                EntityManager em = emf.createEntityManager();
+
+                EstateJpaController estateControl = new EstateJpaController(utx, emf);
+                Estate find = estateControl.findEstate(request.getParameter("estateID"));
+
+                if (request.getParameter("submit") != null) {
+
+                } else {
+                    EstateTypeJpaController estateType = new EstateTypeJpaController(utx, emf);
+                    List<EstateType> estateTypeList = estateType.findEstateTypeEntities();
+                    request.setAttribute("estateTypeList", estateTypeList);
+
+                    EstateStatusJpaController estateStatus = new EstateStatusJpaController(utx, emf);
+                    List<EstateStatus> estateStatusList = estateStatus.findEstateStatusEntities();
+                    request.setAttribute("estateStatusList", estateStatusList);
+
+                    FeaturesJpaController featuresStatusControl = new FeaturesJpaController(utx, emf);
+                    FeatureDetailsJpaController featureDetailsControl = new FeatureDetailsJpaController(utx, emf);
+                    List<Features> featuresList = featuresStatusControl.findFeaturesEntities();
+                    List<String> featureEstateIDList = featureDetailsControl.findFeatureDetailsByEstate(request.getParameter("estateID"));
+                    List<Features> featureEstateList = new ArrayList<Features>();
+                    List<Features> featureEstateListNot = featuresList;
+                    for (String string : featureEstateIDList) {
+                        featureEstateList.add(featuresStatusControl.findFeatures(string));
+                        featureEstateListNot.remove(featuresStatusControl.findFeatures(string));
+                    }
+
+                    EmployeeJpaController employeeJpaController = new EmployeeJpaController(utx, emf);
+                    Employee employees = employeeJpaController.findEmployee(find.getAssignDetails().getEmployeeId().getId());
+                    request.setAttribute("employeeList", employeeJpaController.findEmployeeEntities());
+                    request.setAttribute("employees", employees.getId());
+                    request.setAttribute("featuresList", featuresList);
+                    request.setAttribute("featureEstateList", featureEstateList);
+                    request.setAttribute("featureEstateListNot", featureEstateListNot);
+                    request.setAttribute("find", find);
+
+                    String modal = "hidden";
+                    modal = request.getParameter("modal");
+                    request.setAttribute("modal", modal);
+                    request.getRequestDispatcher("/admin/page/dashboard/employee/edit_estate.jsp").forward(request, response);
+                }
             } else {
                 response.sendRedirect(request.getContextPath() + "/LoginUser");
             }
@@ -199,13 +251,13 @@ public class EstateEdit extends HttpServlet {
         estate.setBedRoom(bedRoom);
         estate.setBathRoom(bathRoom);
         estate.setGarages(garages);
-        
+
         if (estateStatusId == 1) {
             estate.setPrice(price * 1000000);
         } else if (estateStatusId == 2) {
             estate.setPrice(price * 1000000000);
         }
-        
+
         estate.setAreas(areas);
         estate.setEstateDescription(estateDescription);
         estate.setEstateContent(estateContent);

@@ -237,14 +237,29 @@ public class EstateTypeJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public List<EstateType> sortEstateType() {
+        EntityManager em = getEntityManager();
+        try {
+            List<EstateType> ret = new ArrayList<EstateType>();
+            Query qr = em.createNativeQuery("SELECT estate_type_id FROM estate where estate_status='sold'  GROUP BY estate_type_id ORDER BY SUM(price) desc");
+            List<String> estateTypeIdList = qr.getResultList();
+            
+            for (String estateTypeId : estateTypeIdList) {
+                Query query = em.createNativeQuery("SELECT * FROM estate_type where id='" + estateTypeId + "'", EstateType.class);
+                ret.add((EstateType) query.getSingleResult());
+            }
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
 
     public int getEstateTypeByEstateCount(String estateTypeID) {
         EntityManager em = getEntityManager();
         try {
             Query query = em.createNativeQuery("SELECT count(id) as axs FROM estate where estate_type_id='" + estateTypeID + "'");
             int ret = (int) query.getSingleResult();
-            System.out.println(query);
-            System.out.println(ret);
             return ret;
         } finally {
             em.close();
@@ -258,8 +273,6 @@ public class EstateTypeJpaController implements Serializable {
                     + "estate_type_id='" + estateTypeID + "' AND "
                     + "estate_status='publish'");
             int ret = (int) query.getSingleResult();
-            System.out.println(query);
-            System.out.println(ret);
             return ret;
         } finally {
             em.close();
@@ -273,8 +286,6 @@ public class EstateTypeJpaController implements Serializable {
                     + "estate_type_id='" + estateTypeID + "' AND "
                     + "estate_status='sold'");
             int ret = (int) query.getSingleResult();
-            System.out.println(query);
-            System.out.println(ret);
             return ret;
         } finally {
             em.close();

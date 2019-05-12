@@ -91,10 +91,10 @@
                                             <div class="col-md-4">
                                                 <h4>Quản lý dự án</h4>
                                                 <hr>
-                                                <span class="fa fa-home"></span><a class="<c:if test="${active == 'CreateEstate'}">active</c:if>" href="<%=request.getContextPath()%>/EstateCreate1" data-toggle="collapse" data-target="#dashboard_dr">
+                                                <span class="fa fa-home"></span><a class="<c:if test="${active == 'CreateEstate'}">active</c:if>" href="<%=request.getContextPath()%>/ProjectCreate" data-toggle="collapse" data-target="#dashboard_dr">
                                                         Thêm dự án</a>
                                                     <hr>
-                                                    <span class="fa fa-home"></span><a class="<c:if test="${active == 'EstateList'}">active</c:if>" href="<%=request.getContextPath()%>/EstateList?user=employee" data-toggle="collapse" data-target="#dashboard_dr"> 
+                                                    <span class="fa fa-home"></span><a class="<c:if test="${active == 'EstateList'}">active</c:if>" href="<%=request.getContextPath()%>/ProjectList?user=manager" data-toggle="collapse" data-target="#dashboard_dr"> 
                                                         Danh sách dự án</a>
                                                     <hr>
                                                 </div>

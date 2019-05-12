@@ -16,6 +16,7 @@ import Entity.Project;
 import Entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -131,9 +132,7 @@ public class ProjectEdit extends HttpServlet {
             ManagerJpaController managerJpaController = new ManagerJpaController(utx, emf);
             
             Entity.Project pro=proCon.findProject(request.getParameter("id"));
-            //Entity.Project pro= new Project();
-            //Entity.Manager mana= new Manager();
-            //mana.setManagerId(Integer.valueOf(request.getParameter("manager")));
+            SimpleDateFormat format= new SimpleDateFormat("yyyy-MM-dd");
             
             EntityManager em = emf.createEntityManager();
             Manager manager = managerJpaController.findManager(users.getManager().getManagerId() );
@@ -141,6 +140,9 @@ public class ProjectEdit extends HttpServlet {
             //pro.setProjectId(request.getParameter("projectId"));
             pro.setBlockNumber(Integer.valueOf(request.getParameter("blockNumber")));
             pro.setDocumentUrl("123");
+            pro.setYearBuild(format.parse(request.getParameter("yearBuild")));
+            System.out.println("img 1 "+pro.getImage1st());
+            System.out.println("img 2 "+pro.getImage2st());
             pro.setImage1st(request.getParameter("image1st"));
             pro.setImage2st(request.getParameter("image2st"));
             pro.setImage3st(request.getParameter("image3st"));
@@ -151,10 +153,10 @@ public class ProjectEdit extends HttpServlet {
             pro.setFloorNumber(Double.valueOf(request.getParameter("floorNumber")));
             pro.setBlockNumber(Integer.valueOf(request.getParameter("blockNumber")));
             pro.setProjectName(request.getParameter("projectName"));
-            pro.setProjectStatus("waitting for director edit");
-            pro.setStatus("waitting for director edit");
+//            pro.setProjectStatus("waitting for director edit");
+//            pro.setStatus("waitting for director edit");
             proCon.edit(pro);
-            response.sendRedirect(request.getContextPath()+"/ProjectList?user=manager");
+            response.sendRedirect(request.getContextPath()+"/ProjectList?user=manager&modal=show");
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(ProjectEdit.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RollbackFailureException ex) {

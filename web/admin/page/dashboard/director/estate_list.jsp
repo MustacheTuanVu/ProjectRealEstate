@@ -448,12 +448,15 @@
                                                                         <span class="txt-dark">${estate.address2}</span>
                                                                     </div>
                                                                     <div>
-                                                                        <span class="inline-block capitalize-font mr-5">Giá bán:</span>
-                                                                        <c:if test="${estate.estateStatusId.id == '1'}">
-                                                                            <span class="txt-dark">${estate.price} triệu VND</span>
+                                                                        <span class="inline-block capitalize-font mr-5">Giá bán.:</span>
+                                                                        <c:set var="price" value="${estate.price}"/>
+                                                                        <c:set var="priceRent" value="${price/1000000}"/>
+                                                                        <c:set var="priceSale" value="${price/1000000000}"/>
+                                                                        <c:if test = "${estate.estateStatusId.estateStatusName == 'Cho thuê' || estate.estateStatusId.estateStatusName == 'Đã thuê'}">
+                                                                           <span class="txt-dark">${priceRent} triệu VND</span>
                                                                         </c:if>
-                                                                        <c:if test="${estate.estateStatusId.id == '2'}">
-                                                                            <span class="txt-dark">${estate.price} tỷ VND</span>
+                                                                        <c:if test = "${estate.estateStatusId.estateStatusName == 'Bán' || estate.estateStatusId.estateStatusName == 'Đã bán'}">
+                                                                            <span class="txt-dark">${priceSale} tỷ VND</span>
                                                                         </c:if>
                                                                     </div>
                                                                 </div>

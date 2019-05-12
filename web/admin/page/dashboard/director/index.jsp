@@ -5,7 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -71,53 +72,273 @@
                         <!-- /Breadcrumb -->
                     </div>
                     <!-- /Title -->
-                    
+
                     <!-- Row -->
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="panel panel-default card-view">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <div class="panel panel-default card-view panel-refresh">
+                                <div class="refresh-container">
+                                    <div class="la-anim-1"></div>
+                                </div>
                                 <div class="panel-heading">
-                                    <div class="pull-left">
-                                        <h3 class="txt-dark">
-                                            Xin chào! Bạn đã đăng nhập vào khu vực Quản trị của SGEstate24h!<br>
-                                            <small class="text-muted"> Công việc của bạn bao gồm những việc sau:</small>
-                                        </h3>
+                                    <div class="panel-body sm-data-box-1">
+                                        <span class="uppercase-font weight-500 font-14 block text-center txt-dark">top 3 danh mục</span>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
-                                <div  class="panel-wrapper collapse in">
-                                    <div  class="panel-body">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <h4>Công việc của bạn hôm nay</h4>
-                                                <hr>
-                                                <a href="<%=request.getContextPath()%>/DashboardDirector" class="btn  btn-primary">Đi tới trang công việc</a>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <h4>Quản lý nhân viên</h4>
-                                                <hr>
-                                                <span class="fa fa-user"></span><a href="#"> Tạo nhân viên</a>
-                                                <hr>
-                                                <span class="fa fa-users"></span><a href="#"> Danh sách nhân viên</a>
-                                                <hr>
-                                                <span class="fa fa-legal"></span><a href="#"> Kiểm tra nhân viên</a>
-                                                <hr>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <h4>Kiểm tra bất động sản</h4>
-                                                <hr>
-                                                <span class="fa fa-paper-plane-o"></span><a href="#"> Các yêu cầu giao dịch</a>
-                                                <hr>
-                                                <span class="fa fa-home"></span><a href="#"> Các nhà-đất chờ duyệt</a>
-                                                <hr>
-                                                <span class="fa fa-institution"></span><a href="#"> Các chung cư chờ duyệt</a>
-                                                <hr>
+                                <div class="panel-wrapper collapse in">
+                                    <div class="panel-body">
+                                        <div><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
+                                            <canvas id="chart_6" height="191" width="247" style="display: block; width: 247px; height: 191px;"></canvas>
+                                        </div>	
+                                        <hr class="light-grey-hr row mt-10 mb-15">
+                                        <c:forEach begin="0" end="2" items="${estateTypeListPublish1}" var="item" varStatus="i">
+                                            <c:if test="${i.index == 0}">
+                                                <p id="estateTypeName0" style="display: none">${estateTypeListPublish1[0].typeName}</p>
+                                                <div class="label-chatrs">
+                                                    <div class="">
+                                                        <span class="clabels clabels-lg inline-block bg-blue mr-10 pull-left"></span>
+                                                        <span class="clabels-text font-12 inline-block txt-dark capitalize-font pull-left">
+                                                            <span class="block font-15 weight-500 mb-5">${estateTypeListPublish1[0].typeName}</span>
+                                                            <span class="block txt-grey">
+                                                                <c:forEach begin="0" end="${countEstateSoldListSize}" items="${countEstateSoldList}" var="item2">
+                                                                    <c:if test="${item.id == item2.key}">
+                                                                        ${item2.value} căn đã bán với 
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                                <c:forEach begin="0" end="${countMoneyEstateSoldListSize}" items="${countMoneyEstateSoldList}" var="item2">
+                                                                    <c:if test="${item.id == item2.key}">
+                                                                        <span id="estateTypePrice0" style="display: none">
+                                                                            ${item2.value/1000000000}
+                                                                        </span>
+                                                                        ${item2.value/1000000000} tỷ
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                            </span>
+                                                        </span>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                </div>
+                                                <hr class="light-grey-hr row mt-10 mb-15">
+                                            </c:if>
+                                            <c:if test="${i.index == 1}">
+                                                <p id="estateTypeName1" style="display: none">${estateTypeListPublish1[1].typeName}</p>
+                                                <div class="label-chatrs">
+                                                    <div class="">
+                                                        <span class="clabels clabels-lg inline-block bg-green mr-10 pull-left"></span>
+                                                        <span class="clabels-text font-12 inline-block txt-dark capitalize-font pull-left">
+                                                            <span class="block font-15 weight-500 mb-5">${estateTypeListPublish1[1].typeName}</span>
+                                                            <span class="block txt-grey">
+                                                                <c:forEach begin="0" end="${countEstateSoldListSize}" items="${countEstateSoldList}" var="item2">
+                                                                    <c:if test="${item.id == item2.key}">
+                                                                        ${item2.value} căn đã bán với 
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                                <c:forEach begin="0" end="${countMoneyEstateSoldListSize}" items="${countMoneyEstateSoldList}" var="item2">
+                                                                    <c:if test="${item.id == item2.key}">
+                                                                        <span id="estateTypePrice1" style="display: none">
+                                                                            ${item2.value/1000000000}
+                                                                        </span>
+                                                                        ${item2.value/1000000000} tỷ
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                            </span>
+                                                        </span>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                </div>        
+                                                <hr class="light-grey-hr row mt-10 mb-15">
+                                            </c:if>
+                                            <c:if test="${i.index == 2}">
+                                                <p id="estateTypeName2" style="display: none">${estateTypeListPublish1[2].typeName}</p>
+                                                <div class="label-chatrs">
+                                                    <div class="">
+                                                        <span class="clabels clabels-lg inline-block bg-yellow mr-10 pull-left"></span>
+                                                        <span class="clabels-text font-12 inline-block txt-dark capitalize-font pull-left">
+                                                            <span class="block font-15 weight-500 mb-5">${estateTypeListPublish1[2].typeName}</span>
+                                                            <span class="block txt-grey">
+                                                                <c:forEach begin="0" end="${countEstateSoldListSize}" items="${countEstateSoldList}" var="item2">
+                                                                    <c:if test="${item.id == item2.key}">
+                                                                        ${item2.value} căn đã bán với 
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                                <c:forEach begin="0" end="${countMoneyEstateSoldListSize}" items="${countMoneyEstateSoldList}" var="item2">
+                                                                    <c:if test="${item.id == item2.key}">
+                                                                        <span id="estateTypePrice2" style="display: none">
+                                                                            ${item2.value/1000000000}
+                                                                        </span>
+                                                                        ${item2.value/1000000000} tỷ
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                            </span>
+                                                        </span>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                </div>
+                                            </c:if>
+                                        </c:forEach>
+                                    </div>	
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <div class="panel panel-default card-view">
+                                <div class="panel-wrapper collapse in">
+                                    <div class="panel-body sm-data-box-1">
+                                        <span class="uppercase-font weight-500 font-14 block text-center txt-dark">Tổng lợi nhuận</span>	
+                                        <div class="cus-sat-stat weight-500 txt-success text-center mt-5">
+
+                                            <span class="counter-anim">
+                                                <fmt:formatNumber type = "number" maxIntegerDigits = "2" value = "${sumMoneyCompany}" />
+                                            </span><span> Tỷ</span>
+                                        </div>
+                                        <div class="progress-anim mt-20">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-success wow animated progress-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 93.12%;"></div>
                                             </div>
                                         </div>
+                                        <ul class="flex-stat mt-5">
+                                            <li>
+                                                <span class="block">Tháng trước</span>
+                                                <span class="block txt-dark weight-500 font-15">
+                                                    <fmt:formatNumber type = "number" maxIntegerDigits = "2" value = "${sumMoneyCompanyByFeb}" />
+                                                </span><span> Tỷ</span>
+                                            </li>
+                                            <li>
+                                                <span class="block">Tháng này</span>
+                                                <span class="block txt-dark weight-500 font-15">
+                                                    <fmt:formatNumber type = "number" maxIntegerDigits = "2" value = "${sumMoneyCompanyByMar}" />
+                                                </span><span> Tỷ</span>
+                                            </li>
+                                            <li>
+                                                <c:if test="${sumMoneyCompanyByMar - sumMoneyCompanyByFeb > 0}">
+                                                    <span class="block">Xu hướng</span>
+                                                    <span class="block">
+                                                        <i class="zmdi zmdi-trending-up txt-success font-20"></i><span> ${trendMoneyCompany}%</span>
+                                                    </span>    
+                                                </c:if>
+                                                <c:if test="${sumMoneyCompanyByMar - sumMoneyCompanyByFeb < 0}">
+                                                    <span class="block">Xu hướng</span>
+                                                    <span class="block">
+                                                        <i class="zmdi zmdi-trending-down txt-success font-20"></i><span> ${trendMoneyCompany}%</span>
+                                                    </span>    
+                                                </c:if>
+                                            </li>
+                                        </ul>
+                                        <div class="progress-anim mt-20">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-success wow animated progress-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 93.12%;"></div>
+                                            </div>
+                                        </div>
+                                        <ul class="flex-stat mt-5">
+                                            <li class="half-width">
+                                                <span class="block">Số giao dịch đang chờ</span>
+                                                <span class="block txt-dark weight-500 font-15">
+                                                    <fmt:formatNumber type = "number" maxIntegerDigits = "2" value = "${estateTransaction}" />
+                                                </span>
+                                            </li>
+                                            <li class="half-width">
+                                                <span class="block">Số giao dịch thành công</span>
+                                                <span class="block txt-dark weight-500 font-15">
+                                                    <fmt:formatNumber type = "number" maxIntegerDigits = "2" value = "${contractCountCompany}" />
+                                                </span>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <div class="panel panel-default card-view">
+                                <div class="panel-heading">
+                                    <div class="panel-body sm-data-box-1">
+                                        <span class="uppercase-font weight-500 font-14 block text-center txt-dark">TOP 3 Nhân viên</span>	
+                                        <div class="cus-sat-stat weight-500 txt-success text-center mt-5">
+
+                                            <span class="counter-anim">
+                                                <fmt:formatNumber type = "number" maxIntegerDigits = "2" value = "${sumMoney}" />
+                                            </span><span> Tỷ</span>
+                                        </div>
+                                        <div class="progress-anim mt-20">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-success wow animated progress-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 93.12%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="panel-wrapper collapse in">
+                                    <div class="panel-body">
+                                        <div>
+                                            <span class="pull-left inline-block capitalize-font txt-dark">
+                                                google chrome
+                                            </span>
+                                            <span class="label label-warning pull-right">50%</span>
+                                            <div class="clearfix"></div>
+                                            <hr class="light-grey-hr row mt-10 mb-10">
+                                            <span class="pull-left inline-block capitalize-font txt-dark">
+                                                mozila firefox
+                                            </span>
+                                            <span class="label label-danger pull-right">10%</span>
+                                            <div class="clearfix"></div>
+                                            <hr class="light-grey-hr row mt-10 mb-10">
+                                            <span class="pull-left inline-block capitalize-font txt-dark">
+                                                Internet explorer
+                                            </span>
+                                            <span class="label label-success pull-right">30%</span>
+                                            <div class="clearfix"></div>
+                                            <hr class="light-grey-hr row mt-10 mb-10">
+                                            <span class="pull-left inline-block capitalize-font txt-dark">
+                                                safari
+                                            </span>
+                                            <span class="label label-primary pull-right">10%</span>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>	
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <div class="panel panel-default card-view panel-refresh">
+                                <div class="refresh-container">
+                                    <div class="la-anim-1"></div>
+                                </div>
+                                <div class="panel-heading">
+                                    <div class="pull-left">
+                                        <h6 class="panel-title txt-dark">Advertising &amp; Promotions</h6>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="#" class="pull-left inline-block refresh mr-15">
+                                            <i class="zmdi zmdi-replay"></i>
+                                        </a>
+                                        <div class="pull-left inline-block dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="zmdi zmdi-more-vert"></i></a>
+                                            <ul class="dropdown-menu bullet dropdown-menu-right" role="menu">
+                                                <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i>option 1</a></li>
+                                                <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-share" aria-hidden="true"></i>option 2</a></li>
+                                                <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-trash" aria-hidden="true"></i>option 3</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="panel-wrapper collapse in">
+                                    <div class="panel-body">
+                                        <div><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
+                                            <canvas id="chart_2" height="253" width="344" style="display: block; width: 344px; height: 253px;"></canvas>
+                                        </div>	
+                                        <div class="label-chatrs mt-30">
+                                            <p id="getJanRealEstate24hIncome" style="display: none">${sumMoneyCompanyByJan1}</p>
+                                            <p id="getFebRealEstate24hIncome" style="display: none">${sumMoneyCompanyByJan2}</p>
+                                            <p id="getMarRealEstate24hIncome" style="display: none">${sumMoneyCompanyByJan}</p>
+                                            <p id="getAprilRealEstate24hIncome" style="display: none">${sumMoneyCompanyByFeb}</p>
+                                            <p id="getMayRealEstate24hIncome" style="display: none">${sumMoneyCompanyByMar}</p>
+                                        </div>
+                                    </div>
+                                </div>	
+                            </div>
+                        </div>
+
                     </div>
                     <!-- /Row -->
                 </div>
@@ -131,6 +352,8 @@
                     </div>
                 </footer>
                 <!-- /Footer -->
+
+                <!-- GET data -->
 
             </div>
             <!-- /Main Content -->
@@ -164,9 +387,10 @@
         <!-- Fancy Dropdown JS -->
         <script src="<%=request.getContextPath()%>/admin/dist/js/dropdown-bootstrap-extended.js"></script>
 
-        <!-- Sparkline JavaScript -->
+        <!-- Sparkline JavaScript 
         <script src="<%=request.getContextPath()%>/admin/vendors/jquery.sparkline/dist/jquery.sparkline.min.js"></script>
-
+        `-->
+        
         <!-- Owl JavaScript -->
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/owl.carousel/dist/owl.carousel.min.js"></script>
 

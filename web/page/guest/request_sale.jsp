@@ -116,23 +116,20 @@
 
                                                         <label for="in-form-name" class="control-label">Trạng thái</label>
 
-                                                        <select name="estateStatus" class="form-control">
-                                                            <option value="1">Rent</option>
-                                                            <option value="2">Sale</option>
+                                                        <select onchange="setPriceType()" id="estateStatusId" name="estateStatus" class="form-control">
+                                                            <option value="1">Cho thuê</option>
+                                                            <option value="2">Bán</option>
                                                         </select>
                                                     </div>
-                                                    <div class="form-group form-group--col-6">
+                                                    <input name="address1" id="in-form-phone" value="aaaa" type="hidden" class="form-control">
 
-                                                        <label for="in-form-phone" class="control-label">Địa chỉ 1</label>
-                                                        <input name="address1" id="in-form-phone" type="text" class="form-control">
-                                                    </div>
                                                     <div class="form-group form-group--col-6 required">
                                                         <label for="in-form-email" class="control-label">Địa chỉ 2</label>
                                                         <input name="address2" id="in-form-email" type="text" required data-parsley-trigger="change" class="form-control">
                                                     </div>
-                                                    <div class="form-group form-group--col-6 required">
-                                                        <label for="in-form-email" class="control-label">Giá bất động sản</label>
-                                                        <input name="price" id="in-form-email" type="number" required data-parsley-trigger="change" class="form-control">
+                                                    <div id="priceForm" class="form-group form-group--col-6 required">
+                                                        <label id="priceMessage" for="in-form-price" class="control-label">Giá bất động sản (Đơn vị triệu VND)</label>
+                                                        <input name="price" id="in-form-price" type="number" required data-parsley-trigger="change" class="form-control">
                                                     </div>
                                                     <div class="form-group required">
                                                         <label for="in-form-message" class="control-label">Nội dung</label>
@@ -179,6 +176,22 @@
     </div>
     <button type="button" class="scrollup js-scrollup"></button>
     <!-- end of block .scrollup-->
+
+    <!-- JavaScript -->
+    <script type="text/javascript">
+        function setPriceType() {
+            var estateStatusId1 = document.getElementById('estateStatusId').value;
+            console.log("123");
+            if (estateStatusId1 === '1') {
+                console.log("222");
+                document.getElementById('priceMessage').innerHTML = "Giá bất động sản (Đơn vị triệu VND)";
+            } else if (estateStatusId1 === '2') {
+                console.log("333");
+                document.getElementById('priceMessage').innerHTML = "Giá bất động sản (Đơn vị tỷ VND)";
+            }
+        }
+    </script>
+
     <!-- BEGIN SCRIPTS and INCLUDES-->
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=places,drawing,geometry"></script>
     <script type="text/javascript" src="http://cdn.ckeditor.com/4.5.6/standard/ckeditor.js"></script>

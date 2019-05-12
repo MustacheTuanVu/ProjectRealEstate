@@ -17,6 +17,8 @@ import javax.persistence.criteria.Root;
 import Entity.Users;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
@@ -217,7 +219,7 @@ public class ReplyCommentJpaController implements Serializable {
         // cuong add
     public List<ReplyComment> getReplyComment(int id){
         EntityManager em=getEntityManager();
-        Query q=em.createNativeQuery("select * from reply_comment where id_comment ='"+id+"' and status_reply like 'accept'",ReplyComment.class);
+        Query q=em.createNativeQuery("select * from reply_comment where id_comment ='"+id+"' and status_reply like 'accept' order by date_reply desc",ReplyComment.class);
         
         return q.getResultList();
     }
@@ -241,5 +243,31 @@ public class ReplyCommentJpaController implements Serializable {
         Query q=em.createNativeQuery("select * from reply_comment where status_reply like 'wait'",ReplyComment.class);
         
         return q.getResultList();
+    }
+    // cuong add
+    public void updateStatusDeleteComentByID(int id) {
+        try {
+            Entity.ReplyComment reply= new ReplyComment();
+            reply =findReplyComment(id);
+            reply.setStatusReply("delete");
+            edit(reply);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(ReplyCommentJpaController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ReplyCommentJpaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    // cuong add
+    public void updateStatusAcceptComentByID(int id) {
+        try {
+            Entity.ReplyComment reply= new ReplyComment();
+            reply =findReplyComment(id);
+            reply.setStatusReply("accept");
+            edit(reply);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(ReplyCommentJpaController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ReplyCommentJpaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

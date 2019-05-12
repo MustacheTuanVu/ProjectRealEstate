@@ -211,7 +211,7 @@
                                                     <tr>
                                                         <td>${item.contractId.customerId.customerName}</td>
                                                         <td>${item.contractId.employeeId.employeeName}</td>
-                                                        <td>${item.estateId.address1} - ${item.estateId.address2}</td>
+                                                        <td>${item.estateId.address2}</td>
                                                         <td>${item.estateId.price}</td>
                                                         <td>
                                                             <c:if test="${item.estateId.assignDetails == null}">
@@ -256,7 +256,7 @@
                                                                                                     </div> 
                                                                                                     <div class="mb-5">
                                                                                                         <span class="inline-block capitalize-font mr-5">Tình trạng: </span>
-                                                                                                        <span class="txt-dark">Sẵn sàng bán</span>
+                                                                                                        <span class="txt-dark">Sẵn sàng giao dịch</span>
                                                                                                     </div> 
                                                                                                     <div class="mb-5">
                                                                                                         <span class="inline-block capitalize-font mr-5">Địa chỉ bất động sản: </span>

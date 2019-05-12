@@ -53,6 +53,10 @@ public class EstateTypeList extends HttpServlet {
                 request.setAttribute("role", "director");
                 session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
                 
+                //TANG TRUNG
+                String showModalCreate = (request.getParameter("showModalCreate") != null) ? request.getParameter("showModalCreate") : "hide";
+                request.setAttribute("showModalCreate", showModalCreate);
+                
                 String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "hide";
                 request.setAttribute("modalDelete", modal);
 

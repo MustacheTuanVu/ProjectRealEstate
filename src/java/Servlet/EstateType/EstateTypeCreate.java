@@ -56,7 +56,7 @@ public class EstateTypeCreate extends HttpServlet {
                 session.setAttribute("name", "Boss");
                 request.setAttribute("role", "director");
                 session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
-
+                
                 EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
                 EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
 
@@ -95,7 +95,9 @@ public class EstateTypeCreate extends HttpServlet {
                     estateType.setTypeName(estateTypeName);
                     try {
                         estateTypeControl.create(estateType);
-                        response.sendRedirect(request.getContextPath() + "/EstateTypeList");
+                        
+                        //TANG TRUNG
+                        response.sendRedirect(request.getContextPath() + "/EstateTypeList?showModalCreate=show");
                     } catch (RollbackFailureException ex) {
                         Logger.getLogger(EstateTypeCreate.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (Exception ex) {

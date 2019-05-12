@@ -329,7 +329,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <div id="priceForm" class="form-group">
-                                                                    <label class="control-label mb-10">Giá (đơn vị tỷ VND)</label>
+                                                                    <label id="setPriceVND" class="control-label mb-10">Giá (đơn vị tỷ VND)</label>
                                                                     <input onchange="checkStep1()" type="number" id="price" class="form-control" name="price">
                                                                     <span id="priceMessage" class="help-block" style="display: none"> Tối thiểu 0,1 tỷ VND , tối đa 10 tỷ VND. </span>
                                                                 </div>

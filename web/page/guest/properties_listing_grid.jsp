@@ -341,14 +341,14 @@
                                                 <label for="in-keyword" class="control-label">Hướng nhà</label>
                                                 <select name="DirectionF" id="in-contract-type" data-placeholder="---" class="form-control">
                                                     <option label=" "></option>
-                                                    <option value="East">Đông</option>
-                                                    <option value="West">Tây</option>
-                                                    <option value="South">Nam</option>
-                                                    <option value="North">Bắc</option>
-                                                    <option value="South">Đông Nam</option>
-                                                    <option value="South">Tây Nam</option>
-                                                    <option value="North-West">Tây Bắc</option>
-                                                    <option value="North-West">Đông Bắc</option>
+                                                    <option value="Đông">Đông</option>
+                                                    <option value="Tây">Tây</option>
+                                                    <option value="Nam">Nam</option>
+                                                    <option value="Bắc">Bắc</option>
+                                                    <option value="Đông Nam">Đông Nam</option>
+                                                    <option value="Tây Nam">Tây Nam</option>
+                                                    <option value="Tây Bắc">Tây Bắc</option>
+                                                    <option value="Đông Bắc">Đông Bắc</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">

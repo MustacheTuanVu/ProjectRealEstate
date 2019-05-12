@@ -60,9 +60,7 @@ public class ProjectCreate extends HttpServlet {
 
         if (user != null) {
             if (user.getRole().equals("manager")) {
-                System.out.println("1 ");
                 if (user.getRole().equals("manager")) {
-                    System.out.println(" 2");
                     request.setAttribute("user", "user");
                     request.setAttribute("displayLogin", "none");
                     request.setAttribute("displayUser", "block");
@@ -75,8 +73,9 @@ public class ProjectCreate extends HttpServlet {
                     EntityManager em = emf.createEntityManager();
 
                     if (request.getParameter("submit") != null) {
-                        System.out.println(" 3");
                         ProjectJpaController projectControl = new ProjectJpaController(utx, emf);
+
+                        String addresss = request.getParameter("address");
 
                         String projectName = request.getParameter("projectName");
 
@@ -91,10 +90,9 @@ public class ProjectCreate extends HttpServlet {
                         String image4st = request.getParameter("image4st"); //NOTE
                         String image5st = request.getParameter("image5st"); //NOTE
 
-                        String addresss = request.getParameter("address");
+                        Entity.Project p = new Project();
 
                         String yearBuild = request.getParameter("yearBuild"); //NOTE
-
                         int indexID = 1;
                         String projectID = "1";
 
@@ -128,16 +126,18 @@ public class ProjectCreate extends HttpServlet {
                             project.setImage4st(image4st);
                             project.setImage5st(image5st);
                             project.setProjectAddress(addresss);
-                            project.setStatus("waitting for director create");
-                            project.setProjectStatus("waitting for director create");
+                            project.setStatus("publish");
+                            project.setProjectStatus("publish");
                             project.setDistrict(request.getParameter("district"));
                             project.setManagerId(user.getManager());
 
-                            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                            //SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                             Date day;
                             try {
                                 day = sdf.parse(yearBuild);
                                 project.setYearBuild(day);
+
                             } catch (ParseException ex) {
                                 Logger.getLogger(ProjectCreate.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -151,9 +151,12 @@ public class ProjectCreate extends HttpServlet {
                             }
 
                             try {
-                                projectControl.create(project);
-                                System.out.println("create completed !!!");
-                                response.sendRedirect(request.getContextPath() + "/ProjectList?user=manager&modal=show");
+                                if (projectControl.checkAddressProject(addresss) == 0) {
+                                    projectControl.create(project);
+                                    response.sendRedirect(request.getContextPath() + "/ProjectList?user=manager&modal=show");
+                                } else {
+                                    response.sendRedirect(request.getContextPath() + "/ProjectCreate?user=manager&modal=show");
+                                }
                             } catch (RollbackFailureException ex) {
                                 Logger.getLogger(ProjectCreate.class.getName()).log(Level.SEVERE, null, ex);
                             } catch (Exception ex) {
@@ -161,16 +164,15 @@ public class ProjectCreate extends HttpServlet {
                             }
                         }
                     } else {
-                        System.out.println("4 ");
                         EstateTypeJpaController estateType = new EstateTypeJpaController(utx, emf);
                         List<EstateType> estateTypeList = estateType.findEstateTypeEntities();
                         request.setAttribute("estateTypeList", estateTypeList);
 
-                        String modal = "hidden";
-                        modal = request.getParameter("modal");
+                        String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "";
                         request.setAttribute("modal", modal);
                         request.getRequestDispatcher("/admin/page/dashboard/manager/create_project.jsp").forward(request, response);
                     }
+
                 } else {
                     response.sendRedirect(request.getContextPath() + "/LoginUser");
                 }
@@ -206,7 +208,7 @@ public class ProjectCreate extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+//        processRequest(request, response);
     }
 
     /**

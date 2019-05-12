@@ -138,18 +138,24 @@ public class RequestSale extends HttpServlet {
         EstateStatus estateStatus = estateStatusControl.findEstateStatus(Integer.parseInt(request.getParameter("estateStatus")));
 
         Fee fee = feeControl.findFee(1);
-        
+
         String address1 = request.getParameter("address1");
         String address2 = request.getParameter("address2");
         String price = request.getParameter("price");
         String content = request.getParameter("content");
         Estate estate = new Estate();
-        estate.setEstateName(address1);
+        estate.setEstateName(address2);
         estate.setEstateTypeId(estateType);
         estate.setEstateStatusId(estateStatus);
         estate.setAddress1(address1);
         estate.setAddress2(address2);
-        estate.setPrice(Double.parseDouble(price));
+
+        if (estateStatus.getId() == 1) {
+            estate.setPrice(Double.parseDouble(price)* 1000000);
+        } else if (estateStatus.getId() == 2) {
+            estate.setPrice(Double.parseDouble(price) * 1000000000);
+        }
+
         estate.setEstateDescription(content);
         estate.setEstateContent(content);
         estate.setEstateStatus("waitting for employee");
@@ -188,7 +194,6 @@ public class RequestSale extends HttpServlet {
         ContractJpaController contractControl = new ContractJpaController(utx, emf);
         ContractTypeJpaController contractTypeControl = new ContractTypeJpaController(utx, emf);
         PaymentFrequencyJpaController paymentFrequencyControl = new PaymentFrequencyJpaController(utx, emf);
-        
 
         Customer customer = users.getCustomer();
         Contract contract = new Contract();
@@ -197,7 +202,7 @@ public class RequestSale extends HttpServlet {
         contract.setContractDetails("none");
         contract.setPaymentFrequency(paymentFrequencyControl.findPaymentFrequency(Integer.parseInt("1")));
         contract.setFeePrecentage(feeControl.findFee(Integer.parseInt("1")).getFeeEstate());
-        contract.setPaymentAmount(Double.parseDouble(price) * fee.getFeeEstate()/100);
+        contract.setPaymentAmount(Double.parseDouble(price) * fee.getFeeEstate() / 100);
         contract.setDocumentUrl("wait");
         contract.setStatus("waitting for employee");
 

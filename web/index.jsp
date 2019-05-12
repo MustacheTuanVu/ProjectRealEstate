@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
@@ -123,140 +124,158 @@
                                         <!-- BEGIN SEARCH-->
                                         <form action="<%=request.getContextPath()%>/EstateList" class="form form--flex form--search js-search-form form--banner-sidebar">
                                             <div class="row">
-                                                <div class="form-group">
-                                                    <label for="in-keyword" class="control-label">Keyword</label>
-                                                    <input name="keywordF" type="text" id="in-keyword" placeholder="Text" class="form-control">
+                                            <div class="form-group">
+
+                                                <label for="in-keyword" class="control-label">Từ khóa</label>
+                                                <input name="keywordF" type="text" id="in-keyword" placeholder="Text" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="in-keyword" class="control-label">Loại</label>
+                                                <select name="estateType" id="in-contract-type" data-placeholder="---" class="form-control">
+                                                    <option value="all">Tất cả</option>
+
+                                                    <c:forEach items="${estateTypeList}" var="item">
+                                                        <option value="${item.id}">${item.typeName}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+
+                                                <label for="in-keyword" class="control-label">Trạng thái</label>
+                                                <select name="estateStatus" id="in-contract-type" class="form-control">
+                                                    <option value="all">Tất cả</option>
+                                                    <option value="2">Bán</option>
+                                                    <option value="1">Cho thuê</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="in-keyword" class="control-label">Hướng nhà</label>
+                                                <select name="DirectionF" id="in-contract-type" data-placeholder="---" class="form-control">
+                                                    <option label=" "></option>
+                                                    <option value="East">Đông</option>
+                                                    <option value="West">Tây</option>
+                                                    <option value="South">Nam</option>
+                                                    <option value="North">Bắc</option>
+                                                    <option value="South">Đông Nam</option>
+                                                    <option value="South">Tây Nam</option>
+                                                    <option value="North-West">Tây Bắc</option>
+                                                    <option value="North-West">Đông Bắc</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="in-keyword" class="control-label">Quận</label>
+                                                <select name="DistrictF" id="in-contract-type" data-placeholder="---" class="form-control">
+                                                    <option value="all">Tất cả</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="Bình Thạnh">Binh Thanh</option>
+                                                    <option value="Thủ Đức">Thu Duc</option>
+                                                    <option value="Gò Vấp">Go Vap</option>
+                                                    <option value="Hóc Môn">Hoc Mon</option>
+
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="form__mode">
+                                                    <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="in-keyword" class="control-label">Type</label>
-                                                    <select name="estateType" id="in-contract-type" data-placeholder="---" class="form-control">
-                                                        <option value="all">All</option>
-                                                        <c:forEach items="${estateTypeList}" var="item">
-                                                            <option value="${item.id}">${item.typeName}</option>
-                                                        </c:forEach>
-                                                    </select>
+
+                                                <label for="range_year" class="control-label">Năm xây dựng</label>
+
+                                                <div class="form__ranges">
+                                                    <input id="range_year" class="js-search-range form__ranges-in">
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="in-keyword" class="control-label">Status</label>
-                                                    <select name="estateStatus" id="in-contract-type" class="form-control">
-                                                        <option value="all">All</option>
-                                                        <option value="2">Sale</option>
-                                                        <option value="1">Rent</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="in-keyword" class="control-label">Direction</label>
-                                                    <select name="DirectionF" id="in-contract-type" data-placeholder="---" class="form-control">
-                                                        <option label=" "></option>
-                                                        <option value="East">East</option>
-                                                        <option value="West">West</option>
-                                                        <option value="South">South</option>
-                                                        <option value="North">North</option>
-                                                        <option value="South">South-East</option>
-                                                        <option value="South">South-West</option>
-                                                        <option value="North-West">North-West</option>
-                                                        <option value="North-West">North-East</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="in-keyword" class="control-label">District</label>
-                                                    <select name="DistrictF" id="in-contract-type" data-placeholder="---" class="form-control">
-                                                        <option value="all">all</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                        <option value="6">6</option>
-                                                        <option value="7">7</option>
-                                                        <option value="8">8</option>
-                                                        <option value="9">9</option>
-                                                        <option value="10">10</option>
-                                                        <option value="11">11</option>
-                                                        <option value="12">12</option>
-                                                        <option value="Binh Thanh">Binh Thanh</option>
-                                                        <option value="Thu Duc">Thu Duc</option>
-                                                        <option value="Go Vap">Go Vap</option>
-                                                        <option value="Hoc Mon">Hoc Mon</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form__mode">
-                                                        <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
-                                                    </div>
-                                                    <label for="range_year" class="control-label">Year Build</label>
-                                                    <div class="form__ranges">
-                                                        <input id="range_year" class="js-search-range form__ranges-in">
-                                                    </div>
-                                                    <div class="form__inputs js-search-inputs">
-                                                        <input name="BuildFrom" type="text" id="in-price-from" placeholder="0" value="1945" data-input-type="from" class="form-control js-field-range">
-                                                        <input name="BuildTo" type="text" id="in-price-to" placeholder="10"  value="2020"  data-input-type="to" class="form-control js-field-range">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form__mode">
-                                                        <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
-                                                    </div>
-                                                    <label for="range_bedroom" class="control-label">Bed room</label>
-                                                    <div class="form__ranges">
-                                                        <input id="range_bedroom" class="js-search-range form__ranges-in">
-                                                    </div>
-                                                    <div class="form__inputs js-search-inputs">
-                                                        <input name="BedFrom" type="text" id="in-price-from" placeholder="0"  value="0"  data-input-type="from" class="form-control js-field-range">
-                                                        <input name="BedTo" type="text" id="in-price-to" placeholder="10"  value="10"  data-input-type="to" class="form-control js-field-range">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form__mode">
-                                                        <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
-                                                    </div>
-                                                    <label for="range_bathroom" class="control-label">Bath room</label>
-                                                    <div class="form__ranges">
-                                                        <input id="range_bathroom" class="js-search-range form__ranges-in">
-                                                    </div>
-                                                    <div class="form__inputs js-search-inputs">
-                                                        <input name="BathFrom" type="text" id="in-price-from" placeholder="0" value="0" data-input-type="from" class="form-control js-field-range">
-                                                        <input name="BathTo" type="text" id="in-price-to" placeholder="10" value="10" data-input-type="to" class="form-control js-field-range">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form__mode">
-                                                        <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
-                                                    </div>
-                                                    <label for="range_area" class="control-label">Area</label>
-                                                    <div class="form__ranges">
-                                                        <input id="range_area" class="js-search-range form__ranges-in">
-                                                    </div>
-                                                    <div class="form__inputs js-search-inputs">
-                                                        <input name="AreaFrom" type="text" id="in-area-from" placeholder="From" value="0" data-input-type="from" class="form-control js-field-range">
-                                                        <input name="AreaTo" type="text" id="in-area-to" placeholder="To" value="2000"  data-input-type="to" class="form-control js-field-range">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form__mode">
-                                                        <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
-                                                    </div>
-                                                    <label for="range_price" class="control-label">Price</label>
-                                                    <div class="form__ranges">
-                                                        <input id="range_price" class="js-search-range form__ranges-in">
-                                                    </div>
-                                                    <div class="form__inputs js-search-inputs">
-                                                        <input name="PriceFrom" type="text" id="in-area-from" placeholder="From" value="0" data-input-type="from" class="form-control js-field-range">
-                                                        <input name="PriceTo" type="text" id="in-area-to" placeholder="To" value="500000"  data-input-type="to" class="form-control js-field-range">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="in-datetime" class="control-label">Date Range</label>
-                                                    <input name="dateRange" type="text" id="in-datetime" data-start-date="01/01/2019" data-end-date="12/12/2020" data-time-picker="true" data-single-picker="false" class="js-datetimerange form-control">
-                                                </div>
-                                                <div class="form-group">
-                                                    <input name="user" type="hidden" id="in-keyword" value="guest" class="form-control">
-                                                </div>
-                                                <div class="form__buttons form__buttons--double">
-                                                    <button type="button" class="form__reset js-form-reset">Reset</button>
-                                                    <input type="submit" value="filter" name="filter" class="form__submit"/>
+                                                <div class="form__inputs js-search-inputs">
+                                                    <input name="BuildFrom" type="text" id="in-price-from" placeholder="0" value="1945" data-input-type="from" class="form-control js-field-range">
+                                                    <input name="BuildTo" type="text" id="in-price-to" placeholder="10"  value="2020"  data-input-type="to" class="form-control js-field-range">
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <div class="form__mode">
+                                                    <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
+                                                </div>
+
+                                                <label for="range_bedroom" class="control-label">Số phòng ngủ</label>
+
+                                                <div class="form__ranges">
+                                                    <input id="range_bedroom" class="js-search-range form__ranges-in">
+                                                </div>
+                                                <div class="form__inputs js-search-inputs">
+                                                    <input name="BedFrom" type="text" id="in-price-from" placeholder="0"  value="0"  data-input-type="from" class="form-control js-field-range">
+                                                    <input name="BedTo" type="text" id="in-price-to" placeholder="10"  value="10"  data-input-type="to" class="form-control js-field-range">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="form__mode">
+                                                    <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
+                                                </div>
+
+                                                <label for="range_bathroom" class="control-label">Số phòng tắm</label>
+
+                                                <div class="form__ranges">
+                                                    <input id="range_bathroom" class="js-search-range form__ranges-in">
+                                                </div>
+                                                <div class="form__inputs js-search-inputs">
+                                                    <input name="BathFrom" type="text" id="in-price-from" placeholder="0" value="0" data-input-type="from" class="form-control js-field-range">
+                                                    <input name="BathTo" type="text" id="in-price-to" placeholder="10" value="10" data-input-type="to" class="form-control js-field-range">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="form__mode">
+                                                    <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
+                                                </div>
+
+                                                <label for="range_area" class="control-label">Diện tích</label>
+
+                                                <div class="form__ranges">
+                                                    <input id="range_area" class="js-search-range form__ranges-in">
+                                                </div>
+                                                <div class="form__inputs js-search-inputs">
+                                                    <input name="AreaFrom" type="text" id="in-area-from" placeholder="From" value="0" data-input-type="from" class="form-control js-field-range">
+                                                    <input name="AreaTo" type="text" id="in-area-to" placeholder="To" value="2000"  data-input-type="to" class="form-control js-field-range">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="form__mode">
+                                                    <button type="button" data-mode="input" class="form__mode-btn js-input-mode">Input</button>
+                                                </div>
+
+                                                <label for="range_price" class="control-label">Giá</label>
+
+                                                <div class="form__ranges">
+                                                    <input id="range_price" class="js-search-range form__ranges-in">
+                                                </div>
+                                                <div class="form__inputs js-search-inputs">
+                                                    <input name="PriceFrom" type="text" id="in-area-from" placeholder="From" value="0" data-input-type="from" class="form-control js-field-range">
+                                                    <input name="PriceTo" type="text" id="in-area-to" placeholder="To" value="10000000000"  data-input-type="to" class="form-control js-field-range">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+
+                                                <label for="in-datetime" class="control-label">Khoảng thời gian</label>
+
+                                                <input name="dateRange" type="text" id="in-datetime" data-start-date="01/01/2019" data-end-date="12/12/2020" data-time-picker="true" data-single-picker="false" class="js-datetimerange form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <input name="user" type="hidden" id="in-keyword" value="guest" class="form-control">
+                                            </div>
+                                            <div class="form__buttons form__buttons--double">
+
+                                                <button type="button" class="form__reset js-form-reset">Nhập lại</button>
+                                                <input type="submit" value="Tìm kiếm" name="filter" class="form__submit"/>
+
+                                            </div>
+                                        </div>
                                         </form>
                                         <!-- end of block-->
                                         <!-- END SEARCH-->

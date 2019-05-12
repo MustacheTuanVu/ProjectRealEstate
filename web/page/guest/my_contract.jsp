@@ -118,8 +118,7 @@
                                                         <c:forEach items="${contractDetails}" var="item">
 
                                                             <tr>
-                                                                <td>${item.estateId.address1} <br>
-                                                                    ${item.estateId.address2}
+                                                                <td>${item.estateId.address2}
                                                                 </td>
                                                                 <td><strong>${item.contractId.employeeId.employeeName}</strong>
                                                                 </td>
