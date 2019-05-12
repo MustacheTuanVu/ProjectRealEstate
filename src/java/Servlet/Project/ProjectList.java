@@ -228,7 +228,23 @@ public class ProjectList extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+         String address = request.getParameter("address");
+        String projectID = request.getParameter("projectID");
+        
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.ProjectJpaController proCon = new ProjectJpaController(utx, emf);
+        
+        int dem = proCon.checkAddressProjectEdit(address, projectID);
+        if (dem == 0) {
+            // hop le dc tao address
+            System.out.println("000000000000");
+            response.getWriter().write("0");
+        } else if (dem == 1) {
+            // Address khong hop le
+            System.out.println("111111111111");
+            response.getWriter().write("1");
+        }
     }
 
     /**

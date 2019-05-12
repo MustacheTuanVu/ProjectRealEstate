@@ -53,16 +53,5 @@
                 </div>
             </a>
         </li>
-        <li>
-            <a class="<c:if test="${active == 'EstateList'}">active</c:if>" href="<%=request.getContextPath()%>/EstateAutoCreate1" data-toggle="collapse" data-target="#dashboard_dr">
-                <div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i>
-                    <span class="right-nav-text">Thêm Căn Hộ</span>
-                </div>
-                <div class="clearfix"> 
-                </div>
-            </a>
-        </li>
-        
-        
     </ul>
 </div>

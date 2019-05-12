@@ -233,4 +233,5 @@ public class RatingJpaController implements Serializable {
         System.out.println("count "+q.getSingleResult());
         return (Integer) q.getSingleResult();
     }
+    
 }

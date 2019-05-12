@@ -120,7 +120,7 @@
                                                         <c:if test="${item.roleComment=='customer'}">
                                                             <td>${item.idUser.customer.customerName}</td>
                                                         </c:if>
-                                                        <td><textarea rows="5" cols="40">${item.content}</textarea>
+                                                        <td><textarea readonly="true" rows="5" cols="40">${item.content}</textarea>
                                                         </td>
                                                         <td> Bình Luận</td>
 
@@ -141,7 +141,7 @@
                                                         <c:if test="${item.roleReply=='customer'}">
                                                             <td>${item.idUser.customer.customerName}</td>
                                                         </c:if>
-                                                        <td><textarea rows="5" cols="40">${item.content}</textarea>
+                                                            <td><textarea readonly="true" rows="5" cols="40">${item.content}</textarea>
                                                         </td>
                                                         <td> Trả Lời Bình Luận</td>
 

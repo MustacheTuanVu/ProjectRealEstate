@@ -71,7 +71,7 @@ public class EstateAutoCreate extends HttpServlet {
                 session.setAttribute("name", user.getManager().getManagerName());
                 request.setAttribute("role", "manager");
                 session.setAttribute("image", user.getManager().getManagerAddress());
-                
+
                 EstateTypeJpaController estateType = new EstateTypeJpaController(utx, emf);
                 List<EstateType> estateTypeList = estateType.findEstateTypeEntities();
                 request.setAttribute("estateTypeList", estateTypeList);
@@ -83,14 +83,19 @@ public class EstateAutoCreate extends HttpServlet {
                 EstateStatusJpaController estateStatusJpaController = new EstateStatusJpaController(utx, emf);
                 EmployeeJpaController employeeJpaController = new EmployeeJpaController(utx, emf);
                 AssignDetailsJpaController assignDetailsJpaController = new AssignDetailsJpaController(utx, emf);
-
+                
+                String modal=(request.getParameter("modal")!=null ? request.getParameter("modal"): "");
+                request.setAttribute("modal", modal);
+                
                 List<Employee> employeeList = employeeJpaController.findEmployeeEntities();
                 request.setAttribute("employeeList", employeeList);
 
                 String block = request.getParameter("block");
                 int estateNumber = Integer.parseInt(request.getParameter("estateNumber"));
                 int estateNumbers = Integer.parseInt(request.getParameter("estateNumbers"));
+
                 String projectID = request.getParameter("projectID");
+                request.setAttribute("numBlock", request.getParameter("numBlock"));
                 request.setAttribute("block", block);
                 request.setAttribute("estateNumber", estateNumber);
                 request.setAttribute("estateNumbers", estateNumbers);
@@ -111,7 +116,9 @@ public class EstateAutoCreate extends HttpServlet {
 
                 if (request.getParameter("getBlock") != null) {
                     block = request.getParameter("block");
+                    System.out.println("block "+block);
                     estateNumber = Integer.valueOf(request.getParameter("estateNumber"));
+                    System.out.println("estateNumber "+estateNumber);
                     request.setAttribute("blocks", block);
                     request.setAttribute("estateNumbers", estateNumber);
                 }
@@ -120,14 +127,14 @@ public class EstateAutoCreate extends HttpServlet {
                     for (int i = 1; i <= floorNumber; i++) {
                         int index = 0;
                         int choice = 3;
-                        if(Integer.parseInt(request.getParameter("typeNumberFloorF" + i + "Type2")) ==0){
+                        if (Integer.parseInt(request.getParameter("typeNumberFloorF" + i + "Type2")) == 0) {
                             choice = 2;
                         }
-                        if(Integer.parseInt(request.getParameter("typeNumberFloorF" + i + "Type3")) ==0){
+                        if (Integer.parseInt(request.getParameter("typeNumberFloorF" + i + "Type3")) == 0) {
                             choice = 1;
                         }
                         for (int j = 1; j <= choice; j++) {
-                            
+
                             for (int y = 1; y <= Integer.parseInt(request.getParameter("typeNumberFloorF" + i + "Type" + j)); y++) {
                                 index = index + 1;
                                 Estate estate = new Estate();
@@ -136,9 +143,8 @@ public class EstateAutoCreate extends HttpServlet {
                                 estate.setEstateTypeId(estateTypeJpaController.findEstateType("PR"));
                                 estate.setEstateDescription(project.getProjectContent());
                                 estate.setEstateContent(project.getProjectContent());
-                                System.out.println("bedRoomB" + block + "F" + i + "Type" + j);
                                 estate.setBedRoom(Integer.parseInt(request.getParameter("bedRoomB" + block + "F" + i + "Type" + j))); //bedRoomFloor1A=1
-
+                                System.out.println(estate.getBedRoom());
                                 estate.setBathRoom(Integer.parseInt(request.getParameter("bathRoomB" + block + "F" + i + "Type" + j)));
                                 estate.setGarages(0.0);
                                 estate.setPrice(Double.parseDouble(request.getParameter("priceB" + block + "F" + i + "Type" + j)));
@@ -151,7 +157,7 @@ public class EstateAutoCreate extends HttpServlet {
                                 estate.setDirection("none");
                                 estate.setYearBuild(project.getYearBuild());
                                 estate.setEstateStatusId(estateStatusJpaController.findEstateStatus(2));
-                                estate.setEstateStatus("publish");
+                                estate.setEstateStatus("project");
                                 estate.setDateAdd(project.getDateAdd());
                                 estate.setBlock(block);
                                 estate.setFloor(String.valueOf(i));
@@ -185,6 +191,7 @@ public class EstateAutoCreate extends HttpServlet {
                                 }
                                 /*-----------------------------------------------------------------------------------*/
                                 ProjectDetails projectDetails = new ProjectDetails();
+                                projectDetails.setBlockNumber(Integer.valueOf(request.getParameter("numBlock")));
                                 projectDetails.setEstateId(estate);
                                 projectDetails.setPrjectId(project);
                                 try {
@@ -198,11 +205,12 @@ public class EstateAutoCreate extends HttpServlet {
                                 }
                                 /*-----------------------------------------------------------------------------------*/
                             }
-
                         }
                     }
-                }
+                    response.sendRedirect(request.getContextPath()+"/EstateAutoCreate1?projectID="+projectID+"&modal=show");
+                }else
                 request.getRequestDispatcher("/admin/page/dashboard/manager/create_estate_of_project.jsp").forward(request, response);
+                //response.sendRedirect(request.getContextPath()+"/EstateAutoCreate1?projectID="+projectID);
             } else {
                 response.sendRedirect(request.getContextPath() + "/LoginUser");
             }
@@ -238,7 +246,36 @@ public class EstateAutoCreate extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+
+        String block = request.getParameter("block");
+        String projectID = request.getParameter("projectID");
+
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.ProjectDetailsJpaController detailsController = new ProjectDetailsJpaController(utx, emf);
+        List<ProjectDetails> listDetails = detailsController.getIDEstateByProjectId_Block(projectID, block);
+        String table = "";
+        for (ProjectDetails item : listDetails) {
+            table += "<tr>\n"
+                    + "<td class=\"datatable__cell datatable__cell--5\">" + item.getEstateId().getEstateName() + "</td>\n"
+                    + "<td class=\"datatable__cell datatable__cell--5\">" + item.getEstateId().getBlock() + "</td>\n"
+                    + "<td class=\"datatable__cell datatable__cell--5\">" + item.getEstateId().getFloor() + "</td>\n"
+                    + "<td class=\"datatable__cell datatable__cell--5\">" + item.getEstateId().getAreas() + "</td>\n"
+                    + "<td class=\"datatable__cell datatable__cell--5\">" + item.getEstateId().getBedRoom() + "</td>\n"
+                    + "<td class=\"datatable__cell datatable__cell--5\">" + item.getEstateId().getBathRoom() + "</td>\n"
+                    + "<td class=\"datatable__cell datatable__cell--5\">" + item.getEstateId().getPrice() + "</td>\n"
+                    + "<td class=\"datatable__cell datatable__cell--5\">\n";
+            if (item.getEstateId().getEstateStatus().equals("project")) {
+                table += "Đang Mở Bán";
+            }
+            if (item.getEstateId().getEstateStatus().equals("Saled")) {
+                table += "Đã Bán";
+            }
+            table += "</td>\n"
+                  +"</tr>\n";
+        }
+        response.getWriter().write(table);
+
     }
 
     /**

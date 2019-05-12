@@ -350,6 +350,21 @@
                     </div>
                     <!-- /Row -->
                 </div>
+                <div id="modal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                <h4 class="modal-title"> <strong>Dự Án Đã Tồn Tại !!!</strong></h4>
+
+                                <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
 
                 <!-- Footer -->
                 <footer class="footer container-fluid pl-30 pr-30">
@@ -418,7 +433,7 @@
                                                                                     errorName.innerHTML = 'Tên Dự Án Từ 10 Đến 200 Ký Tự !!!';
                                                                                     return false;
                                                                                 } else {
-                                                                                    document.getElementById('in-1').value=projectName;
+                                                                                    document.getElementById('in-1').value = projectName;
                                                                                     errorName.innerHTML = '';
                                                                                     return true;
                                                                                 }
@@ -428,12 +443,12 @@
                                                                                 var errorName = document.getElementById('errorAddress');
                                                                                 var closeblank = new RegExp(/\s+/g);
                                                                                 projectName = projectName.replace(/\s+/g, " ");
-                                                                               // projectName = projectName.replace(/^\s+|\s+$/g, "");
+                                                                                // projectName = projectName.replace(/^\s+|\s+$/g, "");
                                                                                 if (projectName.length < 10 || projectName.length > 200) {
                                                                                     errorName.innerHTML = 'Địa Chỉ Dự Án Từ 10 Đến 200 Ký Tự !!!';
                                                                                     return false;
                                                                                 } else {
-                                                                                    document.getElementById('in-6').value=projectName;
+                                                                                    document.getElementById('in-6').value = projectName;
                                                                                     errorName.innerHTML = '';
                                                                                     return true;
                                                                                 }
@@ -459,7 +474,7 @@
                                                                                 var projectDate = document.getElementById('in-datetime1').value;
                                                                                 var errorDate = document.getElementById('errorYear');
 
-                                                                                    var tam;
+                                                                                var tam;
                                                                                 if (projectName == '') {
                                                                                     errorName.innerHTML = 'Tên Dự Án Từ 10 Đến 200 Ký Tự !!!';
                                                                                 }
@@ -477,13 +492,18 @@
                                                                                         return true;
                                                                                     }
                                                                                     return false;
-                                                                                    }
-                                                                                    return false;
+                                                                                }
+                                                                                return false;
                                                                             }
 
 
 
 
+        </script>
+        <script type="text/javascript">
+            $(window).on('load', function () {
+                $('#modal').modal('${modal}');
+            });
         </script>
     </body>
 

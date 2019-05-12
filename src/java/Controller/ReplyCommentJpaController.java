@@ -219,7 +219,7 @@ public class ReplyCommentJpaController implements Serializable {
         // cuong add
     public List<ReplyComment> getReplyComment(int id){
         EntityManager em=getEntityManager();
-        Query q=em.createNativeQuery("select * from reply_comment where id_comment ='"+id+"' and status_reply like 'accept'",ReplyComment.class);
+        Query q=em.createNativeQuery("select * from reply_comment where id_comment ='"+id+"' and status_reply like 'accept' order by date_reply desc",ReplyComment.class);
         
         return q.getResultList();
     }

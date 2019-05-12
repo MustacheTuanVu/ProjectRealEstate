@@ -42,6 +42,7 @@
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
         <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
         <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
+        
     </head>
     <body class="property_details menu-default hover-default">
         <!--
@@ -174,7 +175,7 @@
                                     </div>
                                 </div>      
                                 <div class="widget js-widget widget--details">
-                                    
+
                                     <div class="property__plan">
                                         <dl class="property__plan-item">
                                             <dt class="property__plan-icon">
@@ -248,16 +249,16 @@
                                             <use xlink:href="#icon-arrow-right"></use>
                                             </svg>
                                             </dt>
-                                            <dd class="property__plan-title">Đánh Giá :${countRating} Lượt</dd>
+                                            <dd id="danhGia" class="property__plan-title">Đánh Giá :${countRating} Lượt</dd>
 
                                             <dd class="property__plan-value">
-                                                <span class="star-rating">
+                                                <span  id="checkRating" class="star-rating">
                                                     <span onclick="checkUserRating(1)" class="fa fa-star-o" data-rating="1"></span>
                                                     <span onclick="checkUserRating(2)" class="fa fa-star-o" data-rating="2"></span>
                                                     <span onclick="checkUserRating(3)" class="fa fa-star-o" data-rating="3"></span>
                                                     <span onclick="checkUserRating(4)" class="fa fa-star-o" data-rating="4"></span>
                                                     <span onclick="checkUserRating(5)" class="fa fa-star-o" data-rating="5"></span>
-                                                    <input type="hidden" name="whatever1" class="rating-value" value="${point}">
+                                                    <input type="hidden" name="whatever1" id="rating-value" value="${point}" class="rating-value" >
                                                 </span>
                                             </dd>
                                         </dl>
@@ -672,8 +673,6 @@
                                                     </form>
                                                 </div>
                                             </div>
-
-
                                             <!-- end of block .comment__form-->
                                         </div>
                                         <!-- form thu 2 -->
@@ -879,36 +878,86 @@
                 }
             });
         };
-
+        var SetRatingStar1 = function () {
+            getPoint();
+            return $star_rating.each(function () {
+                if (parseInt($star_rating.siblings('input.rating-value').val()) >= parseInt($(this).data('rating'))) {
+                    return $(this).removeClass('fa-star-o').addClass('fa-star');
+                } else {
+                    return $(this).removeClass('fa-star').addClass('fa-star-o');
+                }
+            });
+        };
         $star_rating.on('click', function () {
+            //console.log('point 1 '+document.getElementById('rating-value').value);
             $star_rating.siblings('input.rating-value').val($(this).data('rating'));
+            getPoint();
+            //console.log('point 2 '+document.getElementById('rating-value').value);
             return SetRatingStar();
+           
         });
+       
 
         SetRatingStar();
         $(document).ready(function () {
-
+            getPoint();
+            countRating();
+           
         });
 
         function checkUserRating(point) {
-
             var idproject = document.getElementById('txtId').value;
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
-                    if (this.responseText == ('0')) {
+                    if (this.responseText === '0') {
+                        SetRatingStar1();
                         alert('Mời Bạn Đăng Nhập Để Đánh Giá !!!');
                     }
-                    else if (this.responseText == '1') {
+                    else if (this.responseText === '1') {
+                        SetRatingStar1();
                         alert('Bạn Đã Đánh Giá Dự Án Này !!!');
-                    } else if (this.responseText == '2') {
+
+                    } else if (this.responseText === '2') {
+                        SetRatingStar1();
+                        countRating();
                         alert('Đánh Giá Thành Công !!!');
+
                     }
                 }
             };
             xhttp.open("GET", "Rating?idProject=" + idproject + "&point=" + point, true);
             xhttp.send();
         }
+
+        function countRating() {
+            var idproject = document.getElementById('txtId').value;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('danhGia').innerHTML = 'Đánh Giá :'+this.responseText+' Lượt' ;
+                    //console.log('count rating ajax ' + this.responseText);
+
+                }
+            };
+            xhttp.open("GET", "NewRating?idProject=" + idproject, true);
+            xhttp.send();
+        }
+
+        function getPoint() {
+            var idproject = document.getElementById('txtId').value;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('rating-value').value = this.responseText;
+                    
+
+                }
+            };
+            xhttp.open("POST", "NewRating?idProject=" + idproject, true);
+            xhttp.send();
+        }
+
     </script>
     <!-- END SCRIPTS and INCLUDES-->
 </body>

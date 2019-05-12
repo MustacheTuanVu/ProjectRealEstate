@@ -7,7 +7,6 @@ package Controller;
 
 import Controller.exceptions.IllegalOrphanException;
 import Controller.exceptions.NonexistentEntityException;
-import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -15,6 +14,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Entity.Estate;
+import Entity.Project;
 import Entity.ProjectDetails;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import javax.transaction.UserTransaction;
 
 /**
  *
- * @author kiems
+ * @author Cuong
  */
 public class ProjectDetailsJpaController implements Serializable {
 
@@ -39,7 +39,7 @@ public class ProjectDetailsJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(ProjectDetails projectDetails) throws IllegalOrphanException, PreexistingEntityException, RollbackFailureException, Exception {
+    public void create(ProjectDetails projectDetails) throws IllegalOrphanException, RollbackFailureException, Exception {
         List<String> illegalOrphanMessages = null;
         Estate estateIdOrphanCheck = projectDetails.getEstateId();
         if (estateIdOrphanCheck != null) {
@@ -56,6 +56,7 @@ public class ProjectDetailsJpaController implements Serializable {
         }
         EntityManager em = null;
         try {
+            //utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
             Estate estateId = projectDetails.getEstateId();
@@ -63,10 +64,19 @@ public class ProjectDetailsJpaController implements Serializable {
                 estateId = em.getReference(estateId.getClass(), estateId.getId());
                 projectDetails.setEstateId(estateId);
             }
+            Project prjectId = projectDetails.getPrjectId();
+            if (prjectId != null) {
+                prjectId = em.getReference(prjectId.getClass(), prjectId.getProjectId());
+                projectDetails.setPrjectId(prjectId);
+            }
             em.persist(projectDetails);
             if (estateId != null) {
                 estateId.setProjectDetails(projectDetails);
                 estateId = em.merge(estateId);
+            }
+            if (prjectId != null) {
+                prjectId.getProjectDetailsList().add(projectDetails);
+                prjectId = em.merge(prjectId);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -74,9 +84,6 @@ public class ProjectDetailsJpaController implements Serializable {
                 em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            if (findProjectDetails(projectDetails.getProjectDetailId()) != null) {
-                throw new PreexistingEntityException("ProjectDetails " + projectDetails + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -89,11 +96,14 @@ public class ProjectDetailsJpaController implements Serializable {
     public void edit(ProjectDetails projectDetails) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
+            //utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
             ProjectDetails persistentProjectDetails = em.find(ProjectDetails.class, projectDetails.getProjectDetailId());
             Estate estateIdOld = persistentProjectDetails.getEstateId();
             Estate estateIdNew = projectDetails.getEstateId();
+            Project prjectIdOld = persistentProjectDetails.getPrjectId();
+            Project prjectIdNew = projectDetails.getPrjectId();
             List<String> illegalOrphanMessages = null;
             if (estateIdNew != null && !estateIdNew.equals(estateIdOld)) {
                 ProjectDetails oldProjectDetailsOfEstateId = estateIdNew.getProjectDetails();
@@ -111,6 +121,10 @@ public class ProjectDetailsJpaController implements Serializable {
                 estateIdNew = em.getReference(estateIdNew.getClass(), estateIdNew.getId());
                 projectDetails.setEstateId(estateIdNew);
             }
+            if (prjectIdNew != null) {
+                prjectIdNew = em.getReference(prjectIdNew.getClass(), prjectIdNew.getProjectId());
+                projectDetails.setPrjectId(prjectIdNew);
+            }
             projectDetails = em.merge(projectDetails);
             if (estateIdOld != null && !estateIdOld.equals(estateIdNew)) {
                 estateIdOld.setProjectDetails(null);
@@ -119,6 +133,14 @@ public class ProjectDetailsJpaController implements Serializable {
             if (estateIdNew != null && !estateIdNew.equals(estateIdOld)) {
                 estateIdNew.setProjectDetails(projectDetails);
                 estateIdNew = em.merge(estateIdNew);
+            }
+            if (prjectIdOld != null && !prjectIdOld.equals(prjectIdNew)) {
+                prjectIdOld.getProjectDetailsList().remove(projectDetails);
+                prjectIdOld = em.merge(prjectIdOld);
+            }
+            if (prjectIdNew != null && !prjectIdNew.equals(prjectIdOld)) {
+                prjectIdNew.getProjectDetailsList().add(projectDetails);
+                prjectIdNew = em.merge(prjectIdNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -145,6 +167,7 @@ public class ProjectDetailsJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
+            //utx.begin();
             em = getEntityManager();
             em.getTransaction().begin();
             ProjectDetails projectDetails;
@@ -158,6 +181,11 @@ public class ProjectDetailsJpaController implements Serializable {
             if (estateId != null) {
                 estateId.setProjectDetails(null);
                 estateId = em.merge(estateId);
+            }
+            Project prjectId = projectDetails.getPrjectId();
+            if (prjectId != null) {
+                prjectId.getProjectDetailsList().remove(projectDetails);
+                prjectId = em.merge(prjectId);
             }
             em.remove(projectDetails);
             em.getTransaction().commit();
@@ -220,8 +248,8 @@ public class ProjectDetailsJpaController implements Serializable {
             em.close();
         }
     }
-    
-    public List<ProjectDetails> getProjectDetailByProject(String projectID) {
+
+      public List<ProjectDetails> getProjectDetailByProject(String projectID) {
         EntityManager em = getEntityManager();
         try {
             //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
@@ -232,5 +260,30 @@ public class ProjectDetailsJpaController implements Serializable {
             em.close();
         }
     }
+      // cuong add
+      public List<Integer> getBlockNumerByProjectId(String projectID) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("select distinct block_number as project_detail_id from project_details where prject_id = '"+projectID+"'");
+            List<Integer> ret = (List<Integer>) query.getResultList();
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+      // cuong add
+      public List<ProjectDetails> getIDEstateByProjectId_Block(String projectID,String block) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("select * from project_details where prject_id = '"+projectID+"' and block_number="+block,ProjectDetails.class);
+           return (List<ProjectDetails>)query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+
     
 }

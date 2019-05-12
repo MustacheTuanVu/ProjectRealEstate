@@ -68,6 +68,7 @@ public class ProjectDetails extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
         // BEGIN SESSION HEADER FONTEND //
+        
         HttpSession session = request.getSession();
         Users users = (Users) session.getAttribute("user");
         if (users != null) {
@@ -113,7 +114,7 @@ public class ProjectDetails extends HttpServlet {
         RatingJpaController ratingController = new RatingJpaController(utx, emf);
         Controller.CommentJpaController commentController = new CommentJpaController(utx, emf);
         Controller.ReplyCommentJpaController replyController = new ReplyCommentJpaController(utx, emf);
-
+        
         String id = request.getParameter("projectId");
 
         request.setAttribute("point", ratingController.getPointByProject((id)));
@@ -175,6 +176,8 @@ public class ProjectDetails extends HttpServlet {
         request.setAttribute("sumPrice", sumPrice);
         request.setAttribute("sumPriceUnSold", sumPriceUnSold);
         request.setAttribute("sumPriceSold", sumPriceSold);
+        
+        
         request.setAttribute("displayManager", displayManager);
         request.setAttribute("find", find);
         request.getRequestDispatcher("/page/guest/project_details.jsp").forward(request, response);

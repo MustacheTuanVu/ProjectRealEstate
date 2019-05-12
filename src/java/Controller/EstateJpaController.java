@@ -924,4 +924,12 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
+    
+    // cuong add
+    public int checkBlockName(String name){
+        EntityManager em=getEntityManager();
+        Query q=em.createNativeQuery("select count(id) as dem from estate where block like '"+name+"'");
+        System.out.println("dem "+q.getFirstResult());
+        return q.getFirstResult();
+    }
 }

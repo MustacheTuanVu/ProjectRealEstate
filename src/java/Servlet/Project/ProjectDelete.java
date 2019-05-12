@@ -65,7 +65,7 @@ public class ProjectDelete extends HttpServlet {
             }
             project.setProjectStatus(" delete");
             project.setStatus(" delete");
-            response.sendRedirect(request.getContextPath()+"/ProjectList?user=manager?modal=show");
+            response.sendRedirect(request.getContextPath()+"/ProjectList?user=manager&modal=show");
             try {
                 projectJpaController.edit(project);
             } catch (RollbackFailureException ex) {

@@ -3,31 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet.Rating;
+package Servlet.Employee;
 
-import Controller.ProjectJpaController;
-import Controller.RatingJpaController;
-import Entity.Project;
-import Entity.Users;
+import Controller.PostJpaController;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
 /**
  *
  * @author Cuong
  */
-@WebServlet(name = "Rating", urlPatterns = {"/Rating"})
-public class Rating extends HttpServlet {
+@WebServlet(name = "TestCheckBlog", urlPatterns = {"/TestCheckBlog"})
+public class TestCheckBlog extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,8 +36,18 @@ public class Rating extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-     
-      
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet TestCheckBlog</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet TestCheckBlog at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -58,44 +62,25 @@ public class Rating extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       // processRequest(request, response);
-        System.out.println("get 1");
-        EntityManagerFactory emf=(EntityManagerFactory) getServletContext().getAttribute("emf");
-        Controller.RatingJpaController ratingController= new RatingJpaController(utx, emf);
-        Controller.ProjectJpaController projectController= new ProjectJpaController(utx, emf);
+        //processRequest(request, response);
         
-        String point=request.getParameter("point");
-        String id=request.getParameter("idProject");
-        int dem=projectController.countRating(id);
-        Entity.Users user= null;
-        HttpSession session=request.getSession();
-        // chua dang nhap
-        if (session.getAttribute("user")== null) {
-            response.getWriter().write("0");
-            return;
-        }else 
-            // dang nhap thanh cong nhung da rating cho du an nay roi
-            if (true) {
-            user=(Users) session.getAttribute("user");
-            if (ratingController.checkUserRatingByIdUser(user.getId(),id)>0) {
+        String title=request.getParameter("title")!=null ? request.getParameter("title") :" ";
+        int cat=Integer.valueOf(request.getParameter("cat")!=null ? request.getParameter("cat") :"0");
+        String idPost=request.getParameter("idPost")!=null ? request.getParameter("idPost") :"0";
+        
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        
+        Controller.PostJpaController postController= new PostJpaController(utx, emf);
+        
+        if (postController.checkPostByNameEdit(title, idPost)== 1) {
+            if ((cat)== postController.checkPostByCatEdit(title)) {
+                
                 response.getWriter().write("1");
-                return;
             }else{
-                try {
-                    // dang nhap thanh cong va rating cho du an
-                    Entity.Rating rating=new Entity.Rating();
-                    rating.setCatRating("project");
-                    rating.setIdProject(new Project(id));
-                    rating.setIdUser(user);
-                    rating.setPointRating(Integer.valueOf(point));
-                    
-                    ratingController.create(rating);
-                    
-                    response.getWriter().write("2");
-                } catch (Exception ex) {
-                    Logger.getLogger(Rating.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                response.getWriter().write("0");
             }
+        }else{
+                response.getWriter().write("0");
         }
         
     }
@@ -111,8 +96,19 @@ public class Rating extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       // processRequest(request, response);
-      
+        //processRequest(request, response);
+        String title=request.getParameter("title")!=null ? request.getParameter("title") :" ";
+        String cat=request.getParameter("cat")!=null ? request.getParameter("cat") :"0";
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        
+        Controller.PostJpaController postController= new PostJpaController(utx, emf);
+        if (postController.checkPostByNameAndCat(Integer.valueOf(cat), title)==0) {
+            response.getWriter().write("0");
+            
+        }else {
+            response.getWriter().write("1");
+            
+        }
     }
 
     /**

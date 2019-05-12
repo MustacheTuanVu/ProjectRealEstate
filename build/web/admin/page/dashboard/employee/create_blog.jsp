@@ -115,23 +115,24 @@
 
                                             <div class="form-group">
                                                 <input type="hidden"  name="txtID" />
-                                                <label for="in-article-title" class="control-label">Hình ảnh bài viết <span id="errImg1" style="color: red; padding-left: 10px"></span> </label>
+                                                <label for="in-article-title" class="control-label">Hình ảnh bài viết &nbsp; <span  style="color: red;" >*</span>&nbsp;  <span  style="color: red; padding-left: 10px" id="errImg"></span> </label>
                                                 <br/>
-                                                <img  onchange="return checkForm()" src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" onclick="BrowseServer1()" id="imageup1st" alt="avatar" width="208" height="208">
-                                                <input  onchange="return checkForm()" type="hidden"  id="image1st" name="txtImg"/>
+                                                <img onmouseup="return checkImg()"  src="http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg" onclick="BrowseServer1()" id="imageup1st" alt="avatar" width="208" height="208">
+                                                <input  type="hidden"  id="image1st" name="txtImg"/>
 
                                             </div>
                                             <div class="form-group">
-                                                <label for="in-article-title" class="control-label">Tiêu đề <span  style="color: red; padding-left: 10px" id="errTitle1"></span></label>
+                                                <label for="in-article-title" class="control-label">Tiêu đề &nbsp; <span  style="color: red;" >*</span>&nbsp;  <span  style="color: red; padding-left: 10px" id="errTitle1"></span></label>
 
-                                                <input type="text" onchange="return checkForm()"  name="title" id="in-article-title" class="form-control">
+                                                <input type="text" onkeyup="return checkTitle()"   name="title" id="in-article-title" class="form-control">
 
                                             </div>
                                             <div class="form-group">
 
                                                 <label for="in-article-title" class="control-label">Danh mục</label>
+                                                &nbsp; <span  style="color: red;" >*</span>&nbsp;  <span  style="color: red; padding-left: 10px" id="errCat"></span>
+                                                <select class="form-control" onchange="return checkBlogExist()" name="cat" id="in-2">
 
-                                                <select name="cat" id="in-2">
                                                     <c:forEach items="${list}" var="cat" >
                                                         <option value="${cat.categoryId}"  class="form-control">${cat.categoryName}</option> 
                                                     </c:forEach>
@@ -139,9 +140,9 @@
                                             </div>
                                             <div class="form-group">
 
-                                                <label for="in-article-title" class="control-label">Mô tả <span style="color: red ; padding-left: 10px" id="errDes1"></span></label>
+                                                <label for="in-article-title" class="control-label">Nội Dung&nbsp; <span style="color: red ;">*</span> &nbsp; <span style="color: red ;" id="errTextArea"></span></label>
 
-                                                <textarea  onchange="return checkForm()" id="txtDes" name="editor1" class="form-control js-ckeditor"></textarea>
+                                                <textarea onkeyup="return checkTextArea()" onkeydown="return checkTextArea()" id="txtDes" name="editor1" class="form-control js-ckeditor"></textarea>
                                             </div>
                                             <button type="submit" class="form__submit">Tạo Bài Viết</button>
                                         </form>
@@ -159,7 +160,7 @@
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
 
-                                <h4 class="modal-title"> <strong>Lưu tên bài viết hoàn thành !!!</strong></h4>
+                                <h4 class="modal-title"> <strong>Bài Viết Đã Tồn Tại !!!</strong></h4>
 
                                 <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
                             </div>
@@ -189,38 +190,78 @@
         <!-- jQuery -->
 
         <script >
-            function checkTextaere(var123) {
-                var txtDes = document.getElementById('txtDes').value;
-                console.log('12345 ' + txtDes);
-                console.log('123456 ' + var123);
+
+            function checkBlogExist() {
+                var title = document.getElementById('in-article-title').value;
+                var cat = document.getElementById('in-2').value;
+                //blockName = blockName.replace(/\s+/g, "");
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        if (this.responseText == 1) {
+                            document.getElementById("errTitle1").innerHTML = 'Bài Viết Đã Tồn Tại !!!';
+                            document.getElementById("errCat").innerHTML = 'Bài Viết Đã Tồn Tại !!!';
+
+                            return false;
+                        } else
+                        if (this.responseText == 0) {
+                            document.getElementById("errTitle1").innerHTML = '';
+                            document.getElementById("errCat").innerHTML = '';
+                            return true;
+                        }
+                    }
+                };
+                xhttp.open("POST", "TestCheckBlog?title=" + title + "&cat=" + cat, true);
+                xhttp.send();
             }
+            ;
+            function checkTitle(){
+                var title = document.getElementById('in-article-title').value;
+                title=title.replace(/\s+/g,' ');
+                document.getElementById('in-article-title').value=title;
+                if (title.length <10 ||title.length >50) {
+                        document.getElementById("errTitle1").innerHTML = 'Tiêu Đề Bài Viết Từ 10 Đến 50 Ký Tự !!!';
+                        return;
+                }else
+                checkBlogExist();
+                
+            };
+            function checkTextArea() {
+                var txtDes = document.getElementById('txtDes').value;
+                console.log('0 qwe ' + txtDes);
+                if (txtDes.length < 200) {
+                    document.getElementById('errTextArea').innerHTML = 'Nội Dung Bài Viết Ít Nhất 200 Ký Tự !!!';
+                }
+            };
+            function checkImg() {
+                var img = document.getElementById('image1st').value;
+                if (img.length ===0) {
+                    document.getElementById('errImg').innerHTML = 'Mời Bạn Chọn Hình Ảnh !!!';
+                }
+            };
             function checkForm() {
 
                 var txtImg = document.getElementById('image1st').value;
                 var txtTitle = document.getElementById('in-article-title').value;
                 var txtDes = document.getElementById('txtDes').value;
+                
                 console.log('123 ' + txtDes);
                 txtTitle = txtTitle.replace(/^\s+|\s+$/g, "");
                 txtDes = txtDes.replace(/^\s+|\s+$/g, "");
 
                 if (txtImg.length === 0) {
-                    document.getElementById('errImg1').innerHTML = 'Vui lòng chọn hình ảnh !!!';
+                    document.getElementById('errImg').innerHTML = 'Mời Chọn Hình Ảnh!!!';
+                } 
+                if (txtTitle.length ===0) {
+                    document.getElementById('errTitle1').innerHTML = 'Mời Nhập Tiêu Đề Bài Viết !!!';
+                } 
+                if (txtDes.length <1000) {
+                    document.getElementById('errTextArea').innerHTML = 'Nội Dung Dưới 1000 Ký Tự !!!';
+                    return false;
                 } else {
-                    document.getElementById('errImg1').innerHTML = '';
-                }
-                if (txtTitle.length > 51 || txtTitle.length < 5) {
-                    document.getElementById('errTitle1').innerHTML = 'Tiêu đề phải từ 6 đến 50 kí tự !!!';
-                } else {
-                    document.getElementById('errTitle1').innerHTML = '';
-                }
-                if (txtDes.length < 100) {
-                    document.getElementById('errDes1').innerHTML = 'Mô tả ít nhất 200 kí tự !!!';
-                } else {
-                    document.getElementById('errDes1').innerHTML = '';
                     return true;
                 }
-                return false;
-            }
+            };
         </script>
         <script src="//cdn.ckeditor.com/4.5.6/standard-all/ckeditor.js"></script>
         <script>
@@ -262,11 +303,7 @@
                 document.getElementById('xFilePath').value = fileUrl;
             }
         </script>
-        <script type="text/javascript">
-            $(window).on('load', function () {
-                $('#myModal').modal('${myModal}');
-            });
-        </script>
+
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/jquery/dist/jquery.min.js"></script>
 
         <!-- Bootstrap Core JavaScript -->
@@ -303,6 +340,11 @@
 
         <!-- Init JavaScript -->
         <script src="<%=request.getContextPath()%>/admin/dist/js/init.js"></script>
+        <script type="text/javascript">
+            $(window).on('load', function () {
+                $('#myModalFail').modal('${myModalFail}');
+            });
+        </script>
     </body>
 
 </html>

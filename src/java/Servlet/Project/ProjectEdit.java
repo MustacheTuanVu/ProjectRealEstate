@@ -46,6 +46,7 @@ public class ProjectEdit extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -107,7 +108,9 @@ public class ProjectEdit extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // processRequest(request, response);
+       
+        
         
     }
 
@@ -127,22 +130,22 @@ public class ProjectEdit extends HttpServlet {
             HttpSession session = request.getSession();
             Users users = (Users) session.getAttribute("user");
             
-            EntityManagerFactory emf= (EntityManagerFactory) getServletContext().getAttribute("emf");
-            Controller.ProjectJpaController proCon= new ProjectJpaController(utx, emf);
+            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+            Controller.ProjectJpaController proCon = new ProjectJpaController(utx, emf);
             ManagerJpaController managerJpaController = new ManagerJpaController(utx, emf);
             
-            Entity.Project pro=proCon.findProject(request.getParameter("id"));
-            SimpleDateFormat format= new SimpleDateFormat("yyyy-MM-dd");
+            Entity.Project pro = proCon.findProject(request.getParameter("id"));
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             
             EntityManager em = emf.createEntityManager();
-            Manager manager = managerJpaController.findManager(users.getManager().getManagerId() );
-            
+            Manager manager = managerJpaController.findManager(users.getManager().getManagerId());
+
             //pro.setProjectId(request.getParameter("projectId"));
             pro.setBlockNumber(Integer.valueOf(request.getParameter("blockNumber")));
             pro.setDocumentUrl("123");
             pro.setYearBuild(format.parse(request.getParameter("yearBuild")));
-            System.out.println("img 1 "+pro.getImage1st());
-            System.out.println("img 2 "+pro.getImage2st());
+            System.out.println("img 1 " + pro.getImage1st());
+            System.out.println("img 2 " + pro.getImage2st());
             pro.setImage1st(request.getParameter("image1st"));
             pro.setImage2st(request.getParameter("image2st"));
             pro.setImage3st(request.getParameter("image3st"));
@@ -156,7 +159,7 @@ public class ProjectEdit extends HttpServlet {
 //            pro.setProjectStatus("waitting for director edit");
 //            pro.setStatus("waitting for director edit");
             proCon.edit(pro);
-            response.sendRedirect(request.getContextPath()+"/ProjectList?user=manager&modal=show");
+            response.sendRedirect(request.getContextPath() + "/ProjectList?user=manager&modal=show");
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(ProjectEdit.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RollbackFailureException ex) {
@@ -164,9 +167,6 @@ public class ProjectEdit extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(ProjectEdit.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
         
     }
 

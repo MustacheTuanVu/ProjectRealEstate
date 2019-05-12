@@ -246,7 +246,7 @@ public class CommentJpaController implements Serializable {
         EntityManager em = getEntityManager();
         Query q = em.createNativeQuery("select * from comment where id_post ='"
                 + id
-                + "' and status_comment like 'accept'", Comment.class);
+                + "' and status_comment like 'accept' order by date_comment desc", Comment.class);
         return q.getResultList();
     }
     // cuong add

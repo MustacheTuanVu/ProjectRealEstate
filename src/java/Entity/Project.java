@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -32,6 +33,8 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Project.findAll", query = "SELECT p FROM Project p")})
 public class Project implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "prjectId")
+    private List<ProjectDetails> projectDetailsList;
     @OneToMany(mappedBy = "idProject")
     private List<LoveProject> loveProjectList;
     @OneToMany(mappedBy = "idProject")
@@ -314,6 +317,14 @@ public class Project implements Serializable {
 
     public void setLoveProjectList(List<LoveProject> loveProjectList) {
         this.loveProjectList = loveProjectList;
+    }
+
+    public List<ProjectDetails> getProjectDetailsList() {
+        return projectDetailsList;
+    }
+
+    public void setProjectDetailsList(List<ProjectDetails> projectDetailsList) {
+        this.projectDetailsList = projectDetailsList;
     }
     
 }

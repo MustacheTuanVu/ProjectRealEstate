@@ -365,17 +365,17 @@
                                                                 %>
                                                                 <div class="form-group form-group--col-6">
 
-                                                                    <label for="in-comment-name" class="form__label control-label required">Họ Tên&nbsp;<span style="color: red">*</span></label>
-                                                                    <input name="txtNameComment" type="text" id="in-comment-name" required class="form-control form__in form__in--text">
+                                                                    <label for="in-comment-name" class="form__label control-label required">Họ Tên&nbsp;<span style="color: red">*</span> &nbsp;<span name="errName" style="color: red"></span></label>
+                                                                    <input onkeyup=" checkName()" name="txtNameComment" type="text" id="in-comment-name" class="form-control form__in form__in--text">
                                                                 </div>
                                                                 <div class="form-group form-group--col-6">
                                                                     <label for="in-comment-email" class="form__label control-label">Địa Chỉ Mail&nbsp;<span style="color: red">*</span></label>
-                                                                    <input type="email" name="txtEmailComment" id="in-comment-email" required class="form-control form__in form__in--text">
+                                                                    <input type="email" name="txtEmailComment" id="in-comment-email" class="form-control form__in form__in--text">
                                                                 </div>
                                                                 <% }%>
                                                                 <div class="form-group">
                                                                     <label for="in-comment-message" class="form__label control-label">Nội Dung&nbsp;<span style="color: red">*</span></label>
-                                                                    <textarea id="in-comment-message" name="txtComment" required class="form-control form__in form__in--textarea"></textarea>
+                                                                    <textarea onkeyup="return checkContent()" id="in-comment-message" name="txtComment" required class="form-control form__in form__in--textarea"></textarea>
                                                                 </div>
                                                             </div>
                                                             <div class="row row--buttons">
@@ -448,6 +448,24 @@
     </div>
 
     <script >
+        function checkName(){
+            var name=document.getElementById('in-comment-name').value;
+            var errName=document.getElementById('errName');
+            console.log('test 1'+name);
+            name=name.replace(/\s+/g," ");
+            document.getElementById('in-comment-name').value=name;
+            console.log('test 2'+name);
+            return;
+        }
+        function checkContent(){
+            var name=document.getElementById('in-comment-message').innerHTML;
+            var errName=document.getElementById('errName');
+            console.log('test 11'+name);
+            name=name.replace(/\s+/g," ");
+            document.getElementById('in-comment-message').value=name;
+            console.log('test 12'+name);
+            return;
+        }
 
         function showButton(idComment) {
             var idHidden = document.getElementById("idHiddent" + idComment);

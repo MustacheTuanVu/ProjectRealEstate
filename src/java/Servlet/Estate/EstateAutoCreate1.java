@@ -5,8 +5,11 @@
  */
 package Servlet.Estate;
 
+import Controller.EstateJpaController;
 import Controller.EstateTypeJpaController;
+import Controller.ProjectDetailsJpaController;
 import Controller.ProjectJpaController;
+import Entity.Estate;
 import Entity.EstateType;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,6 +42,8 @@ public class EstateAutoCreate1 extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+    String projectID = null;
+    List<Estate> estateList = null;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -63,33 +68,50 @@ public class EstateAutoCreate1 extends HttpServlet {
                 Controller.ProjectJpaController projectController = new ProjectJpaController(utx, emf);
                 List<EstateType> estateTypeList = estateType.findEstateTypeEntities();
                 request.setAttribute("estateTypeList", estateTypeList);
-
                 
+                String modal=(request.getParameter("modal")!=null ? request.getParameter("modal"): "");
+                request.setAttribute("modal", modal);
+
                 String block = null;
                 String estateNumber = null;
                 String estateNumbers = null;
-                String projectID = request.getParameter("projectID");
+                projectID = request.getParameter("projectID");
                 Entity.Project project = projectController.findProject(projectID);
                 request.setAttribute("projectID", projectID);
                 if (request.getParameter("getBlock") != null) {
+                    String numBlock = "";
+                    if (request.getParameter("numberBlock1") != null) {
+                        numBlock = request.getParameter("numberBlock1");
+                    }
                     block = request.getParameter("block");
                     estateNumber = request.getParameter("estateNumber");
                     estateNumbers = request.getParameter("estateNumber");
+                    System.out.println("numBlock "+numBlock);
                     response.sendRedirect(request.getContextPath() + "/EstateAutoCreate?"
                             + "projectID=" + projectID + "&"
                             + "block=" + block + "&"
                             + "estateNumbers=" + estateNumbers + "&"
                             + "getBlock=yes&"
-                            + "estateNumber=" + estateNumber + "");
+                            + "numBlock=" + numBlock
+                            + "&estateNumber=" + estateNumber + "");
                 } else {
 
                     List<String> blockList = new ArrayList<>();
-                    int tam=65;
+                    int tam = 65;
                     for (int i = 0; i < project.getBlockNumber(); i++) {
-                        String b=String.valueOf((char)tam++);
+                        String b = String.valueOf((char) tam++);
                         blockList.add(b);
-    
+
                     }
+                    estateList = new ArrayList<>();
+                    EstateJpaController estateControl = new EstateJpaController(utx, emf);
+
+                    List<String> estateIDList = estateControl.getEstateByProject(projectID);
+                    for (String string : estateIDList) {
+                        estateList.add(estateControl.findEstate(string));
+                    }
+
+                    request.setAttribute("estateList", estateList);
                     request.setAttribute("listBlock", blockList);
                     request.getRequestDispatcher("/admin/page/dashboard/manager/create_estate_of_project_1.jsp").forward(request, response);
                 }
@@ -127,7 +149,45 @@ public class EstateAutoCreate1 extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+//        processRequest(request, response);
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.EstateJpaController estateController = new EstateJpaController(utx, emf);
+        Controller.ProjectDetailsJpaController detailsController = new ProjectDetailsJpaController(utx, emf);
+        Controller.ProjectJpaController projectController = new ProjectJpaController(utx, emf);
+
+        Entity.Project project = projectController.findProject(projectID);
+        List<Integer> listDetails = detailsController.getBlockNumerByProjectId(projectID);
+        String cbmBox = "";
+
+        if (request.getParameter("blockName") != null) {
+
+            for (Estate listDetail : estateList) {
+                if (!listDetail.getBlock().equalsIgnoreCase(request.getParameter("blockName"))) {
+                    response.getWriter().write("0");
+                } else {
+                    response.getWriter().write("1");
+                    return;
+                }
+            }
+        } else {
+            int j = 0;
+            int tam = listDetails.size();
+            for (int i = 1; i <= project.getBlockNumber(); i++) {
+
+                if (i > tam) {
+                    cbmBox += "<option id=select value=\"" + i + "\" >" + i + "</option>";
+                } else {
+                    if (listDetails.get(j) == i) {
+                        cbmBox += "<option id=unSelect value=\"" + i + "\" >" + i + "</option>";
+                        j++;
+                    } else {
+                        cbmBox += "<option id=select value=\"" + i + "\" >" + i + "</option>";
+                        j++;
+                    }
+                }
+            }
+            response.getWriter().write(cbmBox);
+        }
     }
 
     /**

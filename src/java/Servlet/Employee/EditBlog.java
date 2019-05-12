@@ -102,6 +102,19 @@ public class EditBlog extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
+//        String title=request.getParameter("title")!=null ? request.getParameter("title") :" ";
+//        String cat=request.getParameter("cat")!=null ? request.getParameter("cat") :"0";
+//        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+//        
+//        Controller.PostJpaController postController= new PostJpaController(utx, emf);
+//        if (postController.checkPostByNameAndCat(Integer.valueOf(cat), title)==0) {
+//            response.getWriter().write("0");
+//            
+//        }else {
+//            response.getWriter().write("1");
+//            
+//        }
     }
 
     /**
