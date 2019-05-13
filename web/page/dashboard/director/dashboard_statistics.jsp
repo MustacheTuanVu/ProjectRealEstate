@@ -183,7 +183,7 @@
                                             <section class="info info--commission">
                                                 <div class="info__about">
                                                     <div class="info__table-wrap">
-                                                        <table id="example2" class="table table-bordered table-striped">
+                                                        <table id="example1" class="table table-bordered table-striped">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Danh mục</th>

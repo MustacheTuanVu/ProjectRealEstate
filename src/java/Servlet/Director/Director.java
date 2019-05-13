@@ -15,6 +15,7 @@ import Entity.Estate;
 import Entity.EstateType;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +65,7 @@ public class Director extends HttpServlet {
                 EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
                 EstateJpaController estateJpaController = new EstateJpaController(utx, emf);
                 List<Contract> contractList = contractDetailsJpaController.getContractByEmployee(-1);
+                DecimalFormat formatter = new DecimalFormat();
                 Double sumMoney = 0.0;
                 Double sumMoneyCompany = 0.0;
                 int estateTransaction = 0;
@@ -75,7 +77,7 @@ public class Director extends HttpServlet {
                 int contractCountCompany = 0;
                 boolean checkMoneyCompany = true;
                 for (Contract contract : contractList) {
-                    sumMoney = sumMoney + transactionsJpaController.getMoneyByContractIDWithEmployee(contract.getId());
+                    sumMoney = sumMoney + (transactionsJpaController.getMoneyByContractIDWithEmployee(contract.getId()) );
                     sumMoneyCompany = sumMoneyCompany + transactionsJpaController.getMoneyByContractIDWithCompany(contract.getId());
                     estateTransaction = estateTransaction + transactionsJpaController.getEstateCountByContractIDWithEmployee(contract.getId());
                     sumMoneyCompanyByJan = sumMoneyCompanyByJan + transactionsJpaController.getMoneyByContractIDWithCompanyMonth(
@@ -93,7 +95,7 @@ public class Director extends HttpServlet {
                     checkMoneyCompany = transactionsJpaController.checkMoneyByContractIDWithCompany(estateTransaction);
                     contractCountCompany = contractCountCompany + transactionsJpaController.getCountByContractIDWithCompany(contract.getId());
                 }
-                request.setAttribute("sumMoney", sumMoney/1000000000);
+                request.setAttribute("sumMoney", sumMoney);
                 request.setAttribute("sumMoneyCompany", sumMoneyCompany/1000000000);
                 request.setAttribute("estateTransaction", estateTransaction);
                 request.setAttribute("sumMoneyCompanyByJan", sumMoneyCompanyByJan/1000000000);
@@ -164,9 +166,9 @@ public class Director extends HttpServlet {
                     countMoneyEmployeeSold.put(employee.getId(), estateTypeControl.getMoneyByEmployee(employee.getId()));
                 }
                 
-                request.setAttribute("countMoneyEstateSoldList", countMoneyEstateSoldList);
-                request.setAttribute("countMoneyEstaetSoldList", countMoneyEstaetSoldList);
-                request.setAttribute("countMoneyEstateSoldListSize", countMoneyEstateSoldList.size());
+                request.setAttribute("employeeListTop", employeeListTop);
+                request.setAttribute("countMoneyEmployeeSold", countMoneyEmployeeSold);
+                request.setAttribute("countMoneyEmployeeSoldSize", countMoneyEmployeeSold.size());
                 
                 
 

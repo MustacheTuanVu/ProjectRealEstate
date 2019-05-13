@@ -9,7 +9,6 @@ import Controller.UsersJpaController;
 import Controller.exceptions.RollbackFailureException;
 import Entity.Users;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;

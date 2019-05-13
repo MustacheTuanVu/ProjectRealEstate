@@ -256,8 +256,8 @@
                                         <div class="cus-sat-stat weight-500 txt-success text-center mt-5">
 
                                             <span class="counter-anim">
-                                                <fmt:formatNumber type = "number" maxIntegerDigits = "2" value = "${sumMoney}" />
-                                            </span><span> Tỷ</span>
+                                                <fmt:formatNumber type="number" pattern="###,###" value="${sumMoney/1000000}" />
+                                            </span><span> Triệu</span>
                                         </div>
                                         <div class="progress-anim mt-20">
                                             <div class="progress">
@@ -270,29 +270,20 @@
                                 <div class="panel-wrapper collapse in">
                                     <div class="panel-body">
                                         <div>
-                                            <span class="pull-left inline-block capitalize-font txt-dark">
-                                                google chrome
-                                            </span>
-                                            <span class="label label-warning pull-right">50%</span>
-                                            <div class="clearfix"></div>
-                                            <hr class="light-grey-hr row mt-10 mb-10">
-                                            <span class="pull-left inline-block capitalize-font txt-dark">
-                                                mozila firefox
-                                            </span>
-                                            <span class="label label-danger pull-right">10%</span>
-                                            <div class="clearfix"></div>
-                                            <hr class="light-grey-hr row mt-10 mb-10">
-                                            <span class="pull-left inline-block capitalize-font txt-dark">
-                                                Internet explorer
-                                            </span>
-                                            <span class="label label-success pull-right">30%</span>
-                                            <div class="clearfix"></div>
-                                            <hr class="light-grey-hr row mt-10 mb-10">
-                                            <span class="pull-left inline-block capitalize-font txt-dark">
-                                                safari
-                                            </span>
-                                            <span class="label label-primary pull-right">10%</span>
-                                            <div class="clearfix"></div>
+                                            <c:forEach begin="0" end="2" items="${employeeListTop}" var="item">
+                                                <span class="pull-left inline-block capitalize-font txt-dark">
+                                                    ${item.employeeName}
+                                                </span>
+                                                <span class="pull-right">
+                                                    <c:forEach begin="0" end="${countMoneyEmployeeSoldSize}" items="${countMoneyEmployeeSold}" var="item2">
+                                                        <c:if test="${item.id == item2.key}">
+                                                            ${item2.value/1000000} triệu
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </span>
+                                                <div class="clearfix"></div>
+                                                <hr class="light-grey-hr row mt-10 mb-10">
+                                            </c:forEach>
                                         </div>
                                     </div>	
                                 </div>
@@ -305,7 +296,7 @@
                                 </div>
                                 <div class="panel-heading">
                                     <div class="pull-left">
-                                        <h6 class="panel-title txt-dark">Advertising &amp; Promotions</h6>
+                                        <h6 class="panel-title txt-dark">Doanh thu từng tháng</h6>
                                     </div>
                                     <div class="pull-right">
                                         <a href="#" class="pull-left inline-block refresh mr-15">
@@ -339,8 +330,112 @@
                             </div>
                         </div>
 
+                        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                            <div class="panel panel-default card-view">
+                                <div class="panel-heading">
+                                    <div class="pull-left">
+                                        <h3 class="txt-dark">
+                                            Số căn hộ đang chờ giao dịch: ${countUnitEstateSaleList}<br>
+                                            Tồng số tiền chờ giao dịch: 
+                                            <fmt:formatNumber type="number" pattern="###,###" value="${countMoneyEstaetSaleList/1000000000}" />
+                                            tỷ VND
+                                        </h3>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="panel-wrapper collapse in">
+                                    <div class="panel-body">
+                                        <div class="table-wrap">
+                                            <div class="table-responsive">
+                                                
+                                                <table id="example" class="table table-hover display  pb-30">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Danh mục</th>
+                                                            <th>Danh sách</th>
+                                                            <th>Tổng số tiền</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <c:forEach begin="0" end="${estateTypeListPublishSize}" items="${estateTypeListPublish}" var="item"><tr>
+                                                            <td>${item.typeName}</td>   
+                                                            <td>
+                                                                <c:forEach begin="0" end="${countEstateSaleListSize}" items="${countEstateSaleList}" var="item2">
+                                                                    <c:if test="${item.id == item2.key}">
+                                                                        ${item2.value}
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                            </td>
+                                                            <td>
+                                                                <c:forEach begin="0" end="${countMoneyEstateSaleListSize}" items="${countMoneyEstateSaleList}" var="item2">
+                                                                    <c:if test="${item.id == item2.key}">
+                                                                        ${item2.value/1000000000} tỷ
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                            <div class="panel panel-default card-view">
+                                <div class="panel-heading">
+                                    <div class="pull-left">
+                                        <h3 class="txt-dark">
+                                            Số căn đã bán: ${countUnitEstateSoldList}<br>
+                                            Tổng số tiền đang bán: 
+                                            <fmt:formatNumber type="number" pattern="###,###" value="${countMoneyEstaetSoldList/1000000000}" />
+                                            tỷ VND
+                                        </h3>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="panel-wrapper collapse in">
+                                    <div class="panel-body">
+                                        <div class="table-wrap">
+                                            <div class="table-responsive">
+                                                <table id="example1" class="table table-hover display  pb-30">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Danh mục</th>
+                                                            <th>Danh sách</th>
+                                                            <th>Tổng số tiền căn hộ đang bán</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <c:forEach begin="0" end="${estateTypeListPublishSize}" items="${estateTypeListPublish}" var="item"><tr>
+                                                                <td>${item.typeName}</td>   
+                                                                <td>
+                                                                    <c:forEach begin="0" end="${countEstateSoldListSize}" items="${countEstateSoldList}" var="item2">
+                                                                        <c:if test="${item.id == item2.key}">
+                                                                            ${item2.value}
+                                                                        </c:if>
+                                                                    </c:forEach>
+                                                                </td>
+                                                                <td>
+                                                                    <c:forEach begin="0" end="${countMoneyEstateSoldListSize}" items="${countMoneyEstateSoldList}" var="item2">
+                                                                        <c:if test="${item.id == item2.key}">
+                                                                            ${item2.value/1000000000} tỷ
+                                                                        </c:if>
+                                                                    </c:forEach>
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- /Row -->
+
                 </div>
 
                 <!-- Footer -->
@@ -370,7 +465,18 @@
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
         <!-- Data table JavaScript -->
+        
+        
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+        <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+        <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/datatables.net-buttons/js/buttons.flash.min.js"></script>
+        <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/jszip/dist/jszip.min.js"></script>
+        <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/pdfmake/build/pdfmake.min.js"></script>
+        <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/pdfmake/build/vfs_fonts.js"></script>
+
+        <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/datatables.net-buttons/js/buttons.html5.min.js"></script>
+        <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/datatables.net-buttons/js/buttons.print.min.js"></script>
+        <script src="<%=request.getContextPath()%>/admin/dist/js/export-table-data.js"></script>
 
         <!-- Slimscroll JavaScript -->
         <script src="<%=request.getContextPath()%>/admin/dist/js/jquery.slimscroll.js"></script>
@@ -390,7 +496,7 @@
         <!-- Sparkline JavaScript 
         <script src="<%=request.getContextPath()%>/admin/vendors/jquery.sparkline/dist/jquery.sparkline.min.js"></script>
         `-->
-        
+
         <!-- Owl JavaScript -->
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/owl.carousel/dist/owl.carousel.min.js"></script>
 

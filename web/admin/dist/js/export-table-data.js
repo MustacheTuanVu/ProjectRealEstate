@@ -4,9 +4,17 @@
 
 $(document).ready(function() {
 	$('#example').DataTable( {
+                responsive: true,
 		dom: 'Bfrtip',
 		buttons: [
-			'copy', 'csv', 'excel', 'pdf', 'print'
+			'pdf'
+		]
+	} );
+        
+        $('#example1').DataTable( {
+		dom: 'Bfrtip',
+		buttons: [
+			'pdf'
 		]
 	} );
 } );

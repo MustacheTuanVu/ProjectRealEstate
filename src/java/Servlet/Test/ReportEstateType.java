@@ -3,29 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet.User;
+package Servlet.Test;
 
-import Controller.UsersJpaController;
-import Controller.exceptions.RollbackFailureException;
-import Entity.Users;
+import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.EntityManagerFactory;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.UserTransaction;
+import java.awt.Desktop;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
-@WebServlet(name = "Delete_User_Servlet", urlPatterns = {"/Delete_User_Servlet"})
-public class Delete_User_Servlet extends HttpServlet {
+@WebServlet(name = "ReportEstateType", urlPatterns = {"/ReportEstateType"})
+public class ReportEstateType extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,29 +32,23 @@ public class Delete_User_Servlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    UserTransaction utx;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        NewClass.runReport();
         try {
-            response.setContentType("text/html;charset=UTF-8");
-            
-            EntityManagerFactory em=(EntityManagerFactory) getServletContext().getAttribute("emf");
-            Controller.UsersJpaController userCon= new UsersJpaController(utx, em);
-            
-            String id=(request.getParameter("id"));
-            
-            
-            Users user= userCon.findUsers(Integer.valueOf(request.getParameter("id")));
-            user.setStatus(false);
-            userCon.edit(user);
-            
-            response.sendRedirect(request.getContextPath()+"/List_User_Servlet");
-        } catch (RollbackFailureException ex) {
-            Logger.getLogger(Delete_User_Servlet.class.getName()).log(Level.SEVERE, null, ex);
+            if ((new File("D:/abc/STUDENT_MARK_.pdf")).exists()) {
+                Process p = Runtime
+                        .getRuntime()
+                        .exec("rundll32 url.dll,FileProtocolHandler D:/abc/STUDENT_MARK_.pdf");
+                p.waitFor();
+            } else {
+                System.out.println("File does not exist");
+
+            }
         } catch (Exception ex) {
-            Logger.getLogger(Delete_User_Servlet.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -99,5 +89,16 @@ public class Delete_User_Servlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    public static Connection getConnection() {
+        Connection conn = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=RealEstate", "sa", "123456");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return conn;
+    }
 
 }
