@@ -10,6 +10,7 @@ import Controller.EstateJpaController;
 import Controller.EstateTypeJpaController;
 import Controller.TransactionsJpaController;
 import Entity.Contract;
+import Entity.Employee;
 import Entity.Estate;
 import Entity.EstateType;
 import java.io.IOException;
@@ -107,11 +108,7 @@ public class Director extends HttpServlet {
                 request.setAttribute("estateTypeListPublish", estateTypeListPublish);
                 request.setAttribute("estateTypeListPublish1", estateTypeListPublish1);
                 request.setAttribute("estateTypeListPublishSize", estateTypeListPublish.size());
-
-                /*
-            EstateType estateType1 = new EstateType("1");
-            estateType1.getEstateList().get(1).getContractDetails().getContractId().getStatus();
-                 */
+                
                 Map<String, Integer> countEstateSaleList = new HashMap<>();
                 Map<String, Double> countMoneyEstateSaleList = new HashMap<>();
                 int countUnitEstateSaleList = 0;
@@ -159,6 +156,19 @@ public class Director extends HttpServlet {
                 request.setAttribute("countUnitEstateSoldList", countUnitEstateSoldList);
                 request.setAttribute("countEstateSoldList", countEstateSoldList);
                 request.setAttribute("countEstateSoldListSize", countEstateSaleList.size());
+                
+                // employee report
+                List<Employee> employeeListTop = estateTypeControl.sortEmployeeByMoney();
+                Map<Integer, Double> countMoneyEmployeeSold = new HashMap<>();
+                for (Employee employee : employeeListTop) {
+                    countMoneyEmployeeSold.put(employee.getId(), estateTypeControl.getMoneyByEmployee(employee.getId()));
+                }
+                
+                request.setAttribute("countMoneyEstateSoldList", countMoneyEstateSoldList);
+                request.setAttribute("countMoneyEstaetSoldList", countMoneyEstaetSoldList);
+                request.setAttribute("countMoneyEstateSoldListSize", countMoneyEstateSoldList.size());
+                
+                
 
                 request.getRequestDispatcher("/admin/page/dashboard/director/index.jsp").forward(request, response);
             } else {

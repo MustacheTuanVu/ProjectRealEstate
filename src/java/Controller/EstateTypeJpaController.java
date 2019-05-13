@@ -9,6 +9,7 @@ import Controller.exceptions.IllegalOrphanException;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
+import Entity.Employee;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -238,6 +239,40 @@ public class EstateTypeJpaController implements Serializable {
         }
     }
     
+    //1
+    public List<Employee> sortEmployeeByMoney() {
+        EntityManager em = getEntityManager();
+        try {
+            List<Employee> ret = new ArrayList<Employee>();
+            Query qr = em.createNativeQuery("SELECT employee_id FROM contract where status='done'  GROUP BY employee_id ORDER BY SUM(payment_amount) desc");
+            List<Integer> employeeIDList = qr.getResultList();
+            
+            for (Integer employeeID : employeeIDList) {
+                Query query = em.createNativeQuery("SELECT * FROM employee where id='" + employeeID + "'", EstateType.class);
+                ret.add((Employee) query.getSingleResult());
+            }
+            return ret;
+        } finally {
+            em.close();
+        }
+    }
+    
+    //2
+    public Double getMoneyByEmployee(int employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query1 = em.createNativeQuery("SELECT SUM(payment_amount) FROM contract where employee_id='" + employeeID + "' and status='done' ");
+            Double sumSale1 = (Double) query1.getSingleResult();
+            
+            
+            
+            return sumSale1;
+        } finally {
+            em.close();
+        }
+    }
+    
+    //1
     public List<EstateType> sortEstateType() {
         EntityManager em = getEntityManager();
         try {
@@ -254,7 +289,6 @@ public class EstateTypeJpaController implements Serializable {
             em.close();
         }
     }
-
     public int getEstateTypeByEstateCount(String estateTypeID) {
         EntityManager em = getEntityManager();
         try {
@@ -266,6 +300,8 @@ public class EstateTypeJpaController implements Serializable {
         }
     }
     
+    
+    //2
     public int getEstateTypeByEstateCountStaticPublic(String estateTypeID) {
         EntityManager em = getEntityManager();
         try {
