@@ -83,13 +83,13 @@ public class EditFee extends HttpServlet {
             Fee fee = feeJpaController.findFee(1);
             request.setAttribute("fee", fee);
             if (request.getParameter("submit") != null) {
-                String feeEmployee = request.getParameter("feeEmployee");
-                String feeCompany = request.getParameter("feeCompany");
+                Double feeEmployee = Double.valueOf(request.getParameter("feeEmployee")) ;
+                Double feeCompany = Double.valueOf(request.getParameter("feeCompany"));
 
                 UsersJpaController usersJpaController = new UsersJpaController(utx, emf);
                 
-                fee.setFeeEmployee(Integer.parseInt(feeEmployee));
-                fee.setFeeEstate(Integer.parseInt(feeCompany));
+                fee.setFeeEmployee(Integer.parseInt(String.valueOf(Math.round(feeEmployee))));
+                fee.setFeeEstate(Integer.parseInt(String.valueOf(Math.round(feeCompany))));
 
                 EmployeeJpaController employeeJpaController = new EmployeeJpaController(utx, emf);
                 ManagerJpaController managerJpaController = new ManagerJpaController(utx, emf);
@@ -113,7 +113,7 @@ public class EditFee extends HttpServlet {
         // BEGIN NAVBAR HEADER FONTEND //
         List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();
         request.setAttribute("estateTypeList", estateTypeList);
-        request.getRequestDispatcher("/admin/page/dashboard/director/dashboard_fee.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin/page/dashboard/director/fee.jsp").forward(request, response);
         // END NAVBAR HEADER FONTEND //
     }
 

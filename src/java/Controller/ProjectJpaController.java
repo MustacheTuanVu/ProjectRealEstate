@@ -316,15 +316,14 @@ public class ProjectJpaController implements Serializable {
                 if (filter.equals("all")) {
                     query = em.createNativeQuery("SELECT * FROM project "
                             //cuong edit
-                            //+ "where project_status  like ('publish') and  [status] like ('publish') "
+                            + "where project_status  like ('publish') and  [status] like ('publish') "
                             + "ORDER BY date_add DESC",
                             Project.class);
                 } else {
                     // cuong edit
-                    query = em.createNativeQuery("SELECT * FROM project "
-                            //+ "where "
-                            //+ "project_status LIKE '%publish%' AND "
-                            //+ "status LIKE '%publish%' "
+                    query = em.createNativeQuery("SELECT * FROM project where "
+                            + "project_status LIKE '%publish%' AND "
+                            + "status LIKE '%publish%' "
                             + "ORDER BY date_add DESC",
                             Project.class);
                 }
@@ -332,8 +331,7 @@ public class ProjectJpaController implements Serializable {
                 return ret;
             } else {
                 query = em.createNativeQuery("SELECT * FROM project where "
-                        + "manager_id='" + managerID + "' "
-                        //+ "and project_status  like ('publish') and  [status] like ('publish') "
+                        + "manager_id='" + managerID + "' and project_status  like ('publish') and  [status] like ('publish') "
                         + "ORDER BY date_add DESC", Project.class
                 );
                 if (!query.getResultList().isEmpty()) {
@@ -356,8 +354,7 @@ public class ProjectJpaController implements Serializable {
             List<String> ret = (List<String>) new ArrayList<String>();
             if (managerID.equals("all")) {
                 query = em.createNativeQuery("SELECT project_id FROM project where "
-                        + "project_address LIKE N'%" + address + "%' "
-                                + "AND "
+                        + "project_address LIKE N'%" + address + "%' AND "
                         + "project_status LIKE '%publish%' AND "
                         + "status LIKE '%publish%'"
                 );
@@ -368,8 +365,7 @@ public class ProjectJpaController implements Serializable {
                 List<Project> projectList = getProjectByManager(managerID, "all");
                 for (Project project : projectList) {
                     query = em.createNativeQuery("SELECT project_id FROM project where "
-                            + "project_id = '" + project.getProjectId() + "' "
-                                    + "AND "
+                            + "project_id = '" + project.getProjectId() + "' AND "
                             + "project_address LIKE N'%" + address + "%' and project_status  like ('publish') and  [status] like ('publish') "
                     );
                     System.out.println(query);
@@ -395,7 +391,6 @@ public class ProjectJpaController implements Serializable {
     }
 
     // cuong add
-
     public List<Project> getListByStatusPublish() {
         EntityManager em = getEntityManager();
         Query q = em.createNativeQuery("select * from project where project_status  like ('publish') and  [status] like ('publish')");
@@ -404,13 +399,22 @@ public class ProjectJpaController implements Serializable {
     }
 
     // cuong add
-
     public int checkAddressProject(String address) {
         EntityManager em = getEntityManager();
         Query q = em.createNativeQuery("select count(project_id) as dem from project \n"
                 + "where project_address like N'" + address + "' and project_status  like 'publish' and  [status] like 'publish'");
-
         return (int) q.getSingleResult();
     }
 
+    // cuong add
+    public int checkAddressProjectEdit(String address, String projectID) {
+        EntityManager em = getEntityManager();
+        Query q = em.createNativeQuery("select count(project_id) as dem from project \n"
+                + "where project_address like N'"+address+"' \n"
+                + "and project_status  like 'publish' and  [status] like 'publish' \n"
+                + "and project_address not in (select project_address from project where project_id="+projectID+")");
+        return (int) q.getSingleResult();
+    }
+
+  
 }

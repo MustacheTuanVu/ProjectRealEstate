@@ -5,13 +5,15 @@
 --%>
 
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <!DOCTYPE html>
 <html lang="en">
     <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <title>SGEstate24h</title>
@@ -112,20 +114,20 @@
                                         <form onsubmit="return checkForm()"  action="<%=request.getContextPath()%>/EstateAutoCreate1" >
                                             <div  style="display: ${getBlock}">
                                                 <label for="in-1" class="control-label">Số Block</label>
-                                                <div>
-                                                    <select id="cbmBlock" onchange="getValueComboBox()"  class="form-control" >
-                                                    </select>
+
+                                                <select id="cbmBlock" name="numberBlock1" onchange="getValueComboBox(this)"  class="form-control" >
+                                                </select>
+                                                <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
+                                                    <div class="parsley-required"></div>
                                                 </div>
-                                                <input type="hidden" id="txtCbm" name="numberBlock1" value="20" />
-                                                <label for="in-1" class="control-label">Tên Block</label> &nbsp;<span style="color: red" >*</span>&nbsp; &nbsp;<span id="errBlockName" style="color: red" ></span>
-                                                <input type="hidden"  name="projectID" value="${projectID}">
+                                                <input type="hidden" id="txtCbm" name="numberBlock1"  />
+                                                <div id="ten"><label id="ten" for="in-1" class="control-label">Tên Block</label> &nbsp;<span style="color: red" >*</span>&nbsp; &nbsp;<span id="errBlockName" style="color: red" ></span></div>
+                                                <input type="hidden" id="projectID" name="projectID" value="${projectID}">
                                                 <input id="in-1"  onkeyup="return checkBlockName()"    type="text" name="block" data-placeholder="---" class="form-control">
                                                 <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
                                                     <div class="parsley-required"></div>
                                                 </div>
-
-
-                                                <label for="in-2" class="control-label">Số Căn Hộ Của Từng Tầng</label>&nbsp;<span style="color: red" >*</span>&nbsp; &nbsp;<span id="errFloor" style="color: red" ></span>
+                                                <div id="socan"><label for="in-2" class="control-label">Số Căn Hộ Của Từng Tầng</label>&nbsp;<span style="color: red" >*</span>&nbsp; &nbsp;<span id="errFloor" style="color: red" ></span></div>
                                                 <input id="in-2"  type="number" onkeyup="return checkFloor()" name="estateNumber" data-placeholder="---" class="form-control">
                                                 <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
                                                     <div class="parsley-required">${message}</div>
@@ -133,7 +135,7 @@
                                             </div>
 
                                             <div >
-                                                <button  type="submit" name="getBlock" value="yes" class="form__submit">Xác Nhận</button>
+                                                <button id="btnSubmit" type="submit" name="getBlock" value="yes" class="form__submit">Xác Nhận</button>
                                             </div>
                                         </form>  
                                     </div>
@@ -163,112 +165,8 @@
 
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <c:forEach items="${estateList}" var="item">
-                                                        <tr <c:if test="${item.estateStatus=='project'}">onclick="myFunction(${item.id})"</c:if>
+                                                <tbody id="tblEstate">
 
-                                                            <c:if test="${item.estateStatus!='project'}">style="background: #cccccc !important"</c:if>>
-
-                                                                <td class="datatable__cell datatable__cell--5">${item.id}</td>
-                                                            <td class="datatable__cell datatable__cell--5">${item.block}</td>
-                                                            <td class="datatable__cell datatable__cell--5">${item.floor}</td>
-                                                            <td class="datatable__cell datatable__cell--5">${item.areas}</td>
-                                                            <td class="datatable__cell datatable__cell--5">${item.bedRoom}</td>
-                                                            <td class="datatable__cell datatable__cell--5">${item.bathRoom}</td>
-                                                            <td class="datatable__cell datatable__cell--5">${item.price}</td>
-                                                            <td class="datatable__cell datatable__cell--5">
-                                                                <c:if test="${item.estateStatus=='project'}">
-                                                                    Đang Mở Bán
-                                                                </c:if>
-                                                                <c:if test="${item.estateStatus=='Saled'}">
-                                                                    Đã Bán
-                                                                </c:if>
-                                                            </td>
-                                                        </tr>
-                                                    <div id="${item.id}" tabindex="-1" role="dialog" class="modal fade">
-                                                        <div role="document" class="modal-dialog modal-md">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <div class="widget js-widget widget--dashboard">
-                                                                        <div class="widget__header">
-
-                                                                            <h2 class="widget__title">Chi tiết bất động sản</h2>
-
-                                                                        </div>
-                                                                        <div class="widget__content">
-                                                                            <!-- BEGIN SECTION ACTIVITY-->
-                                                                            <section class="activity activity--feed">
-                                                                                <ul class="activity__list">
-
-                                                                                    <li class="activity__date">Số bất động sản ${item.id}</li>
-
-                                                                                    <li class="activity__item">
-                                                                                        <div class="activity__title">
-                                                                                            <a>Block: </a>${item.block}
-                                                                                        </div>
-                                                                                    </li>
-                                                                                    <li class="activity__item">
-                                                                                        <div class="activity__title">
-
-                                                                                            <a>Số tầng: </a>${item.floor}
-
-                                                                                        </div>
-                                                                                    </li>
-                                                                                    <li class="activity__item">
-                                                                                        <div class="activity__title">
-
-                                                                                            <a>Diện tích </a>${item.areas}
-
-                                                                                        </div>
-                                                                                    </li>
-                                                                                    <li class="activity__item">
-                                                                                        <div class="activity__title">
-
-                                                                                            <a>Phòng ngủ </a>${item.bedRoom}
-
-                                                                                        </div>
-                                                                                    </li>
-                                                                                    <li class="activity__item">
-                                                                                        <div class="activity__title">
-
-                                                                                            <a>Phòng tắm </a>${item.bathRoom}
-
-                                                                                        </div>
-                                                                                    </li>
-                                                                                    <li class="activity__item">
-                                                                                        <div class="activity__title">
-
-                                                                                            <a>Giá  </a>${item.price}
-
-                                                                                        </div>
-                                                                                    </li>
-                                                                                    <li class="activity__item">
-                                                                                        <div class="activity__title">
-
-                                                                                            <a>Trạng thái: </a>${item.estateStatus}
-
-
-                                                                                        </div>
-                                                                                    </li>
-                                                                                </ul>
-                                                                                <div class="widget__footer">
-                                                                                    <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${item.id}" class="widget__more">
-
-                                                                                        Yêu cầu mua
-
-                                                                                    </a>
-                                                                                </div>
-                                                                            </section>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </c:forEach>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -276,6 +174,21 @@
                                 </div>
                             </div>
 
+                        </div>
+
+                    </div>
+                </div>
+                <div id="modal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                <h4 class="modal-title"> <strong>Tạo Căn Hộ Thành Công !!!</strong></h4>
+
+                                <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
+                            </div>
                         </div>
 
                     </div>
@@ -332,81 +245,122 @@
 
         <!-- JavaScript -->
         <script>
-            function getValueComboBox(){
-                var cbmBlock=document.getElementById('cbmBlock').value;
-                document.getElementById('txtCbm').value=cbmBlock;
-               
-  
-    }
-                                                            function checkForm() {
-                                                                var errFloor = document.getElementById('errFloor');
-                                                                var floorNum = document.getElementById('in-2').value;
-                                                                
-                                                                var blockName = document.getElementById('in-1').value;
-                                                                var errBlockName=document.getElementById("errBlockName");
-                                                                
-                                                                if (floorNum.length == '') {
-                                                                    errFloor.innerHTML = 'Mời Bạn Nhập Số Tầng !!!';
-                                                                    
-                                                                } 
-                                                                if (blockName.length == '') {
-                                                                    errBlockName.innerHTML = 'Mời Bạn Tên Block !!!';
+                                                    $(document).ready(function () {
+                                                        // getValueComboBox(document.getElementById('cbmBlock'));
+                                                        //console.log('start 123 '+document.getElementById('cbmBlock')) ;
+                                                        var projectId = document.getElementById('projectID').value;
+                                                        var xhttp = new XMLHttpRequest();
+                                                        xhttp.onreadystatechange = function () {
+                                                            if (this.readyState == 4 && this.status == 200) {
+                                                                document.getElementById('tblEstate').innerHTML = this.responseText;
+                                                                if (this.responseText == "") {
+                                                                    //document.getElementById('btnSubmit').style.display = 'block';
+                                                                    checkHiddenShow('block');
+                                                                } else {
+                                                                    //document.getElementById('btnSubmit').style.display = 'none';
+                                                                    checkHiddenShow('none');
+                                                                }
+                                                            }
+                                                        };
+                                                        xhttp.open("POST", "EstateAutoCreate?projectID=" + projectId + "&block=1", true);
+                                                        xhttp.send();
+                                                    });
+                                                    function checkHiddenShow(rs) {
+                                                        document.getElementById('btnSubmit').style.display = rs;
+                                                        document.getElementById('ten').style.display = rs;
+                                                        document.getElementById('in-1').style.display = rs;
+                                                        document.getElementById('socan').style.display = rs;
+                                                        document.getElementById('in-2').style.display = rs;
+                                                    }
+                                                    function getValueComboBox(elem) {
+                                                        var optionID = '';
+                                                        var optionValue = '';
+                                                        var projectId = document.getElementById('projectID').value;
+                                                        if (elem.selectedIndex >= 0) {
+                                                            console.log('elem select ' + elem.selectedIndex);
+                                                            optionID = elem.options[elem.selectedIndex].getAttribute('id');
+                                                            optionValue = elem.options[elem.selectedIndex].getAttribute('value');
+                                                            if (optionID === 'unSelect') {
+                                                                checkHiddenShow('none');
+                                                            } else {
+                                                                checkHiddenShow('block');
+                                                            }
+                                                            var xhttp = new XMLHttpRequest();
+                                                            xhttp.onreadystatechange = function () {
+                                                                if (this.readyState == 4 && this.status == 200) {
+                                                                    document.getElementById('tblEstate').innerHTML = this.responseText;
+                                                                }
+                                                            };
+                                                            xhttp.open("POST", "EstateAutoCreate?projectID=" + projectId + "&block=" + optionValue, true);
+                                                            xhttp.send();
+                                                        }
+                                                    }
+                                                    ;
+                                                    function checkForm() {
+                                                        var errFloor = document.getElementById('errFloor');
+                                                        var floorNum = document.getElementById('in-2').value;
+                                                        var blockName = document.getElementById('in-1').value;
+                                                        var errBlockName = document.getElementById("errBlockName");
+                                                        if (floorNum.length == '') {
+                                                            errFloor.innerHTML = 'Mời Bạn Nhập Số Tầng !!!';
+                                                        }
+                                                        if (blockName.length == '') {
+                                                            errBlockName.innerHTML = 'Mời Bạn Tên Block !!!';
+                                                            return false;
+                                                        } else {
+                                                            return true;
+                                                        }
+                                                    }
+                                                    ;
+                                                    function checkFloor() {
+                                                        var errFloor = document.getElementById('errFloor');
+                                                        var floorNum = document.getElementById('in-2').value;
+                                                        if (floorNum < 1 || floorNum >= 20) {
+                                                            errFloor.innerHTML = 'Số Tầng Từ 1 Đến 20 !!!';
+                                                            return false;
+                                                        } else
+                                                            errFloor.innerHTML = '';
+                                                        return true;
+                                                        {
+                                                        }
+                                                    }
+                                                    ;
+                                                    function checkBlockName() {
+                                                        var blockName = document.getElementById('in-1').value;
+                                                        blockName = blockName.replace(/\s+/g, "");
+                                                        document.getElementById('in-1').value = blockName;
+                                                        var xhttp = new XMLHttpRequest();
+                                                        xhttp.onreadystatechange = function () {
+                                                            if (this.readyState == 4 && this.status == 200) {
+                                                                if (this.responseText == 1) {
+                                                                    document.getElementById("errBlockName").innerHTML = 'Tên Block Đã Tồn Tại !!!';
                                                                     return false;
-                                                                } else{
+                                                                } else
+                                                                if (blockName.length > 2 || blockName.length == 0) {
+                                                                    document.getElementById("errBlockName").innerHTML = 'Tên Block 1 Đến 2 Ký Tự !!!';
+                                                                    return false;
+                                                                } else {
+                                                                    document.getElementById("errBlockName").innerHTML = '';
                                                                     return true;
                                                                 }
                                                             }
-                                                            ;
-                                                            function checkFloor() {
-                                                                var errFloor = document.getElementById('errFloor');
-                                                                var floorNum = document.getElementById('in-2').value;
-                                                                
-                                                                if (floorNum < 1 || floorNum >= 20) {
-                                                                    errFloor.innerHTML = 'Số Tầng Từ 1 Đến 20 !!!';
-                                                                    return false;
-                                                                } else
-                                                                    errFloor.innerHTML = '';
-                                                                return true;
-                                                                {
-                                                                }
+                                                        };
+                                                        xhttp.open("POST", "EstateAutoCreate1?blockName=" + blockName, true);
+                                                        xhttp.send();
+                                                    }
+                                                    ;
+                                                    window.onload = (function () {
+                                                        var xhttp = new XMLHttpRequest();
+                                                        xhttp.onreadystatechange = function () {
+                                                            if (this.readyState == 4 && this.status == 200) {
+                                                                document.getElementById("cbmBlock").innerHTML = this.responseText;
+                                                                //getValueComboBox();
                                                             }
-                                                            ;
-                                                            function checkBlockName() {
-                                                                var blockName = document.getElementById('in-1').value;
-                                                                blockName = blockName.replace(/\s+/g, "");
-                                                                document.getElementById('in-1').value = blockName;
-                                                                var xhttp = new XMLHttpRequest();
-                                                                xhttp.onreadystatechange = function () {
-                                                                    if (this.readyState == 4 && this.status == 200) {
-                                                                        if (this.responseText == 1) {
-                                                                            document.getElementById("errBlockName").innerHTML = 'Tên Block Đã Tồn Tại !!!';
-                                                                            return false;
-                                                                        } else
-                                                                        if (blockName.length > 2 || blockName.length == 0) {
-                                                                            document.getElementById("errBlockName").innerHTML = 'Tên Block 1 Đến 2 Ký Tự !!!';
-                                                                            return false;
-                                                                        } else {
-                                                                            document.getElementById("errBlockName").innerHTML = '';
-                                                                            return true;
-                                                                        }
-                                                                    }
-                                                                };
-                                                                xhttp.open("POST", "EstateAutoCreate1?blockName=" + blockName, true);
-                                                                xhttp.send();
-                                                            }
-                                                            ;
-                                                            window.onload = (function () {
-                                                                
-                                                                var xhttp = new XMLHttpRequest();
-                                                                xhttp.onreadystatechange = function () {
-                                                                    if (this.readyState == 4 && this.status == 200) {
-                                                                        document.getElementById("cbmBlock").innerHTML = this.responseText;
-                                                                        getValueComboBox();
-                                                                    }
-                                                                };
-                                                                xhttp.open("POST", "EstateAutoCreate1", true);
-                                                                xhttp.send();
-                                                            });</script>
+                                                        };
+                                                        xhttp.open("POST", "EstateAutoCreate1", true);
+                                                        xhttp.send();
+                                                    });
+        </script>
         <!-- jQuery -->
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/jquery/dist/jquery.min.js"></script>
 
@@ -452,14 +406,12 @@
         <script src="<%=request.getContextPath()%>/admin/dist/js/init.js"></script>
         <script src="<%=request.getContextPath()%>/admin/dist/js/dashboard-data.js"></script>
         <script type="text/javascript">
-                                                            $(window).on('load', function () {
-                                                                $('#modal').modal('${modal}');
-                                                                $('#modalEdit').modal('${modalEdit}');
-                                                            });
+                                                    $(window).on('load', function () {
+                                                        $('#modal').modal('${modal}');
+                                                        $('#modalEdit').modal('${modalEdit}');
+                                                    });
         </script>
 
     </body>
 
 </html>
-
-

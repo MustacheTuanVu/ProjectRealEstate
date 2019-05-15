@@ -210,7 +210,7 @@ public class TransactionsJpaController implements Serializable {
     public Double getMoneyByContractIDWithEmployee(int contractID) {
         EntityManager em = getEntityManager();
         try {
-            Query query1 = em.createNativeQuery("SELECT SUM(payment_amount * fee_precentage /100) FROM contract where "
+            Query query1 = em.createNativeQuery("SELECT SUM(payment_amount) FROM contract where "
                     + "id='" + contractID + "' AND "
                     + "status LIKE '%done%'"
             );
@@ -230,8 +230,7 @@ public class TransactionsJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             Query query1 = em.createNativeQuery("SELECT SUM(money) FROM transactions where "
-                    + "contract_id='" + contractID + "' AND "
-                    + "transactions_note LIKE '%request sale%'"
+                    + "contract_id='" + contractID + "'"
             );
             Double sumSale1 = 0.0;
             if(query1.getSingleResult() !=null){
@@ -240,17 +239,7 @@ public class TransactionsJpaController implements Serializable {
                 sumSale1 = 0.0;
             }
             
-            Query query2 = em.createNativeQuery("SELECT SUM(money)/(SELECT fee_estate FROM fee where id=1)/100 FROM transactions where "
-                    + "contract_id='" + contractID + "' AND "
-                    + "transactions_note IS NULL"
-            );
-            Double sumSale2 = 0.0;
-            if(query2.getSingleResult() !=null){
-                sumSale2 = (Double) query2.getSingleResult();
-            }else{
-                sumSale2 = 0.0;
-            }
-            return sumSale1 + sumSale2;
+            return sumSale1;
         } finally {
             em.close();
         }
@@ -301,7 +290,7 @@ public class TransactionsJpaController implements Serializable {
                 sumSale1 = 0.0;
             }
             
-            Query query2 = em.createNativeQuery("SELECT SUM(money)/(SELECT fee_estate FROM fee where id=1)/100 FROM transactions where "
+            Query query2 = em.createNativeQuery("SELECT SUM(money) FROM transactions where "
                     + "contract_id='" + contractID + "' AND "
                     + "transactions_note IS NULL AND "
                     + "transactions_date LIKE '%"+month+"%'"

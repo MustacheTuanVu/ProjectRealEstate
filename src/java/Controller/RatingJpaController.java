@@ -221,10 +221,10 @@ public class RatingJpaController implements Serializable {
     }
     
     // cuong add
-    public Double getPointByProject(String id){
+    public Integer getPointByProject(String id){
         EntityManager em=getEntityManager();
         Query q=em.createNativeQuery("select avg(point_rating) as point from rating where id_project ="+id);
-        return (Double) q.getSingleResult();
+        return (Integer) q.getSingleResult();
     }
     // cuong add
     public Integer checkUserRatingByIdUser(int idUser,String idProject){

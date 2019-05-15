@@ -75,6 +75,28 @@
 
                     <!-- Row -->
                     <div class="row">
+                        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                            <div class="panel panel-default card-view panel-refresh">
+                                <div class="panel-wrapper collapse in">
+                                    <div class="panel-body">
+                                        <a href="<%=request.getContextPath()%>/ServletGenerateReportEstateType" class="btn btn-primary">Xuất báo cáo doanh thu theo danh mục bất động sản</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                    <!--
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="panel panel-default card-view panel-refresh">
+                                <div class="panel-wrapper collapse in">
+                                    <div class="panel-body">
+                                        
+                                        <a href="<%=request.getContextPath()%>/ServletGenerateReportEmployee" class="btn btn-primary">Xuất báo cáo doanh thu theo nhân viên</a>
+                                    
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                                    -->
                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <div class="panel panel-default card-view panel-refresh">
                                 <div class="refresh-container">
@@ -189,7 +211,7 @@
                                         <div class="cus-sat-stat weight-500 txt-success text-center mt-5">
 
                                             <span class="counter-anim">
-                                                <fmt:formatNumber type = "number" maxIntegerDigits = "2" value = "${sumMoneyCompany}" />
+                                                <fmt:formatNumber type="number" pattern="###,###" value="${sumMoneyCompany}" />
                                             </span><span> Tỷ</span>
                                         </div>
                                         <div class="progress-anim mt-20">
@@ -248,6 +270,7 @@
                                 </div>
                             </div>
                         </div>
+                                                <!--
                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <div class="panel panel-default card-view">
                                 <div class="panel-heading">
@@ -277,7 +300,7 @@
                                                 <span class="pull-right">
                                                     <c:forEach begin="0" end="${countMoneyEmployeeSoldSize}" items="${countMoneyEmployeeSold}" var="item2">
                                                         <c:if test="${item.id == item2.key}">
-                                                            ${item2.value/1000000} triệu
+                                                            ${item2.value/1000000000} triệu
                                                         </c:if>
                                                     </c:forEach>
                                                 </span>
@@ -289,6 +312,7 @@
                                 </div>
                             </div>
                         </div>
+                                                -->
                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <div class="panel panel-default card-view panel-refresh">
                                 <div class="refresh-container">

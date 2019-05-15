@@ -467,13 +467,10 @@
                                                                             function checkOnSubmit() {
                                                                                 var projectName = document.getElementById('in-1').value;
                                                                                 var errorName = document.getElementById('errorName');
-
                                                                                 var projectAddress = document.getElementById('in-6').value;
                                                                                 var errorAddress = document.getElementById('errorAddress');
-
                                                                                 var projectDate = document.getElementById('in-datetime1').value;
                                                                                 var errorDate = document.getElementById('errorYear');
-
                                                                                 var tam;
                                                                                 if (projectName == '') {
                                                                                     errorName.innerHTML = 'Tên Dự Án Từ 10 Đến 200 Ký Tự !!!';
@@ -483,7 +480,6 @@
                                                                                 }
                                                                                 if (projectDate == '') {
                                                                                     errorDate.innerHTML = 'Mời Bạn Chọn Ngày !!!';
-
                                                                                 } else {
                                                                                     tam = confirm('Bạn Có Muốn Tạo Dự Án !!!');
                                                                                     if (tam) {
@@ -495,10 +491,6 @@
                                                                                 }
                                                                                 return false;
                                                                             }
-
-
-
-
         </script>
         <script type="text/javascript">
             $(window).on('load', function () {
@@ -508,4 +500,3 @@
     </body>
 
 </html>
-

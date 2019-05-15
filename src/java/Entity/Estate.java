@@ -64,7 +64,7 @@ public class Estate implements Serializable {
     private String estateName;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 1073741823)
+    @Size(max = 2147483647)
     @Column(name = "estate_description")
     private String estateDescription;
     @Column(name = "bed_room")

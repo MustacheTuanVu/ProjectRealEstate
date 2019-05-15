@@ -126,10 +126,10 @@ public class EstateEdit extends HttpServlet {
                 }
             } else if (user.getRole().equals("employee")) {
                 session.setAttribute("name", user.getEmployee().getEmployeeName());
-                    session.setAttribute("employeeID", user.getEmployee().getId());
-                    request.setAttribute("role", "employee");
-                    session.setAttribute("image", user.getEmployee().getEmployeeImg());
-                
+                session.setAttribute("employeeID", user.getEmployee().getId());
+                request.setAttribute("role", "employee");
+                session.setAttribute("image", user.getEmployee().getEmployeeImg());
+
                 request.setAttribute("user", "user");
                 request.setAttribute("displayLogin", "none");
                 request.setAttribute("displayUser", "block");
@@ -210,6 +210,10 @@ public class EstateEdit extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        Entity.Users user = (Entity.Users) session.getAttribute("user");
+
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         EntityManager em = emf.createEntityManager();
         EstateJpaController estateControl = new EstateJpaController(utx, emf);
@@ -347,20 +351,22 @@ public class EstateEdit extends HttpServlet {
             }
         }
 
-        if (estate.getAssignDetails() != null) {
-            EmployeeJpaController employeeJpaController = new EmployeeJpaController(utx, emf);
-            Employee employee = employeeJpaController.findEmployee(Integer.parseInt(request.getParameter("employeeID")));
-            AssignDetailsJpaController assignDetailsJpaController = new AssignDetailsJpaController(utx, emf);
-            AssignDetails assignDetails = estate.getAssignDetails();
-            assignDetails.setEmployeeId(employee);
-            try {
-                assignDetailsJpaController.edit(assignDetails);
-            } catch (NonexistentEntityException ex) {
-                Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (RollbackFailureException ex) {
-                Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
+        if (!user.getRole().equals("employee") ) {
+            if (estate.getAssignDetails() != null) {
+                EmployeeJpaController employeeJpaController = new EmployeeJpaController(utx, emf);
+                Employee employee = employeeJpaController.findEmployee(Integer.parseInt(request.getParameter("employeeID")));
+                AssignDetailsJpaController assignDetailsJpaController = new AssignDetailsJpaController(utx, emf);
+                AssignDetails assignDetails = estate.getAssignDetails();
+                assignDetails.setEmployeeId(employee);
+                try {
+                    assignDetailsJpaController.edit(assignDetails);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (RollbackFailureException ex) {
+                    Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(EstateEdit.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
 

@@ -62,12 +62,13 @@ public class ProjectDetails extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
         // BEGIN SESSION HEADER FONTEND //
+        
         HttpSession session = request.getSession();
         Users users = (Users) session.getAttribute("user");
         if (users != null) {
@@ -113,9 +114,10 @@ public class ProjectDetails extends HttpServlet {
         RatingJpaController ratingController = new RatingJpaController(utx, emf);
         Controller.CommentJpaController commentController = new CommentJpaController(utx, emf);
         Controller.ReplyCommentJpaController replyController = new ReplyCommentJpaController(utx, emf);
-
+        
         String id = request.getParameter("projectId");
-
+        
+        System.out.println("point "+ratingController.getPointByProject((id)));
         request.setAttribute("point", ratingController.getPointByProject((id)));
         request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
 
@@ -128,7 +130,7 @@ public class ProjectDetails extends HttpServlet {
             estateList.add(estateControl.findEstate(string));
         }
 
-        int countProject = projectControl.getManagerByProjectCount(find.getManagerId().getManagerId());
+        //int countProject = projectControl.getManagerByProjectCount(find.getManagerId().getManagerId());
         int countEstate = estateControl.getEstateByProjectCount(id);
 
         int countCommnet = 0;
@@ -139,7 +141,7 @@ public class ProjectDetails extends HttpServlet {
         Double sumPriceUnSold = 0.0;
         for (Estate estate : estateList) {
             sumPrice = sumPrice + estate.getPrice();
-            if(estate.getEstateStatusId().getEstateStatusName().equals("Saled")){
+            if(estate.getEstateStatus().equalsIgnoreCase("sold")){
                 countEstateSold = countEstateSold + 1;
                 sumPriceSold = sumPriceSold + estate.getPrice();
             }
@@ -147,10 +149,10 @@ public class ProjectDetails extends HttpServlet {
         countEstateUnSold = countEstate - countEstateSold;
         sumPriceUnSold = sumPrice - sumPriceSold;
         String displayManager = "yes";
-        if(countProject != 0){
+        if(true){
             int managerID = projectControl.getManagerByProject(Integer.parseInt(id));
             request.setAttribute("manager", managerControl.findManager(managerID));
-            request.setAttribute("countProject", countProject);
+            
         }else{
             displayManager = "no";
         }
@@ -175,6 +177,8 @@ public class ProjectDetails extends HttpServlet {
         request.setAttribute("sumPrice", sumPrice);
         request.setAttribute("sumPriceUnSold", sumPriceUnSold);
         request.setAttribute("sumPriceSold", sumPriceSold);
+        
+        
         request.setAttribute("displayManager", displayManager);
         request.setAttribute("find", find);
         request.getRequestDispatcher("/page/guest/project_details.jsp").forward(request, response);
@@ -218,11 +222,10 @@ public class ProjectDetails extends HttpServlet {
         Entity.Comment comment = new Comment();
         Entity.ReplyComment reply = new ReplyComment();
         String role = null;
-        String idProject = null;
+        String idProject = request.getParameter("txtIDProject");
         // create comment 
         if (action.equals("comment")) {
             try {
-                idProject = request.getParameter("txtIDProject");
                 comment.setIdProject(new Project((request.getParameter("txtIDProject"))));
                 comment.setContent(request.getParameter("txtComment"));
                 comment.setDateComment(format.parse(a));
@@ -236,6 +239,7 @@ public class ProjectDetails extends HttpServlet {
                         comment.setStatusComment("wait");
 
                         commentController.create(comment);
+                        response.sendRedirect(request.getContextPath() + "/ProjectDetails?projectId=" + idProject);
                     } catch (RollbackFailureException ex) {
                         Logger.getLogger(ProjectDetails.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (Exception ex) {
@@ -267,7 +271,7 @@ public class ProjectDetails extends HttpServlet {
             }
         } else // reply comment
         if (action.equals("reply")) {
-
+            String txtIDProject = request.getParameter("txtIDProject");
             reply.setIdComment(new Comment(Integer.valueOf(request.getParameter("txtIdComment"))));
             reply.setContent(request.getParameter("txtReplyContent"));
             try {
@@ -284,6 +288,7 @@ public class ProjectDetails extends HttpServlet {
                     reply.setStatusReply("wait");
 
                     replyController.create(reply);
+                    response.sendRedirect(request.getContextPath() + "/ProjectDetails?projectId=" + txtIDProject);
                 } catch (Exception ex) {
                     Logger.getLogger(ProjectDetails.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -293,10 +298,12 @@ public class ProjectDetails extends HttpServlet {
                     case "employee":
                         role = "employee";
                         reply.setStatusReply("accept");
+                        
                         break;
                     case "customer":
                         role = "customer";
                         reply.setStatusReply("wait");
+                       
                         break;
                 }
                 reply.setIdUser(user);
@@ -312,6 +319,7 @@ public class ProjectDetails extends HttpServlet {
 
                 try {
                     replyController.create(reply);
+                    response.sendRedirect(request.getContextPath() + "/ProjectDetails?projectId=" + txtIDProject);
                 } catch (RollbackFailureException ex) {
                     Logger.getLogger(ProjectDetails.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception ex) {
@@ -319,7 +327,8 @@ public class ProjectDetails extends HttpServlet {
                 }
                 System.out.println("id_reply " + reply.getIdReply());
 
-                response.sendRedirect(request.getContextPath() + "/ProjectDetails?projectId=" + idProject);
+                //response.sendRedirect(request.getContextPath() + "/ProjectDetails?projectId=" + txtIDProject);
+                System.out.println("oke :" +idProject);
 
             }
         }

@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
-    Created on : Apr 22, 2019, 10:33:15 PM
-    Author     : Cuong
+    Created on : Mar 30, 2019, 11:19:33 AM
+    Author     : kiems
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -30,6 +30,9 @@
 
         <!-- Custom CSS -->
         <link href="<%=request.getContextPath()%>/admin/dist/css/style.css" rel="stylesheet" type="text/css">
+
+
+
     </head>
     <body>
         <!-- Preloader -->
@@ -43,7 +46,7 @@
             <!-- /Top Menu Items -->
 
             <!-- Left Sidebar Menu -->
-            <%@ include file="/admin/page/template/manager/left_sidebar.jsp" %>
+            <%@ include file="/admin/page/template/director/left_sidebar.jsp" %>
             <!-- /Left Sidebar Menu -->
 
             <!-- Right Sidebar Menu -->
@@ -54,18 +57,18 @@
 
             <!-- Main Content -->
             <div class="page-wrapper">
-                <p id="wellcomepage" style="display: none">Bạn đã đăng nhập thành công</p>
+                <p id="wellcomepage" style="display: none">Đây là trang "Danh sách giao dịch"</p>
                 <div class="container-fluid pt-25">
                     <!-- Title -->
                     <div class="row heading-bg">
                         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                            <h3 class="txt-dark">Dashboard</h3>
+                            <h3 class="txt-dark">Giao dịch</h3>
                         </div>
                         <!-- Breadcrumb -->
                         <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                             <ol class="breadcrumb">
                                 <li><a href="<%=request.getContextPath()%>/Director">Admin</a></li>
-                                <li><a href="<%=request.getContextPath()%>/Director">Dashboard</a></li>
+                                <li><a href="<%=request.getContextPath()%>/DashboardDirector">Danh sách giao dịch</a></li>
                             </ol>
                         </div>
                         <!-- /Breadcrumb -->
@@ -74,68 +77,72 @@
 
                     <!-- Row -->
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="panel panel-default card-view">
-                                <div class="panel-heading">
-                                    <div class="pull-left">
-                                        <h3 class="txt-dark">
-                                            Xin chào! Bạn đã đăng nhập vào khu vực Quản trị của SGEstate24h!<br>
-                                            <small class="text-muted"> Công việc của bạn bao gồm những việc sau:</small>
-                                        </h3>
-                                    </div>
-                                    <div class="clearfix"></div>
+                        <div class="panel panel-default card-view">
+                            <div class="panel-heading">
+                                <div class="pull-left">
+                                    <h3 class="txt-dark">
+                                        Tổng quan
+                                    </h3>
                                 </div>
-                                <div  class="panel-wrapper collapse in">
-                                    <div  class="panel-body">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <h4>Quản lý dự án</h4>
-                                                <hr>
-                                                <span class="fa fa-home"></span><a class="<c:if test="${active == 'CreateEstate'}">active</c:if>" href="<%=request.getContextPath()%>/ProjectCreate" data-toggle="collapse" data-target="#dashboard_dr">
-                                                        Thêm dự án</a>
-                                                    <hr>
-                                                    <span class="fa fa-home"></span><a class="<c:if test="${active == 'EstateList'}">active</c:if>" href="<%=request.getContextPath()%>/ProjectList?user=manager" data-toggle="collapse" data-target="#dashboard_dr"> 
-                                                        Danh sách dự án</a>
-                                                    <hr>
-                                                    
+                                <div class="clearfix"></div>
+                            </div>
+                            <div  class="panel-wrapper collapse in">
+                                <div  class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form action="<%=request.getContextPath()%>/EditFee" class="form form--flex form--property form--basic js-form-property-1">
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10 text-left" for="example-email">Hoa hồng cho nhân viên</label>
+                                                    <input type="number" name="feeEmployee" value="${fee.feeEmployee}" class="form-control">
                                                 </div>
-
-
-                                            </div>
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10 text-left" for="example-email">Hoa hồng cho công ty</label>
+                                                    <input type="number" name="feeCompany" value="${fee.feeEstate}" class="form-control">
+                                                </div>
+                                                <div class="form-group mb-0">
+                                                    <button type="submit" name="submit" value="Đồng ý" class="btn btn-success btn-anim">
+                                                        <i class="icon-rocket"></i>
+                                                        <span class="btn-text">submit</span>
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- /Row -->
                     </div>
-
-                    <!-- Footer -->
-                    <footer class="footer container-fluid pl-30 pr-30">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <p>2019 &copy; SGEstate24h. Prepare Page by Le Tuan Vu</p>
-                            </div>
-                        </div>
-                    </footer>
-                    <!-- /Footer -->
-
+                    <!-- /Row -->
                 </div>
-                <!-- /Main Content -->
+
+                <!-- Footer -->
+                <footer class="footer container-fluid pl-30 pr-30">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p>2019 &copy; SGEstate24h. Prepare Page by Le Tuan Vu</p>
+                        </div>
+                    </div>
+                </footer>
+                <!-- /Footer -->
 
             </div>
-            <!-- /#wrapper -->
+            <!-- /Main Content -->
 
-            <!-- JavaScript -->
+        </div>
+        <!-- /#wrapper -->
 
-            <!-- jQuery -->
-            <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/jquery/dist/jquery.min.js"></script>
+        <!-- JavaScript -->
+
+        <!-- jQuery -->
+        <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/jquery/dist/jquery.min.js"></script>
 
         <!-- Bootstrap Core JavaScript -->
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
         <!-- Data table JavaScript -->
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+        <script src="<%=request.getContextPath()%>/admin/dist/js/dataTables-data.js"></script>
 
         <!-- Slimscroll JavaScript -->
         <script src="<%=request.getContextPath()%>/admin/dist/js/jquery.slimscroll.js"></script>
@@ -172,6 +179,8 @@
         <!-- Init JavaScript -->
         <script src="<%=request.getContextPath()%>/admin/dist/js/init.js"></script>
         <script src="<%=request.getContextPath()%>/admin/dist/js/dashboard-data.js"></script>
+
     </body>
 
 </html>
+

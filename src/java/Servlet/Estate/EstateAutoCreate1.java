@@ -68,12 +68,10 @@ public class EstateAutoCreate1 extends HttpServlet {
                 Controller.ProjectJpaController projectController = new ProjectJpaController(utx, emf);
                 List<EstateType> estateTypeList = estateType.findEstateTypeEntities();
                 request.setAttribute("estateTypeList", estateTypeList);
-
-                String numBlock="";
-                if (request.getParameter("numberBlock1")!= null) {
-                    numBlock=request.getParameter("numberBlock1");
-                }
                 
+                String modal=(request.getParameter("modal")!=null ? request.getParameter("modal"): "");
+                request.setAttribute("modal", modal);
+
                 String block = null;
                 String estateNumber = null;
                 String estateNumbers = null;
@@ -81,15 +79,20 @@ public class EstateAutoCreate1 extends HttpServlet {
                 Entity.Project project = projectController.findProject(projectID);
                 request.setAttribute("projectID", projectID);
                 if (request.getParameter("getBlock") != null) {
+                    String numBlock = "";
+                    if (request.getParameter("numberBlock1") != null) {
+                        numBlock = request.getParameter("numberBlock1");
+                    }
                     block = request.getParameter("block");
                     estateNumber = request.getParameter("estateNumber");
                     estateNumbers = request.getParameter("estateNumber");
+                    System.out.println("numBlock "+numBlock);
                     response.sendRedirect(request.getContextPath() + "/EstateAutoCreate?"
                             + "projectID=" + projectID + "&"
                             + "block=" + block + "&"
                             + "estateNumbers=" + estateNumbers + "&"
                             + "getBlock=yes&"
-                            + "numBlock="+numBlock
+                            + "numBlock=" + numBlock
                             + "&estateNumber=" + estateNumber + "");
                 } else {
 
@@ -158,7 +161,6 @@ public class EstateAutoCreate1 extends HttpServlet {
 
         if (request.getParameter("blockName") != null) {
 
-            
             for (Estate listDetail : estateList) {
                 if (!listDetail.getBlock().equalsIgnoreCase(request.getParameter("blockName"))) {
                     response.getWriter().write("0");
@@ -167,35 +169,34 @@ public class EstateAutoCreate1 extends HttpServlet {
                     return;
                 }
             }
-        }
-        else{
+        } else {
             int j = 0;
-        int tam = listDetails.size();
-        for (int i = 1; i <= project.getBlockNumber(); i++) {
+            int tam = listDetails.size();
+            for (int i = 1; i <= project.getBlockNumber(); i++) {
 
-            if (i > tam) {
-                cbmBox += "<option id=select value=\"" + i + "\" >" + i + "</option>";
-            } else {
-                if (listDetails.get(j) == i) {
-                    cbmBox += "<option disabled id=unSelect value=\"" + i + "\" >" + i + "</option>";
-                    j++;
-                } else {
+                if (i > tam) {
                     cbmBox += "<option id=select value=\"" + i + "\" >" + i + "</option>";
-                    j++;
+                } else {
+                    if (listDetails.get(j) == i) {
+                        cbmBox += "<option id=unSelect value=\"" + i + "\" >" + i + "</option>";
+                        j++;
+                    } else {
+                        cbmBox += "<option id=select value=\"" + i + "\" >" + i + "</option>";
+                        j++;
+                    }
                 }
             }
+            response.getWriter().write(cbmBox);
         }
-        response.getWriter().write(cbmBox);
     }
-}
 
-/**
- * Returns a short description of the servlet.
- *
- * @return a String containing servlet description
- */
-@Override
-        public String getServletInfo() {
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

@@ -248,7 +248,7 @@ public class ProjectDetailsJpaController implements Serializable {
             em.close();
         }
     }
-    
+
       public List<ProjectDetails> getProjectDetailByProject(String projectID) {
         EntityManager em = getEntityManager();
         try {
@@ -268,6 +268,17 @@ public class ProjectDetailsJpaController implements Serializable {
             Query query = em.createNativeQuery("select distinct block_number as project_detail_id from project_details where prject_id = '"+projectID+"'");
             List<Integer> ret = (List<Integer>) query.getResultList();
             return ret;
+        } finally {
+            em.close();
+        }
+    }
+      // cuong add
+      public List<ProjectDetails> getIDEstateByProjectId_Block(String projectID,String block) {
+        EntityManager em = getEntityManager();
+        try {
+            //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
+            Query query = em.createNativeQuery("select * from project_details where prject_id = '"+projectID+"' and block_number="+block,ProjectDetails.class);
+           return (List<ProjectDetails>)query.getResultList();
         } finally {
             em.close();
         }

@@ -37,6 +37,7 @@
                 <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="flipInX" data-dropdown-out="flipOutX">
                     <li>
                         <a href="<%=request.getContextPath()%>/Logout"><i class="zmdi zmdi-power"></i><span>Đăng xuất</span></a>
+                        <a href="<%=request.getContextPath()%>/index"><i class="zmdi zmdi-home"></i><span>Trang Chủ</span></a>
                     </li>
                 </ul>
             </li>

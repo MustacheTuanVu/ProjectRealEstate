@@ -155,13 +155,13 @@
                     <!-- Title -->
                     <div class="row heading-bg">
                         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                            <h3 class="txt-dark">ESTATE</h3>
+                            <h3 class="txt-dark">Danh Sách Nhà Đất</h3>
                         </div>
                         <!-- Breadcrumb -->
                         <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                             <ol class="breadcrumb">
-                                <li><a href="<%=request.getContextPath()%>/Employee">Employee</a></li>
-                                <li><a href="<%=request.getContextPath()%>/EstateList?user=employee">Estate</a></li>
+                                <li><a href="<%=request.getContextPath()%>/Employee">Nhân Viên</a></li>
+                                <li><a href="<%=request.getContextPath()%>/EstateList?user=employee">Nhà Đất</a></li>
                             </ol>
                         </div>
                         <!-- /Breadcrumb -->
@@ -190,10 +190,10 @@
                                                             <div class="container-fluid">
                                                                 <div class="row">
                                                                     <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-                                                                        <span class="txt-light block counter"><span class="counter-anim">${countContractWaitSale}</span></span>
+                                                                        <span class="txt-light block counter"><span class="counter-anim"></span></span>
                                                                         <a href="<%=request.getContextPath()%>/EstateList?user=employee&filter=waitting to transaction" class="weight-500 uppercase-font txt-light block font-13">
                                                                             Đang đợi giao dịch
-                                                                            </a>
+                                                                        </a>
                                                                     </div>
                                                                     <div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
                                                                         <i class="fa fa-home txt-light data-right-rep-icon"></i>
@@ -214,7 +214,7 @@
                                                                 <div class="container-fluid">
                                                                     <div class="row">
                                                                         <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-                                                                            <span class="txt-light block counter"><span class="counter-anim">${countEstateWait}</span></span>
+                                                                            <span class="txt-light block counter"><span class="counter-anim"></span></span>
                                                                             <span class="weight-500 uppercase-font txt-light block"> 
                                                                                 Đang đợi nhân viên tư vấn
                                                                             </span>
@@ -239,7 +239,7 @@
                                                                 <div class="container-fluid">
                                                                     <div class="row">
                                                                         <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-                                                                            <span class="txt-light block counter"><span class="counter-anim">${countProjectWait}</span></span>
+                                                                            <span class="txt-light block counter"><span class="counter-anim"></span></span>
                                                                             <span class="weight-500 uppercase-font txt-light block"> 
                                                                                 Đang chờ bán
                                                                             </span>
@@ -263,7 +263,7 @@
                                                             <div class="container-fluid">
                                                                 <div class="row">
                                                                     <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-                                                                        <span class="txt-light block counter"><span class="counter-anim">${countProjectWait}</span></span>
+                                                                        <span class="txt-light block counter"><span class="counter-anim"></span></span>
                                                                         <span class="weight-500 uppercase-font txt-light block"> 
                                                                             Đã bán
                                                                         </span>
@@ -375,9 +375,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="pull-right">
-                                                            <a class="pull-left inline-block mr-15" href="#">
-                                                                <i class="zmdi zmdi-edit txt-light"></i>
-                                                            </a>
+                                                            
                                                             <a onclick="loadCheckBox(${estate.id})" data-toggle="modal" data-target="#${estate.id}" class="pull-left inline-block mr-15" href="" >
                                                                 <i class="zmdi zmdi-edit txt-light" ></i>
                                                             </a>
@@ -547,14 +545,14 @@
                                                                                                         <div class="col-md-6">
                                                                                                             <div class="form-group">
                                                                                                                 <fmt:formatDate pattern="dd-MM-yyyy" value="${estate.yearBuild}" var="date" ></fmt:formatDate>
-                                                                                                                <label class="control-label mb-10">Năm xây </label> <span class="text-muted">(dd/mm/yyyy)</span> 
-                                                                                                                <input name="yearBuild"  type="text" placeholder="" data-mask="99/99/9999" class="form-control">
+                                                                                                                    <label class="control-label mb-10">Năm xây </label> <span class="text-muted">(dd/mm/yyyy)</span> 
+                                                                                                                    <input name="yearBuild"  type="text" placeholder="" data-mask="99/99/9999" class="form-control">
+                                                                                                                </div>
                                                                                                             </div>
-                                                                                                        </div>
-                                                                                                        <div class="col-md-6">
-                                                                                                            <div class="form-group">
-                                                                                                                <label class="control-label mb-10 text-left">Nội dung</label>
-                                                                                                                <textarea class="form-control" rows="5" name="estateDescription">${estate.estateContent}</textarea>
+                                                                                                            <div class="col-md-6">
+                                                                                                                <div class="form-group">
+                                                                                                                    <label class="control-label mb-10 text-left">Nội dung</label>
+                                                                                                                    <textarea class="form-control" rows="5" name="estateDescription">${estate.estateContent}</textarea>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
@@ -696,14 +694,6 @@
                                                             <a class="pull-left inline-block mr-15" href="#">
                                                                 <i class="zmdi zmdi-delete txt-light"></i>
                                                             </a>
-                                                            <div class="pull-left inline-block dropdown">
-                                                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="zmdi zmdi-more-vert txt-light"></i></a>
-                                                                <ul class="dropdown-menu bullet dropdown-menu-right"  role="menu">
-                                                                    <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i>Full Info</a></li>
-                                                                    <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-share" aria-hidden="true"></i>Send Message</a></li>
-                                                                    <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-trash" aria-hidden="true"></i>Follow</a></li>
-                                                                </ul>
-                                                            </div>
                                                         </div>
                                                         <div class="clearfix"></div>
                                                     </div>
@@ -738,17 +728,20 @@
                                                             <div class="emp-detail pl-15 pr-15">
                                                                 <div class="mb-5">
                                                                     <span class="inline-block capitalize-font mr-5">Địa chỉ:</span>
-                                                                    <span class="txt-dark">${estate.address1} <br> ${estate.address2}</span>
-                                                                </div>
-                                                                <div>
-                                                                    <span class="inline-block capitalize-font mr-5">Giá bán:</span>
-                                                                    <span class="txt-dark">12000 VND</span>
                                                                     <span class="txt-dark"> ${estate.address2}</span>
                                                                 </div>
                                                                 <div>
                                                                     <span class="inline-block capitalize-font mr-5">Giá bán:</span>
-                                                                    <span class="txt-dark">${estate.price} VND</span>
+                                                                    <span class="txt-dark">
+                                                                        <c:if test="${estate.estateStatusId.id == 2 || estate.estateStatusId.id == 5}">
+                                                                            ${estate.price/1000000000} Tỷ VND
+                                                                        </c:if>
+                                                                        <c:if test="${estate.estateStatusId.id == 1 || estate.estateStatusId.id == 4}">
+                                                                            ${estate.price/1000000} Triệu VND
+                                                                        </c:if>
+                                                                    </span>
                                                                 </div>
+
                                                             </div>
                                                         </div>
                                                     </div>

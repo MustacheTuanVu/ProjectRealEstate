@@ -176,6 +176,26 @@
 
                     <!-- Row -->
                     <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="panel panel-default card-view panel-refresh">
+                                <div class="panel-wrapper collapse in">
+                                    <div class="panel-body">
+                                        <a href="<%=request.getContextPath()%>/ServletGenerateReportProjectMoney" class="btn btn-primary">Xuất báo cáo chung cư</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="panel panel-default card-view panel-refresh">
+                                <div class="panel-wrapper collapse in">
+                                    <div class="panel-body">
+                                        
+                                        <a href="<%=request.getContextPath()%>/ServletReportProjectDetails" class="btn btn-primary">Xuất báo cáo chung cư</a>
+                                    
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="panel panel-default card-view">
                             <div class="panel-heading">
                                 <div class="pull-left">
@@ -265,7 +285,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="pull-right">
-                                                            <a onclick="loadCheckBox(${project.projectId})" data-toggle="modal" data-target="#${project.projectId}" class="pull-left inline-block mr-15" href="" >
+                                                            <a  data-toggle="modal" data-target="#${project.projectId}" class="pull-left inline-block mr-15" href="" >
                                                                 <i class="zmdi zmdi-edit txt-light" ></i>
                                                             </a>
                                                             <!-- cuong add -->
@@ -287,7 +307,7 @@
                                                                                     <div class="panel-body">
                                                                                         <form method="POST" onsubmit="return checkOnSubmit()" action="<%=request.getContextPath()%>/ProjectEdit?id=${project.projectId}" class="form form--flex form--property form--basic js-form-property-1">
                                                                                             <h3><span class="head-font capitalize-font">Thông tin cơ bản</span></h3>
-
+                                                                                            <input type="hidden" id="proID" value="${project.projectId}"/>
                                                                                             <div class="row">
                                                                                                 <div class="col-md-6">
                                                                                                     <div class="form-group">
@@ -359,7 +379,7 @@
                                                                                                     <div class="form-group">
                                                                                                         <div class="form-group">
                                                                                                             <label class="control-label mb-10">Giới Thiệu Dự Án</label>
-                                                                                                            <textarea id="in-6" name="projectContent" rows="4" cols="50" class="form-control">${project.projectContent}</textarea>
+                                                                                                            <textarea id="in-7" name="projectContent" rows="4" cols="50" class="form-control">${project.projectContent}</textarea>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -564,7 +584,7 @@
 
                     </div>
                 </div>
-                
+
 
                 <!-- Footer -->
                 <footer class="footer container-fluid pl-30 pr-30">
@@ -584,18 +604,18 @@
 
         <!-- JavaScript -->
         <script>
-            function loadCheckBox() {
-                var idEstate = document.getElementById("estateID").value;
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById("checkbox").innerHTML = this.responseText;
-                    }
-                };
-                console.log("id " + idEstate);
-                xhttp.open("GET", "EstateDetails?idEstate=" + idEstate, true);
-                xhttp.send();
-            }
+//            function loadCheckBox() {
+//                var idEstate = document.getElementById("estateID").value;
+//                var xhttp = new XMLHttpRequest();
+//                xhttp.onreadystatechange = function () {
+//                    if (this.readyState == 4 && this.status == 200) {
+//                        document.getElementById("checkbox").innerHTML = this.responseText;
+//                    }
+//                };
+//                console.log("id " + idEstate);
+//                xhttp.open("GET", "EstateDetails?idEstate=" + idEstate, true);
+//                xhttp.send();
+//            }
         </script>
         <!-- jQuery -->
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/jquery/dist/jquery.min.js"></script>
@@ -654,26 +674,42 @@
                     errorName.innerHTML = 'Tên Dự Án Từ 10 Đến 200 Ký Tự !!!';
                     return false;
                 } else {
-                    document.getElementById('in-1').value=projectName;
+                    document.getElementById('in-1').value = projectName;
                     errorName.innerHTML = '';
-                    
                     return true;
                 }
             }
             function checkValidateAddress() {
                 var projectName = document.getElementById('in-6').value;
+                var projectID = document.getElementById('proID').value;
                 var errorName = document.getElementById('errorAddress');
                 var closeblank = new RegExp(/\s+/g);
                 projectName = projectName.replace(/\s+/g, " ");
-               // projectName = projectName.replace(/^\s+|\s+$/g, "");
+                // projectName = projectName.replace(/^\s+|\s+$/g, "");
                 if (projectName.length < 10 || projectName.length > 200) {
                     errorName.innerHTML = 'Địa Chỉ Dự Án Từ 10 Đến 200 Ký Tự !!!';
                     return false;
                 } else {
-                    document.getElementById('in-6').value=projectName;
-                    console.log('123' + projectName);
-                    errorName.innerHTML = '';
-                    return true;
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                            
+                            if (this.responseText == 0) {
+                                errorName.innerHTML = '';
+                                return true;
+                            } else if (this.responseText == 1) {
+                                
+                                errorName.innerHTML = 'Địa Chỉ Đã Tồn Tại';
+                                return false
+                            } else {
+                                document.getElementById('in-6').value = projectName;
+                                errorName.innerHTML = '';
+                                return true;
+                            }
+                        }
+                    };
+                    xhttp.open("POST", "ProjectList?address=" + projectName + "&projectID=" + projectID, true);
+                    xhttp.send();
                 }
             }
             function checkValidateYear() {
@@ -690,15 +726,11 @@
             function checkOnSubmit() {
                 var projectName = document.getElementById('in-1').value;
                 var errorName = document.getElementById('errorName');
-
                 var projectAddress = document.getElementById('in-6').value;
                 var errorAddress = document.getElementById('errorAddress');
-
                 var projectDate = document.getElementById('in-datetime1').value;
                 var errorDate = document.getElementById('errorYear');
-
                 var tam;
-
                 if (projectName == '') {
                     errorName.innerHTML = 'Tên Dự Án Từ 10 Đến 200 Ký Tự !!!';
                 }
@@ -707,16 +739,14 @@
                 }
                 if (projectDate == '') {
                     errorDate.innerHTML = 'Mời Bạn Chọn Ngày !!!';
-
                 } else {
                     tam = confirm('Bạn Có Muốn Lưu Thay Đổi !!!');
                     if (tam) {
-                        document.getElementById('in-6').value=projectAddress.replace(/^\s+|\s+$/g, "");
-                        document.getElementById('in-1').value=projectName.replace(/^\s+|\s+$/g, "");
+                        document.getElementById('in-6').value = projectAddress.replace(/^\s+|\s+$/g, "");
+                        document.getElementById('in-1').value = projectName.replace(/^\s+|\s+$/g, "");
                         return true;
                     }
                     return false;
-
                 }
                 return false;
             }
@@ -725,11 +755,8 @@
             $(window).on('load', function () {
                 $('#modal').modal('${modal}');
                 $('#modalEdit').modal('${modalEdit}');
-                
             });
         </script>
     </body>
 
 </html>
-
-

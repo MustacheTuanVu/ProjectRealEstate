@@ -20,9 +20,9 @@
                     <div class="clearfix"> 
                     </div>
                 </a>
-                <a class="<c:if test="${active == 'DashboardDirector'}">active</c:if>" href="<%=request.getContextPath()%>/DashboardDirector" data-toggle="collapse" data-target="#dashboard_dr">
+                <a class="<c:if test="${active == 'EditFee'}">active</c:if>" href="<%=request.getContextPath()%>/EditFee" data-toggle="collapse" data-target="#dashboard_dr">
                     <div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i>
-                        <span class="right-nav-text">Công việc</span>
+                        <span class="right-nav-text">Phí hoa hồng</span>
                     </div>
                     <div class="clearfix"> 
                     </div>
@@ -78,15 +78,6 @@
                 <a class="<c:if test="${active == 'ContractOfEmployee1'}">active</c:if>" href="<%=request.getContextPath()%>/ContractOfEmployee1" data-toggle="collapse" data-target="#dashboard_dr">
                     <div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i>
                         <span class="right-nav-text">Giao dịch</span>
-                    </div>
-                    <div class="clearfix"> 
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a class="<c:if test="${active == 'ProjectList'}">active</c:if>" href="<%=request.getContextPath()%>/ProjectList?user=director&filter=all" data-toggle="collapse" data-target="#dashboard_dr">
-                    <div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i>
-                        <span class="right-nav-text">Chung cư</span>
                     </div>
                     <div class="clearfix"> 
                     </div>

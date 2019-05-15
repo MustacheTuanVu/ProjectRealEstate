@@ -3,36 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlet.Project;
+package Servlet.Report;
 
-import Controller.EstateJpaController;
-import Controller.ProjectJpaController;
-import Controller.exceptions.RollbackFailureException;
-import Entity.ContractDetails;
-import Entity.Estate;
-import Entity.Project;
-import Entity.Users;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.transaction.UserTransaction;
 
 /**
  *
  * @author kiems
  */
-@WebServlet(name = "ProjectDelete", urlPatterns = {"/ProjectDelete"})
-public class ProjectDelete extends HttpServlet {
+@WebServlet(name = "ServletReportProjectDetails", urlPatterns = {"/ServletReportProjectDetails"})
+public class ServletReportProjectDetails extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,40 +30,26 @@ public class ProjectDelete extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    UserTransaction utx;
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        Users users = (Users) session.getAttribute("user");
-        if (users.getRole().equals("manager")) {
-            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-            ProjectJpaController projectJpaController = new ProjectJpaController(utx, emf);
-            EstateJpaController estateJpaController = new EstateJpaController(utx, emf);
-            Project project = projectJpaController.findProject(request.getParameter("projectID"));
-            List<String> estateIDList = estateJpaController.getEstateByProject(project.getProjectId());
-            List<ContractDetails> contractDetailsList = new ArrayList<>();
-            int count = 0;
-            for (String estateID : estateIDList) {
-                if(estateJpaController.findEstate(estateID).getContractDetails()!=null){
-                    count = count + 1;
-                }
-            }
-            project.setProjectStatus(" delete");
-            project.setStatus(" delete");
-            response.sendRedirect(request.getContextPath()+"/ProjectList?user=manager&modal=show");
-            try {
-                projectJpaController.edit(project);
-            } catch (RollbackFailureException ex) {
-                Logger.getLogger(ProjectDelete.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(ProjectDelete.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            users.getManager().getManagerId();
-        }
+        ReportProjectDetail.runReport();
+        String file = "D:/abc/ReportProjectSem4/src/ReportPDF/reportprojectdetail.pdf";
+        
+        try {
+            if ((new File(file)).exists()) {
+                Process p = Runtime
+                        .getRuntime()
+                        .exec("rundll32 url.dll,FileProtocolHandler "+file);
+                p.waitFor();
+            } else {
+                System.out.println("File does not exist");
 
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        response.sendRedirect(request.getContextPath() + "/ProjectList?user=manager");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
