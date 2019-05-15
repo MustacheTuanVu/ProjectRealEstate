@@ -5,7 +5,6 @@
  */
 package Servlet.Rating;
 
-import Controller.ProjectJpaController;
 import Controller.RatingJpaController;
 import Entity.Project;
 import Entity.Users;
@@ -42,7 +41,6 @@ public class Rating extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-     
       
     }
 
@@ -58,15 +56,13 @@ public class Rating extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       // processRequest(request, response);
-        System.out.println("get 1");
+        processRequest(request, response);
+        
         EntityManagerFactory emf=(EntityManagerFactory) getServletContext().getAttribute("emf");
         Controller.RatingJpaController ratingController= new RatingJpaController(utx, emf);
-        Controller.ProjectJpaController projectController= new ProjectJpaController(utx, emf);
         
         String point=request.getParameter("point");
         String id=request.getParameter("idProject");
-        int dem=projectController.countRating(id);
         Entity.Users user= null;
         HttpSession session=request.getSession();
         // chua dang nhap
@@ -111,8 +107,7 @@ public class Rating extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       // processRequest(request, response);
-      
+        processRequest(request, response);
     }
 
     /**

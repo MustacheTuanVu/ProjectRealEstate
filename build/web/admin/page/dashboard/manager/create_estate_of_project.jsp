@@ -11,6 +11,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <title>SGEstate24h</title>
@@ -159,24 +160,24 @@
                                                                             </div>
                                                                             <div class="row">
                                                                                 <div class="form-group form-group ${hasError}">
-                                                                                    <label for="in-1" class="control-label">Diện Tích Tầng ${item}A &nbsp; <span style="color: red">*</span></label>&nbsp; <span id="errArea1" style="color: red"></span>
+                                                                                    <label for="in-1" class="control-label">Diện Tích Tầng ${item}A (Đơn Vị M<sup>2</sup>)&nbsp; <span style="color: red">*</span></label> <span id="errArea1" style="color: red"></span>
 
-                                                                                    <input  id="areasB${blocks}F${item}Type1"  type="number" name="areasB${blocks}F${item}Type1" data-placeholder="---"  class="form-control"/>
+                                                                                    <input  id="areasB${blocks}F${item}Type1" step="any" type="number" name="areasB${blocks}F${item}Type1" data-placeholder="---"  class="form-control"/>
 
                                                                                     <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
                                                                                         <div class="parsley-required">${message}</div>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group form-group ${hasError}">
-                                                                                    <label for="in-1" class="control-label">Diện Tích Tầng ${item}B &nbsp; <span style="color: red">*</span></label>&nbsp; <span id="errArea2" style="color: red"></span>
-                                                                                    <input id="areasB${blocks}F${item}Type2"  type="number" name="areasB${blocks}F${item}Type2" data-placeholder="---"  class="form-control"/>
+                                                                                    <label for="in-1" class="control-label">Diện Tích Tầng ${item}B (Đơn Vị M<sup>2</sup>) &nbsp; <span style="color: red">*</span></label> <span id="errArea2" style="color: red"></span>
+                                                                                    <input id="areasB${blocks}F${item}Type2" step="any" type="number" name="areasB${blocks}F${item}Type2" data-placeholder="---"  class="form-control"/>
                                                                                     <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
                                                                                         <div class="parsley-required">${message}</div>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group form-group ${hasError}">
-                                                                                    <label for="in-1" class="control-label">Diện Tích Tầng ${item}C &nbsp; <span style="color: red">*</span></label> &nbsp; <span id="errArea3" style="color: red"></span>
-                                                                                    <input id="areasB${blocks}F${item}Type3" type="number" name="areasB${blocks}F${item}Type3" data-placeholder="---"  class="form-control"/>
+                                                                                    <label for="in-1" class="control-label">Diện Tích Tầng ${item}C (Đơn Vị M<sup>2</sup>) &nbsp; <span style="color: red">*</span></label>  <span id="errArea3" style="color: red"></span>
+                                                                                    <input id="areasB${blocks}F${item}Type3" step="any" type="number" name="areasB${blocks}F${item}Type3" data-placeholder="---"  class="form-control"/>
                                                                                     <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
                                                                                         <div class="parsley-required">${message}</div>
                                                                                     </div>
@@ -184,24 +185,24 @@
                                                                             </div>
                                                                             <div class="row">
                                                                                 <div class="form-group form-group ${hasError}">
-                                                                                    <label for="in-1" class="control-label">Giá Tầng ${item}A&nbsp; <span style="color: red">*</span>&nbsp;</label> <span id="errFloor1" style="color: red"></span>
+                                                                                    <label for="in-1" class="control-label">Giá Tầng ${item}A (Đơn Vị Tỷ VND)&nbsp; <span style="color: red">*</span>&nbsp;</label> <span id="errFloor1" style="color: red"></span>
 
-                                                                                    <input id="priceB${blocks}F${item}Type1" type="number" name="priceB${blocks}F${item}Type1" data-placeholder="---"  class="form-control"/>
+                                                                                    <input id="priceB${blocks}F${item}Type1" step="any" type="number" name="priceB${blocks}F${item}Type1" data-placeholder="---"  class="form-control"/>
 
                                                                                     <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
                                                                                         <div class="parsley-required">${message}</div>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group form-group ${hasError}">
-                                                                                    <label for="in-1" class="control-label">Giá Tầng ${item}B&nbsp; <span style="color: red">*</span>&nbsp;</label> <span id="errFloor2" style="color: red"></span>
-                                                                                    <input id="priceB${blocks}F${item}Type2"   type="number" name="priceB${blocks}F${item}Type2" data-placeholder="---"  class="form-control"/>
+                                                                                    <label for="in-1" class="control-label">Giá Tầng ${item}B (Đơn Vị Tỷ VND)&nbsp; <span style="color: red">*</span>&nbsp;</label> <span id="errFloor2" style="color: red"></span>
+                                                                                    <input id="priceB${blocks}F${item}Type2" step="any"  type="number" name="priceB${blocks}F${item}Type2" data-placeholder="---"  class="form-control"/>
                                                                                     <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
                                                                                         <div class="parsley-required">${message}</div>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="form-group form-group ${hasError}">
-                                                                                    <label for="in-1" class="control-label">Giá Tầng ${item}C&nbsp; <span style="color: red">*</span>&nbsp;</label> <span id="errFloor3" style="color: red"></span>
-                                                                                    <input id="priceB${blocks}F${item}Type3"   type="number" name="priceB${blocks}F${item}Type3" data-placeholder="---"  class="form-control"/>
+                                                                                    <label for="in-1" class="control-label">Giá Tầng ${item}C (Đơn Vị Tỷ VND)&nbsp; <span style="color: red">*</span>&nbsp;</label> <span id="errFloor3" style="color: red"></span>
+                                                                                    <input id="priceB${blocks}F${item}Type3"  step="any" type="number" name="priceB${blocks}F${item}Type3" data-placeholder="---"  class="form-control"/>
                                                                                     <div class="help-block filled" id="parsley-id-11" style="display: ${hasError}">
                                                                                         <div class="parsley-required">${message}</div>
                                                                                     </div>

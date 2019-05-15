@@ -47,14 +47,14 @@ public class FeatureDelete extends HttpServlet {
         Entity.Users user = (Entity.Users) session.getAttribute("user");
 
         if (user != null) {
-            if (user.getRole().equals("employee")) {
+            if (user.getRole().equals("director")) {
                 request.setAttribute("user", "user");
                 request.setAttribute("displayLogin", "none");
                 request.setAttribute("displayUser", "block");
 
-                session.setAttribute("name", user.getEmployee().getEmployeeName());
-                request.setAttribute("role", "employee");
-                session.setAttribute("image", user.getEmployee().getEmployeeImg());
+                session.setAttribute("name", "Boss");
+                request.setAttribute("role", "director");
+                session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
 
                 EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
                 FeaturesJpaController featuresControl = new FeaturesJpaController(utx, emf);

@@ -148,7 +148,7 @@
                                                                     <span class="properties__state properties__state--highlight">Chờ bán</span>
                                                                 </c:when>
                                                                 <c:when test="${item.contractId.contractDetails == 'my request sale' && item.contractId.status == 'done'}">
-                                                                    <span class="properties__state properties__state--hidden">Bán thành công</span>
+                                                                    <span class="properties__state properties__state--hidden">Bán/thuê thành công</span>
                                                                 </c:when>
                                                                 <c:when test="${item.contractId.status == 'waitting to transaction'}">
                                                                     <span class="properties__state properties__state--hidden">Đợi nhân viên tư vấn</span>
@@ -161,7 +161,7 @@
                                                                     <span class="properties__state properties__state--default">${item.contractId.status}</span>
                                                                 </c:when>
                                                             </c:choose>
-                                                            
+
                                                             <div class="properties__actions">
 
                                                                 <button type="button" class="properties__link">Sửa</button>
@@ -182,11 +182,11 @@
                                                                         href="<%=request.getContextPath()%>/EstateDetails?estateID=${item.estateId.id}" 
                                                                     </c:if>
                                                                     <c:if test="${item.contractId.status == 'waitting for employee'}">
-                                                                        
+                                                                        href="" 
                                                                     </c:if>
                                                                     class="item-photo">
 
-                                                                    <img src="${item.estateId.image1st}" alt="" style="width: 270px !important; height: 175px !important " width="270px" height="175px"/>
+                                                                    <img src="${item.estateId.image1st}" alt="" style="width: 270px !important; height: 175px !important" width="270px" height="175px"/>
                                                                     <figure class="item-photo__hover item-photo__hover--params">
                                                                         <span class="properties__params">Phòng ngủ - ${item.estateId.bedRoom} room</span>
                                                                         <span class="properties__params">Phòng tắm - ${item.estateId.bathRoom} room</span>
@@ -201,7 +201,7 @@
 
                                                                     </figure>
                                                                 </a>  
-                                                                <span class="properties__ribon">For ${item.estateId.estateStatusId.estateStatusName}</span>
+                                                                <span class="properties__ribon">${item.estateId.estateStatusId.estateStatusName}</span>
                                                                 <span class="properties__ribon properties__ribon--status properties__ribon--done">${item.estateId.estateTypeId.typeName}</span>
                                                             </div>
                                                             <!-- end of block .properties__thumb-->
@@ -221,7 +221,7 @@
                                                                     <div class="properties__offer">
                                                                         <div class="properties__offer-column">
 
-                                                                            <div class="properties__offer-label">Hướng nhà</div>
+                                                                            <div class="properties__offer-label">Hướng</div>
 
                                                                             <div class="properties__offer-value">
                                                                                 <strong> ${item.estateId.direction}</strong>
@@ -230,12 +230,20 @@
                                                                         <div class="properties__offer-column">
 
                                                                             <div class="properties__offer-label">Giá</div>
-                                                                            <div class="properties__offer-value"><strong>${item.estateId.price} VND</strong>
-
-                                                                                    <c:if test = "${item.estateId.estateStatusId.estateStatusName == 'Rent'}">
-                                                                                    <span class="properties__offer-period">/month</span>
-                                                                                </c:if>
-                                                                            </div>
+                                                                            <c:set var="price" value="${item.estateId.price}"/>
+                                                                            <c:set var="priceRent" value="${price/1000000}"/>
+                                                                            <c:set var="priceSale" value="${price/1000000000}"/>
+                                                                            <c:if test = "${item.estateId.estateStatusId.estateStatusName == 'Cho thuê' || item.estateId.estateStatusId.estateStatusName == 'Đã thuê'}">
+                                                                                <div class="properties__offer-value">
+                                                                                    <strong>${priceRent} Triệu VND</strong>
+                                                                                    <span class="properties__offer-period">/tháng</span>
+                                                                                </div>
+                                                                            </c:if>
+                                                                            <c:if test = "${item.estateId.estateStatusId.estateStatusName == 'Bán' || item.estateId.estateStatusId.estateStatusName == 'Đã bán'}">
+                                                                                <div class="properties__offer-value">
+                                                                                    <strong>${priceSale} Tỷ VND</strong>
+                                                                                </div>
+                                                                            </c:if>
                                                                         </div>
                                                                     </div>
 
@@ -271,9 +279,12 @@
                                             <div class="worker__avatar">
                                                 <img src="${customer.customerImg}" alt="avatar" width="208" height="208">
                                             </div>
+
+                                            <button class="worker__avatar-upload">Cập nhập hình đại diện</button>
                                         </div>
                                         <nav class="worker__nav">
                                             <ul>
+                                                <li><a href="<%=request.getContextPath()%>/MyListing">Danh sách bất động sản cửa tôi</a></li>
                                                 <li><a href="<%=request.getContextPath()%>/DashboardUser">Trang cá nhân</a></li>
                                                 <li><a href="<%=request.getContextPath()%>/MyContract">Hợp đồng của tôi</a></li>
 

@@ -6,18 +6,24 @@
 package Servlet.Director;
 
 import Controller.AssignDetailsJpaController;
+import Controller.ContractDetailsJpaController;
+import Controller.ContractJpaController;
 import Controller.EmployeeJpaController;
 import Controller.EstateJpaController;
 import Controller.EstateTypeJpaController;
 import Controller.FeatureDetailsJpaController;
+import Controller.TransactionsJpaController;
 import Controller.UsersJpaController;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.RollbackFailureException;
 import Entity.AssignDetails;
+import Entity.Contract;
+import Entity.ContractDetails;
 import Entity.Employee;
 import Entity.Estate;
 import Entity.EstateType;
 import Entity.FeatureDetails;
+import Entity.Transactions;
 import Entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -50,6 +56,7 @@ public class EstateArgree extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -60,7 +67,9 @@ public class EstateArgree extends HttpServlet {
         EmployeeJpaController employeeJpaController = new EmployeeJpaController(utx, emf);
         AssignDetailsJpaController assignDetailsJpaController = new AssignDetailsJpaController(utx, emf);
         FeatureDetailsJpaController featureDetailsJpaController = new FeatureDetailsJpaController(utx, emf);
-        
+        ContractDetailsJpaController contractDetailsJpaController = new ContractDetailsJpaController(utx, emf);
+        ContractJpaController contractJpaController = new ContractJpaController(utx, emf);
+        TransactionsJpaController transactionsJpaController = new TransactionsJpaController(utx, emf);
 
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
@@ -91,13 +100,13 @@ public class EstateArgree extends HttpServlet {
             }
 
             String choice = (request.getParameter("choice") != null) ? request.getParameter("choice") : "";
-            if(choice.equals("add")){
+            if (choice.equals("add")) {
                 String estateID = request.getParameter("estateID");
                 Estate estate = estateJpaController.findEstate(estateID);
                 estate.setEstateStatus("publish");
                 try {
                     estateJpaController.edit(estate);
-                    response.sendRedirect(request.getContextPath()+"/EstateList?user=director&filter=waitting%20for%20director");
+                    response.sendRedirect(request.getContextPath() + "/EstateList?user=director&filter=waitting%20for%20director");
                 } catch (NonexistentEntityException ex) {
                     Logger.getLogger(EstateArgree.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (RollbackFailureException ex) {
@@ -105,19 +114,36 @@ public class EstateArgree extends HttpServlet {
                 } catch (Exception ex) {
                     Logger.getLogger(EstateArgree.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-            }else if(choice.equals("remove")){
+
+            } else if (choice.equals("remove")) {
                 String estateID = request.getParameter("estateID");
                 Estate estate = estateJpaController.findEstate(estateID);
                 List<FeatureDetails> featureDetails = estate.getFeatureDetailsList();
                 AssignDetails assignDetails = estate.getAssignDetails();
+                ContractDetails contractDetails = null;
+                Contract contract = null;
+                Transactions transactions = null;
+                if (estate.getContractDetails() != null) {
+                    contractDetails = estate.getContractDetails();
+                    contract = contractDetails.getContractId();
+                    transactions = transactionsJpaController.getTransactionByContractID(contract.getId());
+                }
+
                 try {
-                    assignDetailsJpaController.destroy(assignDetails.getId());
+                    if (estate.getAssignDetails() != null) {
+                        assignDetailsJpaController.destroy(assignDetails.getId());
+                    }
                     for (FeatureDetails featureDetail : featureDetails) {
                         featureDetailsJpaController.destroy(featureDetail.getFeatureDetailsId());
                     }
+                    if (estate.getContractDetails() != null) {
+                        transactionsJpaController.destroy(transactions.getId());
+                        contractDetailsJpaController.destroy(contractDetails.getId());
+                        contractJpaController.destroy(contract.getId());
+                    }
+
                     estateJpaController.destroy(estateID);
-                    response.sendRedirect(request.getContextPath()+"/EstateList?user=director&filter=waitting%20for%20director");
+                    response.sendRedirect(request.getContextPath() + "/EstateList?user=director");
                 } catch (NonexistentEntityException ex) {
                     Logger.getLogger(EstateArgree.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (RollbackFailureException ex) {
@@ -125,7 +151,7 @@ public class EstateArgree extends HttpServlet {
                 } catch (Exception ex) {
                     Logger.getLogger(EstateArgree.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }else{
+            } else {
                 // BEGIN NAVBAR HEADER FONTEND //
                 List<EstateType> estateTypeList = estateTypeControl.findEstateTypeEntities();
                 request.setAttribute("estateTypeList", estateTypeList);

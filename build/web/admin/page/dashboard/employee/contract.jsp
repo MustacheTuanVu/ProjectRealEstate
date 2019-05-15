@@ -211,8 +211,14 @@
                                                     <tr>
                                                         <td>${item.contractId.customerId.customerName}</td>
                                                         <td>${item.contractId.employeeId.employeeName}</td>
-                                                        <td>${item.estateId.address1} - ${item.estateId.address2}</td>
-                                                        <td>${item.estateId.price}</td>
+                                                        <td>${item.estateId.address2}</td>
+                                                        <c:if test="${item.estateId.estateStatusId.id== 2 || item.estateId.estateStatusId.id==5}">
+                                                            <td>${item.estateId.price/1000000000} Tỷ VND</td>
+                                                        </c:if>
+                                                        <c:if test="${item.estateId.estateStatusId.id== 1 || item.estateId.estateStatusId.id==4}">
+                                                            <td>${item.estateId.price/1000000} Triệu VND</td>
+                                                        </c:if>
+                                                        
                                                         <td>
                                                             <c:if test="${item.estateId.assignDetails == null}">
                                                                 <c:if test="${item.contractId.status == 'waitting for employee'}">
@@ -256,7 +262,7 @@
                                                                                                     </div> 
                                                                                                     <div class="mb-5">
                                                                                                         <span class="inline-block capitalize-font mr-5">Tình trạng: </span>
-                                                                                                        <span class="txt-dark">Sẵn sàng bán</span>
+                                                                                                        <span class="txt-dark">Sẵn sàng giao dịch</span>
                                                                                                     </div> 
                                                                                                     <div class="mb-5">
                                                                                                         <span class="inline-block capitalize-font mr-5">Địa chỉ bất động sản: </span>

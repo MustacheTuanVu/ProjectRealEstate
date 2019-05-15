@@ -226,7 +226,7 @@
                                                                 <td>
                                                                     <c:if test="${item.estateId.assignDetails == null}">
                                                                         <c:if test="${item.contractId.status == 'waitting for employee'}">
-                                                                            <a data-toggle="modal" data-target="#${item.estateId.id}" class="label label-danger">Khách muốn bán</a>
+                                                                            <a data-toggle="modal" data-target="#${item.estateId.id}" class="label label-danger">Khách muốn đang bài</a>
                                                                             <!-- sample modal content -->
                                                                             <div id="${item.estateId.id}" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
                                                                                 <div class="modal-dialog modal-lg">

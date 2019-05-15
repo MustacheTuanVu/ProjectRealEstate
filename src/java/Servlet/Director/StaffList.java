@@ -126,7 +126,9 @@ public class StaffList extends HttpServlet {
             Map<String,Integer> countProjectByManager = new HashMap<>();
             for (Manager manager : managerList) {
                 int size = 0;
-                size = projectJpaController.getProjectByManager(manager.getManagerId().toString(), "all").size();
+                if(projectJpaController.getProjectByManager(manager.getManagerId().toString(), "all") != null){
+                    size = projectJpaController.getProjectByManager(manager.getManagerId().toString(), "all").size();
+                }
                 countProjectByManager.put(
                         manager.getManagerId().toString(), 
                         size

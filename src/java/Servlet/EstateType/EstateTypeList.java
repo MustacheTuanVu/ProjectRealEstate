@@ -44,14 +44,18 @@ public class EstateTypeList extends HttpServlet {
         Entity.Users user = (Entity.Users) session.getAttribute("user");
 
         if (user != null) {
-            if (user.getRole().equals("employee")) {
+            if (user.getRole().equals("director")) {
                 request.setAttribute("user", "user");
                 request.setAttribute("displayLogin", "none");
                 request.setAttribute("displayUser", "block");
 
-                session.setAttribute("name", user.getEmployee().getEmployeeName());
-                request.setAttribute("role", "employee");
-                session.setAttribute("image", user.getEmployee().getEmployeeImg());
+                session.setAttribute("name", "Boss");
+                request.setAttribute("role", "director");
+                session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
+                
+                //TANG TRUNG
+                String showModalCreate = (request.getParameter("showModalCreate") != null) ? request.getParameter("showModalCreate") : "hide";
+                request.setAttribute("showModalCreate", showModalCreate);
                 
                 String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "hide";
                 request.setAttribute("modalDelete", modal);
@@ -62,7 +66,7 @@ public class EstateTypeList extends HttpServlet {
                 
                 request.setAttribute("estateTypeList", estateTypeList);
 
-                request.getRequestDispatcher("/admin/page/dashboard/employee/type.jsp").forward(request, response);
+                request.getRequestDispatcher("/admin/page/dashboard/director/type.jsp").forward(request, response);
 
             } else {
                 response.sendRedirect(request.getContextPath() + "/LoginUser");

@@ -181,9 +181,16 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-
+                                                                <c:set value="${estate.price/1000000}" var="rent"/>
+                                                                <c:set value="${estate.price/1000000000}" var="sale"/>
                                                 <h4 class="info__about-title">Chi tiết bất động sản 
-                                                    <br> Price: ${estate.price}</h4>
+                                                    <c:if   test="${estate.estateStatusId.id == 1 || estate.estateStatusId.id == 4}" >
+                                                      <br>  ${rent} Triệu/Tháng
+                                                    </c:if>
+                                                    <c:if   test="${estate.estateStatusId.id == 2 || estate.estateStatusId.id == 5}" >
+                                                      <br>  ${sale} Tỷ VND
+                                                    </c:if>
+                                                </h4>
 
                                                 <div class="info__table-wrap">
                                                     <table class="table info__table">
@@ -202,7 +209,8 @@
                                                                 <td>Bất động sản ID</td>
 
                                                                 <td>${estate.id}</td>
-                                                                <td class="text-danger">${estate.estateStatus}</td>
+                                                                <td class="text-danger">${estate.estateStatusId.estateStatusName}</td>
+                                                                
                                                             </tr>
                                                             <tr>
 
@@ -220,14 +228,14 @@
                                                             </tr>
                                                             <tr>
 
-                                                                <td>Địa chỉ 2</td>
+                                                                <td>Địa chỉ</td>
 
                                                                 <td>${estate.address2}</td>
                                                                 <td></td>
                                                             </tr>
                                                             <tr>
 
-                                                                <td>Diện tích</td>
+                                                                <td>Diện tích (M<sup>2</sup>)</td>
 
                                                                 <td>${estate.areas}</td>
                                                                 <td></td>

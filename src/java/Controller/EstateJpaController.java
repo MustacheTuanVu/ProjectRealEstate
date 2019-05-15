@@ -634,8 +634,8 @@ public class EstateJpaController implements Serializable {
             List<String> ret = (List<String>) new ArrayList<String>();
             if (employeeID.equals("all")) {
                 query = em.createNativeQuery("SELECT id FROM estate where "
-                        + "(address1 LIKE '%" + address + "%' OR address2 LIKE '%" + address + "%') AND "
-                        + "estate_status LIKE '%waitting for director%'"
+                        + "(address1 LIKE '%" + address + "%' OR address2 LIKE '%" + address + "%') "
+                        
                 );
                 if (query.getResultList().size() != 0) {
                     ret.add((String) query.getSingleResult());
@@ -743,6 +743,18 @@ public class EstateJpaController implements Serializable {
                 + " and  e.estate_status like 'publish' and not e.id=" + es.getId() + " and e.price >=" + (es.getPrice() - 1000000000) + " and e.price <=" + (es.getPrice() + 1000000000) + " \n"
                 + "Order by e.date_add DESC", Estate.class);
         return q.getResultList();
+    }
+    
+    public int countEstate(String filter) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT count(*) FROM estate where "
+                        + "estate_status LIKE '%" + filter + "%'"
+                );
+            return (int) query.getSingleResult();
+        }finally{
+            em.close();
+        }
     }
 
     //REMEMBER 
@@ -924,15 +936,7 @@ public class EstateJpaController implements Serializable {
             em.close();
         }
     }
-    
-    // cuong add
-    public int checkBlockName(String name){
-        EntityManager em=getEntityManager();
-        Query q=em.createNativeQuery("select count(id) as dem from estate where block like '"+name+"'");
-        System.out.println("dem "+q.getFirstResult());
-        return q.getFirstResult();
-    }
-    // cuong add 
+// cuong add
     public int checkInforUser(String idUser){
         EntityManager em=getEntityManager();
         Query q=em.createNativeQuery("select count (id) from customer where user_id="+idUser);

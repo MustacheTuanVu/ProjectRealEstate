@@ -19,7 +19,6 @@ import Entity.ContractType;
 import Entity.Customer;
 import Entity.Employee;
 import Entity.PaymentFrequency;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.faces.validator.Validator;
@@ -341,5 +340,5 @@ public class ContractJpaController implements Serializable {
         return q.getSingleResult();
     }
     
-   
+    
 }

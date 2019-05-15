@@ -211,7 +211,7 @@
                                                     <tr>
                                                         <td>${item.contractId.customerId.customerName}</td>
                                                         <td>${item.contractId.employeeId.employeeName}</td>
-                                                        <td>${item.estateId.address1} - ${item.estateId.address2}</td>
+                                                        <td>${item.estateId.address2}</td>
                                                         <td>${item.estateId.price}</td>
                                                         <td>
                                                             <c:if test="${item.estateId.assignDetails == null}">

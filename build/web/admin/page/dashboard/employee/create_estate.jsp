@@ -206,6 +206,23 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
+                                                                <label class="control-label mb-10">Tình trạng</label>
+                                                                <select onchange="setPriceType()" class="form-control" id="estateStatusId" name="estateStatusId">
+                                                                    <option value="1">Cho Thuê</option>
+                                                                    <option value="2">Cho Bán</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <div class="form-group">
+                                                                    <label id="priceMessage" for="in-form-price" class="control-label mb-10">Giá bất động sản (Đơn vị triệu VND)</label>
+                                                                    <input type="number" id="estateName" class="form-control" name="price">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
                                                                 <label class="control-label mb-10">Số lượng phòng ngủ</label>
                                                                 <select class="form-control" name="bedRoom">
                                                                     <option value="0">0</option>
@@ -244,23 +261,16 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <div class="form-group">
-                                                                    <label class="control-label mb-10">Garages</label>
+                                                                    <label class="control-label mb-10">Garages (M<sup>2</sup>)</label>
                                                                     <input type="number" id="estateName" class="form-control" name="garages">
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <div class="form-group">
-                                                                    <label class="control-label mb-10">Giá</label>
-                                                                    <input type="number" id="estateName" class="form-control" name="price">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <div class="form-group">
-                                                                    <label class="control-label mb-10">Diện tích</label>
+                                                                    <label class="control-label mb-10">Diện tích (M<sup>2</sup>)</label>
                                                                     <input type="number" id="estateName" class="form-control" name="areas">
                                                                 </div>
                                                             </div>
@@ -280,27 +290,12 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label class="control-label mb-10">Tình trạng</label>
-                                                                <select class="form-control" name="estateStatusId">
-                                                                    <option value="1">Cho Thuê</option>
-                                                                    <option value="2">Cho Bán</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
+                                                        
+                                                        
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <div class="form-group">
-                                                                    <label class="control-label mb-10">Địa chỉ 1</label>
-                                                                    <input type="text" id="estateName" class="form-control" name="address1">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <div class="form-group">
-                                                                    <label class="control-label mb-10">Địa chỉ 2</label>
+                                                                    <label class="control-label mb-10">Địa chỉ</label>
                                                                     <input type="text" id="estateName" class="form-control" name="address2">
                                                                 </div>
                                                             </div>
@@ -467,6 +462,19 @@
         <!-- JavaScript -->
 
         <!-- jQuery -->
+        <script type="text/javascript">
+        function setPriceType() {
+            var estateStatusId1 = document.getElementById('estateStatusId').value;
+            console.log("123");
+            if (estateStatusId1 === '1') {
+                console.log("222");
+                document.getElementById('priceMessage').innerHTML = "Giá bất động sản (Đơn vị triệu VND)";
+            } else if (estateStatusId1 === '2') {
+                console.log("333");
+                document.getElementById('priceMessage').innerHTML = "Giá bất động sản (Đơn vị tỷ VND)";
+            }
+        }
+    </script>
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/jquery/dist/jquery.min.js"></script>
 
         <!-- Bootstrap Core JavaScript -->

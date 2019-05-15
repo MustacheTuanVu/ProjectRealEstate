@@ -110,15 +110,14 @@
                                                         </div>
                                                         <div class="worker__intro">
                                                             <h3 class="worker__name fn">${item.employeeName}</h3>
-                                                            <div class="worker__post">${item.employeeMail}</div>
+                                                            Nhân viên tư vấn
 
                                                             <button type="button" class="worker__show js-unhide">Liên hệ nhân viên tư vấn</button>
-                                                            <div class="worker__listings"><i class="worker__favorites"></i> Danh sách của tôi -<a href="agent_profile.html">${item.expr1}</a></div>
-
+                                                            <div class="worker__listings"><i class="worker__favorites"></i> Số căn đang quản lý -<a href="#">${item.expr1}</a></div>
+                                                            <div class="worker__listings"><i class="worker__favorites"></i> Email -<a href="#">${item.employeeMail}</a></div>
+                                                            <div class="worker__listings"><i class="worker__favorites"></i> Điện thoại -<a href="#">${item.employeePhone}</a></div>
+                                                            <div class="worker__listings"><i class="worker__favorites"></i> Địa chỉ <br> -<a href="#">${item.employeeAddress}</a></div>
                                                             <!-- end of block .worker__listings-->
-                                                        </div>
-                                                        <div class="worker__descr">
-                                                            <p>${item.employeeContent}.</p>
                                                         </div>
                                                         <!-- end of block .worker__descr-->
 

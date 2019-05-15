@@ -334,7 +334,7 @@ public class TransactionsJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             Query query1 = em.createNativeQuery("SELECT SUM(money) FROM transactions where "
-                    + "transactions_date LIKE '%-03-%' AND "
+                    + "transactions_date LIKE '%-05-%' AND "
                     + "contract_id='" + contractID + "'"
             );
             double count1 = 0.0;
@@ -344,7 +344,7 @@ public class TransactionsJpaController implements Serializable {
                 count1 = 0.0;
             }
             Query query2 = em.createNativeQuery("SELECT SUM(money) FROM transactions where "
-                    + "transactions_date LIKE '%-02-%' AND "
+                    + "transactions_date LIKE '%-04-%' AND "
                     + "contract_id='" + contractID + "'"
             );
             double count2 = 0.0;
@@ -367,6 +367,19 @@ public class TransactionsJpaController implements Serializable {
             );
             
             return (int) query1.getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public Transactions getTransactionByContractID(int contractID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query1 = em.createNativeQuery("SELECT * FROM transactions  where "
+                    + "contract_id='" + contractID + "'",Transactions.class
+            );
+            
+            return (Transactions) query1.getSingleResult();
         } finally {
             em.close();
         }

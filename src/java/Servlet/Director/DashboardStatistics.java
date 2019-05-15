@@ -21,6 +21,9 @@ import Entity.EstateType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +53,7 @@ public class DashboardStatistics extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -80,9 +84,8 @@ public class DashboardStatistics extends HttpServlet {
                     session.setAttribute("image", user.getCustomer().getCustomerImg());
                     break;
             }
-            
+
             // DASHBOARD
-            
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             TransactionsJpaController transactionsJpaController = new TransactionsJpaController(utx, emf);
             ContractDetailsJpaController contractDetailsJpaController = new ContractDetailsJpaController(utx, emf);
@@ -118,25 +121,25 @@ public class DashboardStatistics extends HttpServlet {
             request.setAttribute("sumMoneyCompanyByMar", sumMoneyCompanyByMar);
             request.setAttribute("checkMoneyCompany", checkMoneyCompany);
             request.setAttribute("contractCountCompany", contractCountCompany);
-            
-            List<EstateType> estateTypeListPublish = estateTypeControl.findEstateTypeEntities();
+
+            List<EstateType> estateTypeListPublish = estateTypeControl.sortEstateType();
             request.setAttribute("estateTypeListPublish", estateTypeListPublish);
             request.setAttribute("estateTypeListPublishSize", estateTypeListPublish.size());
-            
+
             /*
             EstateType estateType1 = new EstateType("1");
             estateType1.getEstateList().get(1).getContractDetails().getContractId().getStatus();
-            */
-            
-            Map<String,Integer> countEstateSaleList = new HashMap<>();
-            Map<String,Double> countMoneyEstateSaleList = new HashMap<>();
+             */
+            Map<String, Integer> countEstateSaleList = new HashMap<>();
+            Map<String, Double> countMoneyEstateSaleList = new HashMap<>();
             int countUnitEstateSaleList = 0;
             Double countMoneyEstaetSaleList = 0.0;
             for (EstateType estateType : estateTypeListPublish) {
+                System.out.println("------"+estateType);
                 List<Estate> estatesList = estateType.getEstateList();
                 double money = 0.0;
                 for (Estate estate : estatesList) {
-                    if(estate.getEstateStatus().equals("publish")){
+                    if (estate.getEstateStatus().equals("publish")) {
                         countMoneyEstaetSaleList = countMoneyEstaetSaleList + estate.getPrice();
                         money = money + estate.getPrice();
                     }
@@ -151,17 +154,16 @@ public class DashboardStatistics extends HttpServlet {
             request.setAttribute("countUnitEstateSaleList", countUnitEstateSaleList);
             request.setAttribute("countEstateSaleList", countEstateSaleList);
             request.setAttribute("countEstateSaleListSize", countEstateSaleList.size());
-            
-            
-            Map<String,Integer> countEstateSoldList = new HashMap<>();
-            Map<String,Double> countMoneyEstateSoldList = new HashMap<>();
+
+            Map<String, Integer> countEstateSoldList = new HashMap<>();
+            Map<String, Double> countMoneyEstateSoldList = new HashMap<>();
             int countUnitEstateSoldList = 0;
             Double countMoneyEstaetSoldList = 0.0;
             for (EstateType estateType : estateTypeListPublish) {
                 List<Estate> estatesList = estateType.getEstateList();
                 double money = 0.0;
                 for (Estate estate : estatesList) {
-                    if(estate.getEstateStatus().equals("sold")){
+                    if (estate.getEstateStatus().equals("sold")) {
                         countMoneyEstaetSoldList = countMoneyEstaetSoldList + estate.getPrice();
                         money = money + estate.getPrice();
                     }
@@ -176,13 +178,13 @@ public class DashboardStatistics extends HttpServlet {
             request.setAttribute("countUnitEstateSoldList", countUnitEstateSoldList);
             request.setAttribute("countEstateSoldList", countEstateSoldList);
             request.setAttribute("countEstateSoldListSize", countEstateSaleList.size());
-            
+
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
         }
         // END SESSION HEADER FONTEND //
-        
+
         // BEGIN NAVBAR HEADER FONTEND //
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         request.getRequestDispatcher("/page/dashboard/director/dashboard_statistics.jsp").forward(request, response);

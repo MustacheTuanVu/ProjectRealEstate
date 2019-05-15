@@ -158,22 +158,12 @@ public class ProduceContractBuy extends HttpServlet {
                 Date day;
                 try {
                     day = sdf.parse(request.getParameter("contactTime"));
-                    schedule.setContactTime(day);
+                    //schedule.setContactTime(day);
                 } catch (ParseException ex) {
                     Logger.getLogger(ProduceContractBuy.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                schedule.setContactContext(request.getParameter("contactContext"));
-                schedule.setContactContext("unread");
-                
-                try {
-                    scheduleJpaController.create(schedule);
-                    response.sendRedirect(request.getContextPath() + "/DashboardUser");
-                } catch (RollbackFailureException ex) {
-                    Logger.getLogger(ProduceContractBuy.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(ProduceContractBuy.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                response.sendRedirect(request.getContextPath() + "/DashboardUser");
             }
         } else {
             request.setAttribute("displayLogin", "block");

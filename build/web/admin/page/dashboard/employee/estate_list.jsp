@@ -375,9 +375,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="pull-right">
-                                                            <a class="pull-left inline-block mr-15" href="#">
-                                                                <i class="zmdi zmdi-edit txt-light"></i>
-                                                            </a>
+                                                           
                                                             <a onclick="loadCheckBox(${estate.id})" data-toggle="modal" data-target="#${estate.id}" class="pull-left inline-block mr-15" href="" >
                                                                 <i class="zmdi zmdi-edit txt-light" ></i>
                                                             </a>
@@ -738,17 +736,19 @@
                                                             <div class="emp-detail pl-15 pr-15">
                                                                 <div class="mb-5">
                                                                     <span class="inline-block capitalize-font mr-5">Địa chỉ:</span>
-                                                                    <span class="txt-dark">${estate.address1} <br> ${estate.address2}</span>
-                                                                </div>
-                                                                <div>
-                                                                    <span class="inline-block capitalize-font mr-5">Giá bán:</span>
-                                                                    <span class="txt-dark">12000 VND</span>
                                                                     <span class="txt-dark"> ${estate.address2}</span>
                                                                 </div>
                                                                 <div>
                                                                     <span class="inline-block capitalize-font mr-5">Giá bán:</span>
-                                                                    <span class="txt-dark">${estate.price} VND</span>
+                                                                    <c:if test="${estate.estateTypeId.id== 2 || estate.estateTypeId.id== 5 }">
+                                                                    <span class="txt-dark">${estate.price/1000000000} Tỷ VND</span>
+                                                                    </c:if>
+                                                                    <c:if test="${estate.estateTypeId.id== 1 || estate.estateTypeId.id== 4}">
+                                                                    <span class="txt-dark">${estate.price/1000000} Triệu VND</span>
+                                                                    </c:if>
+                                                                    
                                                                 </div>
+                                                                
                                                             </div>
                                                         </div>
                                                     </div>

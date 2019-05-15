@@ -142,7 +142,7 @@
 
                                                 <label for="in-article-title" class="control-label">Nội Dung&nbsp; <span style="color: red ;">*</span> &nbsp; <span style="color: red ;" id="errTextArea"></span></label>
 
-                                                <textarea onkeyup="return checkTextArea()" onkeydown="return checkTextArea()" id="txtDes" name="editor1" class="form-control js-ckeditor"></textarea>
+                                                <textarea  onselect="return checkTextArea()" id="txtDes" name="editor1" class="form-control js-ckeditor"></textarea>
                                             </div>
                                             <button type="submit" class="form__submit">Tạo Bài Viết</button>
                                         </form>
@@ -198,6 +198,7 @@
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
+                        console.log('Bài qwe ' + this.responseText);
                         if (this.responseText == 1) {
                             document.getElementById("errTitle1").innerHTML = 'Bài Viết Đã Tồn Tại !!!';
                             document.getElementById("errCat").innerHTML = 'Bài Viết Đã Tồn Tại !!!';
@@ -228,13 +229,15 @@
             };
             function checkTextArea() {
                 var txtDes = document.getElementById('txtDes').value;
-                console.log('0 qwe ' + txtDes);
+                console.log('0 ' + txtDes);
                 if (txtDes.length < 200) {
                     document.getElementById('errTextArea').innerHTML = 'Nội Dung Bài Viết Ít Nhất 200 Ký Tự !!!';
                 }
             };
             function checkImg() {
                 var img = document.getElementById('image1st').value;
+                console.log('1 ' + txtDes1);
+                console.log('0 ' + txtDes);
                 if (img.length ===0) {
                     document.getElementById('errImg').innerHTML = 'Mời Bạn Chọn Hình Ảnh !!!';
                 }
@@ -255,8 +258,8 @@
                 if (txtTitle.length ===0) {
                     document.getElementById('errTitle1').innerHTML = 'Mời Nhập Tiêu Đề Bài Viết !!!';
                 } 
-                if (txtDes.length <1000) {
-                    document.getElementById('errTextArea').innerHTML = 'Nội Dung Dưới 1000 Ký Tự !!!';
+                if (txtDes.length ===0) {
+                    document.getElementById('errTextArea').innerHTML = 'Mời Nhập Mô Tả !!!';
                     return false;
                 } else {
                     return true;

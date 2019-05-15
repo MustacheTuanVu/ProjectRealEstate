@@ -10,9 +10,9 @@
 <div class="container">
     <div class="navbar__row js-navbar-row">
         <a href="<%=request.getContextPath()%>/index" class="navbar__brand">
-            <svg class="navbar__brand-logo">
-            <use xlink:href="#icon-logo"></use>
-            </svg>
+            <div class="navbar__brand-logo">
+                <img src="http://localhost:8080/ProjectRealEstate/assets/img/logo1.png" alt="logo"/>
+            </div>
         </a>
         <div id="navbar-collapse-1" class="navbar__wrap">
             <ul class="navbar__nav">

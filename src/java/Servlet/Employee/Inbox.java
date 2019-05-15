@@ -55,9 +55,9 @@ public class Inbox extends HttpServlet {
 
                 EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
                 ScheduleJpaController scheduleJpaController = new ScheduleJpaController(utx, emf);
-                List<Schedule> scheduleList = scheduleJpaController.getScheduleByEmployee(user.getEmployee().getId());
+                //List<Schedule> scheduleList = scheduleJpaController.getScheduleByEmployee(user.getEmployee().getId());
 
-                request.setAttribute("scheduleList", scheduleList);
+                //request.setAttribute("scheduleList", scheduleList);
 
                 request.getRequestDispatcher("/admin/page/dashboard/employee/inbox.jsp").forward(request, response);
             } else {

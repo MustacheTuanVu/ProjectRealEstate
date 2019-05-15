@@ -147,7 +147,7 @@ public class EstateAutoCreate extends HttpServlet {
                                 System.out.println(estate.getBedRoom());
                                 estate.setBathRoom(Integer.parseInt(request.getParameter("bathRoomB" + block + "F" + i + "Type" + j)));
                                 estate.setGarages(0.0);
-                                estate.setPrice(Double.parseDouble(request.getParameter("priceB" + block + "F" + i + "Type" + j)));
+                                estate.setPrice(Double.parseDouble(request.getParameter("priceB" + block + "F" + i + "Type" + j))*1000000000);
                                 estate.setAreas(Double.parseDouble(request.getParameter("areasB" + block + "F" + i + "Type" + j)));
                                 estate.setImage1st(project.getImage1st());
                                 estate.setImage2st(project.getImage2st());
@@ -262,13 +262,14 @@ public class EstateAutoCreate extends HttpServlet {
                     + "<td class=\"datatable__cell datatable__cell--5\">" + item.getEstateId().getFloor() + "</td>\n"
                     + "<td class=\"datatable__cell datatable__cell--5\">" + item.getEstateId().getAreas() + "</td>\n"
                     + "<td class=\"datatable__cell datatable__cell--5\">" + item.getEstateId().getBedRoom() + "</td>\n"
-                    + "<td class=\"datatable__cell datatable__cell--5\">" + item.getEstateId().getBathRoom() + "</td>\n"
-                    + "<td class=\"datatable__cell datatable__cell--5\">" + item.getEstateId().getPrice() + "</td>\n"
+                    + "<td class=\"datatable__cell datatable__cell--5\">" + item.getEstateId().getBathRoom() + "</td>\n";
+                    
+                    table += "<td class=\"datatable__cell datatable__cell--5\">" + item.getEstateId().getPrice()/1000000000 + " Tỷ VND</td>\n"
                     + "<td class=\"datatable__cell datatable__cell--5\">\n";
             if (item.getEstateId().getEstateStatus().equals("project")) {
                 table += "Đang Mở Bán";
             }
-            if (item.getEstateId().getEstateStatus().equals("Saled")) {
+            if (item.getEstateId().getEstateStatus().equals("sold")) {
                 table += "Đã Bán";
             }
             table += "</td>\n"

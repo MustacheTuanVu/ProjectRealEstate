@@ -80,74 +80,97 @@ public class CreateUser extends HttpServlet {
             }
 
             if (request.getParameter("submit") != null) {
-                String fullName = request.getParameter("fullName");
-                String userRole = request.getParameter("userRole");
-                String fullNameSet = fullName.replaceAll("\\s+","").toLowerCase();
-                int index = 0;
-
-                UsersJpaController usersJpaController = new UsersJpaController(utx, emf);
-                
-                while (true) {                    
-                    if(usersJpaController.checkDuplicate(fullNameSet).size()!=0){
-                        index = index + 1;
-                        fullNameSet = fullNameSet + index;
-                    }else{
-                        break;
-                    }
-                }
-                
-                Users users = new Users();
-                users.setUsername(fullNameSet);
-                users.setPassword("realestate24h");
-                users.setStatus(true);
-                users.setRole(userRole);
-                try {
-                    usersJpaController.create(users);
-                } catch (RollbackFailureException ex) {
-                    Logger.getLogger(CreateUser.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(CreateUser.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                String txtCard = request.getParameter("txtCard");
+                String txtAddress = request.getParameter("txtAddress");
+                String txtPhone = request.getParameter("txtPhone");
+                String txtMail = request.getParameter("txtMail");
 
                 EmployeeJpaController employeeJpaController = new EmployeeJpaController(utx, emf);
                 ManagerJpaController managerJpaController = new ManagerJpaController(utx, emf);
 
-                if (users.getRole().equals("manager")) {
-                    Manager manager = new Manager();
-                    manager.setManagerName(fullName);
-                    manager.setManagerAddress("wait");
-                    manager.setManagerIndentityCard("wait");
-                    manager.setManagerPhone("wait");
-                    manager.setManagerMail("wait");
-                    manager.setManagerImg("wait");
-                    manager.setManagerContent("wait");
-                    manager.setUserId(users);
+                if (employeeJpaController.checkDuplicateCard(txtCard) != null) {
+                    request.setAttribute("displayError", "block");
+                    request.setAttribute("duplicate", employeeJpaController.checkDuplicateCard(txtCard));
+                    request.getRequestDispatcher("/admin/page/dashboard/director/create_user.jsp").forward(request, response);
+                } else if (employeeJpaController.checkDuplicateAddress(txtAddress) != null) {
+                    request.setAttribute("displayError", "block");
+                    request.setAttribute("duplicate", employeeJpaController.checkDuplicateAddress(txtAddress));
+                    request.getRequestDispatcher("/admin/page/dashboard/director/create_user.jsp").forward(request, response);
+                } else if (employeeJpaController.checkDuplicatePhone(txtPhone) != null) {
+                    request.setAttribute("displayError", "block");
+                    request.setAttribute("duplicate", employeeJpaController.checkDuplicatePhone(txtPhone));
+                    request.getRequestDispatcher("/admin/page/dashboard/director/create_user.jsp").forward(request, response);
+                } else if (employeeJpaController.checkDuplicateEmail(txtMail) != null) {
+                    request.setAttribute("displayError", "block");
+                    request.setAttribute("duplicate", employeeJpaController.checkDuplicatePhone(txtMail));
+                    request.getRequestDispatcher("/admin/page/dashboard/director/create_user.jsp").forward(request, response);
+                } else {
+
+                    String fullName = request.getParameter("txtName");
+                    String userRole = request.getParameter("userRole");
+                    String fullNameSet = fullName.replaceAll("\\s+", "").toLowerCase();
+                    int index = 0;
+
+                    UsersJpaController usersJpaController = new UsersJpaController(utx, emf);
+
+                    while (true) {
+                        if (usersJpaController.checkDuplicate(fullNameSet).size() != 0) {
+                            index = index + 1;
+                            fullNameSet = fullNameSet + index;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    Users users = new Users();
+                    users.setUsername(fullNameSet);
+                    users.setPassword("realestate24h");
+                    users.setStatus(true);
+                    users.setRole(userRole);
                     try {
-                        managerJpaController.create(manager);
+                        usersJpaController.create(users);
                     } catch (RollbackFailureException ex) {
                         Logger.getLogger(CreateUser.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (Exception ex) {
                         Logger.getLogger(CreateUser.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } else {
-                    Employee employee = new Employee();
-                    employee.setEmployeeName(fullName);
-                    employee.setEmployeeAddress("wait");
-                    employee.setEmployeeIndentityCard("wait");
-                    employee.setEmployeePhone("wait");
-                    employee.setEmployeeMail("wait");
-                    employee.setEmployeeImg("wait");
-                    employee.setEmployeeContent("wait");
-                    employee.setUserId(users);
-                    try {
-                        employeeJpaController.create(employee);
-                    } catch (RollbackFailureException ex) {
-                        Logger.getLogger(CreateUser.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (Exception ex) {
-                        Logger.getLogger(CreateUser.class.getName()).log(Level.SEVERE, null, ex);
+
+                    if (users.getRole().equals("manager")) {
+                        Manager manager = new Manager();
+                        manager.setManagerName(fullName);
+                        manager.setManagerAddress(txtAddress);
+                        manager.setManagerIndentityCard(txtCard);
+                        manager.setManagerPhone(txtPhone);
+                        manager.setManagerMail(txtMail);
+                        manager.setManagerImg(request.getParameter("txtImg"));
+                        manager.setManagerContent("Đang chờ bổ sung");
+                        manager.setUserId(users);
+                        try {
+                            managerJpaController.create(manager);
+                        } catch (RollbackFailureException ex) {
+                            Logger.getLogger(CreateUser.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (Exception ex) {
+                            Logger.getLogger(CreateUser.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        Employee employee = new Employee();
+                        employee.setEmployeeName(fullName);
+                        employee.setEmployeeAddress(txtAddress);
+                        employee.setEmployeeIndentityCard(txtCard);
+                        employee.setEmployeePhone(txtPhone);
+                        employee.setEmployeeMail(txtMail);
+                        employee.setEmployeeImg(request.getParameter("txtImg"));
+                        employee.setEmployeeContent("Đang chờ bổ sung");
+                        employee.setUserId(users);
+                        try {
+                            employeeJpaController.create(employee);
+                        } catch (RollbackFailureException ex) {
+                            Logger.getLogger(CreateUser.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (Exception ex) {
+                            Logger.getLogger(CreateUser.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
-
             }
 
         } else {

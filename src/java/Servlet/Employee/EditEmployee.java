@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.Mac;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -56,7 +57,7 @@ public class EditEmployee extends HttpServlet {
         request.setAttribute("message", message);
         request.setAttribute("display", display);
         request.setAttribute("hasError", hasError);
-        if (user != null) {
+        if (user.getRole().equals("employee")) {
             request.setAttribute("users", "user");
             request.setAttribute("displayLogin", "none");
             request.setAttribute("displayUser", "block");
@@ -66,12 +67,28 @@ public class EditEmployee extends HttpServlet {
 
             /*-----------------------------------------------------------*/
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-            Controller.EmployeeJpaController managerController = new EmployeeJpaController(utx, emf);
+            EmployeeJpaController employeeController = new EmployeeJpaController(utx, emf);
 
             //request.getParameter("employeeID");
-            Employee customer = managerController.findEmployee(user.getEmployee().getId());
+            Employee customer = employeeController.findEmployee(user.getEmployee().getId());
             request.setAttribute("customer", customer);
             request.getRequestDispatcher("/admin/page/dashboard/employee/info_employee.jsp").forward(request, response);
+        }else if(user.getRole().equals("director")){
+            request.setAttribute("users", "user");
+            request.setAttribute("displayLogin", "none");
+            request.setAttribute("displayUser", "block");
+            session.setAttribute("name", "boss");
+            request.setAttribute("role", "director");
+            session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
+            
+            /*-----------------------------------------------------------*/
+            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+            EmployeeJpaController employeeController = new EmployeeJpaController(utx, emf);
+
+            //request.getParameter("employeeID");
+            Employee customer = employeeController.findEmployee(Integer.parseInt(request.getParameter("employeeID")));
+            request.setAttribute("customer", customer);
+            request.getRequestDispatcher("/admin/page/dashboard/director/info_employee.jsp").forward(request, response);
         }
         else {
             request.setAttribute("displayLogin", "block");

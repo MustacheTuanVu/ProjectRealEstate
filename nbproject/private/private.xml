@@ -3,13 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/src/java/Servlet/Employee/TestCheckBlog.java</file>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/admin/page/dashboard/employee/edit_blog.jsp</file>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/admin/page/dashboard/employee/blog.jsp</file>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/admin/page/dashboard/employee/create_blog.jsp</file>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/src/java/Servlet/Employee/BlogList.java</file>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/src/java/Controller/PostJpaController.java</file>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/src/java/Servlet/Employee/EditBlog.java</file>
+            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/admin/page/dashboard/manager/create_estate_of_project.jsp</file>
+            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/src/java/Entity/Estate.java</file>
+            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/src/java/Controller/RatingJpaController.java</file>
+            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/page/guest/project_details.jsp</file>
+            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/src/java/Servlet/Project/ProjectDetails.java</file>
         </group>
     </open-files>
 </project-private>

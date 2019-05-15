@@ -90,49 +90,37 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <h4>Quản lý nhà-đất</h4>
+                                                <br>
+                                                <span class="fa fa-home"></span><a href="<%=request.getContextPath()%>/EstateCreate1?user=employee"> Thêm nhà đất</a>
                                                 <hr>
-                                                <span class="fa fa-home"></span><a href="<%=request.getContextPath()%>/EstateCreate"> Thêm nhà đất</a>
+                                                <span class="fa fa-home"></span><a href="<%=request.getContextPath()%>/EstateList?user=employee"> Danh sách nhà đất</a>
+                                                <hr>
+                                                <span class="fa fa-home"></span> <a class="<c:if test="${active == 'FeatureList'}">active</c:if>" href="<%=request.getContextPath()%>/FeatureList" data-toggle="collapse" data-target="#dashboard_dr">Nội thất-chức năng</a>
+                                                <hr>
+                                                <span class="fa fa-home"></span><a class="<c:if test="${active == 'EstateTypeList'}">active</c:if>" href="<%=request.getContextPath()%>/EstateTypeList" data-toggle="collapse" data-target="#dashboard_dr"> Danh mục nhà đất</a>
                                                 <hr>
                                                 
-                                                <span class="fa fa-home"></span><a class="<c:if test="${active == 'CreateEstate'}">active</c:if>" href="<%=request.getContextPath()%>/EstateCreate1" data-toggle="collapse" data-target="#dashboard_dr">
-                                                    Thêm nhà đất</a>
-                                                <hr>
-                                                <span class="fa fa-home"></span><a class="<c:if test="${active == 'EstateList'}">active</c:if>" href="<%=request.getContextPath()%>/EstateList?user=employee" data-toggle="collapse" data-target="#dashboard_dr"> 
-                                                    Danh sách nhà đất</a>
-                                                <hr>
-                                                <span class="fa fa-home"></span><a class="<c:if test="${active == 'EstateTypeList'}">active</c:if>" href="<%=request.getContextPath()%>/EstateTypeList" data-toggle="collapse" data-target="#dashboard_dr">
-                                                    Danh mục nhà đất</a>
-                                                <hr>
-                                                <span class="fa fa-home"></span> <a class="<c:if test="${active == 'FeatureList'}">active</c:if>" href="<%=request.getContextPath()%>/FeatureList" data-toggle="collapse" data-target="#dashboard_dr">
-                                                    Nội thất-chức năng</a>
-                                                <hr>
                                             </div>
                                             <div class="col-md-4">
                                                 <h4>Quản lý giao dịch - khách hàng</h4>
+                                                <br>
+                                                <span class="fa fa-users"></span><a href="<%=request.getContextPath()%>/CustomerOfEmployee"> Danh sách khách hàng</a>
                                                 <hr>
-                                                <span class="fa fa-paper-plane-o"></span><a href="#"> Các yêu cầu giao dịch</a>
-                                                <hr>
-                                                <span class="fa fa-list-ul"></span><a href="#"> Danh sách giao dịch</a>
-                                                <hr>
-                                                <span class="fa fa-users"></span><a href="#"> Danh sách khách hàng</a>
-                                                <hr>
-                                                <span class="fa fa-users"></span><a class="<c:if test="${active == 'CustomerOfEmployee'}">active</c:if>" href="<%=request.getContextPath()%>/CustomerOfEmployee" data-toggle="collapse" data-target="#dashboard_dr">
-                                                    Danh sách khách hàng</a>
-                                                <hr>
-                                                <span class="fa fa-users"><a class="<c:if test="${active == 'ContractOfEmployee'}">active</c:if>" href="<%=request.getContextPath()%>/ContractOfEmployee" data-toggle="collapse" data-target="#dashboard_dr">
-                                                    Danh sách hợp đồng</a>
+                                                <span class="fa fa-legal"></span><a href="<%=request.getContextPath()%>/ContractOfEmployee"> Danh sách hợp đồng</a>
                                                 <hr>
                                                 <span class="fa-calendar"></span><a href="#"> Lịch hẹn</a>
                                                 <hr>
                                             </div>
                                             <div class="col-md-4">
                                                 <h4>Quản lý bài viết</h4>
+                                                <br>
+                                                <span class="fa fa-pencil"></span><a  href="<%=request.getContextPath()%>/CreateBlog"> Viết Bài</a>
                                                 <hr>
-                                                <span class="fa fa-pencil"></span><a href="<%=request.getContextPath()%>/CreateBlog"> Tạo bài viết</a>
+                                                <span class="fa fa-files-o"></span><a href="<%=request.getContextPath()%>/BlogList"> Bài Viết</a>
                                                 <hr>
-                                                <span class="fa fa-files-o"></span><a href="<%=request.getContextPath()%>/BlogList"> Danh sách bài viết</a>
+                                                <span class="fa fa-legal"></span><a href="<%=request.getContextPath()%>/CategoryList?user=employee">Loại Bài Viết</a>
                                                 <hr>
-                                                <span class="fa fa-comment"></span><a href="<%=request.getContextPath()%>/ListCommentWait"> Comment chờ duyệt</a>
+                                                <span class="fa fa-comment"></span><a href="<%=request.getContextPath()%>/ListCommentWait?user=employee"> Comment chờ duyệt</a>
                                                 <hr>
                                             </div>
                                         </div>

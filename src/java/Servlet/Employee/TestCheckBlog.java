@@ -71,7 +71,7 @@ public class TestCheckBlog extends HttpServlet {
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         
         Controller.PostJpaController postController= new PostJpaController(utx, emf);
-        
+        /*
         if (postController.checkPostByNameEdit(title, idPost)== 1) {
             if ((cat)== postController.checkPostByCatEdit(title)) {
                 
@@ -82,6 +82,7 @@ public class TestCheckBlog extends HttpServlet {
         }else{
                 response.getWriter().write("0");
         }
+        */
         
     }
 

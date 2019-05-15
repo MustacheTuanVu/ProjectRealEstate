@@ -61,11 +61,6 @@ public class RequestSale extends HttpServlet {
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
         Users users = (Users) session.getAttribute("user");
-        
-        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        Controller.EstateJpaController estateControl = new EstateJpaController(utx, emf);
-        
-        
         if (users != null) {
             request.setAttribute("user", "user");
             request.setAttribute("displayLogin", "none");
@@ -87,33 +82,18 @@ public class RequestSale extends HttpServlet {
                     session.setAttribute("image", "http://localhost:8080/ProjectRealEstate/assets/media-demo/boss.png");
                     break;
                 case "customer":
-                     if (estateControl.checkInforUser(users.getId().toString()) == 1) {
-                        session.setAttribute("name", users.getCustomer().getCustomerName());
-                        request.setAttribute("role", "customer");
-                        session.setAttribute("image", users.getCustomer().getCustomerImg());
-                        break;
-                    } else {
-                        session.setAttribute("name", users.getUsername());
-                        request.setAttribute("role", "customer");
-                        // session.setAttribute("image", user.getCustomer().getCustomerImg());
-                        break;
-                    }
+                    session.setAttribute("name", users.getCustomer().getCustomerName());
+                    request.setAttribute("role", "customer");
+                    session.setAttribute("image", users.getCustomer().getCustomerImg());
+                    break;
             }
 
             // BEGIN EMPLOYEE LIST SHOW//
+            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
 
-            int check = Integer.valueOf(estateControl.checkInforUser(users.getId().toString()));
-            System.out.println("check " + check);
-            System.out.println("idUser " + users.getId());
-            if (check == 1) {
-
-                request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
-                request.getRequestDispatcher("/page/guest/request_sale.jsp").forward(request, response);
-            } else {
-                response.sendRedirect(request.getContextPath() + "/index?modal=show");
-            }
-
+            request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
+            request.getRequestDispatcher("/page/guest/request_sale.jsp").forward(request, response);
         } else {
             request.setAttribute("displayLogin", "block");
             request.setAttribute("displayUser", "none");
@@ -164,12 +144,18 @@ public class RequestSale extends HttpServlet {
         String price = request.getParameter("price");
         String content = request.getParameter("content");
         Estate estate = new Estate();
-        estate.setEstateName(address1);
+        estate.setEstateName(address2);
         estate.setEstateTypeId(estateType);
         estate.setEstateStatusId(estateStatus);
         estate.setAddress1(address1);
         estate.setAddress2(address2);
-        estate.setPrice(Double.parseDouble(price));
+
+        if (estateStatus.getId() == 1) {
+            estate.setPrice(Double.parseDouble(price)* 1000000);
+        } else if (estateStatus.getId() == 2) {
+            estate.setPrice(Double.parseDouble(price) * 1000000000);
+        }
+
         estate.setEstateDescription(content);
         estate.setEstateContent(content);
         estate.setEstateStatus("waitting for employee");
@@ -244,15 +230,16 @@ public class RequestSale extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(ProduceContractBuy.class.getName()).log(Level.SEVERE, null, ex);
         }
-}
 
-/**
- * Returns a short description of the servlet.
- *
- * @return a String containing servlet description
- */
-@Override
-        public String getServletInfo() {
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

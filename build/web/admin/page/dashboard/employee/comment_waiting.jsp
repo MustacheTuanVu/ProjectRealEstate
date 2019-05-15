@@ -109,7 +109,7 @@
                                                 </thead>
 
                                                 <c:forEach items="${listCommet}" var="item">
-                                                    <tr>
+                                                    <tr >
                                                         <td>
                                                             <input type="checkbox" id="ckbCommnet" name="ckbCommnet" value="${item.idComment}" />
 

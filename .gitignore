@@ -31,3 +31,4 @@ hs_err_pid*
 /src/java/com/ckfinder/connector/handlers/command/
 /src/java/com/ckfinder/connector/configuration/
 /src/java/com/ckfinder/connector/
+/dist/

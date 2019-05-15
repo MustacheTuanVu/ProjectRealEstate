@@ -672,14 +672,14 @@
       $rangePrice.ionRangeSlider({
         type: "double",
         min: 0,
-        max: 500000,
+        max: 10000000000,
         hide_min_max: true,
         hide_from_to: false,
         grid: false,
-        postfix: ' $',
+        postfix: ' VND',
         force_edges: true,
         max_postfix: '',
-        step: 10000,
+        step: 1000000,
         // converts numbers like 4000000 to 4m, remove if you don't like it
         prettify: function (value) {
           return app.utils.abbreviateNumber(value)

@@ -90,10 +90,18 @@
                                 <h1 class="property__title">${find.estateName}<span class="property__city">${find.address2}</span></h1>
                                 <div class="property__header">
 
-                                    <div class="property__price"><strong class="property__price-value">${find.price} VND</strong></div>
-                                    <!--
+                                    <div class="property__price">
+                                        <c:set var="price" value="${find.price}"/>
+                                        <c:set var="priceRent" value="${price/1000000}"/>
+                                        <c:set var="priceSale" value="${price/1000000000}"/>
+                                        <c:if test = "${find.estateStatusId.estateStatusName == 'Cho thuê'}">
+                                            <strong class="property__price-value">${priceRent} Triệu VND /tháng</strong>
+                                        </c:if>
+                                        <c:if test = "${find.estateStatusId.estateStatusName == 'Bán'}">
+                                            <strong class="property__price-value">${priceSale} Tỷ VND</strong>
+                                        </c:if>
+                                    </div>
                                     <h4 class="property__commision">Hướng nhà: <strong>${find.direction}</strong></h4>
-                                    -->
                                     <c:if test="${find.estateStatus == 'publish' || find.estateStatus == 'project'}">
                                         <div class="property__actions" style="display: ${displayRequest}">
                                             <button type="button" data-toggle="modal" data-target="#myModal" class="btn--default"><i class="fa fa-star"></i>Liên hệ</button>
@@ -123,12 +131,12 @@
                                                                         <div class="row">
                                                                             <div class="form-group form-group--description">
                                                                                 <label for="in-13" class="text-left control-label">Lời nhắn</label>
-                                                                                <textarea id="in-13" name="contactContext" required data-parsley-trigger="keyup" data-parsley-minlength="200" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 200 caracters long comment.." class="form-control form-control--description">${customer.customerContent}</textarea>
+                                                                                <textarea id="in-13" name="contactContext" required data-parsley-trigger="keyup" data-parsley-maxlength="100" data-parsley-validation-threshold="10" data-parsley-minlength-message="Tin nhắn tối đa 100 dòng.." class="form-control form-control--description">${customer.customerContent}</textarea>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="row">
-                                                                        <button type="submit" value="Save password" class="form__submit">Submit</button>
+                                                                        <button type="submit" value="Save password" class="form__submit">Liên hệ</button>
                                                                     </div>
                                                                 </div>
                                                             </form>
@@ -145,7 +153,7 @@
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="property__slider">
-                                    <div class="property__ribon">For ${find.estateStatusId.estateStatusName}</div>
+                                    <div class="property__ribon">${find.estateStatusId.estateStatusName}</div>
                                     <div class="property__ribon property__ribon--status property__ribon--done">
                                         ${find.estateTypeId.typeName}
                                     </div>
@@ -315,27 +323,27 @@
                                             <div class="properties properties--grid">
                                                 <div class="properties__thumb">
                                                     <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${estate.id}" target="_blank" class="item-photo">
-                                                        <img src="${estate.image1st}" />
+                                                        <img src="${estate.image1st}" style="width: 270px !important; height: 175px !important" width="270px" height="175px"/>
                                                         <figure class="item-photo__hover item-photo__hover--params">
-                                                            <span class="properties__params">Bed Room - ${estate.bedRoom} room</span>
-                                                            <span class="properties__params">Bath Room - ${estate.bathRoom} room</span>
+                                                            <span class="properties__params">Phòng ngủ - ${estate.bedRoom} phòng</span>
+                                                            <span class="properties__params">Phòng tắm - ${estate.bathRoom} phòng</span>
                                                             <span class="properties__params">Garages - ${estate.garages}M<sup>2</sup></span>
                                                             <!--
                                                             <span class="properties__intro">My home is bright and spacious. Very good transport links. Close to the Olympic village, Westfiel...</span>
                                                             -->
-                                                            <span class="properties__time">Areas - ${estate.areas}M<sup>2</sup></span>
+                                                            <span class="properties__time">Diện tích - ${estate.areas}M<sup>2</sup></span>
 
                                                             <!-- cuong add -->
 
                                                         </figure>
                                                     </a>
-                                                    <span class="properties__ribon">For ${estate.estateStatusId.estateStatusName}</span>
-                                                    
-                                                        <span class="properties__ribon properties__ribon--status properties__ribon--done">
-                                                            <a data-toggle="modal" data-target="#${estate.id}"  href="" >
-                                                            So S?h
-                                                            </a>
-                                                        </span>
+                                                    <span class="properties__ribon">${estate.estateStatusId.estateStatusName}</span>
+
+                                                    <span class="properties__ribon properties__ribon--status properties__ribon--done">
+                                                        <a data-toggle="modal" data-target="#${estate.id}"  href="" >
+                                                            So Sánh
+                                                        </a>
+                                                    </span>
 
                                                     <!-- start modal -->
                                                     <div id="${estate.id}" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
@@ -347,7 +355,7 @@
                                                                     <div class="panel panel-default card-view">
                                                                         <div class="panel-heading">
                                                                             <div class="pull-left">
-                                                                                <h6 class="panel-title txt-dark">Basic Wizard</h6>
+                                                                                <h6 class="panel-title txt-dark">SO SÁNH</h6>
                                                                             </div>
                                                                             <div class="clearfix"></div>
                                                                         </div>
@@ -358,21 +366,21 @@
                                                                                 <td><img src="${estate.image1st}" height="250px" width="500px"/></td>
                                                                             </tr>
                                                                             <tr >
-                                                                                <td colspan="3" >Th?g Tin C? B?n</td>
+                                                                                <td colspan="3" >Thông tin cơ bản</td>
                                                                             </tr>
                                                                             <tr>
-                                                                                <td>Estate Name</td>
+                                                                                <td></td>
                                                                                 <td>${find.estateName}</td>
                                                                                 <td>${estate.estateName}</td>
                                                                             </tr>
 
                                                                             <tr>
-                                                                                <td>T?ng Di?n T?h (m<sup>2</sup>)</td>
+                                                                                <td>Diện tích (m<sup>2</sup>)</td>
                                                                                 <td>${find.areas}</td>
                                                                                 <td>${estate.areas}</td>
                                                                             </tr>
                                                                             <tr>
-                                                                                <td>S? T?ng</td>
+                                                                                <td>Số tầng</td>
                                                                                 <td>${find.floor}</td>
                                                                                 <td>${estate.floor}</td>
                                                                             </tr>
@@ -382,33 +390,33 @@
                                                                                 <td>${estate.garages}</td>
                                                                             </tr>
                                                                             <tr>
-                                                                                <td>Ph?g T?m</td>
+                                                                                <td>Phòng tắm</td>
                                                                                 <td>${find.bathRoom}</td>
                                                                                 <td>${estate.bathRoom}</td>
                                                                             </tr>
                                                                             <tr>
-                                                                                <td>Ph?g Ng?</td>
+                                                                                <td>Phòng ngủ</td>
                                                                                 <td>${find.bedRoom}</td>
                                                                                 <td>${estate.bedRoom}</td>
                                                                             </tr>
 
                                                                             <tr >
-                                                                                <td colspan="3">Th?g Tin Chung</td>
+                                                                                <td colspan="3">Thông tin chung</td>
                                                                             </tr>
                                                                             <tr >
                                                                                 <fmt:formatDate pattern="dd-MM-yyyy" value="${find.yearBuild}" var="date1"/>
                                                                                 <fmt:formatDate pattern="dd-MM-yyyy" value="${estate.yearBuild}" var="date2"/>
-                                                                                <td >N?m X? D?ng</td>
+                                                                                <td >Năm xây dựng</td>
                                                                                 <td >${date1}</td>
                                                                                 <td >${date2}</td>
                                                                             </tr>
                                                                             <tr >
-                                                                                <td >H??ng</td>
+                                                                                <td >Hướng</td>
                                                                                 <td >${find.direction}</td>
                                                                                 <td >${estate.direction}</td>
                                                                             </tr>
                                                                             <tr >
-                                                                                <td >??a Ch?</td>
+                                                                                <td >Địa chỉ</td>
                                                                                 <td >${find.address1}</td>
                                                                                 <td >${estate.address1}</td>
                                                                             </tr>
@@ -436,22 +444,30 @@
                                                             <span class="properties__address-city">${estate.address2}</span></a>
                                                         <div class="properties__offer">
                                                             <div class="properties__offer-column">
-                                                                <div class="properties__offer-label">Direction</div>
+                                                                <div class="properties__offer-label">Hướng</div>
                                                                 <div class="properties__offer-value">
                                                                     <strong> ${estate.direction}</strong>
                                                                 </div>
                                                             </div>
                                                             <div class="properties__offer-column">
-                                                                <div class="properties__offer-label">Price</div>
-                                                                <div class="properties__offer-value"><strong>${estate.price}</strong>
-                                                                        <c:if test = "${estate.estateStatusId.estateStatusName == 'Rent'}">
-                                                                        <span class="properties__offer-period">/month</span>
-                                                                    </c:if>
-                                                                </div>
+                                                                <div class="properties__offer-label">Giá</div>
+                                                                <c:set var="price" value="${estate.price}"/>
+                                                                <c:set var="priceRent" value="${price/1000000}"/>
+                                                                <c:set var="priceSale" value="${price/1000000000}"/>
+                                                                <c:if test = "${estate.estateStatusId.estateStatusName == 'Cho thuê'}">
+                                                                    <div class="properties__offer-value">
+                                                                        <strong>${priceRent} Triệu VND / tháng</strong>
+                                                                    </div>
+                                                                </c:if>
+                                                                <c:if test = "${estate.estateStatusId.estateStatusName == 'Bán'}">
+                                                                    <div class="properties__offer-value">
+                                                                        <strong>${priceSale} Tỷ VND</strong>
+                                                                    </div>
+                                                                </c:if>
                                                             </div>
 
                                                         </div>
-                                                        <div class="properties__params--mob">View details<span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
+                                                        <div class="properties__params--mob">Xem chi tiết<span class="properties__params">Built-Up - 65 Sq Ft</span><span class="properties__params">Land Size - 110 Sq Ft</span></div>
                                                     </div>
                                                 </div>
                                                 <!-- end of block .properties__info-->

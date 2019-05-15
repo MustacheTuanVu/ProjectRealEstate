@@ -116,7 +116,8 @@ public class ProjectDetails extends HttpServlet {
         Controller.ReplyCommentJpaController replyController = new ReplyCommentJpaController(utx, emf);
         
         String id = request.getParameter("projectId");
-
+        
+        System.out.println("point "+ratingController.getPointByProject((id)));
         request.setAttribute("point", ratingController.getPointByProject((id)));
         request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
 
@@ -140,7 +141,7 @@ public class ProjectDetails extends HttpServlet {
         Double sumPriceUnSold = 0.0;
         for (Estate estate : estateList) {
             sumPrice = sumPrice + estate.getPrice();
-            if(estate.getEstateStatusId().getEstateStatusName().equals("Saled")){
+            if(estate.getEstateStatus().equalsIgnoreCase("sold")){
                 countEstateSold = countEstateSold + 1;
                 sumPriceSold = sumPriceSold + estate.getPrice();
             }

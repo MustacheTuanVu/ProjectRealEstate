@@ -152,13 +152,14 @@
                                             <c:forEach items="${estateList}" var="item">
                                                 <div class="listing__item">
                                                     <div class="properties__item-header">
+                                                        <!--
                                                         <c:if test="${item.estateStatus == 'waitting to transaction'}">
                                                             <span class="properties__state properties__state--highlight">${item.estateStatus}</span>
                                                         </c:if>
                                                         <c:if test="${item.estateStatus != 'waitting to transaction'}">
                                                             <span class="properties__state properties__state--default">${item.estateStatus}</span>
                                                         </c:if>
-
+                                                        -->
                                                         <div class="properties__actions">
 
                                                             <button type="button" class="properties__link">Sửa</button>
@@ -175,11 +176,11 @@
                                                     <div class="properties properties--grid">
                                                         <div class="properties__thumb">
                                                             <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${item.id}" class="item-photo">
-                                                                <img src="${item.image1st}" alt=""/>
+                                                                <img src="${item.image1st}" alt="" style="width: 270px !important; height: 175px !important" width="270px" height="175px"/>
                                                                 <figure class="item-photo__hover item-photo__hover--params">
 
-                                                                    <span class="properties__params">Phòng ngủ - ${item.bedRoom} room</span>
-                                                                    <span class="properties__params">Phòng tắm - ${item.bathRoom} room</span>
+                                                                    <span class="properties__params">Phòng ngủ - ${item.bedRoom} Phòng </span>
+                                                                    <span class="properties__params">Phòng tắm - ${item.bathRoom} Phòng </span>
 
                                                                     <span class="properties__params">Garages - ${item.garages}M<sup>2</sup></span>
                                                                     <!--
@@ -191,7 +192,7 @@
 
                                                                 </figure>
                                                             </a>
-                                                            <span class="properties__ribon">For ${item.estateStatusId.estateStatusName}</span>
+                                                            <span class="properties__ribon">${item.estateStatusId.estateStatusName}</span>
                                                             <span class="properties__ribon properties__ribon--status properties__ribon--done">${item.estateTypeId.typeName}</span>
                                                         </div>
                                                         <!-- end of block .properties__thumb-->
@@ -214,11 +215,20 @@
 
                                                                         <div class="properties__offer-label">Giá</div>
 
-                                                                        <div class="properties__offer-value"><strong>${item.price}</strong>
-                                                                                <c:if test = "${item.estateStatusId.estateStatusName == 'Rent'}">
-                                                                                <span class="properties__offer-period">/month</span>
-                                                                            </c:if>
-                                                                        </div>
+                                                                        <c:set var="price" value="${item.price}"/>
+                                                                        <c:set var="priceRent" value="${price/1000000}"/>
+                                                                        <c:set var="priceSale" value="${price/1000000000}"/>
+                                                                        <c:if test = "${item.estateStatusId.estateStatusName == 'Cho thuê'}">
+                                                                            <div class="properties__offer-value">
+                                                                                <strong>${priceRent} Triệu VND</strong>
+                                                                                <span class="properties__offer-period">/tháng</span>
+                                                                            </div>
+                                                                        </c:if>
+                                                                        <c:if test = "${item.estateStatusId.estateStatusName == 'Bán'}">
+                                                                            <div class="properties__offer-value">
+                                                                                <strong>${priceSale} Tỷ VND</strong>
+                                                                            </div>
+                                                                        </c:if>
                                                                     </div>
                                                                 </div>
 

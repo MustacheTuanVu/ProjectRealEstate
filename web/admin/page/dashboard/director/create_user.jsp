@@ -31,8 +31,19 @@
 
         <!-- Custom CSS -->
         <link href="<%=request.getContextPath()%>/admin/dist/css/style.css" rel="stylesheet" type="text/css">
-
-
+        <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
+        <script type="text/javascript">
+            function BrowseServer1() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField1;
+                finder.popup();
+            }
+            function SetFileField1(fileUrl) {
+                document.getElementById('image1st').value = fileUrl;
+                document.getElementById('imageup1st').src = fileUrl;
+            }
+        </script>
 
     </head>
     <body>
@@ -90,12 +101,34 @@
                             <div  class="panel-wrapper collapse in">
                                 <div  class="panel-body">
                                     <div class="row">
-                                        <form action="<%=request.getContextPath()%>/CreateUser" class="form form--flex form--property form--basic js-form-property-1">
-
-                                            <div class="col-md-6 mb-10">
+                                        <form onsubmit="return KiemTraBatBuoc()" action="<%=request.getContextPath()%>/CreateUser" class="form form--flex form--property form--basic js-form-property-1">
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 mb-10">
+                                                    <img src="<%=request.getContextPath()%>/CKFinderJava/userfiles/files/01.jpg" onclick="BrowseServer1()" id="imageup1st" alt="avatar" width="208" height="208">
+                                                    <input type="hidden" id="image1st" name="txtImg"/>
+                                                </div>
+                                                <div class="col-md-6 mb-10">
+                                                    <div class="panel panel-danger card-view" style="display: none${displayError}">
+                                                        <div class="panel-heading">
+                                                            <div class="pull-left">
+                                                                <h6 class="panel-title txt-light">Thêm vào bị lỗi</h6>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                        <div class="panel-wrapper collapse in">
+                                                            <div class="panel-body">
+                                                                <p>${duplicate}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="nameForm" class="col-md-6 mb-10">
                                                 <div class="form-group">
                                                     <label class="control-label mb-10">Họ & Tên</label>
-                                                    <input required type="text" name="fullName" class="form-control">
+                                                    <!--<input required type="text" name="fullName" class="form-control">-->
+                                                    <input  id="in-2" required name="txtName" class="form-control">
+                                                    <span id="tb-hoten" class="help-block"></span>
                                                 </div>
 
                                             </div>
@@ -109,6 +142,35 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
+                                                <div class="form-group">
+                                                    <label for="in-3" class="control-label mb-10 text-left">Chứng Minh Nhân Dân</label>
+                                                    <input id="in-3" value="${customer.employeeIndentityCard}" required name="txtCard" class="form-control">
+                                                    <span id="tb-cmnd"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-10">
+                                                <div class="form-group">
+                                                    <label for="in-4" class="control-label mb-10 text-left">Địa Chỉ</label>
+                                                    <input id="in-4" required name="txtAddress"  class="form-control">
+                                                    <span id="tb-diachi"></span>
+                                                    <!-- end of block .form-property__control-->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-10">
+                                                <div class="form-group">
+                                                    <label for="in-11" class="control-label mb-10 text-left">Điện Thoại</label>
+                                                    <input id="in-11" name="txtPhone" type="tel" required class="form-control">
+                                                    <span id="tb-dienthoai"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-10">
+                                                <div class="form-group">
+                                                    <label for="in-12" class="control-label mb-10 text-left">Email</label>
+                                                    <input id="in-12" name="txtMail" type="email" required class="form-control">
+                                                    <span id="tb-email"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mb-10">
                                                 <button type="submit" name="submit" value="submit" class="btn btn-primary">Tạo</button>
                                             </div>
                                         </form>
@@ -184,7 +246,72 @@
         <script src="<%=request.getContextPath()%>/admin/dist/js/init.js"></script>
         <script src="<%=request.getContextPath()%>/admin/dist/js/dashboard-data.js"></script>
 
-
+        <script type="text/javascript">
+                                                        var TB_SPACE = "Vui lòng nhập vào kí tự";
+                                                        var TB_KITU = "Vui lòng nhập số kí tự trong khoảng";
+                                                        var TB_SO = "Vui lòng kiểm tra số điện thoại";
+                                                        var TB_Email = "Vui lòng kiểm tra lại email";
+                                                        function KiemTraSoKiTu(idTextBox, idThongBao, minLength,
+                                                                maxLength, thongBao) {
+                                                            //alert('OK2'); 
+                                                            // var giaTri = $(idTextBox).val();
+                                                            var giaTri = document.getElementById(idTextBox).value;
+                                                            var tag = document.getElementById(idThongBao);
+                                                            if (giaTri.length < minLength || giaTri.length > maxLength) {
+                                                                tag.style.display = "block";
+                                                                tag.innerHTML = thongBao + " " + minLength + "> " + maxLength;
+                                                                return false;
+                                                            } else {
+                                                                tag.style.display = "none";
+                                                                return true;
+                                                            }
+                                                        }
+                                                        function KiemTraSoDienThoai(idTextBox, idThongBao, thongBao) {
+                                                            var giaTri = document.getElementById(idTextBox).value;
+                                                            var tag = document.getElementById(idThongBao);
+                                                            var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+                                                            if (vnf_regex.test(giaTri)) {
+                                                                tag.style.display = "none";
+                                                                return true;
+                                                            } else {
+                                                                tag.style.display = "block";
+                                                                tag.innerHTML = thongBao;
+                                                                return false;
+                                                            }
+                                                        }
+                                                        function KiemTraEmail(idTextBox, idThongBao, thongBao) {
+                                                            var patt = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                                                            var giaTri = $('#' + idTextBox).val();
+                                                            console.log(giaTri);
+                                                            var tag = document.getElementById(idThongBao);
+                                                            if (patt.test(giaTri)) {
+                                                                tag.style.display = "none";
+                                                                return true;
+                                                            } else {
+                                                                tag.style.display = "block";
+                                                                tag.innerHTML = thongBao;
+                                                                return false;
+                                                            }
+                                                        }
+                                                        function KiemTraBatBuoc() {
+                                                            if (KiemTraSoKiTu('in-2', 'tb-hoten', 5, 20, TB_KITU)
+                                                                    && KiemTraSoKiTu('in-4', 'tb-diachi', 20, 100, TB_KITU)
+                                                                    && KiemTraSoDienThoai('in-11', 'tb-dienthoai', TB_SO)
+                                                                    && KiemTraEmail('in-12', 'tb-email', TB_Email)) {
+                                                                return true;
+                                                            } else {
+                                                                return false;
+                                                            }
+                                                        }
+//            $('#btnLuu').click(function(){{
+//                 KiemTraSoKiTu('in-2', 'tb-hoten', 5, 15, TB_SPACE);
+//                 alert('OK');
+//            })
+                                                        //document.getElementById("btnLuu").addEventListener("click",function(){
+                                                        //alert('OK');
+                                                        //KiemTraSoKiTu('in-2', 'tb-hoten', 5, 15, TB_SPACE);
+                                                        //});
+        </script>
     </body>
 
 </html>

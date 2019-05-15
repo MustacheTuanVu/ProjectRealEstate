@@ -220,19 +220,19 @@ public class PostJpaController implements Serializable {
             em.close();
         }
     }
-
+    
     public List<Post> getPostByEmployee(String employeeID) {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createNativeQuery("SELECT * FROM post where employee='" + employeeID + "' order by post_date desc", Post.class);
-
+            Query query = em.createNativeQuery("SELECT * FROM post where employee='" + employeeID + "'", Post.class);
+            
             List<Post> ret = (List<Post>) query.getResultList();
             return ret;
         } finally {
             em.close();
         }
     }
-
+    
     /* cuong add */
     public List<Post> getAllPost() {
         EntityManager em = getEntityManager();
@@ -274,11 +274,11 @@ public class PostJpaController implements Serializable {
         }
     }
     /* cuong add */
-
     public List<Category> getPostByCategory1() {
         EntityManager em = getEntityManager();
         try {
-            Query query = em.createNativeQuery("SELECT * FROM category c \n", Category.class);
+            Query query = em.createNativeQuery("SELECT * FROM category c \n"
+                    , Category.class);
 
             List<Category> ret = (List<Category>) query.getResultList();
             return ret;
@@ -287,11 +287,10 @@ public class PostJpaController implements Serializable {
         }
     }
     /* cuong add */
-
     public List<Post> getPostByCategoryName(int catName) {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNativeQuery("select * from post where post_category ='" + catName + "'", Post.class);
+            Query q=em.createNativeQuery("select * from post where post_category ='"+catName+"'",Post.class);
             List<Post> ret = (List<Post>) q.getResultList();
             return ret;
         } finally {
@@ -300,80 +299,46 @@ public class PostJpaController implements Serializable {
     }
 
     /* cuong add */
-    public Integer checkPostByNameAndCat(int catID, String postName) {
+    public Integer checkPostByNameAndCat(int catID,String postName) {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNativeQuery("select count(post_id) from post p where p.post_tilte = N'" + postName + "' and p.post_category =" + catID + "");
+            Query q=em.createNativeQuery("select count(post_id) from post p where p.post_tilte = '"+postName+"' and p.post_category ="+catID+"");
             return (Integer) q.getSingleResult();
         } finally {
             em.close();
         }
     }
     /* cuong add */
-
-    public Integer checkPostByNameEdit(String postName, String idPost) {
-        EntityManager em = getEntityManager();
-        try {
-            Query q = em.createNativeQuery("select count(post_id) as dem from post p \n"
-                    + "where p.post_tilte = N'" + postName + "' \n"
-                    + "and p.post_tilte not in (select post_tilte from post where post_id=" + idPost + ")");
-            return (Integer) q.getSingleResult();
-        } finally {
-            em.close();
-        }
-    }
-    /* cuong add */
-
-    public Integer checkPostByCatEdit(String postName) {
-        EntityManager em = getEntityManager();
-        try {
-            Query q = em.createNativeQuery("select post_category \n"
-                    + "from post\n" +
-            "where post_tilte = N'"+postName+"' ");
-            return (Integer) q.getSingleResult();
-        } finally {
-            em.close();
-        }
-    }
-    /* cuong add */
-
     public List<Post> getPostByCategoryID(int catID) {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNativeQuery("SELECT TOP 3 p.* FROM post p where p.post_category='" + catID + "' ORDER BY p.post_date DESC", Post.class);
+            Query q=em.createNativeQuery("SELECT TOP 3 p.* FROM post p where p.post_category='"+catID+"' ORDER BY p.post_date DESC",Post.class);
             List<Post> ret = (List<Post>) q.getResultList();
             return ret;
         } finally {
             em.close();
         }
     }
-
+    
     /* cuong add */
-    public Object getCountPostByEmployeeID(int empId) {
+    public Object getCountPostByEmployeeID(int empId){
         EntityManager em = getEntityManager();
-        Query q = em.createNativeQuery("select count(post_id) from post where employee ='" + empId + "'");
-        return q.getSingleResult();
+        Query q=em.createNativeQuery("select count(post_id) from post where employee ='"+empId+"'");
+        return   q.getSingleResult();
     }
     /* cuong add */
-
-    public Object getCountCustomerByEmployeeID(int empId) {
+    public Object getCountCustomerByEmployeeID(int empId){
         EntityManager em = getEntityManager();
-        Query q = em.createNativeQuery("select count(x.customer_id) from (select distinct(customer_id) from contract where employee_id='" + empId + "') x");
-        return q.getSingleResult();
+        Query q=em.createNativeQuery("select count(x.customer_id) from (select distinct(customer_id) from contract where employee_id='"+empId+"') x");
+        return   q.getSingleResult();
     }
-
     // cuong add
-    public List<Post> searchPostByFilter(int key, String dateTu, String DateDen, int idCat) {
+    public List<Post> searchPostByFilter(int key,String dateTu,String DateDen,int idCat){
         EntityManager em = getEntityManager();
-        Query q = em.createNativeQuery("select * from post where post_date >'" + dateTu + "' and post_date < '" + DateDen + "' and post_category = " + idCat + " and employee=" + key);
-
+        Query q=em.createNativeQuery("select * from post where post_date >'"+dateTu+"' and post_date < '"+DateDen+"' and post_category = "+idCat+" and employee="+key);
+        
+        
         return q.getResultList();
     }
-
-    // cuong add
-    public List<Post> getListPost() {
-        EntityManager em = getEntityManager();
-        Query q = em.createNativeQuery("select * from post order by post_date desc");
-        return q.getResultList();
-    }
+    
 }

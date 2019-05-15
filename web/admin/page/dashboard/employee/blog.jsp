@@ -215,12 +215,10 @@
                     removePlugins: 'image',
                     height: 350
                 });
-
                 // Just call CKFinder.setupCKEditor and pass the CKEditor instance as the first argument.
                 // The second parameter (optional), is the path for the CKFinder installation (default = "/ckfinder/").
                 // NOTE POINT
                 CKFinder.setupCKEditor(editor, {basePath: '<%=request.getContextPath()%>/ckfinder/'});
-
                 // It is also possible to pass an object with selected CKFinder properties as a second argument.
                 // CKFinder.setupCKEditor( editor, { basePath : '../', skin : 'v1' } ) ;
             } else {
@@ -292,4 +290,3 @@
     </body>
 
 </html>
-

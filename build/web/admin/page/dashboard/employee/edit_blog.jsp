@@ -111,27 +111,27 @@
                                 </div>
                                 <div class="panel-wrapper collapse in">
                                     <div class="panel-body">
-                                        <form method="POST" onsubmit="return checkForm()" action="<%=request.getContextPath()%>/EditBlog?idPost=${post.postId}" class="form form--flex form--property form--basic js-form-property-1">
+                                        <form method="POST" action="<%=request.getContextPath()%>/EditBlog?idPost=${post.postId}" class="form form--flex form--property form--basic js-form-property-1">
 
                                             <div class="form-group">
                                                 <input type="hidden"  name="txtID" />
-                                                <label for="in-article-title" class="control-label">Hình ảnh bài viết &nbsp; <span style="color: red ;">*</span> &nbsp; <span id="errImg1" style="color: red; padding-left: 10px"></span> </label>
+                                                <label for="in-article-title" class="control-label">Hình ảnh bài viết <span id="errImg1" style="color: red; padding-left: 10px"></span> </label>
                                                 <br/>
-                                                <img  onmouseup="return checkImg()" src="${post.postImage}" onclick="BrowseServer1()" id="imageup1st" alt="avatar" width="208" height="208">
-                                                <input   value="${post.postImage}" type="hidden"  id="image1st" name="txtImg"/>
+                                                <img  onchange="return checkForm()" src="${post.postImage}" onclick="BrowseServer1()" id="imageup1st" alt="avatar" width="208" height="208">
+                                                <input  onchange="return checkForm()" type="hidden"  id="image1st" name="txtImg"/>
 
                                             </div>
                                             <div class="form-group">
-                                                <label for="in-article-title" class="control-label">Tiêu đề &nbsp; <span style="color: red ;">*</span> &nbsp;  <span  style="color: red; padding-left: 10px" id="errTitle1"></span></label>
+                                                <label for="in-article-title" class="control-label">Tiêu đề <span  style="color: red; padding-left: 10px" id="errTitle1"></span></label>
 
-                                                <input type="text" onkeyup="return checkTitle()"  value="${post.postTilte}" onchange="return checkForm()"  name="title" id="in-article-title" class="form-control">
+                                                <input type="text" value="${post.postTilte}" onchange="return checkForm()"  name="title" id="in-article-title" class="form-control">
 
                                             </div>
                                             <div class="form-group">
 
                                                 <label for="in-article-title" class="control-label">Nội Dung</label>
-                                                &nbsp; <span  style="color: red;" >*</span>&nbsp;  <span  style="color: red; padding-left: 10px" id="errCat"></span>
-                                                <select onchange="return checkBlogExist()" name="cat" class="form-control" id="in-2">
+
+                                                <select name="cat" class="control-label" id="in-2">
                                                     <c:forEach items="${list}" var="cat" >
                                                         <option value="${cat.categoryId}" ${cat.categoryId==post.postCategory.categoryId ? 'selected':''}  class="form-control">${cat.categoryName}</option> 
                                                     </c:forEach>
@@ -139,12 +139,12 @@
                                             </div>
                                             <div class="form-group">
 
-                                                <label for="in-article-title" class="control-label">Mô tả &nbsp; <span style="color: red ;">*</span> &nbsp;  <span style="color: red ; padding-left: 10px" id="errDes1"></span></label>
+                                                <label for="in-article-title" class="control-label">Mô tả <span style="color: red ; padding-left: 10px" id="errDes1"></span></label>
 
                                                 <textarea  onchange="return checkForm()" id="txtDes" name="editor1" class="form-control js-ckeditor">${post.postContent}</textarea>
                                             </div>
                                             <button onclick="return confirm('Bạn Có Muốn Thay Đổi !!!')" type="submit" class="form__submit">Lưu Thay Đổi</button>
-                                            <button type="button" class="form__submit" data-dismiss="modal">Thoát</button>
+                                            
                                         </form>
                                     </div>
                                 </div>
@@ -190,78 +190,36 @@
         <!-- jQuery -->
 
         <script >
-
-            function checkBlogExist() {
-                var title = document.getElementById('in-article-title').value;
-                var cat = document.getElementById('in-2').value;
-                //blockName = blockName.replace(/\s+/g, "");
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        if (this.responseText == 1) {
-                            document.getElementById("errTitle1").innerHTML = 'Bài Viết Đã Tồn Tại !!!';
-                            document.getElementById("errCat").innerHTML = 'Bài Viết Đã Tồn Tại !!!';
-
-                            return false;
-                        } else
-                        if (this.responseText == 0) {
-                            document.getElementById("errTitle1").innerHTML = '';
-                            document.getElementById("errCat").innerHTML = '';
-                            return true;
-                        }
-                    }
-                };
-                xhttp.open("GET", "TestCheckBlog?title=" + title + "&cat=" + cat+"&idPost="+${post.postId}, true);
-                xhttp.send();
-            }
-            ;
-            function checkTitle(){
-                var title = document.getElementById('in-article-title').value;
-                title=title.replace(/\s+/g,' ');
-                document.getElementById('in-article-title').value=title;
-                if (title.length <10 ||title.length >50) {
-                        document.getElementById("errTitle1").innerHTML = 'Tiêu Đề Bài Viết Từ 10 Đến 50 Ký Tự !!!';
-                        return;
-                }else
-                checkBlogExist();
-                
-            };
-            function checkTextArea() {
+            function checkTextaere(var123) {
                 var txtDes = document.getElementById('txtDes').value;
-                console.log('0 qwe ' + txtDes);
-                if (txtDes.length < 200) {
-                    document.getElementById('errTextArea').innerHTML = 'Nội Dung Bài Viết Ít Nhất 200 Ký Tự !!!';
-                }
-            };
-            function checkImg() {
-                var img = document.getElementById('image1st').value;
-                if (img.length ===0) {
-                    document.getElementById('errImg').innerHTML = 'Mời Bạn Chọn Hình Ảnh !!!';
-                }
-            };
+                console.log('12345 ' + txtDes);
+                console.log('123456 ' + var123);
+            }
             function checkForm() {
-
                 var txtImg = document.getElementById('image1st').value;
                 var txtTitle = document.getElementById('in-article-title').value;
                 var txtDes = document.getElementById('txtDes').value;
-                
                 console.log('123 ' + txtDes);
                 txtTitle = txtTitle.replace(/^\s+|\s+$/g, "");
                 txtDes = txtDes.replace(/^\s+|\s+$/g, "");
-
                 if (txtImg.length === 0) {
-                    document.getElementById('errImg').innerHTML = 'Mời Chọn Hình Ảnh!!!';
-                } 
-                if (txtTitle.length ===0) {
-                    document.getElementById('errTitle1').innerHTML = 'Mời Nhập Tiêu Đề Bài Viết !!!';
-                } 
-                if (txtDes.length <1000) {
-                    document.getElementById('errTextArea').innerHTML = 'Nội Dung Dưới 1000 Ký Tự !!!';
-                    return false;
+                    document.getElementById('errImg1').innerHTML = 'Vui lòng chọn hình ảnh !!!';
                 } else {
+                    document.getElementById('errImg1').innerHTML = '';
+                }
+                if (txtTitle.length > 51 || txtTitle.length < 5) {
+                    document.getElementById('errTitle1').innerHTML = 'Tiêu đề phải từ 6 đến 50 kí tự !!!';
+                } else {
+                    document.getElementById('errTitle1').innerHTML = '';
+                }
+                if (txtDes.length < 100) {
+                    document.getElementById('errDes1').innerHTML = 'Mô tả ít nhất 200 kí tự !!!';
+                } else {
+                    document.getElementById('errDes1').innerHTML = '';
                     return true;
                 }
-            };
+                return false;
+            }
         </script>
         <script src="//cdn.ckeditor.com/4.5.6/standard-all/ckeditor.js"></script>
         <script>
@@ -277,12 +235,10 @@
                     removePlugins: 'image',
                     height: 350
                 });
-
                 // Just call CKFinder.setupCKEditor and pass the CKEditor instance as the first argument.
                 // The second parameter (optional), is the path for the CKFinder installation (default = "/ckfinder/").
                 // NOTE POINT
                 CKFinder.setupCKEditor(editor, {basePath: '<%=request.getContextPath()%>/ckfinder/'});
-
                 // It is also possible to pass an object with selected CKFinder properties as a second argument.
                 // CKFinder.setupCKEditor( editor, { basePath : '../', skin : 'v1' } ) ;
             } else {
@@ -347,4 +303,3 @@
     </body>
 
 </html>
-

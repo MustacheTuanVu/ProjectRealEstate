@@ -107,6 +107,7 @@
                                                         <tr>
                                                             <th>Đại chỉ</th>
                                                             <th>Nhân viên tư vấn</th>
+                                                            <th>Phí</th>
                                                             <th>Giá</th>
                                                             <th>Trạng thái</th>
                                                             <th>Chi tiết</th>
@@ -117,12 +118,18 @@
                                                         <c:forEach items="${contractDetails}" var="item">
 
                                                             <tr>
-                                                                <td>${item.estateId.address1} <br>
-                                                                    ${item.estateId.address2}
-                                                                </td>
-                                                                <td><strong>${item.contractId.employeeId.employeeName}</strong>
-                                                                </td>
-                                                                <td><strong>${item.contractId.paymentAmount} VND</strong></td>
+                                                                <td>${item.estateId.address2}</td>
+                                                                <td><strong>${item.contractId.employeeId.employeeName}</strong></td>
+                                                                <td><strong>${item.contractId.paymentAmount/1000000} Triệu VND</strong></td>
+                                                                <c:set var="price" value="${item.estateId.price}"/>
+                                                                <c:set var="priceRent" value="${price/1000000}"/>
+                                                                <c:set var="priceSale" value="${price/1000000000}"/>
+                                                                <c:if test = "${item.estateId.estateStatusId.estateStatusName == 'Cho thuê' || item.estateId.estateStatusId.estateStatusName == 'Đã thuê'}">
+                                                                    <td><strong>${priceRent} Triệu VND/ tháng</strong></td>
+                                                                </c:if>
+                                                                <c:if test = "${item.estateId.estateStatusId.estateStatusName == 'Bán' || item.estateId.estateStatusId.estateStatusName == 'Đã bán'}">
+                                                                    <td><strong>${priceSale} Tỷ VND</strong></td>
+                                                                </c:if>
                                                                 <td>
                                                                     <c:if test="${item.contractId.contractDetails == 'my request sale'  && item.contractId.status != 'done'}">
                                                                         <strong>${item.contractId.contractDetails}</strong>
@@ -145,11 +152,11 @@
                                                                 <td>
                                                                     <c:if test="${item.contractId.status != 'waitting for employee'}">
                                                                         <a href="<%=request.getContextPath()%>/CreateContract?estateID=${item.estateId.id}&employeeID=${item.contractId.employeeId.id}" class="datatable__more">
-                                                                            View Details
+                                                                            Xem chi tiết
                                                                         </a>
                                                                     </c:if>
                                                                     <c:if test="${item.contractId.status == 'waitting for employee'}">
-                                                                        <span class="datatable__more" style="color: red">Từ chối xem !</span>
+                                                                        <span class="datatable__more" style="color: red">Chưa có hợp đồng</span>
                                                                     </c:if>
 
                                                                 </td>
@@ -193,11 +200,15 @@
                                             <div class="worker__avatar">
                                                 <img src="${customer.customerImg}" alt="avatar" width="208" height="208">
                                             </div>
+
+                                            <button class="worker__avatar-upload">Cập nhập ảnh đại diện</button>
                                         </div>
                                         <nav class="worker__nav">
                                             <ul>
-                                                <li><a href="<%=request.getContextPath()%>/MyListing">Danh sách Nhà Đất</a></li>
+                                                <li><a href="<%=request.getContextPath()%>/MyListing">Danh sách của tôi</a></li>
                                                 <li><a href="<%=request.getContextPath()%>/DashboardUser">Trang cá nhân</a></li>
+                                                <li><a href="<%=request.getContextPath()%>/MyContract">Hợp đồng của tôi</a></li>
+
                                             </ul>
                                         </nav>
                                         <!-- end of block .worker__nav-->

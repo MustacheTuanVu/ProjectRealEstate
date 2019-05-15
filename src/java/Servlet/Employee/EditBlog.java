@@ -9,11 +9,7 @@ import Controller.CategoryJpaController;
 import Controller.PostJpaController;
 import Controller.exceptions.RollbackFailureException;
 import Entity.Category;
-import Entity.Employee;
-import Entity.Post;
-import Entity.Users;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
@@ -102,19 +98,6 @@ public class EditBlog extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        
-//        String title=request.getParameter("title")!=null ? request.getParameter("title") :" ";
-//        String cat=request.getParameter("cat")!=null ? request.getParameter("cat") :"0";
-//        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-//        
-//        Controller.PostJpaController postController= new PostJpaController(utx, emf);
-//        if (postController.checkPostByNameAndCat(Integer.valueOf(cat), title)==0) {
-//            response.getWriter().write("0");
-//            
-//        }else {
-//            response.getWriter().write("1");
-//            
-//        }
     }
 
     /**

@@ -302,7 +302,7 @@ public class EstateCreate1 extends HttpServlet {
 
         String direction = request.getParameter("direction");
         String block = "none";
-        String address1 = request.getParameter("address1");
+        String address1 ="wait";
         String address2 = request.getParameter("address2");
 
         String yearBuild = request.getParameter("yearBuild"); //NOTE

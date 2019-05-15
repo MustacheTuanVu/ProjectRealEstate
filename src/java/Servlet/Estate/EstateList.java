@@ -44,10 +44,11 @@ public class EstateList extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         // BEGIN SESSION HEADER FONTEND //
         HttpSession session = request.getSession();
         Users users = (Users) session.getAttribute("user");
@@ -83,28 +84,25 @@ public class EstateList extends HttpServlet {
             request.setAttribute("displayUser", "none");
         }
         // END SESSION HEADER FONTEND //
-        
+
         // BEGIN ESTATE LIST SHOW//
-        
-        
-        
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         EstateJpaController estateControl = new EstateJpaController(utx, emf);
         EstateStatusJpaController estateStatusControl = new EstateStatusJpaController(utx, emf);
         EstateTypeJpaController estateTypeControl = new EstateTypeJpaController(utx, emf);
         Controller.FeaturesJpaController featureControllre = new FeaturesJpaController(utx, emf);
         Controller.EstateTypeJpaController typeController = new EstateTypeJpaController(utx, emf);
-        Controller.FeatureDetailsJpaController detailsController= new FeatureDetailsJpaController(utx, emf);
+        Controller.FeatureDetailsJpaController detailsController = new FeatureDetailsJpaController(utx, emf);
         //Entity.FeatureDetails details=detailsController.getFeatureBy
-        
+
         String estateStatusID = (request.getParameter("estateStatus") != null) ? request.getParameter("estateStatus") : "all";
         System.out.println(estateStatusID.length());
         String estateTypeID = (request.getParameter("estateType") != null) ? request.getParameter("estateType") : "all";
         String sort = (request.getParameter("sort") != null) ? request.getParameter("sort") : "date_add desc";
         int indexSort = sort.indexOf(" ");
         String sortConditions = sort.substring(0, indexSort);
-        String sortTypes = sort.substring(indexSort+1);
-        
+        String sortTypes = sort.substring(indexSort + 1);
+
         String keywordF = (request.getParameter("keywordF") != null) ? request.getParameter("keywordF") : "";
         request.setAttribute("keywordF", keywordF);
         String TypeF = (request.getParameter("estateType") != null) ? request.getParameter("estateType") : "all";
@@ -131,61 +129,60 @@ public class EstateList extends HttpServlet {
         request.setAttribute("AreaTo", AreaTo);
         String PriceFrom = (request.getParameter("PriceFrom") != null) ? request.getParameter("PriceFrom") : "0";
         request.setAttribute("PriceFrom", PriceFrom);
-        String PriceTo = (request.getParameter("PriceTo") != null) ? request.getParameter("PriceTo") : "500000";
+        String PriceTo = (request.getParameter("PriceTo") != null) ? request.getParameter("PriceTo") : "10000000000";
         request.setAttribute("PriceTo", PriceTo);
         String dateRange = (request.getParameter("dateRange") != null) ? request.getParameter("dateRange") : "2019/01/01 - 2020/12/12";
         int dateIndex = dateRange.indexOf("-");
-        String dateFrom = dateRange.substring(0,dateIndex-1);
+        String dateFrom = dateRange.substring(0, dateIndex - 1);
         request.setAttribute("dateFrom", dateFrom);
-        String dateTo = dateRange.substring(dateIndex+1);
+        String dateTo = dateRange.substring(dateIndex + 1);
         request.setAttribute("dateTo", dateTo);
-        
-        if(!estateStatusID.equals("all")){
+
+        if (!estateStatusID.equals("all")) {
             request.setAttribute("estateStatus", estateStatusControl.findEstateStatus(Integer.parseInt(estateStatusID)).getEstateStatusName());
-        }else{
+        } else {
             request.setAttribute("estateStatus", " ");
         }
-        if(!estateTypeID.equals("all")){
+        if (!estateTypeID.equals("all")) {
             request.setAttribute("estateType", estateTypeControl.findEstateType(estateTypeID).getTypeName());
-        }else{
+        } else {
             request.setAttribute("estateType", " ");
         }
         request.setAttribute("estateStatusID", estateStatusID);
         request.setAttribute("estateTypeID", estateTypeID);
         request.setAttribute("sorts", sort);
         List<Estate> estateLists = estateControl.getEstateInSiderBar(
-            StatusF,
-            TypeF,
-            sortConditions,
-            sortTypes,
-            keywordF,
-            DirectionF,
-            DistrictF,
-            BuildFrom,
-            BuildTo,
-            BedFrom,
-            BedTo,
-            BathFrom,
-            BathTo,
-            AreaFrom,
-            AreaTo,
-            dateFrom,
-            dateTo,
-            PriceFrom,
-            PriceTo
+                StatusF,
+                TypeF,
+                sortConditions,
+                sortTypes,
+                keywordF,
+                DirectionF,
+                DistrictF,
+                BuildFrom,
+                BuildTo,
+                BedFrom,
+                BedTo,
+                BathFrom,
+                BathTo,
+                AreaFrom,
+                AreaTo,
+                dateFrom,
+                dateTo,
+                PriceFrom,
+                PriceTo
         );
         request.setAttribute("estateList", estateLists);
         request.setAttribute("size", estateLists.size());
         // END ESTATE LIST SHOW//
-        
+
         // BEGIN SEARCH ESTATE SIDEBAR //
         // END SEARCH ESTATE SIDEBAR //
-        
         request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
         String user = request.getParameter("user");
-        if(user.equals("guest")){
+        if (user.equals("guest")) {
             request.getRequestDispatcher("/page/guest/properties_listing_grid.jsp").forward(request, response);
-        }else if(user.equals("employee")){
+        } else if (user.equals("employee")) {
             String modal = (request.getParameter("modal") != null) ? request.getParameter("modal") : "";
             String id = (request.getParameter("estateID") != null) ? request.getParameter("estateID") : "";
             String name = (request.getParameter("estateName") != null) ? request.getParameter("estateName") : "";
@@ -198,33 +195,32 @@ public class EstateList extends HttpServlet {
             request.setAttribute("add1", add1);
             request.setAttribute("add2", add2);
             request.setAttribute("img", img);
-            
+
             String modalTranFail = (request.getParameter("modalTranFail") != null) ? request.getParameter("modalTranFail") : "hide";
             String modalTranOke = (request.getParameter("modalTranOke") != null) ? request.getParameter("modalTranOke") : "hide";
             request.setAttribute("modalTranFail", modalTranFail);
             request.setAttribute("modalTranOke", modalTranOke);
-            
+
             String statusFilter = (request.getParameter("filter") != null) ? request.getParameter("filter") : "";
-            
+
             List<String> estateIDList = estateControl.getEstateByEmployeeFilter(
                     String.valueOf(users.getEmployee().getId()),
                     statusFilter
             );
             List<Estate> estateList = new ArrayList<>();
-            
+
             String search = (request.getParameter("search") != null) ? request.getParameter("search") : "";
-            
-            if(search.equals("search")){
+
+            if (search.equals("search")) {
                 String searchInput = (request.getParameter("searchInput") != null) ? request.getParameter("searchInput") : "";
-                System.out.println("key "+searchInput);
                 List<String> estateIDListSearch = estateControl.getEstateByEmployeeSearch(
-                    String.valueOf(users.getEmployee().getId()),
-                    searchInput
+                        String.valueOf(users.getEmployee().getId()),
+                        searchInput
                 );
                 for (String string : estateIDListSearch) {
                     estateList.add(estateControl.findEstate(string));
                 }
-            }else{
+            } else {
                 for (String string : estateIDList) {
                     estateList.add(estateControl.findEstate(string));
                 }
@@ -234,44 +230,45 @@ public class EstateList extends HttpServlet {
             request.setAttribute("estateTypeList", estateTypeControl.findEstateTypeEntities());
             request.setAttribute("estateList", estateList);
             request.getRequestDispatcher("/admin/page/dashboard/employee/estate_list.jsp").forward(request, response);
-        }else if(user.equals("director")){
+        } else if (user.equals("director")) {
             String statusFilter = (request.getParameter("filter") != null) ? request.getParameter("filter") : "";
-            
+
             List<String> estateIDList = estateControl.getEstateByEmployeeFilter(
                     "all",
                     statusFilter
             );
             List<Estate> estateList = new ArrayList<>();
-            
-            String search2 = (request.getParameter("search2") != null) ? request.getParameter("search2") : "";
-            
-            if(search2.equals("search2")){
+
+            String search2 = (request.getParameter("search") != null) ? request.getParameter("search") : "";
+
+            if (search2.equals("search")) {
                 String searchInput = (request.getParameter("searchInput") != null) ? request.getParameter("searchInput") : "";
                 List<String> estateIDListSearch = estateControl.getEstateByEmployeeSearch(
-                    "all",
-                    searchInput
+                        "all",
+                        searchInput
                 );
                 for (String string : estateIDListSearch) {
                     estateList.add(estateControl.findEstate(string));
                 }
-            }else{
+            } else {
                 for (String string : estateIDList) {
                     estateList.add(estateControl.findEstate(string));
                 }
             }
             
-            if (statusFilter.isEmpty()) {
-                request.setAttribute("active", "EstateList");
-                request.setAttribute("estateList", estateList);
-                request.getRequestDispatcher("/admin/page/dashboard/director/estatewaiting.jsp").forward(request, response);
-            }else{
-                request.setAttribute("active", "DashboardDirector");
-                request.setAttribute("estateList", estateList);
-                System.out.println("123");
-                request.getRequestDispatcher("/admin/page/dashboard/director/estate_waiting_dash.jsp").forward(request, response);
-            }
+            request.setAttribute("countContractWaitSale", estateControl.countEstate("waitting to transaction"));
+            request.setAttribute("countEstateWait", estateControl.countEstate("waitting for employee"));
+            request.setAttribute("countProjectWait", estateControl.countEstate("publish"));
+            request.setAttribute("countProjectWait2", estateControl.countEstate("sold"));
+            
+            request.setAttribute("listEeatures", featureControllre.findFeaturesEntities());
+            
+            request.setAttribute("active", "EstateList");
+            request.setAttribute("estateList", estateList);
+            request.getRequestDispatcher("/admin/page/dashboard/director/estate_list.jsp").forward(request, response);
+            //request.getRequestDispatcher("/admin/page/dashboard/director/estatewaiting.jsp").forward(request, response);
         }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -301,7 +298,7 @@ public class EstateList extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        
+
     }
 
     /**

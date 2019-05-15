@@ -13,9 +13,9 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import Entity.Estate;
-import Entity.Employee;
 import Entity.Customer;
+import Entity.Employee;
+import Entity.Estate;
 import Entity.Schedule;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -24,7 +24,7 @@ import javax.transaction.UserTransaction;
 
 /**
  *
- * @author Cuong
+ * @author kiems
  */
 public class ScheduleJpaController implements Serializable {
 
@@ -42,40 +42,40 @@ public class ScheduleJpaController implements Serializable {
     public void create(Schedule schedule) throws PreexistingEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
-            Estate estateId = schedule.getEstateId();
-            if (estateId != null) {
-                estateId = em.getReference(estateId.getClass(), estateId.getId());
-                schedule.setEstateId(estateId);
+            em.getTransaction().begin();
+            Customer customerId = schedule.getCustomerId();
+            if (customerId != null) {
+                customerId = em.getReference(customerId.getClass(), customerId.getId());
+                schedule.setCustomerId(customerId);
             }
             Employee employeeId = schedule.getEmployeeId();
             if (employeeId != null) {
                 employeeId = em.getReference(employeeId.getClass(), employeeId.getId());
                 schedule.setEmployeeId(employeeId);
             }
-            Customer customerId = schedule.getCustomerId();
-            if (customerId != null) {
-                customerId = em.getReference(customerId.getClass(), customerId.getId());
-                schedule.setCustomerId(customerId);
+            Estate estateId = schedule.getEstateId();
+            if (estateId != null) {
+                estateId = em.getReference(estateId.getClass(), estateId.getId());
+                schedule.setEstateId(estateId);
             }
             em.persist(schedule);
-            if (estateId != null) {
-                estateId.getScheduleList().add(schedule);
-                estateId = em.merge(estateId);
+            if (customerId != null) {
+                customerId.getScheduleList().add(schedule);
+                customerId = em.merge(customerId);
             }
             if (employeeId != null) {
                 employeeId.getScheduleList().add(schedule);
                 employeeId = em.merge(employeeId);
             }
-            if (customerId != null) {
-                customerId.getScheduleList().add(schedule);
-                customerId = em.merge(customerId);
+            if (estateId != null) {
+                estateId.getScheduleList().add(schedule);
+                estateId = em.merge(estateId);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -93,35 +93,35 @@ public class ScheduleJpaController implements Serializable {
     public void edit(Schedule schedule) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Schedule persistentSchedule = em.find(Schedule.class, schedule.getId());
-            Estate estateIdOld = persistentSchedule.getEstateId();
-            Estate estateIdNew = schedule.getEstateId();
-            Employee employeeIdOld = persistentSchedule.getEmployeeId();
-            Employee employeeIdNew = schedule.getEmployeeId();
             Customer customerIdOld = persistentSchedule.getCustomerId();
             Customer customerIdNew = schedule.getCustomerId();
-            if (estateIdNew != null) {
-                estateIdNew = em.getReference(estateIdNew.getClass(), estateIdNew.getId());
-                schedule.setEstateId(estateIdNew);
+            Employee employeeIdOld = persistentSchedule.getEmployeeId();
+            Employee employeeIdNew = schedule.getEmployeeId();
+            Estate estateIdOld = persistentSchedule.getEstateId();
+            Estate estateIdNew = schedule.getEstateId();
+            if (customerIdNew != null) {
+                customerIdNew = em.getReference(customerIdNew.getClass(), customerIdNew.getId());
+                schedule.setCustomerId(customerIdNew);
             }
             if (employeeIdNew != null) {
                 employeeIdNew = em.getReference(employeeIdNew.getClass(), employeeIdNew.getId());
                 schedule.setEmployeeId(employeeIdNew);
             }
-            if (customerIdNew != null) {
-                customerIdNew = em.getReference(customerIdNew.getClass(), customerIdNew.getId());
-                schedule.setCustomerId(customerIdNew);
+            if (estateIdNew != null) {
+                estateIdNew = em.getReference(estateIdNew.getClass(), estateIdNew.getId());
+                schedule.setEstateId(estateIdNew);
             }
             schedule = em.merge(schedule);
-            if (estateIdOld != null && !estateIdOld.equals(estateIdNew)) {
-                estateIdOld.getScheduleList().remove(schedule);
-                estateIdOld = em.merge(estateIdOld);
+            if (customerIdOld != null && !customerIdOld.equals(customerIdNew)) {
+                customerIdOld.getScheduleList().remove(schedule);
+                customerIdOld = em.merge(customerIdOld);
             }
-            if (estateIdNew != null && !estateIdNew.equals(estateIdOld)) {
-                estateIdNew.getScheduleList().add(schedule);
-                estateIdNew = em.merge(estateIdNew);
+            if (customerIdNew != null && !customerIdNew.equals(customerIdOld)) {
+                customerIdNew.getScheduleList().add(schedule);
+                customerIdNew = em.merge(customerIdNew);
             }
             if (employeeIdOld != null && !employeeIdOld.equals(employeeIdNew)) {
                 employeeIdOld.getScheduleList().remove(schedule);
@@ -131,18 +131,18 @@ public class ScheduleJpaController implements Serializable {
                 employeeIdNew.getScheduleList().add(schedule);
                 employeeIdNew = em.merge(employeeIdNew);
             }
-            if (customerIdOld != null && !customerIdOld.equals(customerIdNew)) {
-                customerIdOld.getScheduleList().remove(schedule);
-                customerIdOld = em.merge(customerIdOld);
+            if (estateIdOld != null && !estateIdOld.equals(estateIdNew)) {
+                estateIdOld.getScheduleList().remove(schedule);
+                estateIdOld = em.merge(estateIdOld);
             }
-            if (customerIdNew != null && !customerIdNew.equals(customerIdOld)) {
-                customerIdNew.getScheduleList().add(schedule);
-                customerIdNew = em.merge(customerIdNew);
+            if (estateIdNew != null && !estateIdNew.equals(estateIdOld)) {
+                estateIdNew.getScheduleList().add(schedule);
+                estateIdNew = em.merge(estateIdNew);
             }
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -164,8 +164,8 @@ public class ScheduleJpaController implements Serializable {
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             Schedule schedule;
             try {
                 schedule = em.getReference(Schedule.class, id);
@@ -173,26 +173,26 @@ public class ScheduleJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The schedule with id " + id + " no longer exists.", enfe);
             }
-            Estate estateId = schedule.getEstateId();
-            if (estateId != null) {
-                estateId.getScheduleList().remove(schedule);
-                estateId = em.merge(estateId);
+            Customer customerId = schedule.getCustomerId();
+            if (customerId != null) {
+                customerId.getScheduleList().remove(schedule);
+                customerId = em.merge(customerId);
             }
             Employee employeeId = schedule.getEmployeeId();
             if (employeeId != null) {
                 employeeId.getScheduleList().remove(schedule);
                 employeeId = em.merge(employeeId);
             }
-            Customer customerId = schedule.getCustomerId();
-            if (customerId != null) {
-                customerId.getScheduleList().remove(schedule);
-                customerId = em.merge(customerId);
+            Estate estateId = schedule.getEstateId();
+            if (estateId != null) {
+                estateId.getScheduleList().remove(schedule);
+                estateId = em.merge(estateId);
             }
             em.remove(schedule);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -245,6 +245,18 @@ public class ScheduleJpaController implements Serializable {
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Schedule> getScheduleByEmployee(int employeeID) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM schedule where employee_id='" + employeeID + "'", Schedule.class);
+            
+            List<Schedule> ret = (List<Schedule>) query.getResultList();
+            return ret;
         } finally {
             em.close();
         }

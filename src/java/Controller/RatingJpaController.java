@@ -221,10 +221,10 @@ public class RatingJpaController implements Serializable {
     }
     
     // cuong add
-    public Double getPointByProject(String id){
+    public Integer getPointByProject(String id){
         EntityManager em=getEntityManager();
         Query q=em.createNativeQuery("select avg(point_rating) as point from rating where id_project ="+id);
-        return (Double) q.getSingleResult();
+        return (Integer) q.getSingleResult();
     }
     // cuong add
     public Integer checkUserRatingByIdUser(int idUser,String idProject){
@@ -233,5 +233,11 @@ public class RatingJpaController implements Serializable {
         System.out.println("count "+q.getSingleResult());
         return (Integer) q.getSingleResult();
     }
-    
+    // cuong add
+    public List<Rating> getListRatingByIdProject(String idProject){
+        EntityManager em=getEntityManager();
+        Query q=em.createNativeQuery("select * from rating where id_project ="+idProject,Rating.class);
+        
+        return (List<Rating>) q.getResultList();
+    }
 }

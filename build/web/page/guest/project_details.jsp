@@ -42,7 +42,7 @@
         <link rel="stylesheet" href="assets/css/ie-fix.css"><![endif]-->
         <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favicon.ico" type="image/x-icon">
         <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
-        
+
     </head>
     <body class="property_details menu-default hover-default">
         <!--
@@ -288,9 +288,9 @@
                                                     </thead>
                                                     <tbody>
                                                         <c:forEach items="${estateList}" var="item">
-                                                            <tr <c:if test="${item.estateStatus=='project'}">onclick="myFunction(${item.id})"</c:if>
+                                                            <c:if test="${item.estateStatus=='project'}"><tr data-toggle="modal" data-target="#${item.id}" onclick="myFunction(${item.id})"></c:if>
 
-                                                                <c:if test="${item.estateStatus!='project'}">style="background: #cccccc !important"</c:if>>
+                                                            <c:if test="${item.estateStatus!='project'}"><tr  style="background: #cccccc !important"></c:if>
 
                                                                     <td class="datatable__cell datatable__cell--5">${item.id}</td>
                                                                 <td class="datatable__cell datatable__cell--5">${item.block}</td>
@@ -298,12 +298,12 @@
                                                                 <td class="datatable__cell datatable__cell--5">${item.areas}</td>
                                                                 <td class="datatable__cell datatable__cell--5">${item.bedRoom}</td>
                                                                 <td class="datatable__cell datatable__cell--5">${item.bathRoom}</td>
-                                                                <td class="datatable__cell datatable__cell--5">${item.price}</td>
+                                                                <td class="datatable__cell datatable__cell--5">${item.price/1000000000} Tỷ VNĐ</td>
                                                                 <td class="datatable__cell datatable__cell--5">
                                                                     <c:if test="${item.estateStatus=='project'}">
                                                                         Đang Mở Bán
                                                                     </c:if>
-                                                                    <c:if test="${item.estateStatus=='Saled'}">
+                                                                    <c:if test="${item.estateStatus=='sold'}">
                                                                         Đã Bán
                                                                     </c:if>
                                                                 </td>
@@ -315,78 +315,35 @@
                                                                         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                        <div class="widget js-widget widget--dashboard">
-                                                                            <div class="widget__header">
-
-                                                                                <h2 class="widget__title">Chi tiết bất động sản</h2>
-
-                                                                            </div>
-                                                                            <div class="widget__content">
-                                                                                <!-- BEGIN SECTION ACTIVITY-->
-                                                                                <section class="activity activity--feed">
-                                                                                    <ul class="activity__list">
-
-                                                                                        <li class="activity__date">Số bất động sản ${item.id}</li>
-
-                                                                                        <li class="activity__item">
-                                                                                            <div class="activity__title">
-                                                                                                <a>Block: </a>${item.block}
-                                                                                            </div>
-                                                                                        </li>
-                                                                                        <li class="activity__item">
-                                                                                            <div class="activity__title">
-
-                                                                                                <a>Số tầng: </a>${item.floor}
-
-                                                                                            </div>
-                                                                                        </li>
-                                                                                        <li class="activity__item">
-                                                                                            <div class="activity__title">
-
-                                                                                                <a>Diện tích </a>${item.areas}
-
-                                                                                            </div>
-                                                                                        </li>
-                                                                                        <li class="activity__item">
-                                                                                            <div class="activity__title">
-
-                                                                                                <a>Phòng ngủ </a>${item.bedRoom}
-
-                                                                                            </div>
-                                                                                        </li>
-                                                                                        <li class="activity__item">
-                                                                                            <div class="activity__title">
-
-                                                                                                <a>Phòng tắm </a>${item.bathRoom}
-
-                                                                                            </div>
-                                                                                        </li>
-                                                                                        <li class="activity__item">
-                                                                                            <div class="activity__title">
-
-                                                                                                <a>Giá  </a>${item.price}
-
-                                                                                            </div>
-                                                                                        </li>
-                                                                                        <li class="activity__item">
-                                                                                            <div class="activity__title">
-
-                                                                                                <a>Trạng thái: </a>${item.estateStatus}
-
-
-                                                                                            </div>
-                                                                                        </li>
-                                                                                    </ul>
-                                                                                    <div class="widget__footer">
-                                                                                        <a href="<%=request.getContextPath()%>/EstateDetails?estateID=${item.id}" class="widget__more">
-
-                                                                                            Yêu cầu mua
-
-                                                                                        </a>
+                                                                        <form action="<%=request.getContextPath()%>/ProduceContractBuy" 
+                                                                              class="form form--flex form--profile js-form"
+                                                                              >
+                                                                            <div id="form-block-1" class="form__block js-form-block">
+                                                                                <div class="modal-header">
+                                                                                    <h2 class="modal-title text-left">Liên hệ xem nhà</h2>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="form-group">
+                                                                                        <label for="in-1" class="control-label">Thời gian muốn xem nhà</label>
+                                                                                        <input name="contactTime" type="text" id="in-datetime" data-time-picker="false" data-single-picker="true" class="js-datetimerange form-control">
+                                                                                        <input name="employeeID" type="hidden" value="${item.assignDetails.employeeId.id}">
+                                                                                        <input name="paymentAmount" type="hidden" value="${item.price}">
+                                                                                        <input name="estateId" type="hidden" value="${item.id}">
                                                                                     </div>
-                                                                                </section>
+                                                                                </div>
+                                                                                <div id="form-block-3" class="form__block js-form-block">
+                                                                                    <div class="row">
+                                                                                        <div class="form-group form-group--description">
+                                                                                            <label for="in-13" class="text-left control-label">Lời nhắn</label>
+                                                                                            <textarea id="in-13" name="contactContext" required data-parsley-trigger="keyup" data-parsley-maxlength="100" data-parsley-validation-threshold="10" data-parsley-minlength-message="Tin nhắn tối đa 100 dòng.." class="form-control form-control--description">${customer.customerContent}</textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <button type="submit" value="Save password" class="form__submit">Liên hệ</button>
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
+                                                                        </form>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -432,16 +389,16 @@
                                                     <canvas id="property-statistics-price" class="info__chart" width="300" height="300" style=""></canvas>
 
                                                     <div class="info__total">Tổng giá <br>  
-                                                        <strong class="info__total-value">${sumPrice}</strong><br>
-                                                        VNĐ
+                                                        <strong class="info__total-value">${sumPrice/1000000000}</strong><br>
+                                                        Tỷ VNĐ
                                                     </div>
                                                 </div>
                                                 <ul class="info__legend">
                                                     <li class="info__legend-item info__legend-item--blue">Tổng giá căn hộ đã bán <br> 
-                                                        <strong id="getSoldPrice">${sumPriceSold}</strong></li>
+                                                        <strong id="getSoldPrice">${sumPriceSold/1000000000}</strong> Tỷ VNĐ</li>
                                                     <li class="info__legend-item info__legend-item--light-blue">Tổng giá căn hộ chưa bán <br> 
 
-                                                        <strong id="getUnsoldPrice">${sumPriceUnSold}</strong></li>
+                                                        <strong id="getUnsoldPrice">${sumPriceUnSold/1000000000} </strong>Tỷ VND</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -607,6 +564,7 @@
                                                                 <p>${listComment.content}</p>
                                                             </div>
                                                             <button onclick="showFormReply(${listComment.idComment})" class="comment__reply js-comment-reply">Trả Lời</button>
+                                                            <button onclick="hiddenFormReply(${listComment.idComment})" style="display: none" class="comment__reply js-comment-reply">Ẩn</button>
                                                             <button id="showMore${listComment.idComment}" class="comment__reply" onclick="getReplyComment(${listComment.idComment})" >Hiện</button>
                                                             <button id="idHiddent${listComment.idComment}" style="display: none" class="comment__reply" onclick="showButton(${listComment.idComment})" >Ẩn</button>
                                                         </div>
@@ -828,6 +786,12 @@
                                                                     document.getElementById("txtIdComment").value = idComment;
                                                                 }
                                                                 ;
+                                                                function hiddenFormReply(idComment) {
+                                                                    var formReply = document.getElementById("formReply");
+                                                                    formReply.style.display = "none";
+                                                                    document.getElementById("txtIdComment").value = idComment;
+                                                                }
+                                                                ;
                                                                 function deleteCommentOrReply(idComment, action) {
 
                                                                     var result = confirm('Bạn Có Muốn Xóa Bình Luận !!!');
@@ -863,6 +827,7 @@
     </script>
     <script type="text/javascript">
         function myFunction(id) {
+            console.log('1123 ' + id);
             $('#' + id).modal('show');
         }
 
@@ -894,15 +859,15 @@
             getPoint();
             //console.log('point 2 '+document.getElementById('rating-value').value);
             return SetRatingStar();
-           
+
         });
-       
+
 
         SetRatingStar();
         $(document).ready(function () {
             getPoint();
             countRating();
-           
+
         });
 
         function checkUserRating(point) {
@@ -935,7 +900,7 @@
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById('danhGia').innerHTML = 'Đánh Giá :'+this.responseText+' Lượt' ;
+                    document.getElementById('danhGia').innerHTML = 'Đánh Giá :' + this.responseText + ' Lượt';
                     //console.log('count rating ajax ' + this.responseText);
 
                 }
@@ -950,7 +915,7 @@
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     document.getElementById('rating-value').value = this.responseText;
-                    
+
 
                 }
             };

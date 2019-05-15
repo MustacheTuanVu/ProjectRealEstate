@@ -12,26 +12,40 @@ $(document).ready(function () {
     });
     if ($('#chart_2').length > 0) {
         var ctx2 = document.getElementById("chart_2").getContext("2d");
+
+        var getJanRealEstate24hIncome = document.getElementById("getJanRealEstate24hIncome");
+        if (getJanRealEstate24hIncome) {
+            var getJanRealEstate24hIncome = getJanRealEstate24hIncome.innerHTML;
+        }
+
+        var getFebRealEstate24hIncome = document.getElementById("getFebRealEstate24hIncome");
+        if (getFebRealEstate24hIncome) {
+            var getFebRealEstate24hIncome = getFebRealEstate24hIncome.innerHTML;
+        }
+
+        var getMarRealEstate24hIncome = document.getElementById("getMarRealEstate24hIncome");
+        if (getMarRealEstate24hIncome) {
+            var getMarRealEstate24hIncome = getMarRealEstate24hIncome.innerHTML;
+        }
+
+        var getAprilRealEstate24hIncome = document.getElementById("getAprilRealEstate24hIncome");
+        if (getAprilRealEstate24hIncome) {
+            var getAprilRealEstate24hIncome = getAprilRealEstate24hIncome.innerHTML;
+        }
+
+        var getMayRealEstate24hIncome = document.getElementById("getMayRealEstate24hIncome");
+        if (getMayRealEstate24hIncome) {
+            var getMayRealEstate24hIncome = getMayRealEstate24hIncome.innerHTML;
+        }
+
         var data2 = {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5"],
             datasets: [
                 {
-                    label: "My First dataset",
+                    label: "Lợi nhuận",
                     backgroundColor: "rgba(230,154,42,1)",
                     borderColor: "rgba(230,154,42,1)",
-                    data: [10, 30, 80, 61, 26, 75, 40]
-                },
-                {
-                    label: "My Second dataset",
-                    backgroundColor: "rgba(234,108,65,1)",
-                    borderColor: "rgba(234,108,65,1)",
-                    data: [28, 48, 40, 19, 86, 27, 90]
-                },
-                {
-                    label: "My Third dataset",
-                    backgroundColor: "rgba(70,148,8,1)",
-                    borderColor: "rgba(70,148,8,1)",
-                    data: [8, 28, 50, 29, 76, 77, 40]
+                    data: [getJanRealEstate24hIncome, getFebRealEstate24hIncome, getMarRealEstate24hIncome, getAprilRealEstate24hIncome, getMayRealEstate24hIncome]
                 }
             ]
         };
@@ -92,15 +106,46 @@ $(document).ready(function () {
     }
     if ($('#chart_6').length > 0) {
         var ctx6 = document.getElementById("chart_6").getContext("2d");
+
+        var estateTypeName0 = document.getElementById("estateTypeName0");
+        if (estateTypeName0) {
+            var estateTypeName0 = estateTypeName0.innerHTML;
+        }
+        
+        var estateTypeName1 = document.getElementById("estateTypeName1");
+        if (estateTypeName1) {
+            var estateTypeName1 = estateTypeName1.innerHTML;
+        }
+        
+        var estateTypeName2 = document.getElementById("estateTypeName2");
+        if (estateTypeName2) {
+            var estateTypeName2 = estateTypeName2.innerHTML;
+        }
+        
+        var estateTypePrice0 = document.getElementById("estateTypePrice0");
+        if (estateTypePrice0) {
+            var estateTypePrice0 = Number(estateTypePrice0.innerHTML);
+        }
+        
+        var estateTypePrice1 = document.getElementById("estateTypePrice1");
+        if (estateTypePrice1) {
+            var estateTypePrice1 = Number(estateTypePrice1.innerHTML);
+        }
+        
+        var estateTypePrice2 = document.getElementById("estateTypePrice2");
+        if (estateTypePrice2) {
+            var estateTypePrice2 = Number(estateTypePrice2.innerHTML);
+        }
+
         var data6 = {
             labels: [
-                "organic",
-                "Referral",
-                "Other"
+                estateTypeName0,
+                estateTypeName1,
+                estateTypeName2
             ],
             datasets: [
                 {
-                    data: [200, 50, 250],
+                    data: [estateTypePrice0, estateTypePrice1, estateTypePrice2],
                     backgroundColor: [
                         "#177ec1",
                         "#469408",
@@ -113,6 +158,8 @@ $(document).ready(function () {
                     ]
                 }]
         };
+        
+        console.log(data6);
 
         var pieChart = new Chart(ctx6, {
             type: 'pie',
@@ -282,8 +329,8 @@ $(document).ready(function () {
             lineChart.setData(data);
             lineChart.redraw();
         } else {
-            lineChart.setData(dataNew);
-            lineChart.redraw();
+            /* lineChart.setData(dataNew);*/
+            /* lineChart.redraw();*/
         }
     }
     swichMorris();

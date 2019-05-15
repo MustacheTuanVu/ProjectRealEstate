@@ -220,12 +220,42 @@
                                                                 </div>
                                                             </div>
                                                             <div class="pull-right">
-                                                                <a class="pull-left inline-block mr-15" href="#">
-                                                                    <i class="glyphicon glyphicon-ok txt-light"></i>
+                                                                <a class="pull-left inline-block mr-15" href="<%=request.getContextPath()%>/EditEmployee?employeeID=${item.employee.id}" >
+                                                                    <i class="zmdi zmdi-edit txt-light" ></i>
                                                                 </a>
-                                                                <a class="pull-left inline-block mr-15" href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${item.employee.id}">
-                                                                    <i class="glyphicon glyphicon-user txt-light"></i>
-                                                                </a>
+                                                                <c:set var="contractList" value="${item.employee.contractList}"/>
+                                                                <c:set var="contractListSize" value="${contractList.size()}"/>
+
+                                                                <c:set var="assignDetailsList" value="${item.employee.assignDetailsList}"/>
+                                                                <c:set var="assignDetailsListSize" value="${assignDetailsList.size()}"/>
+
+                                                                <c:set var="postList" value="${item.employee.postList}"/>
+                                                                <c:set var="postListSize" value="${postList.size()}"/>
+                                                                <c:if test="${contractListSize == 0}">
+                                                                    <c:if test="${assignDetailsListSize == 0}">
+                                                                        <c:if test="${postListSize == 0}">
+                                                                            <a class="pull-left inline-block mr-15" href="<%=request.getContextPath()%>/DeleteUser?userID=${item.id}">
+                                                                                <i class="zmdi zmdi-delete txt-light"></i>
+                                                                            </a>
+                                                                        </c:if>
+                                                                    </c:if>
+                                                                </c:if>
+
+                                                                <!-- cuong add -->
+                                                                <!-- start modal-->
+
+                                                                <!-- end modal -->
+
+                                                                <div class="pull-left inline-block dropdown">
+                                                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="zmdi zmdi-more-vert txt-light"></i></a>
+                                                                    <ul class="dropdown-menu bullet dropdown-menu-right"  role="menu">
+                                                                        <li role="presentation">
+                                                                            <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${item.employee.id}" target="_blank" role="menuitem">
+                                                                                <i class="icon wb-reply" aria-hidden="true"></i>Xem nhân viên này
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
                                                             <div class="clearfix"></div>
                                                         </div>
@@ -277,7 +307,7 @@
                                                     </div>
                                                 </div>
                                             </c:if>
-                                            
+
                                             <c:if test="${item.role == 'manager'}">
                                                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                                     <div class="panel panel-primary contact-card card-view">
@@ -296,12 +326,32 @@
                                                                 </div>
                                                             </div>
                                                             <div class="pull-right">
-                                                                <a class="pull-left inline-block mr-15" href="#">
-                                                                    <i class="glyphicon glyphicon-ok txt-light"></i>
-                                                                </a>
-                                                                <a class="pull-left inline-block mr-15" href="<%=request.getContextPath()%>/ManagerDetails?managerID=${item.manager.managerId}">
-                                                                    <i class="glyphicon glyphicon-user txt-light"></i>
-                                                                </a>
+                                                                <c:set var="projectList" value="${item.manager.projectList}"/>
+                                                                <c:set var="projectListSize" value="${projectList.size()}"/>
+                                                                <c:if test="${projectListSize == 0}">
+                                                                    <a class="pull-left inline-block mr-15" href="<%=request.getContextPath()%>/EditEmployee?employeeID=${estate.id}" >
+                                                                        <i class="zmdi zmdi-edit txt-light" ></i>
+                                                                    </a>
+                                                                    <a class="pull-left inline-block mr-15" href="<%=request.getContextPath()%>/DeleteUser?userID=${item.id}">
+                                                                        <i class="zmdi zmdi-delete txt-light"></i>
+                                                                    </a>
+                                                                </c:if>
+
+                                                                <!-- cuong add -->
+                                                                <!-- start modal-->
+
+                                                                <!-- end modal -->
+
+                                                                <div class="pull-left inline-block dropdown">
+                                                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="zmdi zmdi-more-vert txt-light"></i></a>
+                                                                    <ul class="dropdown-menu bullet dropdown-menu-right"  role="menu">
+                                                                        <li role="presentation">
+                                                                            <a href="<%=request.getContextPath()%>/EmployeeDetails?employeeID=${item.employee.id}" target="_blank" role="menuitem">
+                                                                                <i class="icon wb-reply" aria-hidden="true"></i>Xem nhân viên này
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
                                                             <div class="clearfix"></div>
                                                         </div>
