@@ -32,18 +32,18 @@ import javax.validation.ValidatorFactory;
  * @author kiems
  */
 public class ProjectJpaController implements Serializable {
-
+    
     public ProjectJpaController(UserTransaction utx, EntityManagerFactory emf) {
         this.utx = utx;
         this.emf = emf;
     }
     private UserTransaction utx = null;
     private EntityManagerFactory emf = null;
-
+    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-
+    
     public void create(Project project) throws PreexistingEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
@@ -56,10 +56,10 @@ public class ProjectJpaController implements Serializable {
             }
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             javax.validation.Validator validator = factory.getValidator();
-
+            
             Set<ConstraintViolation<Project>> constraintViolations;
             constraintViolations = validator.validate(project);
-
+            
             if (constraintViolations.size() > 0) {
                 System.out.println("Constraint Violations occurred..");
                 for (ConstraintViolation<Project> projects : constraintViolations) {
@@ -89,7 +89,7 @@ public class ProjectJpaController implements Serializable {
             }
         }
     }
-
+    
     public void edit(Project project) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
@@ -104,10 +104,10 @@ public class ProjectJpaController implements Serializable {
             }
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             javax.validation.Validator validator = factory.getValidator();
-
+            
             Set<ConstraintViolation<Project>> constraintViolations;
             constraintViolations = validator.validate(project);
-
+            
             if (constraintViolations.size() > 0) {
                 System.out.println("Constraint Violations occurred..");
                 for (ConstraintViolation<Project> projects : constraintViolations) {
@@ -145,7 +145,7 @@ public class ProjectJpaController implements Serializable {
             }
         }
     }
-
+    
     public void destroy(String id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
@@ -178,15 +178,15 @@ public class ProjectJpaController implements Serializable {
             }
         }
     }
-
+    
     public List<Project> findProjectEntities() {
         return findProjectEntities(true, -1, -1);
     }
-
+    
     public List<Project> findProjectEntities(int maxResults, int firstResult) {
         return findProjectEntities(false, maxResults, firstResult);
     }
-
+    
     private List<Project> findProjectEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -202,7 +202,7 @@ public class ProjectJpaController implements Serializable {
             em.close();
         }
     }
-
+    
     public Project findProject(String id) {
         EntityManager em = getEntityManager();
         try {
@@ -211,7 +211,7 @@ public class ProjectJpaController implements Serializable {
             em.close();
         }
     }
-
+    
     public int getProjectCount() {
         EntityManager em = getEntityManager();
         try {
@@ -224,7 +224,7 @@ public class ProjectJpaController implements Serializable {
             em.close();
         }
     }
-
+    
     public List<Project> getProjectInSiderBar(
             String projectName,
             String district,
@@ -261,7 +261,7 @@ public class ProjectJpaController implements Serializable {
             em.close();
         }
     }
-
+    
     public int getManagerByProjectCount(int managerID) {
         EntityManager em = getEntityManager();
         try {
@@ -274,7 +274,7 @@ public class ProjectJpaController implements Serializable {
             em.close();
         }
     }
-
+    
     public int getManagerByProject(int projectID) {
         EntityManager em = getEntityManager();
         try {
@@ -287,7 +287,7 @@ public class ProjectJpaController implements Serializable {
             em.close();
         }
     }
-
+    
     public Project getProjectByAddress(String address) {
         EntityManager em = getEntityManager();
         try {
@@ -373,9 +373,9 @@ public class ProjectJpaController implements Serializable {
                         ret.add((String) query.getSingleResult());
                     }
                 }
-
+                
             }
-
+            
             System.out.println(ret.size());
             return ret;
         } finally {
@@ -394,7 +394,7 @@ public class ProjectJpaController implements Serializable {
     public List<Project> getListByStatusPublish() {
         EntityManager em = getEntityManager();
         Query q = em.createNativeQuery("select * from project where project_status  like ('publish') and  [status] like ('publish')");
-
+        
         return q.getResultList();
     }
 
@@ -410,11 +410,19 @@ public class ProjectJpaController implements Serializable {
     public int checkAddressProjectEdit(String address, String projectID) {
         EntityManager em = getEntityManager();
         Query q = em.createNativeQuery("select count(project_id) as dem from project \n"
-                + "where project_address like N'"+address+"' \n"
+                + "where project_address like N'" + address + "' \n"
                 + "and project_status  like 'publish' and  [status] like 'publish' \n"
-                + "and project_address not in (select project_address from project where project_id="+projectID+")");
+                + "and project_address not in (select project_address from project where project_id=" + projectID + ")");
         return (int) q.getSingleResult();
     }
 
-  
+    // cuong add 
+    public List<Project> getListProjectPublish() {
+        EntityManager em = getEntityManager();
+        Query q = em.createNativeQuery("select * from project  \n"
+                + "where project_status like 'publish' and [status] like 'publish'",Project.class);
+        
+        return q.getResultList();
+    }
+    
 }

@@ -130,7 +130,7 @@ public class ProjectDetails extends HttpServlet {
             estateList.add(estateControl.findEstate(string));
         }
 
-        int countProject = projectControl.getManagerByProjectCount(find.getManagerId().getManagerId());
+//        int countProject = projectControl.getManagerByProjectCount(find.getManagerId().getManagerId());
         int countEstate = estateControl.getEstateByProjectCount(id);
 
         int countCommnet = 0;
@@ -149,10 +149,10 @@ public class ProjectDetails extends HttpServlet {
         countEstateUnSold = countEstate - countEstateSold;
         sumPriceUnSold = sumPrice - sumPriceSold;
         String displayManager = "yes";
-        if(countProject != 0){
-            int managerID = projectControl.getManagerByProject(Integer.parseInt(id));
-            request.setAttribute("manager", managerControl.findManager(managerID));
-            request.setAttribute("countProject", countProject);
+        if(true){
+//            int managerID = projectControl.getManagerByProject(Integer.parseInt(id));
+         //   request.setAttribute("manager", managerControl.findManager(managerID));
+         //   request.setAttribute("countProject", countProject);
         }else{
             displayManager = "no";
         }
@@ -272,6 +272,7 @@ public class ProjectDetails extends HttpServlet {
         } else // reply comment
         if (action.equals("reply")) {
 
+            String txtIDProject=request.getParameter("txtIDProject");
             reply.setIdComment(new Comment(Integer.valueOf(request.getParameter("txtIdComment"))));
             reply.setContent(request.getParameter("txtReplyContent"));
             try {
@@ -306,14 +307,7 @@ public class ProjectDetails extends HttpServlet {
                 reply.setIdUser(user);
                 reply.setRoleReply(role);
 
-                System.out.println("id_comment " + reply.getIdComment());
-                System.out.println("id_user " + reply.getIdUser());
-                System.out.println("[content] " + reply.getContent());
-                System.out.println("date_reply " + reply.getDateReply());
-                System.out.println("status_reply " + reply.getStatusReply());
-                System.out.println("role_reply " + reply.getRoleReply());
-                System.out.println("role_reply " + reply.getRoleReply());
-
+               
                 try {
                     replyController.create(reply);
                 } catch (RollbackFailureException ex) {
@@ -323,7 +317,7 @@ public class ProjectDetails extends HttpServlet {
                 }
                 System.out.println("id_reply " + reply.getIdReply());
 
-                response.sendRedirect(request.getContextPath() + "/ProjectDetails?projectId=" + idProject);
+                response.sendRedirect(request.getContextPath() + "/ProjectDetails?projectId=" + txtIDProject);
 
             }
         }

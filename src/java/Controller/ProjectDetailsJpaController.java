@@ -27,18 +27,18 @@ import javax.transaction.UserTransaction;
  * @author Cuong
  */
 public class ProjectDetailsJpaController implements Serializable {
-
+    
     public ProjectDetailsJpaController(UserTransaction utx, EntityManagerFactory emf) {
         this.utx = utx;
         this.emf = emf;
     }
     private UserTransaction utx = null;
     private EntityManagerFactory emf = null;
-
+    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-
+    
     public void create(ProjectDetails projectDetails) throws IllegalOrphanException, RollbackFailureException, Exception {
         List<String> illegalOrphanMessages = null;
         Estate estateIdOrphanCheck = projectDetails.getEstateId();
@@ -92,7 +92,7 @@ public class ProjectDetailsJpaController implements Serializable {
             }
         }
     }
-
+    
     public void edit(ProjectDetails projectDetails) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
@@ -163,7 +163,7 @@ public class ProjectDetailsJpaController implements Serializable {
             }
         }
     }
-
+    
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
@@ -202,15 +202,15 @@ public class ProjectDetailsJpaController implements Serializable {
             }
         }
     }
-
+    
     public List<ProjectDetails> findProjectDetailsEntities() {
         return findProjectDetailsEntities(true, -1, -1);
     }
-
+    
     public List<ProjectDetails> findProjectDetailsEntities(int maxResults, int firstResult) {
         return findProjectDetailsEntities(false, maxResults, firstResult);
     }
-
+    
     private List<ProjectDetails> findProjectDetailsEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
@@ -226,7 +226,7 @@ public class ProjectDetailsJpaController implements Serializable {
             em.close();
         }
     }
-
+    
     public ProjectDetails findProjectDetails(Integer id) {
         EntityManager em = getEntityManager();
         try {
@@ -235,7 +235,7 @@ public class ProjectDetailsJpaController implements Serializable {
             em.close();
         }
     }
-
+    
     public int getProjectDetailsCount() {
         EntityManager em = getEntityManager();
         try {
@@ -248,8 +248,8 @@ public class ProjectDetailsJpaController implements Serializable {
             em.close();
         }
     }
-
-      public List<ProjectDetails> getProjectDetailByProject(String projectID) {
+    
+    public List<ProjectDetails> getProjectDetailByProject(String projectID) {
         EntityManager em = getEntityManager();
         try {
             //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
@@ -260,30 +260,41 @@ public class ProjectDetailsJpaController implements Serializable {
             em.close();
         }
     }
-      // cuong add
-      public List<Integer> getBlockNumerByProjectId(String projectID) {
+
+    // cuong add
+
+    public List<Integer> getBlockNumerByProjectId(String projectID) {
         EntityManager em = getEntityManager();
         try {
             //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
-            Query query = em.createNativeQuery("select distinct block_number as project_detail_id from project_details where prject_id = '"+projectID+"'");
+            Query query = em.createNativeQuery("select distinct block_number as project_detail_id from project_details where prject_id = '" + projectID + "'");
             List<Integer> ret = (List<Integer>) query.getResultList();
             return ret;
         } finally {
             em.close();
         }
     }
-      // cuong add
-      public List<ProjectDetails> getIDEstateByProjectId_Block(String projectID,String block) {
+
+    // cuong add
+
+    public List<ProjectDetails> getIDEstateByProjectId_Block(String projectID, String block) {
         EntityManager em = getEntityManager();
         try {
             //Query query = em.createNativeQuery("SELECT estate_id FROM assign_details where employee_id='" + employeeID + "'", Estate.class);
-            Query query = em.createNativeQuery("select * from project_details where prject_id = '"+projectID+"' and block_number="+block,ProjectDetails.class);
-           return (List<ProjectDetails>)query.getResultList();
+            Query query = em.createNativeQuery("select * from project_details where prject_id = '" + projectID + "' and block_number=" + block, ProjectDetails.class);
+            return (List<ProjectDetails>) query.getResultList();
         } finally {
             em.close();
         }
     }
 
-
+    // cuong add
+    public List<ProjectDetails> getListEstateIDByProjectID(String id) {
+        EntityManager em = getEntityManager();
+        Query q = em.createNativeQuery("select * from project_details\n"
+                + "where prject_id="+id,ProjectDetails.class);
+        
+        return q.getResultList();
+    }
     
 }

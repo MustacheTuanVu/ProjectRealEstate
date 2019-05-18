@@ -608,6 +608,7 @@
                                                     <form method="POST" action="<%=request.getContextPath()%>/ProjectDetails?action=reply" class="form form--flex js-parsley form--comment">
                                                         <div class="row">
                                                             <input type="hidden"  name="txtIdComment" id="txtIdComment" />
+                                                            <input type="hidden" name="txtIDProject" value="${find.projectId}" />
                                                             <%
                                                                 if (session.getAttribute("user") == null) {
                                                             %>

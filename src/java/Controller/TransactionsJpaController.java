@@ -191,7 +191,7 @@ public class TransactionsJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public Integer getTransactionByContractIDSale(int contractID) {
         EntityManager em = getEntityManager();
         try {
@@ -206,7 +206,7 @@ public class TransactionsJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public Double getMoneyByContractIDWithEmployee(int contractID) {
         EntityManager em = getEntityManager();
         try {
@@ -215,20 +215,20 @@ public class TransactionsJpaController implements Serializable {
                     + "transactions_note LIKE '%request sale%'"
             );
             Double sumSale1 = 0.0;
-            if(query1.getSingleResult() !=null){
+            if (query1.getSingleResult() != null) {
                 sumSale1 = (Double) query1.getSingleResult();
-            }else{
+            } else {
                 sumSale1 = 0.0;
             }
-            
+
             Query query2 = em.createNativeQuery("SELECT SUM(money)/(SELECT fee_employee FROM fee where id=1)/100 FROM transactions where "
                     + "contract_id='" + contractID + "' AND "
                     + "transactions_note IS NULL"
             );
             Double sumSale2 = 0.0;
-            if(query2.getSingleResult() !=null){
+            if (query2.getSingleResult() != null) {
                 sumSale2 = (Double) query2.getSingleResult();
-            }else{
+            } else {
                 sumSale2 = 0.0;
             }
             return sumSale1 + sumSale2;
@@ -236,7 +236,7 @@ public class TransactionsJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public Double getMoneyByContractIDWithCompany(int contractID) {
         EntityManager em = getEntityManager();
         try {
@@ -245,20 +245,20 @@ public class TransactionsJpaController implements Serializable {
                     + "transactions_note LIKE '%request sale%'"
             );
             Double sumSale1 = 0.0;
-            if(query1.getSingleResult() !=null){
+            if (query1.getSingleResult() != null) {
                 sumSale1 = (Double) query1.getSingleResult();
-            }else{
+            } else {
                 sumSale1 = 0.0;
             }
-            
+
             Query query2 = em.createNativeQuery("SELECT SUM(money)/(SELECT fee_estate FROM fee where id=1)/100 FROM transactions where "
                     + "contract_id='" + contractID + "' AND "
                     + "transactions_note IS NULL"
             );
             Double sumSale2 = 0.0;
-            if(query2.getSingleResult() !=null){
+            if (query2.getSingleResult() != null) {
                 sumSale2 = (Double) query2.getSingleResult();
-            }else{
+            } else {
                 sumSale2 = 0.0;
             }
             return sumSale1 + sumSale2;
@@ -266,7 +266,7 @@ public class TransactionsJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public int getCountByContractIDWithCompany(int contractID) {
         EntityManager em = getEntityManager();
         try {
@@ -275,20 +275,20 @@ public class TransactionsJpaController implements Serializable {
                     + "transactions_note LIKE '%request sale%'"
             );
             int sumSale1 = 0;
-            if(query1.getSingleResult() !=null){
+            if (query1.getSingleResult() != null) {
                 sumSale1 = (int) query1.getSingleResult();
-            }else{
+            } else {
                 sumSale1 = 0;
             }
-            
+
             Query query2 = em.createNativeQuery("SELECT COUNT(id) FROM transactions where "
                     + "contract_id='" + contractID + "' AND "
                     + "transactions_note IS NULL"
             );
             int sumSale2 = 0;
-            if(query2.getSingleResult() !=null){
+            if (query2.getSingleResult() != null) {
                 sumSale2 = (int) query2.getSingleResult();
-            }else{
+            } else {
                 sumSale2 = 0;
             }
             return sumSale1 + sumSale2;
@@ -296,31 +296,31 @@ public class TransactionsJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public Double getMoneyByContractIDWithCompanyMonth(int contractID, String month) {
         EntityManager em = getEntityManager();
         try {
             Query query1 = em.createNativeQuery("SELECT SUM(money) FROM transactions where "
                     + "contract_id='" + contractID + "' AND "
                     + "transactions_note LIKE '%request sale%' AND "
-                    + "transactions_date LIKE '%"+month+"%'"
+                    + "transactions_date LIKE '%" + month + "%'"
             );
             Double sumSale1 = 0.0;
-            if(query1.getSingleResult() !=null){
+            if (query1.getSingleResult() != null) {
                 sumSale1 = (Double) query1.getSingleResult();
-            }else{
+            } else {
                 sumSale1 = 0.0;
             }
-            
+
             Query query2 = em.createNativeQuery("SELECT SUM(money)/(SELECT fee_estate FROM fee where id=1)/100 FROM transactions where "
                     + "contract_id='" + contractID + "' AND "
                     + "transactions_note IS NULL AND "
-                    + "transactions_date LIKE '%"+month+"%'"
+                    + "transactions_date LIKE '%" + month + "%'"
             );
             Double sumSale2 = 0.0;
-            if(query2.getSingleResult() !=null){
+            if (query2.getSingleResult() != null) {
                 sumSale2 = (Double) query2.getSingleResult();
-            }else{
+            } else {
                 sumSale2 = 0.0;
             }
             return sumSale1 + sumSale2;
@@ -328,9 +328,8 @@ public class TransactionsJpaController implements Serializable {
             em.close();
         }
     }
-    
-    
-    public Boolean checkMoneyByContractIDWithCompany(int contractID){
+
+    public Boolean checkMoneyByContractIDWithCompany(int contractID) {
         EntityManager em = getEntityManager();
         try {
             Query query1 = em.createNativeQuery("SELECT SUM(money) FROM transactions where "
@@ -338,9 +337,9 @@ public class TransactionsJpaController implements Serializable {
                     + "contract_id='" + contractID + "'"
             );
             double count1 = 0.0;
-            if(query1.getSingleResult() != null){
+            if (query1.getSingleResult() != null) {
                 count1 = (double) query1.getSingleResult();
-            }else{
+            } else {
                 count1 = 0.0;
             }
             Query query2 = em.createNativeQuery("SELECT SUM(money) FROM transactions where "
@@ -348,9 +347,9 @@ public class TransactionsJpaController implements Serializable {
                     + "contract_id='" + contractID + "'"
             );
             double count2 = 0.0;
-            if(query2.getSingleResult() != null){
+            if (query2.getSingleResult() != null) {
                 count2 = (double) query2.getSingleResult();
-            }else{
+            } else {
                 count2 = 0.0;
             }
             return (count1 > count2);
@@ -358,30 +357,39 @@ public class TransactionsJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public int getEstateCountByContractIDWithEmployee(int contractID) {
         EntityManager em = getEntityManager();
         try {
             Query query1 = em.createNativeQuery("SELECT COUNT(id) FROM transactions  where "
                     + "contract_id='" + contractID + "'"
             );
-            
+
             return (int) query1.getSingleResult();
         } finally {
             em.close();
         }
     }
-    
+
     public Transactions getTransactionByContractID(int contractID) {
         EntityManager em = getEntityManager();
         try {
             Query query1 = em.createNativeQuery("SELECT * FROM transactions  where "
-                    + "contract_id='" + contractID + "'",Transactions.class
+                    + "contract_id='" + contractID + "'", Transactions.class
             );
-            
+
             return (Transactions) query1.getSingleResult();
         } finally {
             em.close();
         }
+    }
+
+    // cuong add
+
+    public List<Transactions> listTransactionByDate(String dateTo, String dateFrom) {
+        EntityManager em = getEntityManager();
+        Query q = em.createNativeQuery("select * from transactions\n"
+                + "where transactions_date >= '"+dateFrom+"' and transactions_date <= '"+dateTo+"'", Transactions.class);
+        return q.getResultList();
     }
 }

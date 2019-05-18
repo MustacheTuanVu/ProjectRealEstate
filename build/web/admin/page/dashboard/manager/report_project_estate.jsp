@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -87,53 +88,78 @@
                                 </div>
 
                                 <div class="widget__content" id="section-2" style="display: block;">
-                                    <section class="info info--statistics">
-                                        <div class="info__about">
-                                            <h4 class="info__about-title">
 
-                                                Chi tiết hợp đồng
-                                                <button onclick="printDiv('section-to-print')" class="button__action ui__button ui__button--1">In</button>
+                                    <div class="info__about">
+                                        <h4 class="info__about-title">
+                                            Chi tiết hợp đồng
+                                        </h4>
 
-                                            </h4>
-                                            <div id="section-to-print" class="maincontent textview">
+                                        <label  class="control-label">Dự Án </label>
+                                        <select onchange=" getAddress()" name="cbmName" id="cbmName" class="form-control">
+                                            <c:forEach items="${listProject}" var="list">
+                                                <option value="${list.projectId}">${list.projectName}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <label  class="control-label">Địa Chỉ </label>
+                                        <input type="text" readonly="true" id="txtAddress" class="form-control" />
+                                        <input type="hidden" id="txtIDProject" name="txtIDProject" />
+                                        <label  class="control-label">Từ </label><span id="errdateFrom" style="color: red"></span><input class="form-control" onchange="checkDateFrom()" type="date" name="txtdateFrom" id="dateFrom" />
+                                        <label  class="control-label"> Đến</label> <span id="errdateTo" style="color: red"></span><input class="form-control" onchange="checkDateTo()" type="date" name="txtdateTo" id="dateTo" />
 
-                                                <h3 align="center"><strong>Báo Cáo Căn Hộ Theo Dự Án</strong></h3>
-                                                <div class="panel-wrapper collapse in">
-                                                    <div class="panel-body">
-                                                        <div class="table-wrap">
-                                                            <div class="table-responsive">
-                                                                <table class="table table-hover display  pb-30" >
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <td>Mã Căn Hộ</td>
-                                                                            <td>tên Căn Hộ</td>
-                                                                            <td>Block</td>
-                                                                            <td>Diện Tích</td>
-                                                                            <td>Tầng</td>
+                                        <button onclick="getTable()"  class="form__submit">Xem</button>
+                                        <button onclick="printDiv('section-to-print')" class="form__submit">In</button>
 
-                                                                            <td>Giá</td>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <c:forEach var="item" items="${listEstate}">
-                                                                        <tr>
-                                                                            <td>${item.id}</td>
-                                                                            <td>${item.estateName}</td>
-                                                                            <td>${item.block}</td>
-                                                                            <td>${item.areas}</td>
-                                                                            <td>${item.floor}</td>
-                                                                            <c:set value="${item.price/10000000000}" var="price" >
-                                                                            <td>${price} Tỷ VNĐ</td>
-                                                                            </c:set>
-                                                                        </tr>
-                                                                    </c:forEach>
-                                                                </table>
-                                                            </div>
+                                        <div id="section-to-print" class="maincontent textview">
+
+                                            <h3 align="center"><strong>Báo Cáo Dự Án</strong><br>
+                                                <span id="dateShow"></span>
+                                            </h3>
+
+                                            <div class="panel-wrapper collapse in">
+                                                <table>
+                                                    <tr>
+                                                        <td>SGEstate24h</td>
+                                                        <td id="tdNameProject"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>17/5 CMT8, Phường 3, Quận 10, Tp. Hồ Chí Minh</td>
+                                                        <td id="tdAddress"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>+1 202 555 0135</td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>SGEstate24h@gmail.com</td>
+                                                        <td ></td>
+                                                    </tr>
+                                                </table>
+                                                <div class="panel-body">
+                                                    <div class="table-wrap">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-hover display  pb-30" >
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>Mã Căn Hộ</td>
+                                                                        <td>Block</td>
+                                                                        <td>Diện Tích</td>
+                                                                        <td>Tầng</td>
+                                                                        <td>Ngày Bán</td>
+                                                                        <td>Giá</td>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="tableEstate">
+
+                                                                </tbody>
+                                                            </table>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </section>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -159,6 +185,83 @@
 
         <!-- JavaScript -->
 
+        <script>
+
+            window.onload=function (){
+                getAddress();
+            }
+            function getAddress() {
+                var cbmName = document.getElementById('cbmName').value;
+                var txtAddress = document.getElementById('txtAddress');
+
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        txtAddress.value = this.responseText;
+                        var a = document.getElementById('cbmName');
+                        document.getElementById('tdNameProject').innerHTML = a.options[a.selectedIndex].text;
+                        document.getElementById('tdAddress').innerHTML = this.responseText;
+                        return true;
+                    } else
+                        return false;
+                };
+                xhttp.open("POST", "Report?idProject=" + cbmName, true);
+                xhttp.send();
+            }
+
+            function checkDateFrom() {
+                var dateFrom = document.getElementById('dateFrom').value;
+                if (dateFrom == null || dateFrom == '') {
+                    document.getElementById('errdateFrom').innerHTML = 'Mời Bạn Chọn Ngày Bắt Đầu ';
+                    return false;
+                } else {
+                    document.getElementById('errdateFrom').innerHTML = '';
+                    return true;
+                }
+            }
+
+            function checkDateTo() {
+                var dateTo = document.getElementById('dateTo').value;
+                var dateFrom = document.getElementById('dateFrom').value;
+                if (dateTo == null || dateTo == '') {
+                    document.getElementById('errdateTo').innerHTML = 'Mời Bạn Chọn Ngày Kết Thúc';
+                    return false;
+                } else {
+                    if (dateTo >= dateFrom) {
+                        document.getElementById('errdateTo').innerHTML = '';
+                        document.getElementById('dateShow').innerHTML = '(' + dateTo + '-' + dateFrom + ')';
+                        return true;
+                    }
+                    else {
+                        document.getElementById('errdateTo').innerHTML = 'Chọn Ngày Kết Thúc Không Đúng';
+                        return false;
+                    }
+                }
+            }
+
+
+            function getTable() {
+                var cbmName = document.getElementById('cbmName').value;
+                var dateTo = document.getElementById('dateTo').value;
+                var dateFrom = document.getElementById('dateFrom').value;
+
+                getAddress();
+                checkDateFrom();
+                checkDateTo();
+
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log('table ' + this.responseText);
+                        document.getElementById('tableEstate').innerHTML = this.responseText;
+                    }
+                };
+                xhttp.open("POST", "ReportRatingProject?idProject=" + cbmName + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo, true);
+                xhttp.send();
+
+            }
+
+        </script>
 
         <script>
 
@@ -167,10 +270,10 @@
                 var originalContents = document.body.innerHTML;
 
                 document.body.innerHTML = printContents;
-
                 window.print();
-
                 document.body.innerHTML = originalContents;
+
+
             }
         </script>
         <!-- jQuery -->

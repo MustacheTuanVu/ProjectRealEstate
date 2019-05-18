@@ -5,13 +5,22 @@
  */
 package Servlet.Report;
 
+import Controller.EstateJpaController;
+import Controller.ProjectDetailsJpaController;
+import Controller.ProjectJpaController;
+import Entity.Estate;
+import Entity.ProjectDetails;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.UserTransaction;
 
 /**
  *
@@ -29,12 +38,12 @@ public class Report extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        
-        
+
         request.getRequestDispatcher("page/report/dashboard_report.jsp").forward(request, response);
     }
 
@@ -51,6 +60,7 @@ public class Report extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+
     }
 
     /**
@@ -64,7 +74,16 @@ public class Report extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        String idProject = request.getParameter("idProject");
+
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        Controller.ProjectJpaController projectController = new ProjectJpaController(utx, emf);
+        Entity.Project project = projectController.findProject(idProject);
+        //System.out.println("id "+idProject);
+        //System.out.println("address "+project.getProjectAddress());
+        response.getWriter().write(project.getProjectAddress());
+
     }
 
     /**

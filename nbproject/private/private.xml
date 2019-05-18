@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/admin/page/dashboard/manager/create_estate_of_project.jsp</file>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/src/java/Entity/Estate.java</file>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/src/java/Controller/RatingJpaController.java</file>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/page/guest/project_details.jsp</file>
-            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/src/java/Servlet/Project/ProjectDetails.java</file>
+            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/admin/page/dashboard/manager/report_project_estate.jsp</file>
+            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/src/java/Servlet/Manager/ReportRatingProject.java</file>
+            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/admin/page/template/manager/left_sidebar.jsp</file>
+            <file>file:/D:/Test%20GlassFish/ProjectRealEstate/web/admin/page/dashboard/manager/create_estate_of_project_1.jsp</file>
         </group>
     </open-files>
 </project-private>

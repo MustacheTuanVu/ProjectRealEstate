@@ -9,12 +9,16 @@ import Controller.EstateJpaController;
 import Controller.ProjectDetailsJpaController;
 import Controller.ProjectJpaController;
 import Controller.RatingJpaController;
+import Controller.TransactionsJpaController;
+import Entity.Estate;
 import Entity.Project;
 import Entity.ProjectDetails;
 import Entity.Rating;
 import Entity.ReportProject;
+import Entity.Transactions;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,54 +56,23 @@ public class ReportRatingProject extends HttpServlet {
 
         Controller.ProjectJpaController projectController = new ProjectJpaController(utx, emf);
         Controller.RatingJpaController ratingController = new RatingJpaController(utx, emf);
-        Controller.ProjectDetailsJpaController detailsController= new ProjectDetailsJpaController(utx, emf);
-        Controller.EstateJpaController estateController= new EstateJpaController(utx, emf);
+        Controller.ProjectDetailsJpaController detailsController = new ProjectDetailsJpaController(utx, emf);
+        Controller.EstateJpaController estateController = new EstateJpaController(utx, emf);
 
-        
-        String idProject=request.getParameter("id");
-        Entity.Project project = projectController.findProject("7");
-        Entity.Rating rating = new Rating();
+        List<Entity.Project> listProject = projectController.getListProjectPublish();
 
-        List<Project> listProject = projectController.findProjectEntities();
-        List<Entity.ReportProject> listreport = new ArrayList<>();
-        List<Entity.ProjectDetails> listDetails= detailsController.getProjectDetailByProject(idProject);
-        List<Entity.Estate> listEstate= new ArrayList<>();
-
-        for (int i = 0; i < listProject.size(); i++) {
-            Entity.ReportProject report = new ReportProject();
-            List<Rating> listRating = ratingController.getListRatingByIdProject(listProject.get(i).getProjectId());
-            report.setIdProject(listProject.get(i).getProjectId());
-            for (int j = 0; j < listRating.size(); j++) {
-                if (listRating.get(j).getPointRating() == 1) {
-                    report.mark1++;
-                } else if (listRating.get(j).getPointRating() == 2) {
-                    report.mark2++;
-                } else if (listRating.get(j).getPointRating() == 3) {
-                    report.mark3++;
-                } else if (listRating.get(j).getPointRating() == 4) {
-                    report.mark4++;
-                } else if (listRating.get(j).getPointRating() == 5) {
-                    report.mark5++;
-                }
-            }
-            listreport.add(report);
+        for (Project listProject1 : listProject) {
+            //System.out.println(listProject1.getProjectId()+"-"+listProject1.getProjectName());
         }
-        for (ProjectDetails listDetail : listDetails) {
-            Entity.Estate estate=estateController.findEstate(listDetail.getEstateId().getId());
-            listEstate.add(estate);
-        }
-        
-        
-        
 
 //        for (ReportProject listreport1 : listreport) {
 //            System.out.println("1 " + listreport1.getIdProject() + " 3:" + listreport1.getMark4());
 //        }
-        
         //request.setAttribute("list", listreport);
-        request.setAttribute("listEstate", listEstate);
+        request.setAttribute("listProject", listProject);
+        //request.setAttribute("listEstate", listEstate);
         //request.getRequestDispatcher("/admin/page/dashboard/manager/report_project_rating.jsp").forward(request, response);
-        request.getRequestDispatcher("/admin/page/dashboard/manager/report_project_estate.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin/page/dashboard/manager/report_project_estate.jsp").include(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -128,7 +101,54 @@ public class ReportRatingProject extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+
+        String idProject = request.getParameter("idProject");
+        String dateTo = request.getParameter("dateTo");
+        String dateFrom = request.getParameter("dateFrom");
+
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+
+        Controller.ProjectDetailsJpaController detailsController = new ProjectDetailsJpaController(utx, emf);
+
+        List<Entity.ProjectDetails> listIDEstate = detailsController.getListEstateIDByProjectID(idProject);
+
+        Controller.EstateJpaController estate = new EstateJpaController(utx, emf);
+        Controller.TransactionsJpaController tranController = new TransactionsJpaController(utx, emf);
+
+        List<String> listIdEstate = new ArrayList<>();
+        List<Entity.Estate> listEstate = new ArrayList<>();
+        List<Entity.Transactions> listTran = tranController.listTransactionByDate(dateTo, dateFrom);
+
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+
+        String table = "<tr>";
+        Double total=0d;
+        for (ProjectDetails listIDEstate1 : listIDEstate) {
+            if (listIDEstate1.getEstateId().getEstateStatus().equals("sold")) {
+                for (Transactions listTran1 : listTran) {
+                    if (listIDEstate1.getEstateId().getContractDetails().getContractId().getId() == listTran1.getContractId().getId()) {
+                        table += "<td>" + listIDEstate1.getEstateId().getId() + "</td>"
+                                + "<td>" + listIDEstate1.getEstateId().getBlock() + "</td>"
+                                + "<td>" + listIDEstate1.getEstateId().getAreas() + "</td>"
+                                + "<td>" + listIDEstate1.getEstateId().getFloor() + "</td>";
+                        table += "<td>" + format.format(listTran1.getTransactionsDate()) + "</td>";
+                        table += "<td>" + listIDEstate1.getEstateId().getPrice() / 1000000000 + " Tỷ VNĐ</td>";
+                        total+=total+ listIDEstate1.getEstateId().getPrice();
+                    }
+                }
+            }
+        }
+        table += "</tr>"
+                +"<tr colspan=\"4\"><td><strong>Tổng Tiền</strong></td><td></td><td></td><td></td><td></td><td>"+total/1000000000+" Tỷ VND</td></tr>";
+        if (listEstate.size() >= 0) {
+            response.getWriter().write(table);
+        } else {
+            System.out.println("0");
+            response.getWriter().write(0);
+        }
+
     }
 
     /**
