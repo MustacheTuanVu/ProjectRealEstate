@@ -91,7 +91,7 @@ public class AgreeSaleRequest extends HttpServlet {
         
         try {
             contractJpaController.edit(contract);
-            response.sendRedirect(request.getContextPath()+"/DashboardDirector");
+            response.sendRedirect(request.getContextPath()+"/Director");
         } catch (RollbackFailureException ex) {
             Logger.getLogger(AgreeSaleRequest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

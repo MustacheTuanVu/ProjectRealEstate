@@ -299,7 +299,12 @@ public class EstateEdit extends HttpServlet {
         estate.setEstateStatusId(estateStatus);
         try {
             estateControl.edit(estate);
-            response.sendRedirect(request.getContextPath() + "/EstateList?user=director");
+             if (!user.getRole().equals("employee") ) {
+                 response.sendRedirect(request.getContextPath() + "/EstateList?user=director");
+             }else{
+                 response.sendRedirect(request.getContextPath() + "/EstateList?user=employee");
+             }
+            
         } catch (RollbackFailureException ex) {
             Logger.getLogger(EstateCreate.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

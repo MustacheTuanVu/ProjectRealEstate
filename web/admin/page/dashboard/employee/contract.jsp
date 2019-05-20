@@ -32,7 +32,169 @@
         <link href="<%=request.getContextPath()%>/admin/dist/css/style.css" rel="stylesheet" type="text/css">
 
 
+        <script type="text/javascript" src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
+        <script type="text/javascript">
+            function BrowseServer() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField;
+                finder.popup();
+            }
+            function SetFileField(fileUrl) {
+                if (document.getElementById('imageup1st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image1st').value = fileUrl;
+                    document.getElementById('imageup1st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Bạn còn thiếu 4 hình";
+                } else if (document.getElementById('imageup2st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image2st').value = fileUrl;
+                    document.getElementById('imageup2st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Bạn còn thiếu 3 hình";
+                } else if (document.getElementById('imageup3st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image3st').value = fileUrl;
+                    document.getElementById('imageup3st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Bạn còn thiếu 2 hình";
+                } else if (document.getElementById('imageup4st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image4st').value = fileUrl;
+                    document.getElementById('imageup4st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Bạn còn thiếu 1 hình";
+                } else if (document.getElementById('imageup5st').src === "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg") {
+                    document.getElementById('image5st').value = fileUrl;
+                    document.getElementById('imageup5st').src = fileUrl;
+                    document.getElementById('countimage').innerHTML = "Bạn đã hoàn thành bước chọn hình, có thể tiếp tục bước kế tiếp";
+                }
+            }
+        </script>
+        <script type="text/javascript">
+            function BrowseServer1() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField1;
+                finder.popup();
+            }
 
+            function SetFileField1(fileUrl) {
+                document.getElementById('image1st').value = fileUrl;
+                document.getElementById('imageup1st').src = fileUrl;
+                document.getElementById('countimage').innerHTML = "Bạn còn thiếu 4 hình";
+
+                var actionsBar = document.getElementsByClassName("actions clearfix")[0];
+                var part = "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg";
+                var imageup1st = document.getElementById('imageup1st');
+                var imageup2st = document.getElementById('imageup2st');
+                var imageup3st = document.getElementById('imageup3st');
+                var imageup4st = document.getElementById('imageup4st');
+                var imageup5st = document.getElementById('imageup5st');
+                if (imageup1st.src === part || imageup2st === part || imageup3st === part || imageup4st === part || imageup5st) {
+                    actionsBar.style.display = "none";
+                } else {
+                    actionsBar.style.display = "block";
+                }
+            }
+        </script>
+        <script type="text/javascript">
+            function BrowseServer2() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField2;
+                finder.popup();
+            }
+            function SetFileField2(fileUrl) {
+                document.getElementById('image2st').value = fileUrl;
+                document.getElementById('imageup2st').src = fileUrl;
+                document.getElementById('countimage').innerHTML = "Bạn còn thiếu 3 hình";
+
+                var actionsBar = document.getElementsByClassName("actions clearfix")[0];
+                var part = "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg";
+                var imageup1st = document.getElementById('imageup1st');
+                var imageup2st = document.getElementById('imageup2st');
+                var imageup3st = document.getElementById('imageup3st');
+                var imageup4st = document.getElementById('imageup4st');
+                var imageup5st = document.getElementById('imageup5st');
+                if (imageup1st.src === part || imageup2st === part || imageup3st === part || imageup4st === part || imageup5st) {
+                    actionsBar.style.display = "none";
+                } else {
+                    actionsBar.style.display = "block";
+                }
+            }
+        </script>
+        <script type="text/javascript">
+            function BrowseServer3() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField3;
+                finder.popup();
+            }
+            function SetFileField3(fileUrl) {
+                document.getElementById('image3st').value = fileUrl;
+                document.getElementById('imageup3st').src = fileUrl;
+                document.getElementById('countimage').innerHTML = "Bạn còn thiếu 2 hình";
+
+                var actionsBar = document.getElementsByClassName("actions clearfix")[0];
+                var part = "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg";
+                var imageup1st = document.getElementById('imageup1st');
+                var imageup2st = document.getElementById('imageup2st');
+                var imageup3st = document.getElementById('imageup3st');
+                var imageup4st = document.getElementById('imageup4st');
+                var imageup5st = document.getElementById('imageup5st');
+                if (imageup1st.src === part || imageup2st === part || imageup3st === part || imageup4st === part || imageup5st) {
+                    actionsBar.style.display = "none";
+                } else {
+                    actionsBar.style.display = "block";
+                }
+            }
+        </script>
+        <script type="text/javascript">
+            function BrowseServer4() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField4;
+                finder.popup();
+            }
+            function SetFileField4(fileUrl) {
+                document.getElementById('image4st').value = fileUrl;
+                document.getElementById('imageup4st').src = fileUrl;
+                document.getElementById('countimage').innerHTML = "Bạn còn thiếu 1 hình";
+
+                var actionsBar = document.getElementsByClassName("actions clearfix")[0];
+                var part = "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg";
+                var imageup1st = document.getElementById('imageup1st');
+                var imageup2st = document.getElementById('imageup2st');
+                var imageup3st = document.getElementById('imageup3st');
+                var imageup4st = document.getElementById('imageup4st');
+                var imageup5st = document.getElementById('imageup5st');
+                if (imageup1st.src === part || imageup2st === part || imageup3st === part || imageup4st === part || imageup5st) {
+                    actionsBar.style.display = "none";
+                } else {
+                    actionsBar.style.display = "block";
+                }
+            }
+        </script>
+        <script type="text/javascript">
+            function BrowseServer5() {
+                var finder = new CKFinder();
+                finder.basePath = '../';
+                finder.selectActionFunction = SetFileField5;
+                finder.popup();
+            }
+            function SetFileField5(fileUrl) {
+                document.getElementById('image5st').value = fileUrl;
+                document.getElementById('imageup5st').src = fileUrl;
+                document.getElementById('countimage').innerHTML = "Bạn đã hoàn thành bước chọn hình, có thể tiếp tục bước kế tiếp";
+
+                var actionsBar = document.getElementsByClassName("actions clearfix")[0];
+                var part = "http://localhost:8080/ProjectRealEstate/CKFinderJava/userfiles/files/01.jpg";
+                var imageup1st = document.getElementById('imageup1st');
+                var imageup2st = document.getElementById('imageup2st');
+                var imageup3st = document.getElementById('imageup3st');
+                var imageup4st = document.getElementById('imageup4st');
+                var imageup5st = document.getElementById('imageup5st');
+                if (imageup1st.src === part || imageup2st === part || imageup3st === part || imageup4st === part || imageup5st) {
+                    actionsBar.style.display = "block";
+                } else {
+                    actionsBar.style.display = "none";
+                }
+            }
+        </script>
     </head>
     <body>
         <!-- Preloader -->

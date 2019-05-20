@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="row">
 
-                                    <button type="submit" class="form__submit">Đăng kí</button>
+                                    <button type="submit" class="form__submit">Đăng nhập</button>
 
                                 </div>
                             </form>

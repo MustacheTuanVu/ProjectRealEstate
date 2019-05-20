@@ -5,7 +5,7 @@
 --%>
 
 <!DOCTYPE html>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head lang="en">
@@ -78,8 +78,8 @@
                     <div class="row">
                         <section class="site">
                             <header class="site__header">
-                                <h1 class="site__title">REGISTER </h1>
-                                <h2 class="site__headline">Enter your login and password</h2>
+                                <h1 class="site__title">Đăng ký </h1>
+                                <h2 class="site__headline">Trang đăng ký thành viên mới</h2>
                             </header>
                             <div class="site__main">
                                 <div class="widget js-widget widget--main widget--no-border">
@@ -87,31 +87,31 @@
                                         <div class="auth auth--inline">
                                             <div class="auth__wrap auth__wrap--login">
                                                 <!-- BEGIN AUTH LOGIN-->
-                                                <h5 class="auth__title">Login in your account</h5>
+                                                <h5 class="auth__title">Đăng ký tài khoản</h5>
                                                 <form  action="RegisterUser" method="post" onsubmit="return checkPass()" class="form form--flex form--auth js-register-form js-parsley">
                                                     <div class="row">
                                                         <div class="form-group ${hasError}">
-                                                            <label for="register-lastname-inline1" class="control-label">User Name</label>
+                                                            <label for="register-lastname-inline1" class="control-label">Tên đăng nhập</label>
                                                             <input type="text"  name="txtUser" id="register-lastname-inline1" required class="form-control">
                                                             <span id="errNameRegister"></span>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="form-group ">
-                                                            <label class="control-label">Password</label>
+                                                            <label class="control-label">Mật khẩu</label>
                                                             <input type="password"  name="txtPass" id="register-pass-inline1" required class="form-control">
                                                             <div id="errPassRegister" ></div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="form-group ">
-                                                            <label for="register-confirm-inline1" class="control-label">Confirm</label>
+                                                            <label for="register-confirm-inline1" class="control-label">Nhập lại mật khẩu</label>
                                                             <input type="password" name="confirm" id="register-confirm-inline1" required class="form-control">
                                                         </div>
-                                                        <div class="form__options">Back to<a href="<%=request.getContextPath()%>/LoginUser">Log In</a>
+                                                        <div class="form__options">Quay lại <a href="<%=request.getContextPath()%>/index">Trang chủ</a>
                                                         </div>
                                                         <div class="form-group">
-                                                            <input type="submit" value="Sign up" class="form__submit"/>
+                                                            <input type="submit" value="Đăng ký" class="form__submit"/>
                                                         </div>
                                                     </div>
                                                 </form>

@@ -210,7 +210,7 @@ public class TransactionsJpaController implements Serializable {
     public Double getMoneyByContractIDWithEmployee(int contractID) {
         EntityManager em = getEntityManager();
         try {
-            Query query1 = em.createNativeQuery("SELECT SUM(payment_amount) FROM contract where "
+            Query query1 = em.createNativeQuery("SELECT SUM(payment_amount)/5*100*2/100 FROM contract where "
                     + "id='" + contractID + "' AND "
                     + "status LIKE '%done%'"
             );
@@ -229,8 +229,9 @@ public class TransactionsJpaController implements Serializable {
     public Double getMoneyByContractIDWithCompany(int contractID) {
         EntityManager em = getEntityManager();
         try {
-            Query query1 = em.createNativeQuery("SELECT SUM(money) FROM transactions where "
-                    + "contract_id='" + contractID + "'"
+            Query query1 = em.createNativeQuery("SELECT SUM(payment_amount) FROM contract where "
+                    + "id='" + contractID + "' AND "
+                    + "status='done'"
             );
             Double sumSale1 = 0.0;
             if(query1.getSingleResult() !=null){
@@ -278,10 +279,10 @@ public class TransactionsJpaController implements Serializable {
     public Double getMoneyByContractIDWithCompanyMonth(int contractID, String month) {
         EntityManager em = getEntityManager();
         try {
-            Query query1 = em.createNativeQuery("SELECT SUM(money) FROM transactions where "
-                    + "contract_id='" + contractID + "' AND "
-                    + "transactions_note LIKE '%request sale%' AND "
-                    + "transactions_date LIKE '%"+month+"%'"
+            Query query1 = em.createNativeQuery("SELECT SUM(payment_amount) FROM contract where "
+                    + "id='" + contractID + "' AND "
+                    + "status = 'done' AND "
+                    + "date_signed LIKE '%"+month+"%'"
             );
             Double sumSale1 = 0.0;
             if(query1.getSingleResult() !=null){
@@ -290,18 +291,8 @@ public class TransactionsJpaController implements Serializable {
                 sumSale1 = 0.0;
             }
             
-            Query query2 = em.createNativeQuery("SELECT SUM(money) FROM transactions where "
-                    + "contract_id='" + contractID + "' AND "
-                    + "transactions_note IS NULL AND "
-                    + "transactions_date LIKE '%"+month+"%'"
-            );
-            Double sumSale2 = 0.0;
-            if(query2.getSingleResult() !=null){
-                sumSale2 = (Double) query2.getSingleResult();
-            }else{
-                sumSale2 = 0.0;
-            }
-            return sumSale1 + sumSale2;
+            
+            return sumSale1;
         } finally {
             em.close();
         }
@@ -311,9 +302,10 @@ public class TransactionsJpaController implements Serializable {
     public Boolean checkMoneyByContractIDWithCompany(int contractID){
         EntityManager em = getEntityManager();
         try {
-            Query query1 = em.createNativeQuery("SELECT SUM(money) FROM transactions where "
-                    + "transactions_date LIKE '%-05-%' AND "
-                    + "contract_id='" + contractID + "'"
+            Query query1 = em.createNativeQuery("SELECT SUM(payment_amount) FROM contract where "
+                    + "date_signed LIKE '%-05-%' AND "
+                    + "status = 'done' AND "
+                    + "id='" + contractID + "'"
             );
             double count1 = 0.0;
             if(query1.getSingleResult() != null){
@@ -321,9 +313,10 @@ public class TransactionsJpaController implements Serializable {
             }else{
                 count1 = 0.0;
             }
-            Query query2 = em.createNativeQuery("SELECT SUM(money) FROM transactions where "
-                    + "transactions_date LIKE '%-04-%' AND "
-                    + "contract_id='" + contractID + "'"
+            Query query2 = em.createNativeQuery("SELECT SUM(payment_amount) FROM contract where "
+                    + "date_signed LIKE '%-04-%' AND "
+                    + "status = 'done' AND "
+                    + "id='" + contractID + "'"
             );
             double count2 = 0.0;
             if(query2.getSingleResult() != null){

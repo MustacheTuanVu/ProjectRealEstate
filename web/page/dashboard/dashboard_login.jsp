@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -72,8 +73,8 @@
                     <div class="row">
                         <section class="site">
                             <header class="site__header">
-                                <h1 class="site__title">Login</h1>
-                                <h2 class="site__headline">Enter your login and password</h2>
+                                <h1 class="site__title">Đăng nhập</h1>
+                                <h2 class="site__headline">Trang đăng nhập thành viên</h2>
                             </header>
                             <div class="site__main">
                                 <div class="widget js-widget widget--main widget--no-border">
@@ -81,7 +82,7 @@
                                         <div class="auth auth--inline">
                                             <div class="auth__wrap auth__wrap--login">
                                                 <!-- BEGIN AUTH LOGIN-->
-                                                <h5 class="auth__title">Login in your account</h5>
+                                                <h5 class="auth__title">Đăng nhập tài khoản</h5>
                                                 <form action="<%=request.getContextPath()%>/LoginUser" method="POST" class="form form--flex form--auth js-login-form js-parsley">
                                                     <div class="row">
                                                         <div class="form-group">
@@ -94,16 +95,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="form__options form__options--forgot"><a href="user_restore_pass.html">Forgot password ?</a>
                                                         </div>
-                                                        <button type="submit" class="form__submit">Sign in</button>
-                                                    </div>
-                                                    <div class="form__remember">
-                                                        <input type="checkbox" id="remember-in-inline" class="in-checkbox">
-                                                        <label for="remember-in-inline" class="in-label">Remember me</label>
+                                                        <button type="submit" class="form__submit">Đăng nhập</button>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="form__options">Not a user yet?<a href="user_register.html">Get an account</a>
+                                                        <div class="form__options">Bạn không có tài khoản ? <a href="user_register.html">Hãy đăng ký!</a>
                                                         </div>
                                                     </div>
                                                 </form>

@@ -65,7 +65,7 @@ public class ReportEstateTypePDF {
                 params.put("id", id);
                 params.put("payment_amount", payment_amount);
             }
-            String source = "D:/abc/ReportProjectSem4/src/ReportPDF/reportestatetype.jrxml";
+            String source = "D:/abc/ReportProjectSem4/src/ReportPDF/reportestatetype1.jrxml";
             JasperReport jr = JasperCompileManager.compileReport(source);
             JasperPrint jp = JasperFillManager.fillReport(jr, params, con);
             OutputStream os = new FileOutputStream(targetFolder + "reportestatetype.pdf");

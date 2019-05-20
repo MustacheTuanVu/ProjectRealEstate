@@ -75,7 +75,7 @@
 
                     <!-- Row -->
                     <div class="row">
-                        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="panel panel-default card-view panel-refresh">
                                 <div class="panel-wrapper collapse in">
                                     <div class="panel-body">
@@ -84,7 +84,6 @@
                                 </div>
                             </div>
                         </div>
-                                    <!--
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="panel panel-default card-view panel-refresh">
                                 <div class="panel-wrapper collapse in">
@@ -96,7 +95,6 @@
                                 </div>
                             </div>
                         </div>
-                                    -->
                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <div class="panel panel-default card-view panel-refresh">
                                 <div class="refresh-container">
@@ -211,7 +209,7 @@
                                         <div class="cus-sat-stat weight-500 txt-success text-center mt-5">
 
                                             <span class="counter-anim">
-                                                <fmt:formatNumber type="number" pattern="###,###" value="${sumMoneyCompany}" />
+                                                <fmt:formatNumber type = "number" maxIntegerDigits = "2" value = "${sumMoneyCompany}" />
                                             </span><span> Tỷ</span>
                                         </div>
                                         <div class="progress-anim mt-20">
@@ -236,13 +234,18 @@
                                                 <c:if test="${sumMoneyCompanyByMar - sumMoneyCompanyByFeb > 0}">
                                                     <span class="block">Xu hướng</span>
                                                     <span class="block">
-                                                        <i class="zmdi zmdi-trending-up txt-success font-20"></i><span> ${trendMoneyCompany}%</span>
+                                                        <i class="zmdi zmdi-trending-up txt-success font-20"></i><span> 
+                                                            <fmt:formatNumber type = "number" maxIntegerDigits = "2" value = "${trendMoneyCompany}" />%
+                                                        </span>
                                                     </span>    
                                                 </c:if>
                                                 <c:if test="${sumMoneyCompanyByMar - sumMoneyCompanyByFeb < 0}">
                                                     <span class="block">Xu hướng</span>
                                                     <span class="block">
-                                                        <i class="zmdi zmdi-trending-down txt-success font-20"></i><span> ${trendMoneyCompany}%</span>
+                                                        <i class="zmdi zmdi-trending-down txt-success font-20"></i>
+                                                        <span> 
+                                                            <fmt:formatNumber type = "number" maxIntegerDigits = "2" value = "${trendMoneyCompany}" />%
+                                                        </span>
                                                     </span>    
                                                 </c:if>
                                             </li>
@@ -254,15 +257,15 @@
                                         </div>
                                         <ul class="flex-stat mt-5">
                                             <li class="half-width">
-                                                <span class="block">Số giao dịch đang chờ</span>
+                                                <span class="block">Giao dịch đang chờ</span>
                                                 <span class="block txt-dark weight-500 font-15">
-                                                    <fmt:formatNumber type = "number" maxIntegerDigits = "2" value = "${estateTransaction}" />
+                                                    <fmt:formatNumber type = "number" maxIntegerDigits = "2" value = "${estateTransaction}" /> giao dịch
                                                 </span>
                                             </li>
                                             <li class="half-width">
-                                                <span class="block">Số giao dịch thành công</span>
+                                                <span class="block">Giao dịch thành công</span>
                                                 <span class="block txt-dark weight-500 font-15">
-                                                    <fmt:formatNumber type = "number" maxIntegerDigits = "2" value = "${contractCountCompany}" />
+                                                    <fmt:formatNumber type = "number" maxIntegerDigits = "2" value = "${contractCountCompany}" /> giao dịch
                                                 </span>
                                             </li>
                                         </ul>
@@ -270,7 +273,6 @@
                                 </div>
                             </div>
                         </div>
-                                                <!--
                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <div class="panel panel-default card-view">
                                 <div class="panel-heading">
@@ -279,8 +281,8 @@
                                         <div class="cus-sat-stat weight-500 txt-success text-center mt-5">
 
                                             <span class="counter-anim">
-                                                <fmt:formatNumber type="number" pattern="###,###" value="${sumMoney/1000000}" />
-                                            </span><span> Triệu</span>
+                                                <fmt:formatNumber type = "number" maxIntegerDigits = "2" value = "${sumMoney}" />
+                                            </span><span> Tỷ</span>
                                         </div>
                                         <div class="progress-anim mt-20">
                                             <div class="progress">
@@ -300,7 +302,7 @@
                                                 <span class="pull-right">
                                                     <c:forEach begin="0" end="${countMoneyEmployeeSoldSize}" items="${countMoneyEmployeeSold}" var="item2">
                                                         <c:if test="${item.id == item2.key}">
-                                                            ${item2.value/1000000000} triệu
+                                                            ${item2.value/1000000} triệu
                                                         </c:if>
                                                     </c:forEach>
                                                 </span>
@@ -312,7 +314,6 @@
                                 </div>
                             </div>
                         </div>
-                                                -->
                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <div class="panel panel-default card-view panel-refresh">
                                 <div class="refresh-container">
@@ -411,8 +412,8 @@
                                     <div class="pull-left">
                                         <h3 class="txt-dark">
                                             Số căn đã bán: ${countUnitEstateSoldList}<br>
-                                            Tổng số tiền đang bán: 
-                                            <fmt:formatNumber type="number" pattern="###,###" value="${countMoneyEstaetSoldList/1000000000}" />
+                                            Tổng số tiền doanh thu: 
+                                            ${sumMoneyCompany}
                                             tỷ VND
                                         </h3>
                                     </div>

@@ -75,6 +75,9 @@ public class ProduceContractBuy extends HttpServlet {
             session.setAttribute("name", users.getCustomer().getCustomerName());
             request.setAttribute("role", "customer");
             session.setAttribute("image", users.getCustomer().getCustomerImg());
+            EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+            FeeJpaController feeControl = new FeeJpaController(utx, emf);
+            Double fee = feeControl.findFee(Integer.parseInt("1")).getFeeEstate();
 
             /*-----------------------------------------------------------*/
             if (request.getParameter("paymentAmount") != null) {
@@ -82,10 +85,10 @@ public class ProduceContractBuy extends HttpServlet {
                 String contractTypeID = "2";
                 String paymentAmount = request.getParameter("paymentAmount");
 
-                EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+                
                 ContractJpaController contractControl = new ContractJpaController(utx, emf);
                 ContractTypeJpaController contractTypeControl = new ContractTypeJpaController(utx, emf);
-                FeeJpaController feeControl = new FeeJpaController(utx, emf);
+                
                 EmployeeJpaController employeeControl = new EmployeeJpaController(utx, emf);
                 PaymentFrequencyJpaController paymentFrequencyControl = new PaymentFrequencyJpaController(utx, emf);
                 CustomerJpaController customerControl = new CustomerJpaController(utx, emf);
@@ -94,7 +97,7 @@ public class ProduceContractBuy extends HttpServlet {
                 ContractType contractType = contractTypeControl.findContractType(Integer.parseInt(contractTypeID));
                 PaymentFrequency paymentFrequency = paymentFrequencyControl.findPaymentFrequency(Integer.parseInt("1"));
                 Customer customer = customerControl.findCustomer(users.getCustomer().getId());
-                Double fee = feeControl.findFee(Integer.parseInt("1")).getFeeEstate();
+                
 
                 Contract contract = new Contract();
                 contract.setEmployeeId(employee);
@@ -103,7 +106,7 @@ public class ProduceContractBuy extends HttpServlet {
                 contract.setContractDetails("none");
                 contract.setPaymentFrequency(paymentFrequency);
                 contract.setFeePrecentage(fee);
-                contract.setPaymentAmount(Double.parseDouble(paymentAmount));
+                contract.setPaymentAmount(Double.parseDouble(paymentAmount)*fee/100);
                 contract.setDocumentUrl("wait");
                 contract.setStatus("waitting to transaction");
 

@@ -261,7 +261,7 @@ public class EstateTypeJpaController implements Serializable {
     public Double getMoneyByEmployee(int employeeID) {
         EntityManager em = getEntityManager();
         try {
-            Query query1 = em.createNativeQuery("SELECT SUM(payment_amount * fee_precentage /100) FROM contract where employee_id='" + employeeID + "' and status='done' ");
+            Query query1 = em.createNativeQuery("SELECT SUM(payment_amount/5*100*2/100) FROM contract where employee_id='" + employeeID + "' and status='done' ");
             Double sumSale1 = (Double) query1.getSingleResult();
             
             

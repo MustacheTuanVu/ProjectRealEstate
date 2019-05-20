@@ -8,11 +8,13 @@ package Servlet.Director;
 import Controller.ContractDetailsJpaController;
 import Controller.EstateJpaController;
 import Controller.EstateTypeJpaController;
+import Controller.FeeJpaController;
 import Controller.TransactionsJpaController;
 import Entity.Contract;
 import Entity.Employee;
 import Entity.Estate;
 import Entity.EstateType;
+import Entity.Fee;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
@@ -95,7 +97,7 @@ public class Director extends HttpServlet {
                     checkMoneyCompany = transactionsJpaController.checkMoneyByContractIDWithCompany(estateTransaction);
                     contractCountCompany = contractCountCompany + transactionsJpaController.getCountByContractIDWithCompany(contract.getId());
                 }
-                request.setAttribute("sumMoney", sumMoney);
+                request.setAttribute("sumMoney", sumMoney/1000000000);
                 request.setAttribute("sumMoneyCompany", sumMoneyCompany/1000000000);
                 request.setAttribute("estateTransaction", estateTransaction);
                 request.setAttribute("sumMoneyCompanyByJan", sumMoneyCompanyByJan/1000000000);
@@ -135,6 +137,8 @@ public class Director extends HttpServlet {
                 request.setAttribute("countEstateSaleList", countEstateSaleList);
                 request.setAttribute("countEstateSaleListSize", countEstateSaleList.size());
 
+                FeeJpaController feeJpaController = new FeeJpaController(utx, emf);
+                Fee fee = feeJpaController.findFee(1);
                 Map<String, Integer> countEstateSoldList = new HashMap<>();
                 Map<String, Double> countMoneyEstateSoldList = new HashMap<>();
                 int countUnitEstateSoldList = 0;
@@ -145,7 +149,7 @@ public class Director extends HttpServlet {
                     for (Estate estate : estatesList) {
                         if (estate.getEstateStatus().equals("sold")) {
                             countMoneyEstaetSoldList = countMoneyEstaetSoldList + estate.getPrice();
-                            money = money + estate.getPrice();
+                            money = money + estate.getPrice()*fee.getFeeEstate()/100;
                         }
                     }
                     countUnitEstateSoldList = countUnitEstateSoldList + estateTypeControl.getEstateTypeByEstateCountStaticSold(estateType.getId());
