@@ -244,12 +244,16 @@
                 var cbmName = document.getElementById('cbmName').value;
                 var dateTo = document.getElementById('dateTo').value;
                 var dateFrom = document.getElementById('dateFrom').value;
+                var xhttp = new XMLHttpRequest();
+                if (getAddress() && checkDateFrom() && checkDateTo()) {
+    
+}
 
                 getAddress();
                 checkDateFrom();
                 checkDateTo();
 
-                var xhttp = new XMLHttpRequest();
+                
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         console.log('table ' + this.responseText);

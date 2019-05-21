@@ -133,7 +133,7 @@ public class ReportRatingProject extends HttpServlet {
                                 + "<td>" + listIDEstate1.getEstateId().getBlock() + "</td>"
                                 + "<td>" + listIDEstate1.getEstateId().getAreas() + "</td>"
                                 + "<td>" + listIDEstate1.getEstateId().getFloor() + "</td>";
-                        table += "<td>" + format.format(listTran1.getTransactionsDate()) + "</td>";
+                        table += "<td>" + format.format(listTran1.getContractId().getDateSigned()) + "</td>";
                         table += "<td>" + listIDEstate1.getEstateId().getPrice() / 1000000000 + " Tỷ VNĐ</td>";
                         total+=total+ listIDEstate1.getEstateId().getPrice();
                     }
