@@ -137,7 +137,7 @@
                             <h4 class="modal-title text-center text-success"></h4>
                         </div>
                         <div class="modal-body">
-                            <h4 class="modal-title text-center text-success" style="text-align: center">User Name Exsit !!!</h4>
+                            <h4 class="modal-title text-center text-success" style="text-align: center">Tài khoản đã tồn tại !!!</h4>
                             <img src="<%=request.getContextPath()%>/assets/media-demo/oke.png" style="margin-left: 60px;" width="150" height="150" alt="error">
                         </div>
                     </div>
@@ -202,13 +202,13 @@
                                                         username =username.split(' ').join('');
                                                         newPass=newPass.split(' ').join('');
                                                         if (username.length < 6 ) {
-                                                            document.getElementById("errNameRegister").innerHTML = "Username cannot be longer than 50 characters ";
+                                                            document.getElementById("errNameRegister").innerHTML = "Tên đăng nhập ít nhất 6 ký tự ";
                                                         }else
                                                         if (newPass.length < 6) {
-                                                            document.getElementById('errPassRegister').innerHTML = 'Username cannot be longer than 50 characters ';
+                                                            document.getElementById('errPassRegister').innerHTML = 'Mật khẩu ít nhất 6 ký tự ';
                                                         }else
                                                         if (newPass !== confirmPass) {
-                                                            document.getElementById('errPassRegister').innerHTML = 'NEW PASSWORD and CONFIRM NEW PASSWORD not the same ';
+                                                            document.getElementById('errPassRegister').innerHTML = 'Mật khẩu nhập lại không khớp ';
                                                         }else {
                                                             return true;
                                                         }

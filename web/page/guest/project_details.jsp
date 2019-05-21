@@ -446,7 +446,7 @@
                                                     <c:if test="${role=='customer'}" >
                                                         <div class="comment__avatar"><img width="64px" height="64px" src="${listComment.idUser.customer.customerImg}" alt=""></div>
                                                         <div class="comment__item-right">
-                                                            <button class="comment__item-btn" onclick="deleteCommentOrReply(${listComment.idComment}, 'comment')" >Delete</button>
+                                                            <button class="comment__item-btn" onclick="deleteCommentOrReply(${listComment.idComment}, 'comment')" >Xóa</button>
                                                         </div>
                                                         <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
                                                         <div class="comment__info"><span class="comment__author">${listComment.idUser.customer.customerName}</span><span class="comment__date">${dateComment}</span>
@@ -460,9 +460,9 @@
                                                     </c:if>
                                                     <!-- login employee and display info guest -->
                                                     <c:if test="${role=='guest'}" >
-                                                        <div class="comment__avatar"><img width="64px" height="64px" src="assets/media-demo/avatars/03.jpg" alt=""></div>
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="<%=request.getContextPath()%>/CKFinderJava/userfiles/images/123.png" alt=""></div>
                                                         <div class="comment__item-right">
-                                                            <button class="comment__item-btn" onclick="deleteCommentOrReply(${listComment.idComment}, 'comment')" >Delete</button>
+                                                            <button class="comment__item-btn" onclick="deleteCommentOrReply(${listComment.idComment}, 'comment')" >Xóa</button>
                                                         </div>
                                                         <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
                                                         <div class="comment__info"><span class="comment__author">${listComment.nameComment} - ${listComment.emailComment}</span><span class="comment__date">${dateComment}</span>
@@ -508,7 +508,7 @@
                                                     </c:if>
                                                     <!-- login other and display info guest -->
                                                     <c:if test="${role=='guest'}" >
-                                                        <div class="comment__avatar"><img width="64px" height="64px" src="assets/media-demo/avatars/03.jpg" alt=""></div>
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="<%=request.getContextPath()%>/CKFinderJava/userfiles/images/123.png" alt=""></div>
 
                                                         <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
                                                         <div class="comment__info"><span class="comment__author">${listComment.nameComment} - ${listComment.emailComment}</span><span class="comment__date">${dateComment}</span>
@@ -554,7 +554,7 @@
                                                     </c:if>
                                                     <!-- no login and display info guest -->
                                                     <c:if test="${role=='guest'}" >
-                                                        <div class="comment__avatar"><img width="64px" height="64px" src="assets/media-demo/avatars/03.jpg" alt=""></div>
+                                                        <div class="comment__avatar"><img width="64px" height="64px" src="<%=request.getContextPath()%>/CKFinderJava/userfiles/images/123.png" alt=""></div>
 
                                                         <fmt:formatDate pattern = "yyyy-MM-dd" value="${listComment.dateComment}" var="dateComment" />
                                                         <div class="comment__info"><span class="comment__author">${listComment.nameComment} - ${listComment.emailComment}</span><span class="comment__date">${dateComment}</span>

@@ -27,6 +27,7 @@ import Entity.Transactions;
 import Entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -122,7 +123,7 @@ public class EstateArgree extends HttpServlet {
                 AssignDetails assignDetails = estate.getAssignDetails();
                 ContractDetails contractDetails = null;
                 Contract contract = null;
-                Transactions transactions = null;
+                List<Transactions> transactions = new ArrayList<>();
                 if (estate.getContractDetails() != null) {
                     contractDetails = estate.getContractDetails();
                     contract = contractDetails.getContractId();
@@ -137,7 +138,10 @@ public class EstateArgree extends HttpServlet {
                         featureDetailsJpaController.destroy(featureDetail.getFeatureDetailsId());
                     }
                     if (estate.getContractDetails() != null) {
-                        transactionsJpaController.destroy(transactions.getId());
+                        for (Transactions transaction : transactions) {
+                            transactionsJpaController.destroy(transaction.getId());
+                        }
+                        
                         contractDetailsJpaController.destroy(contractDetails.getId());
                         contractJpaController.destroy(contract.getId());
                     }

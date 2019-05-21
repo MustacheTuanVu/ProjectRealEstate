@@ -343,14 +343,13 @@ public class TransactionsJpaController implements Serializable {
         }
     }
     
-    public Transactions getTransactionByContractID(int contractID) {
+    public List<Transactions> getTransactionByContractID(int contractID) {
         EntityManager em = getEntityManager();
         try {
             Query query1 = em.createNativeQuery("SELECT * FROM transactions  where "
                     + "contract_id='" + contractID + "'",Transactions.class
             );
-            
-            return (Transactions) query1.getSingleResult();
+            return (List<Transactions>) query1.getResultList();
         } finally {
             em.close();
         }

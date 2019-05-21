@@ -102,7 +102,7 @@
                                             <a href="<%=request.getContextPath()%>/DashboardUser" class="nav__link">Dashboard</a>
                                         </c:if>
                                         <c:if test="${role=='director'}">
-                                            <a href="<%=request.getContextPath()%>/DashboardDirector" class="nav__link">Dashboard</a>
+                                            <a href="<%=request.getContextPath()%>/Director" class="nav__link">Dashboard</a>
                                         </c:if>
                                         <c:if test="${role=='employee'}">
                                             <a href="<%=request.getContextPath()%>/Employee" class="nav__link">Dashboard</a>

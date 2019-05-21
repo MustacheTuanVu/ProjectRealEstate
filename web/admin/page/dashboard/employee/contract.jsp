@@ -301,16 +301,17 @@
                                                                                         </div>
                                                                                         <div class="panel-wrapper collapse in">
                                                                                             <div class="panel-body">
-                                                                                                <form method="POST" action="<%=request.getContextPath()%>/EstateEdit" class="form form--flex form--property form--basic js-form-property-1">
+                                                                                                <form onsubmit="return checkStep1()" method="POST" action="<%=request.getContextPath()%>/EstateEdit" class="form form--flex form--property form--basic js-form-property-1">
                                                                                                     <div id="example-basic">
                                                                                                         <h3><span class="head-font capitalize-font">Thông tin cơ bản</span></h3>
                                                                                                         <section>
                                                                                                             <div class="row">
                                                                                                                 <div class="col-md-6">
-                                                                                                                    <div class="form-group">
+                                                                                                                    <div id="estateNameForm" class="form-group">
                                                                                                                         <label class="control-label mb-10">Tiêu đề bán</label>
-                                                                                                                        <input type="text" id="estateName" value="${item.estateId.estateName}" class="form-control" name="estateName">
+                                                                                                                        <input type="text" onchange="checkStep1()" id="estateName" value="${item.estateId.estateName}" class="form-control" name="estateName">
                                                                                                                         <input type="hidden" id="estateID" value="${item.estateId.id}" class="form-control" name="estateID">
+                                                                                                                        <span id="estateNameMessage" class="help-block" style="display: none"> Tiêu đề cần tối thiểu 5 ký tự, tối đa 27 ký tự. </span>
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                                 <div class="col-md-6">
@@ -362,25 +363,30 @@
                                                                                                                 </div>
                                                                                                                 <div class="col-md-6">
                                                                                                                     <div class="form-group">
-                                                                                                                        <div class="form-group">
+                                                                                                                        <div id="garagesForm" class="form-group">
                                                                                                                             <label class="control-label mb-10">Garages </label> (m<sup>2</sup>)
-                                                                                                                            <input type="number" value="${item.estateId.garages}"  class="form-control" name="garages">
+                                                                                                                            <input onchange="checkStep1()" id="garages" type="number" value="${item.estateId.garages}"  class="form-control" name="garages">
+                                                                                                                            <span id="garagesMessage" class="help-block" style="display: none"> Tối thiểu 0 m2, tối đa 25 m2. </span>
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                                 <div class="col-md-6">
                                                                                                                     <div class="form-group">
-                                                                                                                        <div class="form-group">
-                                                                                                                            <label class="control-label mb-10">Giá</label>
-                                                                                                                            <input type="number"  value="${item.estateId.price}" class="form-control" name="price">
+                                                                                                                        <div id="priceForm" class="form-group">
+                                                                                                                            <label id="setPriceVND" class="control-label mb-10">Giá (đơn vị triệu VND)</label>
+                                                                                                                            <input onchange="checkStep1()" id="price" type="number"  
+                                                                                                                                   value="<c:set var="price" value="${item.estateId.price}"/><c:set var="priceRent" value="${price/1000000}"/><c:set var="priceSale" value="${price/1000000000}"/><c:if test = "${item.estateId.estateStatusId.estateStatusName == 'Cho thuê' || item.estateId.estateStatusId.estateStatusName == 'Đã thuê'}">${priceRent}</c:if><c:if test = "${item.estateId.estateStatusId.estateStatusName == 'Bán' || item.estateId.estateStatusId.estateStatusName == 'Đã bán'}">${priceSale}</c:if>" 
+                                                                                                                            class="form-control" name="price">
+                                                                                                                            <span id="priceMessage" class="help-block" style="display: none"> Tối thiểu 0,1 tỷ VND , tối đa 10 tỷ VND. </span>
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                                 <div class="col-md-6">
                                                                                                                     <div class="form-group">
-                                                                                                                        <div class="form-group">
+                                                                                                                        <div id="areasForm" class="form-group">
                                                                                                                             <label class="control-label mb-10">Diện tích </label>(m<sup>2</sup>)
-                                                                                                                            <input type="number" id="estateName" value="${item.estateId.areas}" class="form-control" name="areas">
+                                                                                                                            <input onchange="checkStep1()" id="areas" type="number" id="estateName" value="${item.estateId.areas}" class="form-control" name="areas">
+                                                                                                                            <span id="areasMessage" class="help-block" style="display: none"> Tối thiểu 20 m2, tối đa 999 m2. </span>
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
@@ -402,7 +408,7 @@
                                                                                                                 <div class="col-md-6">
                                                                                                                     <div class="form-group">
                                                                                                                         <label class="control-label mb-10">Tình trạng</label>
-                                                                                                                        <select class="form-control" name="estateStatusId">
+                                                                                                                        <select onclick="setPriceType()" id="estateStatusId" class="form-control" name="estateStatusId">
                                                                                                                             <option value="1" ${item.estateId.estateStatusId.id=='1' ? 'selected':''}>Cho Thuê</option>
                                                                                                                             <option value="2" ${item.estateId.estateStatusId.id=='2' ? 'selected':''}>Cho Bán</option>
                                                                                                                         </select>
@@ -410,17 +416,10 @@
                                                                                                                 </div>
                                                                                                                 <div class="col-md-6">
                                                                                                                     <div class="form-group">
-                                                                                                                        <div class="form-group">
-                                                                                                                            <label class="control-label mb-10">Địa chỉ 1</label>
-                                                                                                                            <input type="text" value="${item.estateId.address1}" id="estateName" class="form-control" name="address1">
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                                <div class="col-md-6">
-                                                                                                                    <div class="form-group">
-                                                                                                                        <div class="form-group">
-                                                                                                                            <label class="control-label mb-10">Địa chỉ 2</label>
-                                                                                                                            <input type="text" value="${item.estateId.address2}" id="estateName" class="form-control" name="address2">
+                                                                                                                        <div id="addressForm" class="form-group">
+                                                                                                                            <label class="control-label mb-10">Địa chỉ</label>
+                                                                                                                            <input onchange="checkStep1()" type="text" value="${item.estateId.address2}" id="address" class="form-control" name="address2">
+                                                                                                                            <span id="addressMessage" class="help-block" style="display: none"> Địa chỉ cần tối thiểu 30 ký tự, tối đa 50 ký tự. </span>
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
@@ -448,16 +447,18 @@
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                                 <div class="col-md-6">
-                                                                                                                    <div class="form-group">
-                                                                                                                        <fmt:formatDate pattern="dd-MM-yyyy" value="${item.estateId.yearBuild}" var="date" ></fmt:formatDate>
+                                                                                                                    <div id="yearBuildForm" class="form-group">
+                                                                                                                        <fmt:formatDate pattern="yyyy" value="${item.estateId.yearBuild}" var="date" ></fmt:formatDate>
                                                                                                                             <label class="control-label mb-10">Năm xây </label> <span class="text-muted">(dd/mm/yyyy)</span> 
-                                                                                                                            <input name="yearBuild"  type="text" placeholder="" data-mask="99/99/9999" class="form-control">
+                                                                                                                            <input onchange="checkStep1()" id="yearBuild" name="yearBuild"  type="text" data-mask="9999" class="form-control">
+                                                                                                                            <span id="yearBuildMessage" class="help-block" style="display: none"> Chỉ nhận thời gian từ năm 2000 tới năm 2019. </span>
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                     <div class="col-md-6">
-                                                                                                                        <div class="form-group">
+                                                                                                                        <div id="estateDescriptionForm" class="form-group">
                                                                                                                             <label class="control-label mb-10 text-left">Nội dung</label>
-                                                                                                                            <textarea class="form-control" rows="5" name="estateDescription">${item.estateId.estateContent}</textarea>
+                                                                                                                            <textarea onchange="checkStep1()" id="estateDescription" class="form-control" rows="5" name="estateDescription">${item.estateId.estateContent}</textarea>
+                                                                                                                        <span id="estateDescriptionMessage" class="help-block" style="display: none"> Nội dung cần ít nhất 1000 ký tự và tối đa 2000 ký tự </span>
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                             </div>
@@ -712,6 +713,116 @@
         <!-- /#wrapper -->
 
         <!-- JavaScript -->
+        <script type="text/javascript">
+            function setPriceType() {
+                var estateStatusId1 = document.getElementById('estateStatusId').value;
+                if (estateStatusId1 === '1') {
+                    document.getElementById('setPriceVND').innerHTML = "Giá (Đơn Vị Triệu VND)";
+                    document.getElementById('priceMessage').innerHTML = "Giá cho thuê tối thiểu 1 triệu VND , tối đa 100 triệu VND.";
+                } else if (estateStatusId1 === '2') {
+                    document.getElementById('setPriceVND').innerHTML = "Giá (Đơn Vị Tỷ VND)";
+                    document.getElementById('priceMessage').innerHTML = "Giá bán tối thiểu 0,1 tỷ VND , tối đa 10 tỷ VND.";
+                }
+            }
+        </script>
+
+        <script type="text/javascript">
+            function checkStep1() {
+
+                var estateName = document.getElementById('estateName').value;
+                var estateNameForm = document.getElementById('estateNameForm');
+                var estateNameMessage = document.getElementById('estateNameMessage');
+                if (estateName.length < 5 || estateName.length > 27) {
+                    estateNameForm.classList.add("has-error");
+                    estateNameMessage.style.display = "block";
+                } else {
+                    estateNameForm.classList.remove("has-error");
+                    estateNameMessage.style.display = "none";
+                }
+
+                var garages = document.getElementById('garages').value;
+                var garagesForm = document.getElementById('garagesForm');
+                var garagesMessage = document.getElementById('garagesMessage');
+                if (garages.length === 0 || garages > 25) {
+                    garagesForm.classList.add("has-error");
+                    garagesMessage.style.display = "block";
+                } else {
+                    garagesForm.classList.remove("has-error");
+                    garagesMessage.style.display = "none";
+                }
+
+                var price = document.getElementById('price').value;
+                var priceForm = document.getElementById('priceForm');
+                var priceMessage = document.getElementById('priceMessage');
+
+                var estateStatusId1 = document.getElementById('estateStatusId').value;
+                if (estateStatusId1 === '1') {
+                    if (price.length === 0 || price < 1 || price > 100) {
+                        priceForm.classList.add("has-error");
+                        priceMessage.style.display = "block";
+                    } else {
+                        priceForm.classList.remove("has-error");
+                        priceMessage.style.display = "none";
+                    }
+                } else if (estateStatusId1 === '2') {
+                    if (price.length === 0 || price < 0.1 || price > 10) {
+                        priceForm.classList.add("has-error");
+                        priceMessage.style.display = "block";
+                    } else {
+                        priceForm.classList.remove("has-error");
+                        priceMessage.style.display = "none";
+                    }
+                }
+
+                var areas = document.getElementById('areas').value;
+                var areasForm = document.getElementById('areasForm');
+                var areasMessage = document.getElementById('areasMessage');
+                console.log(price);
+                if (areas.length === 0 || areas < 20 || areas > 999) {
+                    areasForm.classList.add("has-error");
+                    areasMessage.style.display = "block";
+                } else {
+                    areasForm.classList.remove("has-error");
+                    areasMessage.style.display = "none";
+                }
+
+                var address = document.getElementById('address').value;
+                var addressForm = document.getElementById('addressForm');
+                var addressMessage = document.getElementById('addressMessage');
+                console.log(price);
+                if (address.length < 30 || address > 50) {
+                    addressForm.classList.add("has-error");
+                    addressMessage.style.display = "block";
+                } else {
+                    addressForm.classList.remove("has-error");
+                    addressMessage.style.display = "none";
+                }
+
+                var yearBuild = document.getElementById('yearBuild').value;
+                var yearBuildForm = document.getElementById('yearBuildForm');
+                var yearBuildMessage = document.getElementById('yearBuildMessage');
+                console.log(price);
+                if (yearBuild < 2000 || yearBuild > 2019) {
+                    yearBuildForm.classList.add("has-error");
+                    yearBuildMessage.style.display = "block";
+                } else {
+                    yearBuildForm.classList.remove("has-error");
+                    yearBuildMessage.style.display = "none";
+                }
+
+                var estateDescription = document.getElementById('estateDescription').value;
+                var estateDescriptionForm = document.getElementById('estateDescriptionForm');
+                var estateDescriptionMessage = document.getElementById('estateDescriptionMessage');
+                console.log(price);
+                if (estateDescription.length < 1000 || estateDescription.length > 2000) {
+                    estateDescriptionForm.classList.add("has-error");
+                    estateDescriptionMessage.style.display = "block";
+                } else {
+                    estateDescriptionForm.classList.remove("has-error");
+                    estateDescriptionMessage.style.display = "none";
+                }
+            }
+        </script>
 
         <!-- jQuery -->
         <script src="<%=request.getContextPath()%>/admin/vendors/bower_components/jquery/dist/jquery.min.js"></script>

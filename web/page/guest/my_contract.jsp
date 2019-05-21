@@ -122,7 +122,7 @@
                                                                 </td>
                                                                 <td><strong>${item.contractId.employeeId.employeeName}</strong>
                                                                 </td>
-                                                                <td><strong>${item.contractId.paymentAmount} VND</strong></td>
+                                                                <td><strong>${item.contractId.paymentAmount/1000000} Triệu VND</strong></td>
                                                                 <c:set var="price" value="${item.estateId.price}"/>
                                                                 <c:set var="priceRent" value="${price/1000000}"/>
                                                                 <c:set var="priceSale" value="${price/1000000000}"/>

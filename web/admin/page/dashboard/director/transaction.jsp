@@ -212,7 +212,17 @@
                                                         <td>${item.contractId.customerId.customerName}</td>
                                                         <td>${item.contractId.employeeId.employeeName}</td>
                                                         <td>${item.estateId.address2}</td>
-                                                        <td>${item.estateId.price}</td>
+                                                        <td>
+                                                            <c:set var="price" value="${item.estateId.price}"/>
+                                                            <c:set var="priceRent" value="${price/1000000}"/>
+                                                            <c:set var="priceSale" value="${price/1000000000}"/>
+                                                            <c:if test = "${item.estateId.estateStatusId.estateStatusName == 'Cho thuê' || item.estateId.estateStatusId.estateStatusName == 'Đã thuê'}">
+                                                                ${priceRent} triệu VND
+                                                            </c:if>
+                                                            <c:if test = "${item.estateId.estateStatusId.estateStatusName == 'Bán' || item.estateId.estateStatusId.estateStatusName == 'Đã bán'}">
+                                                                ${priceSale} tỷ VND
+                                                            </c:if>
+                                                        </td>
                                                         <td>
                                                             <c:if test="${item.estateId.assignDetails == null}">
                                                                 <c:if test="${item.contractId.status == 'waitting for employee'}">
@@ -320,10 +330,10 @@
                                                                 </c:if>
                                                             </c:if>
                                                             <c:if test="${item.estateId.assignDetails != null}">
-                                                            <c:if test="${item.contractId.status == 'waitting for employee'}">
-                                                                <span class="label label-success">Đang chờ nhân viên khảo sát</span>
-                                                            </c:if>
+                                                                <c:if test="${item.contractId.status == 'waitting for employee'}">
+                                                                    <span class="label label-success">Đang chờ nhân viên khảo sát</span>
                                                                 </c:if>
+                                                            </c:if>
                                                             <c:if test="${item.contractId.status == 'done'}">
                                                                 <span class="label label-success">Hoàn thành</span>
                                                             </c:if>

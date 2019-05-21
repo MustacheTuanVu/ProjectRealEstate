@@ -86,11 +86,11 @@
                                                 <form action="<%=request.getContextPath()%>/LoginUser" method="POST" class="form form--flex form--auth js-login-form js-parsley">
                                                     <div class="row">
                                                         <div class="form-group">
-                                                            <label for="login-username-inline" class="control-label">Username</label>
+                                                            <label for="login-username-inline" class="control-label">Tên đăng nhập</label>
                                                             <input type="text" name="username" id="login-username-inline" required class="form-control">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="login-password-inline" class="control-label">Password</label>
+                                                            <label for="login-password-inline" class="control-label">Mật khẩu</label>
                                                             <input type="password" name="password" id="login-password-inline" required class="form-control">
                                                         </div>
                                                     </div>

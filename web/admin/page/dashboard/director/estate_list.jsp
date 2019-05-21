@@ -395,6 +395,15 @@
                                                                         <i class="zmdi zmdi-delete txt-light"></i>
                                                                     </a>
                                                                 </c:if>
+                                                                
+                                                                <c:if test="${estate.estateStatus == 'waitting for employee'}">
+                                                                    <a class="pull-left inline-block mr-15" href="<%=request.getContextPath()%>/EstateEdit?estateID=${estate.id}" >
+                                                                        <i class="zmdi zmdi-edit txt-light" ></i>
+                                                                    </a>
+                                                                    <a class="pull-left inline-block mr-15" href="<%=request.getContextPath()%>/EstateArgree?estateID=${estate.id}&choice=remove">
+                                                                        <i class="zmdi zmdi-delete txt-light"></i>
+                                                                    </a>
+                                                                </c:if>
 
                                                                 <!-- cuong add -->
                                                                 <!-- start modal-->

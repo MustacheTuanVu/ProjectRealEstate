@@ -100,7 +100,7 @@
                                 <div class="row">
                                     <div class="contacts__column">
                                         <div class="contacts__form">
-                                            <form action="<%=request.getContextPath()%>/RequestSale" method="POST" class="form form--flex js-contact-form form--contacts">
+                                            <form onsubmit="return checkStep1()" action="<%=request.getContextPath()%>/RequestSale" method="POST" class="form">
                                                 <div class="row">
                                                     <div class="form-group form-group--col-6">
 
@@ -124,17 +124,18 @@
                                                     <input name="address1" id="in-form-phone" value="aaaa" type="hidden" class="form-control">
 
                                                     <div class="form-group form-group--col-6 required">
-                                                        <label for="in-form-email" class="control-label">Địa chỉ 2</label>
-                                                        <input name="address2" id="in-form-email" type="text" required data-parsley-trigger="change" class="form-control">
+                                                        <label for="in-form-email" class="control-label">Địa chỉ</label>
+                                                        <input name="address2" id="in-form-email" type="text" required class="form-control">
                                                     </div>
                                                     <div id="priceForm" class="form-group form-group--col-6 required">
-                                                        <label id="priceMessage" for="in-form-price" class="control-label">Giá bất động sản (Đơn vị triệu VND)</label>
-                                                        <input name="price" id="in-form-price" type="number" required data-parsley-trigger="change" class="form-control">
+                                                        <label id="setPriceVND" for="in-form-price" class="control-label">Giá bất động sản (Đơn vị triệu VND)</label>
+                                                        <input name="price" id="price" type="number" onchange="checkStep1()" class="form-control">
+                                                        <span id="priceMessage" class="help-block" style="display: none"> Tối thiểu 0,1 tỷ VND , tối đa 10 tỷ VND. </span>
                                                     </div>
                                                     <div class="form-group required">
                                                         <label for="in-form-message" class="control-label">Nội dung</label>
 
-                                                        <textarea name="content" required data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-validation-threshold="10" data-parsley-minlength-message="You need to enter at least a 20 caracters long comment.." class="form-control"></textarea>
+                                                        <textarea name="content" required class="form-control"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -184,14 +185,44 @@
             console.log("123");
             if (estateStatusId1 === '1') {
                 console.log("222");
-                document.getElementById('priceMessage').innerHTML = "Giá bất động sản (Đơn vị triệu VND)";
+                document.getElementById('priceMessage').innerHTML = "Giá cho thuê tối thiểu 1 triệu VND , tối đa 100 triệu VND.";
             } else if (estateStatusId1 === '2') {
-                console.log("333");
-                document.getElementById('priceMessage').innerHTML = "Giá bất động sản (Đơn vị tỷ VND)";
+                document.getElementById('setPriceVND').innerHTML = "Giá (Đơn Vị Tỷ VND)";
+                document.getElementById('priceMessage').innerHTML = "Giá bán tối thiểu 0,1 tỷ VND , tối đa 10 tỷ VND.";
             }
         }
     </script>
 
+    <script type="text/javascript">
+        function checkStep1() {
+            var price = document.getElementById('price').value;
+            var priceForm = document.getElementById('priceForm');
+            var priceMessage = document.getElementById('priceMessage');
+
+            var estateStatusId1 = document.getElementById('estateStatusId').value;
+            if (estateStatusId1 === '1') {
+                if (price.length === 0 || price < 1 || price > 100) {
+                    priceForm.classList.add("has-error");
+                    priceMessage.style.display = "block";
+                    return false;
+                } else {
+                    priceForm.classList.remove("has-error");
+                    priceMessage.style.display = "none";
+                    return true;
+                }
+            } else if (estateStatusId1 === '2') {
+                if (price.length === 0 || price < 0.1 || price > 10) {
+                    priceForm.classList.add("has-error");
+                    priceMessage.style.display = "block";
+                    return false;
+                } else {
+                    priceForm.classList.remove("has-error");
+                    priceMessage.style.display = "none";
+                    return true;
+                }
+            }
+        }
+    </script>
     <!-- BEGIN SCRIPTS and INCLUDES-->
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=places,drawing,geometry"></script>
     <script type="text/javascript" src="http://cdn.ckeditor.com/4.5.6/standard/ckeditor.js"></script>

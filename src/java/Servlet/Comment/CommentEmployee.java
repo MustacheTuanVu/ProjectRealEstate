@@ -114,7 +114,7 @@ public class CommentEmployee extends HttpServlet {
                     if (reply1.getRoleReply().equals("guest")) {
                         table += "<li class=comment__item>"
                                 + "<div class=comment__item-body js-comment-item>"
-                                + "<div class=comment__avatar><img width=\"64px\" height=\"64px\" src=assets/media-demo/avatars/03.jpg ></div>"
+                                + "<div class=comment__avatar><img width=\"64px\" height=\"64px\" src=CKFinderJava/userfiles/images/123.png ></div>"
                                 + "<div class=comment__item-right>"
                                 + "<button class=\"comment__item-btn\" onclick=\"deleteCommentOrReply("+reply1.getIdReply()+", 'reply')\" >Xóa"
                                 + "</button>"
@@ -166,7 +166,7 @@ public class CommentEmployee extends HttpServlet {
                     if (reply1.getRoleReply().equals("guest")) {
                         table += "<li class=comment__item>"
                                 + "<div class=comment__item-body js-comment-item>"
-                                + "<div class=comment__avatar><img width=\"64px\" height=\"64px\" src=assets/media-demo/avatars/03.jpg ></div>"
+                                + "<div class=comment__avatar><img width=\"64px\" height=\"64px\" src=CKFinderJava/userfiles/images/123.png ></div>"
                                 + "<div class=comment__item-right>"
                                 + "</div>"
                                 + "<div class=comment__info><span class=comment__author>" + reply1.getNameReply() + " - " + reply1.getEmailReply() + "</span><span class=comment__date>"+format.format(reply1.getDateReply())+"</span>"
@@ -219,7 +219,7 @@ public class CommentEmployee extends HttpServlet {
                 if (reply1.getRoleReply().equals("guest")) {
                     table += "<li class=comment__item>"
                             + "<div class=comment__item-body js-comment-item>"
-                            + "<div class=comment__avatar><img width=\"64px\" height=\"64px\" src=assets/media-demo/avatars/03.jpg ></div>"
+                            + "<div class=comment__avatar><img width=\"64px\" height=\"64px\" src=CKFinderJava/userfiles/images/123.png ></div>"
                             + "<div class=comment__item-right>"
                             + "</div>"
                             + "<div class=comment__info><span class=comment__author>" + reply1.getNameReply() + " - " + reply1.getEmailReply() + "</span><span class=comment__date>"+format.format(reply1.getDateReply())+"</span>"
