@@ -283,6 +283,15 @@ public class ProjectDetailsJpaController implements Serializable {
             em.close();
         }
     }
+      
+       // cuong add
+    public List<ProjectDetails> getListEstateIDByProjectID(String id) {
+        EntityManager em = getEntityManager();
+        Query q = em.createNativeQuery("select * from project_details\n"
+                + "where prject_id="+id,ProjectDetails.class);
+        
+        return q.getResultList();
+    }
 
 
     

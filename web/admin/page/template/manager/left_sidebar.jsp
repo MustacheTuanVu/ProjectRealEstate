@@ -53,6 +53,15 @@
                 </div>
             </a>
         </li>
+        <li>
+            <a class="<c:if test="${active == 'EstateList'}">active</c:if>" href="<%=request.getContextPath()%>/ReportRatingProject?user=manager" data-toggle="collapse" data-target="#dashboard_dr">
+                <div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i>
+                    <span class="right-nav-text">Báo Cáo Dự Án</span>
+                </div>
+                <div class="clearfix"> 
+                </div>
+            </a>
+        </li>
         
         
     </ul>

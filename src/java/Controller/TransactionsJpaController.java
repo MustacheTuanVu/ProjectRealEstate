@@ -354,4 +354,13 @@ public class TransactionsJpaController implements Serializable {
             em.close();
         }
     }
+    
+    // cuong add
+
+    public List<Transactions> listTransactionByDate(String dateTo, String dateFrom) {
+        EntityManager em = getEntityManager();
+        Query q = em.createNativeQuery("select * from transactions\n"
+                + "where transactions_date >= '"+dateFrom+"' and transactions_date <= '"+dateTo+"'", Transactions.class);
+        return q.getResultList();
+    }
 }

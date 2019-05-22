@@ -90,20 +90,17 @@ public class CreateUser extends HttpServlet {
 
                 if (employeeJpaController.checkDuplicateCard(txtCard) != null) {
                     request.setAttribute("displayError", "block");
-                    request.setAttribute("duplicate", employeeJpaController.checkDuplicateCard(txtCard));
-                    request.getRequestDispatcher("/admin/page/dashboard/director/create_user.jsp").forward(request, response);
+                    //request.setAttribute("duplicate", employeeJpaController.checkDuplicateCard(txtCard));
+                    request.setAttribute("duplicate", "thông tin bị trùng");
                 } else if (employeeJpaController.checkDuplicateAddress(txtAddress) != null) {
                     request.setAttribute("displayError", "block");
-                    request.setAttribute("duplicate", employeeJpaController.checkDuplicateAddress(txtAddress));
-                    request.getRequestDispatcher("/admin/page/dashboard/director/create_user.jsp").forward(request, response);
+                    request.setAttribute("duplicate", "thông tin bị trùng");
                 } else if (employeeJpaController.checkDuplicatePhone(txtPhone) != null) {
                     request.setAttribute("displayError", "block");
-                    request.setAttribute("duplicate", employeeJpaController.checkDuplicatePhone(txtPhone));
-                    request.getRequestDispatcher("/admin/page/dashboard/director/create_user.jsp").forward(request, response);
+                    request.setAttribute("duplicate", "thông tin bị trùng");
                 } else if (employeeJpaController.checkDuplicateEmail(txtMail) != null) {
                     request.setAttribute("displayError", "block");
-                    request.setAttribute("duplicate", employeeJpaController.checkDuplicatePhone(txtMail));
-                    request.getRequestDispatcher("/admin/page/dashboard/director/create_user.jsp").forward(request, response);
+                    request.setAttribute("duplicate", "thông tin bị trùng");
                 } else {
 
                     String fullName = request.getParameter("txtName");

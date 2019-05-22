@@ -415,6 +415,15 @@ public class ProjectJpaController implements Serializable {
                 + "and project_address not in (select project_address from project where project_id="+projectID+")");
         return (int) q.getSingleResult();
     }
+    
+    // cuong add 
+    public List<Project> getListProjectPublish() {
+        EntityManager em = getEntityManager();
+        Query q = em.createNativeQuery("select * from project  \n"
+                + "where project_status like 'publish' and [status] like 'publish'",Project.class);
+        
+        return q.getResultList();
+    }
 
   
 }
