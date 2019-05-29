@@ -603,7 +603,7 @@
                                             <div id="formReply" style="display: none">
                                                 <div class="comment__form js-form-comment-wrap">
                                                     <h3 class="comment__form-title">Để lại một bình luận</h3>
-                                                    <form method="POST" action="<%=request.getContextPath()%>/ProjectDetails?projectId=${find.projectId}&action=reply" class="form form--flex js-parsley form--comment">
+                                                    <form method="POST" onsubmit="return checkNoiDungReply()" action="<%=request.getContextPath()%>/ProjectDetails?projectId=${find.projectId}&action=reply" class="form form--flex js-parsley form--comment">
                                                         <div class="row">
                                                             <input type="hidden"  name="txtIdComment" id="txtIdComment" />
                                                             <input type="hidden"  name="txtIDProject" value="${find.projectId}" />
@@ -621,7 +621,8 @@
                                                             <% }%>
                                                             <div class="form-group">
                                                                 <label for="in-comment-message" class="form__label control-label">Nôi Dung <span style="color: red"> *</span></label>
-                                                                <textarea id="in-comment-message" name="txtReplyContent" required class="form-control form__in form__in--textarea"></textarea>
+                                                                <span id="errNoiDung1" style="color: red"> </span>
+                                                                <textarea onkeyup="checkNoiDungReply()" id="in-comment-message" name="txtReplyContent"  class="form-control form__in form__in--textarea"></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="row row--buttons">
@@ -635,7 +636,7 @@
                                         <!-- form thu 2 -->
                                         <h3 class="comment__form-title">Để lại một bình luận</h3>
                                         <div class="comment__form">
-                                            <form method="POST" action="<%=request.getContextPath()%>/ProjectDetails?projectId=${find.projectId}&action=comment" class="form form--flex js-parsley form--comment">
+                                            <form method="POST" onsubmit="return checkNoiDungComment()" action="<%=request.getContextPath()%>/ProjectDetails?projectId=${find.projectId}&action=comment" class="form form--flex js-parsley form--comment">
                                                 <div class="row">
                                                     <input type="hidden" name="txtIDProject" value="${find.projectId}" />
                                                     <%
@@ -653,7 +654,8 @@
                                                     <% }%>
                                                     <div class="form-group">
                                                         <label for="in-comment-message" class="form__label control-label">Nội Dung <span style="color: red"> *</span></label>
-                                                        <textarea id="in-comment-message" name="txtComment" required class="form-control form__in form__in--textarea"></textarea>
+                                                        <span id="errNoiDung" style="color: red"> </span>
+                                                        <textarea onkeyup="checkNoiDungComment()" id="in-comment-message1" name="txtComment"  class="form-control form__in form__in--textarea"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="row row--buttons">
@@ -732,6 +734,41 @@
             <!-- END FOOTER-->
         </div>
     </div>
+            <script>
+        function checkNoiDungComment() {
+            var txtNoiDung = document.getElementById('in-comment-message1').value;
+            console.log('123 ' + txtNoiDung);
+            txtNoiDung = txtNoiDung.replace(/\s+/g, " ");
+            document.getElementById('in-comment-message1').value = txtNoiDung;
+            if (txtNoiDung == null || txtNoiDung == '') {
+                document.getElementById('errNoiDung').innerHTML = 'Mời Bạn Nhập Nội Dung !!!';
+                return false;
+            } else if (txtNoiDung.length > 250) {
+                document.getElementById('errNoiDung').innerHTML = 'Nội Dung Không Được Quá 250 Ký Tự !!!';
+                return false;
+            } else
+            {
+                document.getElementById('errNoiDung').innerHTML = '';
+                return true;
+            }
+        }
+        function checkNoiDungReply() {
+            var txtNoiDung = document.getElementById('in-comment-message').value;
+            console.log('123 ' + txtNoiDung);
+            txtNoiDung = txtNoiDung.replace(/\s+/g, " ");
+            document.getElementById('in-comment-message').value = txtNoiDung;
+            if (txtNoiDung == null || txtNoiDung == '') {
+                document.getElementById('errNoiDung1').innerHTML = 'Mời Bạn Nhập Nội Dung !!!';
+                return false;
+            } else if (txtNoiDung.length > 250) {
+                document.getElementById('errNoiDung1').innerHTML = 'Nội Dung Không Được Quá 250 Ký Tự !!!';
+                return false;
+            } else {
+                document.getElementById('errNoiDung1').innerHTML = '';
+                return true;
+            }
+        }
+    </script>
     <button type="button" class="scrollup js-scrollup"></button>
     <!-- end of block .scrollup-->
     <!-- BEGIN SCRIPTS and INCLUDES-->

@@ -79,10 +79,7 @@
                             <div class="panel panel-default card-view">
                                 <div class="panel-heading">
                                     <div class="pull-left">
-                                        <h3 class="txt-dark">
-                                            Xin chào! Bạn đã đăng nhập vào khu vực Quản trị của SGEstate24h!<br>
-                                            <small class="text-muted"> Công việc của bạn bao gồm những việc sau:</small>
-                                        </h3>
+                                        
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
@@ -111,7 +108,7 @@
 
                                         <div id="section-to-print" class="maincontent textview">
 
-                                            <h3 align="center"><strong>Báo Cáo Dự Án</strong><br>
+                                            <h3 align="center"><strong>Dự Án</strong> <strong id="txtTitle"></strong><br>
                                                 <span id="dateShow"></span>
                                             </h3>
 
@@ -119,11 +116,11 @@
                                                 <table>
                                                     <tr>
                                                         <td>SGEstate24h</td>
-                                                        <td id="tdNameProject"></td>
+                                                        
                                                     </tr>
                                                     <tr>
                                                         <td>17/5 CMT8, Phường 3, Quận 10, Tp. Hồ Chí Minh</td>
-                                                        <td id="tdAddress"></td>
+                                                        
                                                     </tr>
                                                     <tr>
                                                         <td>+1 202 555 0135</td>
@@ -145,7 +142,7 @@
                                                                         <td>Diện Tích</td>
                                                                         <td>Tầng</td>
                                                                         <td>Ngày Bán</td>
-                                                                        <td>Giá</td>
+                                                                        <td>Doanh số</td>
 
                                                                     </tr>
                                                                 </thead>
@@ -197,8 +194,9 @@
                     if (this.readyState == 4 && this.status == 200) {
                         txtAddress.value = this.responseText;
                         var a = document.getElementById('cbmName');
-                        document.getElementById('tdNameProject').innerHTML = a.options[a.selectedIndex].text;
+                        document.getElementById('txtTitle').innerHTML = a.options[a.selectedIndex].text;
                         document.getElementById('tdAddress').innerHTML = this.responseText;
+                        
                         return true;
                     } else
                         return false;
@@ -225,7 +223,7 @@
                 } else {
                     if (dateTo >= dateFrom) {
                         document.getElementById('errdateTo').innerHTML = '';
-                        document.getElementById('dateShow').innerHTML = '(' + dateTo + '-' + dateFrom + ')';
+                        document.getElementById('dateShow').innerHTML = '(' + dateFrom + ' ' + dateTo + ')';
                         return true;
                     }
                     else {

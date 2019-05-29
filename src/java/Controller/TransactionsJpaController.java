@@ -8,6 +8,7 @@ package Controller;
 import Controller.exceptions.NonexistentEntityException;
 import Controller.exceptions.PreexistingEntityException;
 import Controller.exceptions.RollbackFailureException;
+import Entity.Contract;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -357,10 +358,10 @@ public class TransactionsJpaController implements Serializable {
     
     // cuong add
 
-    public List<Transactions> listTransactionByDate(String dateTo, String dateFrom) {
+    public List<Contract> listTransactionByDate(String dateTo, String dateFrom) {
         EntityManager em = getEntityManager();
-        Query q = em.createNativeQuery("select * from transactions\n"
-                + "where transactions_date >= '"+dateFrom+"' and transactions_date <= '"+dateTo+"'", Transactions.class);
+        Query q = em.createNativeQuery("select * from contract \n"
+                + "where date_signed >= '"+dateFrom+"' and date_signed <= '"+dateTo+"'", Contract.class);
         return q.getResultList();
     }
 }

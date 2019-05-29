@@ -336,7 +336,7 @@
                                                             <div class="form-group">
                                                                 <div id="priceForm" class="form-group">
                                                                     <label id="setPriceVND" class="control-label mb-10">Giá (đơn vị tỷ VND)</label>
-                                                                    <input onchange="checkStep1()" value="${find.price}" type="number" id="price" class="form-control" name="price">
+                                                                    <input onchange="checkStep1()" step="any" value="${find.price}" type="number" id="price" class="form-control" name="price">
                                                                     <span id="priceMessage" class="help-block" style="display: none"> Tối thiểu 0,1 tỷ VND , tối đa 10 tỷ VND. </span>
                                                                 </div>
                                                             </div>

@@ -617,7 +617,7 @@ public class EstateJpaController implements Serializable {
         for (Estate estate : estateID) {
             Query query = em.createNativeQuery("SELECT * FROM estate where "
                     + "id = '" + estate.getId() + "' AND "
-                    + "(address1 LIKE '%" + keyword + "%' OR address2 LIKE '%" + keyword + "%') AND "
+                    + "(address1 LIKE N'%" + keyword + "%' OR address2 LIKE N'%" + keyword + "%') AND "
                     + "estate_status LIKE '%" + status + "%'", Estate.class
             );
             if (query.getResultList().size() != 0) {
@@ -634,7 +634,7 @@ public class EstateJpaController implements Serializable {
             List<String> ret = (List<String>) new ArrayList<String>();
             if (employeeID.equals("all")) {
                 query = em.createNativeQuery("SELECT id FROM estate where "
-                        + "(address1 LIKE '%" + address + "%' OR address2 LIKE '%" + address + "%') "
+                        + "(address1 LIKE N'%" + address + "%' OR address2 LIKE N'%" + address + "%') "
                         
                 );
                 if (query.getResultList().size() != 0) {
@@ -645,7 +645,7 @@ public class EstateJpaController implements Serializable {
                 for (String string : estateIDList) {
                     query = em.createNativeQuery("SELECT id FROM estate where "
                             + "id = '" + string + "' AND "
-                            + "(address1 LIKE '%" + address + "%' OR address2 LIKE '%" + address + "%')"
+                            + "(address1 LIKE N'%" + address + "%' OR address2 LIKE N'%" + address + "%')"
                     );
                     System.out.println(query);
                     if (query.getResultList().size() != 0) {
@@ -787,7 +787,7 @@ public class EstateJpaController implements Serializable {
                     System.out.println("query 1 run");
                     query = em.createNativeQuery(
                             "SELECT * FROM estate where "
-                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            + "estate_name LIKE N'%" + estateName + "%' AND "
                             + "estate_type_id = '" + typeID + "' AND " // warning
                             + "(estate_status_id = '1' OR estate_status_id = '2') AND " // warning
                             + "direction LIKE '%" + direction + "%' AND "
@@ -804,7 +804,7 @@ public class EstateJpaController implements Serializable {
                     System.out.println("query 2 run");
                     query = em.createNativeQuery(
                             "SELECT * FROM estate where "
-                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            + "estate_name LIKE N'%" + estateName + "%' AND "
                             + "estate_type_id = '" + typeID + "' AND " // warning
                             + "(estate_status_id = '1' OR estate_status_id = '2') AND " // warning
                             + "direction LIKE '%" + direction + "%' AND "
@@ -823,7 +823,7 @@ public class EstateJpaController implements Serializable {
                     System.out.println("query 3 run");
                     query = em.createNativeQuery(
                             "SELECT * FROM estate where "
-                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            + "estate_name LIKE N'%" + estateName + "%' AND "
                             //+ "estate_type_id = '"+typeID+"' AND " // warning
                             + "estate_status_id = '" + statusID + "' AND " // warning
                             + "direction LIKE '%" + direction + "%' AND "
@@ -840,7 +840,7 @@ public class EstateJpaController implements Serializable {
                     System.out.println("query 4 run");
                     query = em.createNativeQuery(
                             "SELECT * FROM estate where "
-                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            + "estate_name LIKE N'%" + estateName + "%' AND "
                             //+ "estate_type_id = '" + typeID + "' AND " // warning
                             + "estate_status_id = '" + statusID + "' AND " // warning
                             + "direction LIKE '%" + direction + "%' AND "
@@ -859,7 +859,7 @@ public class EstateJpaController implements Serializable {
                     System.out.println("query 5 run");
                     query = em.createNativeQuery(
                             "SELECT * FROM estate where "
-                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            + "estate_name LIKE N'%" + estateName + "%' AND "
                             + "estate_type_id = '" + typeID + "' AND " // warning
                             + "estate_status_id = '" + statusID + "' AND " // warning
                             + "direction LIKE '%" + direction + "%' AND "
@@ -876,7 +876,7 @@ public class EstateJpaController implements Serializable {
                     System.out.println("query 6 run");
                     query = em.createNativeQuery(
                             "SELECT * FROM estate where "
-                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            + "estate_name LIKE N'%" + estateName + "%' AND "
                             + "estate_type_id = '" + typeID + "' AND " // warning
                             + "estate_status_id = '" + statusID + "' AND " // warning
                             + "direction LIKE '%" + direction + "%' AND "
@@ -897,7 +897,7 @@ public class EstateJpaController implements Serializable {
                     System.out.println("query test 1 run");
                     query = em.createNativeQuery(
                             "SELECT * FROM estate where "
-                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            + "estate_name LIKE N'%" + estateName + "%' AND "
                             //+ "estate_type_id = '" + typeID + "' AND " // warning
                             + "(estate_status_id = '1' OR estate_status_id = '2') AND " // warning
                             + "direction LIKE '%" + direction + "%' AND "
@@ -914,7 +914,7 @@ public class EstateJpaController implements Serializable {
                     System.out.println("query test 2 run");
                     query = em.createNativeQuery(
                             "SELECT * FROM estate where "
-                            + "estate_name LIKE '%" + estateName + "%' AND "
+                            + "estate_name LIKE N'%" + estateName + "%' AND "
                             //+ "estate_type_id = '" + typeID + "' AND " // warning
                             + "(estate_status_id = '1' OR estate_status_id = '2') AND " // warning
                             + "direction LIKE '%" + direction + "%' AND "

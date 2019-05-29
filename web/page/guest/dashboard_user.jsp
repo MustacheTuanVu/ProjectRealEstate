@@ -187,7 +187,7 @@
                                             <div class="row">
                                                 <input type="hidden" value="${customer.customerImg}" id="image1st" name="txtImg"/>
 
-                                                <button class="form__submit">Lưu mật khẩu</button>
+                                                <button class="form__submit">Lưu thông tin</button>
 
                                             </div>
                                         </form>

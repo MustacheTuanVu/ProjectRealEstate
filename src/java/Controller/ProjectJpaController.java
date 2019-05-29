@@ -238,7 +238,7 @@ public class ProjectJpaController implements Serializable {
             if (district.equals("all")) {
                 query = em.createNativeQuery(
                         "SELECT * FROM project where "
-                        + "project_name LIKE '%" + projectName + "%' AND "
+                        + "project_name LIKE N'%" + projectName + "%' AND "
                         //+ "district = '"+district+"' AND "
                         + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
                         + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "
@@ -247,7 +247,7 @@ public class ProjectJpaController implements Serializable {
             } else {
                 query = em.createNativeQuery(
                         "SELECT * FROM project where "
-                        + "project_name LIKE '%" + projectName + "%' AND "
+                        + "project_name LIKE N'%" + projectName + "%' AND "
                         + "district = '" + district + "' AND "
                         + "year_build > '" + yearBuildFrom + "' AND year_build < '" + yearBuildTo + "' AND "
                         + "date_add > '" + dateFrom + "' AND date_add < '" + dateTo + "' AND "

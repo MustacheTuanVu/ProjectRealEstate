@@ -5,11 +5,13 @@
  */
 package Servlet.Manager;
 
+import Controller.ContractJpaController;
 import Controller.EstateJpaController;
 import Controller.ProjectDetailsJpaController;
 import Controller.ProjectJpaController;
 import Controller.RatingJpaController;
 import Controller.TransactionsJpaController;
+import Entity.Contract;
 import Entity.Estate;
 import Entity.Project;
 import Entity.ProjectDetails;
@@ -115,32 +117,32 @@ public class ReportRatingProject extends HttpServlet {
 
         Controller.EstateJpaController estate = new EstateJpaController(utx, emf);
         Controller.TransactionsJpaController tranController = new TransactionsJpaController(utx, emf);
+        Controller.ContractJpaController contractController= new ContractJpaController(utx, emf);
 
         List<String> listIdEstate = new ArrayList<>();
         List<Entity.Estate> listEstate = new ArrayList<>();
-        List<Entity.Transactions> listTran = tranController.listTransactionByDate(dateTo, dateFrom);
+        List<Entity.Contract> listTran = tranController.listTransactionByDate(dateTo, dateFrom);
 
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 
-        String table = "<tr>";
+        String table = "";
         Double total=0d;
         for (ProjectDetails listIDEstate1 : listIDEstate) {
             if (listIDEstate1.getEstateId().getEstateStatus().equals("sold")) {
-                for (Transactions listTran1 : listTran) {
-                    if (listIDEstate1.getEstateId().getContractDetails().getContractId().getId() == listTran1.getContractId().getId()) {
-                        table += "<td>" + listIDEstate1.getEstateId().getId() + "</td>"
+                for (Contract listTran1 : listTran) {
+                    if (listIDEstate1.getEstateId().getContractDetails().getContractId().getId() == listTran1.getId()) {
+                        table += "<tr><td>" + listIDEstate1.getEstateId().getId() + "</td>"
                                 + "<td>" + listIDEstate1.getEstateId().getBlock() + "</td>"
                                 + "<td>" + listIDEstate1.getEstateId().getAreas() + "</td>"
                                 + "<td>" + listIDEstate1.getEstateId().getFloor() + "</td>";
-                        table += "<td>" + format.format(listTran1.getContractId().getDateSigned()) + "</td>";
-                        table += "<td>" + listIDEstate1.getEstateId().getPrice() / 1000000000 + " Tỷ VNĐ</td>";
-                        total+=total+ listIDEstate1.getEstateId().getPrice();
+                        table += "<td>" + format.format(listTran1.getDateSigned()) + "</td>";
+                        table += "<td>" + listTran1.getPaymentAmount() / 1000000 + " Triệu VNĐ</td></tr>";
+                        total+= listTran1.getPaymentAmount();
                     }
                 }
             }
         }
-        table += "</tr>"
-                +"<tr colspan=\"4\"><td><strong>Tổng Tiền</strong></td><td></td><td></td><td></td><td></td><td>"+total/1000000000+" Tỷ VND</td></tr>";
+                table+="<tr colspan=\"4\"><td><strong>Tổng Tiền</strong></td><td></td><td></td><td></td><td></td><td>"+total/1000000000+" Tỷ VND</td></tr>";
         if (listEstate.size() >= 0) {
             response.getWriter().write(table);
         } else {
